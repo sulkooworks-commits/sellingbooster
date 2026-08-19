@@ -63,7 +63,35 @@ h2 small{text-transform:none;letter-spacing:0;font-weight:400}
 .ck-sm-col li{margin:4px 0}
 .ck-sm-col a{color:var(--tx);opacity:.75;text-decoration:none;font-size:13px}
 .ck-sm-col a:hover{opacity:1;color:var(--acc)}
-@media print{.ck-gnb{display:none}}
+/* 편집 토글 + 편집 액션 */
+.ck-edit-toggle{margin-left:8px;align-self:center;display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--line);color:var(--dim);font-size:13px;padding:6px 12px;border-radius:8px;cursor:pointer;white-space:nowrap;transition:border-color .15s,color .15s}
+.ck-edit-toggle .sw{position:relative;width:26px;height:14px;border-radius:7px;background:var(--line);transition:background .15s;flex:0 0 auto}
+.ck-edit-toggle .sw::after{content:'';position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:var(--dim);transition:left .15s,background .15s}
+.ck-edit-toggle.on{border-color:var(--warn);color:var(--warn)}
+.ck-edit-toggle.on .sw{background:rgba(229,184,75,.3)}
+.ck-edit-toggle.on .sw::after{left:14px;background:var(--warn)}
+.ck-edit-acts{display:none;align-items:center;gap:6px;margin-left:6px;align-self:center}
+body.ck-editing .ck-edit-acts{display:inline-flex}
+.ck-edit-acts button{background:var(--card);border:1px solid var(--warn);color:var(--warn);font-size:12.5px;padding:6px 11px;border-radius:8px;cursor:pointer;white-space:nowrap;transition:background .15s}
+.ck-edit-acts button:hover{background:rgba(229,184,75,.12)}
+body.ck-editing .wrap{outline:1.5px dashed rgba(229,184,75,.5);outline-offset:10px;border-radius:4px}
+/* 편집 전용 영역 (업로더 설정) — 편집 모드에서만 노출 */
+.edit-only{display:none}
+body.ck-editing .edit-only{display:block}
+/* 인증 모달 */
+.ck-auth{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;background:rgba(15,17,23,.7);backdrop-filter:blur(3px)}
+.ck-auth.open{display:flex}
+.ck-auth-box{width:min(320px,calc(100vw - 48px));background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 24px;text-align:center}
+.ck-auth-box h3{margin:0 0 4px;font-size:16px;color:var(--tx)}
+.ck-auth-box p{margin:0 0 16px;font-size:12.5px;color:var(--dim)}
+.ck-auth-box input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--tx);font-size:14px;padding:10px 12px;border-radius:9px;outline:none;text-align:center;letter-spacing:.12em;transition:border-color .15s}
+.ck-auth-box input:focus{border-color:var(--warn)}
+.ck-auth-btns{display:flex;gap:8px;margin-top:12px}
+.ck-auth-btns button{flex:1;border:none;font-family:inherit;font-size:13px;font-weight:600;padding:9px;border-radius:8px;cursor:pointer}
+.ck-auth-ok{background:var(--warn);color:#1a1a1a}
+.ck-auth-cancel{background:var(--line);color:var(--tx)}
+.ck-auth-msg{min-height:16px;margin-top:10px;font-size:12px;color:var(--bad)}
+@media print{.ck-gnb,.ck-auth{display:none}}
 
 /* ============ 대시보드 본문 ============ */
 .status{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
@@ -186,6 +214,11 @@ a.card .d{color:var(--dim);font-size:13px;margin-top:2px}
       <input type="search" placeholder="페이지 검색 ( / )" aria-label="페이지 검색" autocomplete="off">
       <ul class="ck-search-res" role="listbox"></ul>
     </div>
+    <button type="button" class="ck-edit-toggle" aria-pressed="false" title="편집 모드">편집 <span class="sw"></span></button>
+    <span class="ck-edit-acts">
+      <button type="button" class="ck-save" title="편집 반영본을 index-source.html로 다운로드">저장</button>
+      <button type="button" class="ck-extract" title="현재 HTML 클립보드 복사">추출</button>
+    </span>
     <button type="button" class="ck-map-btn" aria-expanded="false" aria-controls="ck-map-panel">전체 메뉴 <span class="ic">▾</span></button>
   </div>
   <div class="ck-map-panel" id="ck-map-panel">
@@ -279,7 +312,8 @@ a.card .d{color:var(--dim);font-size:13px;margin-top:2px}
 </div>
 
 <!-- ============ GitHub 업로드 ============ -->
-<h2><span class="no">●</span>페이지 업로드 → GitHub 배포</h2>
+<div class="edit-only" contenteditable="false">
+<h2><span class="no">●</span>페이지 업로드 → GitHub 배포 <small>(편집 모드 전용)</small></h2>
 <div class="up-card">
   <div class="up-cfg">
     <input id="up-owner" placeholder="GitHub 사용자명 (owner)" autocomplete="off">
@@ -298,6 +332,7 @@ a.card .d{color:var(--dim);font-size:13px;margin-top:2px}
   <ul class="up-list" id="up-list"></ul>
 </div>
 
+</div><!-- /.edit-only -->
 <!-- ============ 메뉴 (2단 배치) ============ -->
 <div class="menu-cols">
 
@@ -353,6 +388,20 @@ a.card .d{color:var(--dim);font-size:13px;margin-top:2px}
 
 </div><!-- /.wrap -->
 
+
+<!-- ================= 편집 모드 인증 모달 ================= -->
+<div class="ck-auth" id="ck-auth">
+  <div class="ck-auth-box">
+    <h3>🔒 편집 모드</h3>
+    <p>편집 모드를 켜려면 비밀번호를 입력하세요</p>
+    <input type="password" aria-label="편집 비밀번호" autocomplete="off">
+    <div class="ck-auth-btns">
+      <button type="button" class="ck-auth-cancel">취소</button>
+      <button type="button" class="ck-auth-ok">인증</button>
+    </div>
+    <div class="ck-auth-msg"></div>
+  </div>
+</div>
 
 <script>
 /* ===== 인덱스 내장 GNB 동작 (common.js와 동일 로직 · 이 파일 단독 동작) ===== */
@@ -542,6 +591,82 @@ a.card .d{color:var(--dim);font-size:13px;margin-top:2px}
       catch(e){st.className="st err";st.textContent="실패 · "+e.message;}
     }
   }
+})();
+
+/* ===== 편집 모드 (토글 ON = 인증 필수 / OFF = 즉시 해제) ===== */
+(function(){
+  var EDIT_SALT="ck-edit::";
+  var EDIT_HASH="bb070858f69abe4ffd41223f73fcd304b25adf9ebd34e13eba716aeffa69ec3d";
+  var gnb=document.querySelector(".ck-gnb");
+  var editBtn=gnb.querySelector(".ck-edit-toggle");
+  var auth=document.getElementById("ck-auth");
+  var authInput=auth.querySelector("input"),authMsg=auth.querySelector(".ck-auth-msg");
+  var wrap=document.querySelector(".wrap");
+  var editing=false;
+
+  async function sha256hex(s){
+    var buf=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));
+    return Array.prototype.map.call(new Uint8Array(buf),function(b){return b.toString(16).padStart(2,"0");}).join("");
+  }
+  function openAuth(){authMsg.textContent="";authInput.value="";auth.classList.add("open");setTimeout(function(){authInput.focus();},50);}
+  function closeAuth(){auth.classList.remove("open");}
+  async function tryAuth(){
+    var v=authInput.value;
+    if(!v){authMsg.textContent="비밀번호를 입력해주세요.";return;}
+    var h=await sha256hex(EDIT_SALT+v);
+    if(h===EDIT_HASH){closeAuth();setEditing(true);}
+    else{authMsg.textContent="비밀번호가 올바르지 않습니다.";authInput.value="";authInput.focus();}
+  }
+  auth.querySelector(".ck-auth-ok").addEventListener("click",tryAuth);
+  auth.querySelector(".ck-auth-cancel").addEventListener("click",closeAuth);
+  authInput.addEventListener("keydown",function(e){if(e.key==="Enter")tryAuth();if(e.key==="Escape")closeAuth();});
+  auth.addEventListener("click",function(e){if(e.target===auth)closeAuth();});
+
+  function setEditing(on){
+    editing=on;
+    document.body.classList.toggle("ck-editing",on);
+    editBtn.classList.toggle("on",on);
+    editBtn.setAttribute("aria-pressed",on?"true":"false");
+    if(on)wrap.setAttribute("contenteditable","true");
+    else wrap.removeAttribute("contenteditable");
+  }
+  editBtn.addEventListener("click",function(){
+    if(editing)setEditing(false);  /* OFF: 즉시 인증 해제·편집/설정 불가 */
+    else openAuth();               /* ON 시도: 무조건 비밀번호 인증 */
+  });
+
+  /* 저장/추출: 편집 반영본을 잠금 전 원본(index-source.html) 형태로 정리 */
+  function serializePage(){
+    var doc=document.documentElement.cloneNode(true);
+    doc.querySelectorAll(".wrap[contenteditable]").forEach(function(el){el.removeAttribute("contenteditable");});
+    var body=doc.querySelector("body");
+    if(body){body.classList.remove("ck-editing");if(!body.className)body.removeAttribute("class");}
+    var t=doc.querySelector(".ck-edit-toggle");
+    if(t){t.classList.remove("on");t.setAttribute("aria-pressed","false");}
+    var a=doc.querySelector("#ck-auth");if(a)a.classList.remove("open");
+    doc.querySelectorAll(".ck-gnb-item.open").forEach(function(el){el.classList.remove("open");});
+    doc.querySelectorAll(".ck-map-panel.open").forEach(function(el){el.classList.remove("open");});
+    /* 업로더 입력값(토큰 등)은 저장본에 남기지 않음 */
+    doc.querySelectorAll(".up-cfg input,.up-token input").forEach(function(el){el.removeAttribute("value");});
+    var br=doc.querySelector("#up-branch");if(br)br.setAttribute("value","main");
+    return "<!DOCTYPE html>\n"+doc.outerHTML;
+  }
+  gnb.querySelector(".ck-save").addEventListener("click",function(){
+    var blob=new Blob([serializePage()],{type:"text/html;charset=utf-8"});
+    var a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download="index-source.html";
+    a.click();
+    URL.revokeObjectURL(a.href);
+    alert("index-source.html 로 저장했습니다.\n⚠️ 배포하려면 encrypt_index.py 로 재암호화한 index.html 을 올려야 합니다. 이 파일을 그대로 올리면 잠금이 풀립니다.");
+  });
+  gnb.querySelector(".ck-extract").addEventListener("click",function(){
+    var self=this;
+    navigator.clipboard.writeText(serializePage()).then(function(){
+      var t=self.textContent;self.textContent="복사됨 ✓";
+      setTimeout(function(){self.textContent=t;},1500);
+    },function(){alert("클립보드 복사에 실패했습니다.");});
+  });
 })();
 </script>
 </body>
