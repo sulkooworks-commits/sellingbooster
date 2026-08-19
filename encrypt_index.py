@@ -56,15 +56,31 @@ body{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,Bli
 <div class="lock">
   <div class="ico">🔒</div>
   <h1>sulkoo.works</h1>
-  <p>비밀번호를 입력하면 대시보드가 열립니다</p>
+  <p>비밀번호를 입력하면 대시보드가 열립니다<br>인증은 이 브라우저에서 30분간 유지됩니다</p>
   <input type="password" id="pw" autocomplete="current-password" autofocus aria-label="비밀번호">
   <button id="go" type="button">열기</button>
   <div class="msg" id="msg"></div>
 </div>
 <script>
 var PAYLOAD = __PAYLOAD__;
+var SKEY="ckUnlockSession",SESSION_MS=30*60*1000; /* 인증 유지 30분 */
 var pw=document.getElementById("pw"),go=document.getElementById("go"),msg=document.getElementById("msg");
 function b64(s){var bin=atob(s),a=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return a;}
+function ab2b64(buf){var y=new Uint8Array(buf),bin="",CH=8192;for(var i=0;i<y.length;i+=CH)bin+=String.fromCharCode.apply(null,y.subarray(i,i+CH));return btoa(bin);}
+function render(html){document.open();document.write(html);document.close();}
+async function decryptWith(key){
+  var plain=await crypto.subtle.decrypt({name:"AES-GCM",iv:b64(PAYLOAD.iv)},key,b64(PAYLOAD.ct));
+  return new TextDecoder().decode(plain);
+}
+/* 30분 세션: 저장된 키가 유효하면 비밀번호 없이 자동 열림 */
+(async function tryCached(){
+  try{
+    var s=JSON.parse(localStorage.getItem(SKEY)||"null");
+    if(!s||Date.now()>s.exp){localStorage.removeItem(SKEY);return;}
+    var key=await crypto.subtle.importKey("raw",b64(s.k),{name:"AES-GCM"},false,["decrypt"]);
+    render(await decryptWith(key));
+  }catch(e){localStorage.removeItem(SKEY);} /* 만료·비밀번호 변경 시 폐기 */
+})();
 async function unlock(){
   var v=pw.value;
   if(!v){msg.textContent="비밀번호를 입력해주세요.";return;}
@@ -73,10 +89,13 @@ async function unlock(){
     var keyMat=await crypto.subtle.importKey("raw",new TextEncoder().encode(v),"PBKDF2",false,["deriveKey"]);
     var key=await crypto.subtle.deriveKey(
       {name:"PBKDF2",salt:b64(PAYLOAD.salt),iterations:PAYLOAD.iter,hash:"SHA-256"},
-      keyMat,{name:"AES-GCM",length:256},false,["decrypt"]);
-    var plain=await crypto.subtle.decrypt({name:"AES-GCM",iv:b64(PAYLOAD.iv)},key,b64(PAYLOAD.ct));
-    var html=new TextDecoder().decode(plain);
-    document.open();document.write(html);document.close();
+      keyMat,{name:"AES-GCM",length:256},true,["decrypt"]);
+    var html=await decryptWith(key);
+    try{
+      var raw=await crypto.subtle.exportKey("raw",key);
+      localStorage.setItem(SKEY,JSON.stringify({k:ab2b64(raw),exp:Date.now()+SESSION_MS}));
+    }catch(e){}
+    render(html);
   }catch(e){
     go.disabled=false;msg.className="msg";
     msg.textContent="비밀번호가 올바르지 않습니다.";

@@ -221,28 +221,28 @@ body.ed-loaded .ed-foot{display:flex}
     <div class="ck-map-panel-in">
       <div class="ck-sitemap">
         <div class="ck-sm-col"><h3><span class="no">01</span>콘텐츠 운영</h3><ul>
-          <li><a href="content-washing.html">CMS 워싱 표준 워크플로</a></li>
-          <li><a href="content-calendar.html">편집 캘린더 (8–9월)</a></li>
-          <li><a href="content-naver.html">네이버 블로그 발행 표준</a></li></ul></div>
+          <li><a href="content/content-washing.html">CMS 워싱 표준 워크플로</a></li>
+          <li><a href="content/content-calendar.html">편집 캘린더 (8–9월)</a></li>
+          <li><a href="content/content-naver.html">네이버 블로그 발행 표준</a></li></ul></div>
         <div class="ck-sm-col"><h3><span class="no">02</span>SEO 모니터링</h3><ul>
-          <li><a href="seo-policy.html">발행 정책 (기준 문서)</a></li>
-          <li><a href="seo-log.html">발행 로그 (일일 스냅샷)</a></li>
-          <li><a href="seo-weekly.html">주간 달성 리포트</a></li>
-          <li><a href="highook-review.html">하이훅 연동 검토</a></li></ul></div>
+          <li><a href="seo/seo-policy.html">발행 정책 (기준 문서)</a></li>
+          <li><a href="seo/seo-log.html">발행 로그 (일일 스냅샷)</a></li>
+          <li><a href="seo/seo-weekly.html">주간 달성 리포트</a></li>
+          <li><a href="seo/highook-review.html">하이훅 연동 검토</a></li></ul></div>
         <div class="ck-sm-col"><h3><span class="no">03</span>기획·어드민</h3><ul>
-          <li><a href="admin-spec.html">어드민 화면 기능 명세</a></li>
-          <li><a href="sellingspark-plan.html">셀링스파크 통합 기획</a></li></ul></div>
+          <li><a href="admin/admin-spec.html">어드민 화면 기능 명세</a></li>
+          <li><a href="admin/sellingspark-plan.html">셀링스파크 통합 기획</a></li></ul></div>
         <div class="ck-sm-col"><h3><span class="no">04</span>분석·리서치</h3><ul>
-          <li><a href="research-kr.html">국내 25종 벤치마킹</a></li>
-          <li><a href="research-jp.html">일본 커머스 서비스 조사</a></li></ul></div>
+          <li><a href="research/research-kr.html">국내 25종 벤치마킹</a></li>
+          <li><a href="research/research-jp.html">일본 커머스 서비스 조사</a></li></ul></div>
         <div class="ck-sm-col"><h3><span class="no">05</span>도구</h3><ul>
-          <li><a href="tool-adcost.html">해외 광고비 정산 툴</a></li></ul></div>
+          <li><a href="tools/tool-adcost.html">해외 광고비 정산 툴</a></li></ul></div>
         <div class="ck-sm-col"><h3><span class="no">06</span>팀 관리</h3><ul>
-          <li><a href="셀링부스터_팀업무정리.html">셀링부스터 팀 업무 정리</a></li>
-          <li><a href="team-comms.html">협업·커뮤니케이션 기준</a></li></ul></div>
+          <li><a href="team/셀링부스터_팀업무정리.html">셀링부스터 팀 업무 정리</a></li>
+          <li><a href="team/team-comms.html">협업·커뮤니케이션 기준</a></li></ul></div>
         <div class="ck-sm-col"><h3><span class="no">07</span>운영 계획</h3><ul>
-          <li><a href="plan-roadmap.html">하반기 제품 로드맵</a></li>
-          <li><a href="plan-deadlines.html">일정·기한 체크리스트</a></li></ul></div>
+          <li><a href="plan/plan-roadmap.html">하반기 제품 로드맵</a></li>
+          <li><a href="plan/plan-deadlines.html">일정·기한 체크리스트</a></li></ul></div>
       </div>
     </div>
   </div>
@@ -354,6 +354,18 @@ body.ed-loaded .ed-foot{display:flex}
     <input id="up-repo" placeholder="저장소 이름 (repo)" autocomplete="off">
     <input id="up-branch" placeholder="브랜치" value="main" autocomplete="off">
   </div>
+  <div class="ed-row" style="margin-bottom:8px">
+    <select id="up-folder" aria-label="업로드 폴더">
+      <option value="">루트 (/)</option>
+      <option value="content">content/ — 01 콘텐츠 운영</option>
+      <option value="seo">seo/ — 02 SEO 모니터링</option>
+      <option value="admin">admin/ — 03 기획·어드민</option>
+      <option value="research">research/ — 04 분석·리서치</option>
+      <option value="tools">tools/ — 05 도구</option>
+      <option value="team">team/ — 06 팀 관리</option>
+      <option value="plan">plan/ — 07 운영 계획</option>
+    </select>
+  </div>
   <div class="up-token">
     <input id="up-token" type="password" placeholder="Personal Access Token (Fine-grained · Contents: Read/Write)" autocomplete="off">
     <label class="up-remember"><input type="checkbox" id="up-save"> 이 브라우저에 저장</label>
@@ -389,48 +401,48 @@ body.ed-loaded .ed-foot{display:flex}
 <section>
 <h2><span class="no">01</span>콘텐츠 운영</h2>
 <div class="grid">
-  <a class="card" href="content-washing.html"><div class="t">CMS 워싱 표준 워크플로</div><div class="d">11개 항목 확정 · 에디터 형식 규칙 포함</div></a>
-  <a class="card" href="content-calendar.html"><div class="t">편집 캘린더 (8–9월)</div><div class="d">월·수·금 주 3회 · 시즌 2–3주 선행</div></a>
-  <a class="card" href="content-naver.html"><div class="t">네이버 블로그 발행 표준</div><div class="d">2주 시차 · 경어체 전환 · ALT 대조표</div></a>
+  <a class="card" href="content/content-washing.html"><div class="t">CMS 워싱 표준 워크플로</div><div class="d">11개 항목 확정 · 에디터 형식 규칙 포함</div></a>
+  <a class="card" href="content/content-calendar.html"><div class="t">편집 캘린더 (8–9월)</div><div class="d">월·수·금 주 3회 · 시즌 2–3주 선행</div></a>
+  <a class="card" href="content/content-naver.html"><div class="t">네이버 블로그 발행 표준</div><div class="d">2주 시차 · 경어체 전환 · ALT 대조표</div></a>
 </div>
 
 <h2><span class="no">02</span>SEO 모니터링</h2>
 <div class="grid">
-  <a class="card" href="seo-policy.html"><div class="t">발행 정책 (기준 문서)</div><div class="d">채널별 목표 · 판정 규칙 · 자동 반영</div></a>
-  <a class="card" href="seo-log.html"><div class="t">발행 로그 (일일 스냅샷)</div><div class="d">매일 오전 자동 갱신 · 8/19 베이스라인 94건</div></a>
-  <a class="card" href="seo-weekly.html"><div class="t">주간 달성 리포트</div><div class="d">월요일 전주 최종 판정 (정상/주의/미달)</div></a>
-  <a class="card" href="highook-review.html"><div class="t">하이훅 연동 검토</div><div class="d">8개 제안 (우선순위 상·중) · GEO 가이드 대기</div></a>
+  <a class="card" href="seo/seo-policy.html"><div class="t">발행 정책 (기준 문서)</div><div class="d">채널별 목표 · 판정 규칙 · 자동 반영</div></a>
+  <a class="card" href="seo/seo-log.html"><div class="t">발행 로그 (일일 스냅샷)</div><div class="d">매일 오전 자동 갱신 · 8/19 베이스라인 94건</div></a>
+  <a class="card" href="seo/seo-weekly.html"><div class="t">주간 달성 리포트</div><div class="d">월요일 전주 최종 판정 (정상/주의/미달)</div></a>
+  <a class="card" href="seo/highook-review.html"><div class="t">하이훅 연동 검토</div><div class="d">8개 제안 (우선순위 상·중) · GEO 가이드 대기</div></a>
 </div>
 
 <h2><span class="no">03</span>기획·어드민</h2>
 <div class="grid">
-  <a class="card" href="admin-spec.html"><div class="t">어드민 화면 기능 명세</div><div class="d">배너 · 팝업 · 셀링플래너 · 온보딩 관리</div></a>
-  <a class="card" href="sellingspark-plan.html"><div class="t">셀링스파크 통합 기획</div><div class="d">정책 · 플로우 · 프로토타입 (10월 통합 대비)</div></a>
+  <a class="card" href="admin/admin-spec.html"><div class="t">어드민 화면 기능 명세</div><div class="d">배너 · 팝업 · 셀링플래너 · 온보딩 관리</div></a>
+  <a class="card" href="admin/sellingspark-plan.html"><div class="t">셀링스파크 통합 기획</div><div class="d">정책 · 플로우 · 프로토타입 (10월 통합 대비)</div></a>
 </div>
 
 <h2><span class="no">04</span>분석·리서치</h2>
 <div class="grid">
-  <a class="card" href="research-kr.html"><div class="t">국내 25종 벤치마킹</div><div class="d">최적가 추천 = 셀링부스터 단독 보유 확인</div></a>
-  <a class="card" href="research-jp.html"><div class="t">일본 커머스 서비스 조사</div><div class="d">Nint · Keepa · Kalodata</div></a>
+  <a class="card" href="research/research-kr.html"><div class="t">국내 25종 벤치마킹</div><div class="d">최적가 추천 = 셀링부스터 단독 보유 확인</div></a>
+  <a class="card" href="research/research-jp.html"><div class="t">일본 커머스 서비스 조사</div><div class="d">Nint · Keepa · Kalodata</div></a>
 </div>
 </section>
 
 <section>
 <h2><span class="no">05</span>도구</h2>
 <div class="grid">
-  <a class="card" href="tool-adcost.html"><div class="t">해외 광고비 정산 툴</div><div class="d">하나은행 고시환율 · 수출입은행 API · 엑셀 출력</div></a>
+  <a class="card" href="tools/tool-adcost.html"><div class="t">해외 광고비 정산 툴</div><div class="d">하나은행 고시환율 · 수출입은행 API · 엑셀 출력</div></a>
 </div>
 
 <h2><span class="no">06</span>팀 관리</h2>
 <div class="grid">
-  <a class="card" href="셀링부스터_팀업무정리.html"><div class="t">셀링부스터 팀 업무 정리</div><div class="d">기준: 2026년 8월 · 기획 이슬기 / 마케팅 안지호</div></a>
-  <a class="card" href="team-comms.html"><div class="t">협업·커뮤니케이션 기준</div><div class="d">검토 요청형 문체 · 기술 문의 항목화</div></a>
+  <a class="card" href="team/셀링부스터_팀업무정리.html"><div class="t">셀링부스터 팀 업무 정리</div><div class="d">기준: 2026년 8월 · 기획 이슬기 / 마케팅 안지호</div></a>
+  <a class="card" href="team/team-comms.html"><div class="t">협업·커뮤니케이션 기준</div><div class="d">검토 요청형 문체 · 기술 문의 항목화</div></a>
 </div>
 
 <h2><span class="no">07</span>운영 계획</h2>
 <div class="grid">
-  <a class="card" href="plan-roadmap.html"><div class="t">하반기 제품 로드맵</div><div class="d">8월 멀티마켓 → 9월 앱·입점 → 10월 통합</div></a>
-  <a class="card" href="plan-deadlines.html"><div class="t">일정·기한 체크리스트</div><div class="d">네이버 착수 · 주 5회 전환 · 통합 일정</div></a>
+  <a class="card" href="plan/plan-roadmap.html"><div class="t">하반기 제품 로드맵</div><div class="d">8월 멀티마켓 → 9월 앱·입점 → 10월 통합</div></a>
+  <a class="card" href="plan/plan-deadlines.html"><div class="t">일정·기한 체크리스트</div><div class="d">네이버 착수 · 주 5회 전환 · 통합 일정</div></a>
 </div>
 </section>
 
@@ -587,7 +599,7 @@ body.ed-loaded .ed-foot{display:flex}
 
 /* ===== 최근 이용한 메뉴 (localStorage · 최대 10) ===== */
 (function(){
-  var KEY="ckRecentMenu",MAX=10;
+  var KEY="ckRecentMenu2",MAX=10;
   var box=document.getElementById("recent-menu");
   var clearBtn=document.getElementById("recent-clear");
 
@@ -596,8 +608,9 @@ body.ed-loaded .ed-foot{display:flex}
   document.querySelectorAll(".ck-map-panel .ck-sm-col").forEach(function(col){
     var sec=col.querySelector("h3").textContent.trim();
     col.querySelectorAll("ul a").forEach(function(a){
-      var f=decodeURIComponent(a.getAttribute("href").split("/").pop());
-      LOOKUP[f]={t:a.textContent.trim(),sec:sec};
+      var p=a.getAttribute("href");
+      var f=decodeURIComponent(p.split("/").pop());
+      LOOKUP[f]={t:a.textContent.trim(),sec:sec,p:p};
     });
   });
 
@@ -608,14 +621,14 @@ body.ed-loaded .ed-foot{display:flex}
     var list=load();
     if(!list.length){box.innerHTML='<span class="empty">아직 기록이 없습니다 — 메뉴를 클릭하면 여기에 쌓입니다.</span>';return;}
     box.innerHTML=list.map(function(it){
-      return '<a href="'+encodeURI(it.f)+'"><span>'+esc(it.t)+'</span><span class="sec">'+esc(it.sec)+"</span></a>";
+      return '<a href="'+encodeURI(it.p||it.f)+'"><span>'+esc(it.t)+'</span><span class="sec">'+esc(it.sec)+"</span></a>";
     }).join("");
   }
   function record(f){
     var meta=LOOKUP[f];
     if(!meta)return;
     var list=load().filter(function(it){return it.f!==f;});
-    list.unshift({f:f,t:meta.t,sec:meta.sec,ts:Date.now()});
+    list.unshift({f:f,p:meta.p,t:meta.t,sec:meta.sec,ts:Date.now()});
     save(list);render();
   }
   /* 인덱스 내 모든 메뉴 링크 클릭 기록 (카드·사이트맵 패널·검색 결과·최근 메뉴 자신) */
@@ -689,16 +702,19 @@ body.ed-loaded .ed-foot{display:flex}
     },opt.headers||{});
     return fetch("https://api.github.com"+path,opt);
   }
+  function encPath(p){return p.split("/").map(encodeURIComponent).join("/");}
   async function uploadOne(f,st){
     var o=owner.value.trim(),r=repo.value.trim(),b=branch.value.trim()||"main";
-    var api="/repos/"+o+"/"+r+"/contents/"+encodeURIComponent(f.name);
+    var folder=$("up-folder").value;
+    var path=(folder?folder+"/":"")+f.name;
+    var api="/repos/"+o+"/"+r+"/contents/"+encPath(path);
     st.className="st run";st.textContent="SHA 확인…";
     var sha=null;
     var g=await gh(api+"?ref="+encodeURIComponent(b));
     if(g.status===200){sha=(await g.json()).sha;}
     else if(g.status!==404){throw new Error("조회 실패 HTTP "+g.status+(g.status===401?" (토큰 확인)":g.status===403?" (권한/한도)":""));}
     st.textContent="업로드 중…";
-    var body={message:"chore: upload "+f.name+" via dashboard",content:toB64(await f.arrayBuffer()),branch:b};
+    var body={message:"chore: upload "+path+" via dashboard",content:toB64(await f.arrayBuffer()),branch:b};
     if(sha)body.sha=sha;
     var p=await gh(api,{method:"PUT",body:JSON.stringify(body)});
     if(!p.ok){
@@ -716,7 +732,7 @@ body.ed-loaded .ed-foot{display:flex}
     }
     persist();
     for(var i=0;i<files.length;i++){
-      var f=files[i],st=row(f.name);
+      var folder=$("up-folder").value;var f=files[i],st=row((folder?folder+"/":"")+f.name);
       if(f.size>1024*1024){st.className="st err";st.textContent="실패 · 1MB 초과";continue;}
       try{await uploadOne(f,st);}
       catch(e){st.className="st err";st.textContent="실패 · "+e.message;}
@@ -746,18 +762,19 @@ body.ed-loaded .ed-foot{display:flex}
     for(var i=0;i<bytes.length;i+=CH)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+CH));
     return btoa(bin);
   }
-  /* 저장소 루트의 텍스트 파일 목록 */
+  /* 저장소 전체(하위 폴더 포함) 텍스트 파일 목록 — git trees API */
   edList.addEventListener("click",async function(){
     if(!cfgReady())return;
     edMsg("목록 불러오는 중…");
     try{
-      var r=await gh("/repos/"+owner.value.trim()+"/"+repo.value.trim()+"/contents/?ref="+encodeURIComponent(branch.value.trim()||"main"));
+      var b=branch.value.trim()||"main";
+      var r=await gh("/repos/"+owner.value.trim()+"/"+repo.value.trim()+"/git/trees/"+encodeURIComponent(b)+"?recursive=1");
       if(!r.ok)throw new Error("HTTP "+r.status+(r.status===401?" (토큰 확인)":""));
-      var files=(await r.json()).filter(function(f){
-        return f.type==="file"&&/\.(html?|js|css|md|json|txt)$/i.test(f.name);
-      });
+      var files=(await r.json()).tree.filter(function(f){
+        return f.type==="blob"&&/\.(html?|js|css|md|json|txt)$/i.test(f.path)&&f.path!=="index-source.html";
+      }).sort(function(a,b){return a.path<b.path?-1:1;});
       edFile.innerHTML=files.length
-        ? files.map(function(f){return '<option value="'+f.name+'">'+f.name+" ("+Math.round(f.size/1024*10)/10+"KB)</option>";}).join("")
+        ? files.map(function(f){return '<option value="'+f.path+'">'+f.path+" ("+Math.round(f.size/1024*10)/10+"KB)</option>";}).join("")
         : '<option value="">수정 가능한 파일이 없습니다</option>';
       edMsg(files.length+"개 파일","ok");
     }catch(e){edMsg("목록 실패 · "+e.message,"err");}
@@ -769,7 +786,7 @@ body.ed-loaded .ed-foot{display:flex}
     if(!name){alert("먼저 [목록 새로고침]으로 파일을 선택해주세요.");return;}
     edMsg("불러오는 중…");
     try{
-      var r=await gh("/repos/"+owner.value.trim()+"/"+repo.value.trim()+"/contents/"+encodeURIComponent(name)+"?ref="+encodeURIComponent(branch.value.trim()||"main"));
+      var r=await gh("/repos/"+owner.value.trim()+"/"+repo.value.trim()+"/contents/"+encPath(name)+"?ref="+encodeURIComponent(branch.value.trim()||"main"));
       if(!r.ok)throw new Error("HTTP "+r.status);
       var j=await r.json();
       edSha=j.sha;edName=name;
@@ -789,7 +806,7 @@ body.ed-loaded .ed-foot{display:flex}
     if(!confirm(edName+" 을(를) 새 커밋으로 덮어쓸까요?"))return;
     edCommit.disabled=true;edMsg("커밋 중…");
     try{
-      var r=await gh("/repos/"+owner.value.trim()+"/"+repo.value.trim()+"/contents/"+encodeURIComponent(edName),{
+      var r=await gh("/repos/"+owner.value.trim()+"/"+repo.value.trim()+"/contents/"+encPath(edName),{
         method:"PUT",
         body:JSON.stringify({message:"chore: edit "+edName+" via dashboard",content:textToB64(edArea.value),sha:edSha,branch:branch.value.trim()||"main"})
       });
@@ -942,8 +959,8 @@ body.ed-loaded .ed-foot{display:flex}
   },true);
 
   /* ===== 잠금 저장: 브라우저에서 재암호화한 배포용 index.html 다운로드 ===== */
-  var LOCK_HEAD='<!DOCTYPE html>\n<html lang="ko">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n<meta name="robots" content="noindex,nofollow">\n<title>sulkoo.works</title>\n<style>\n:root{--bg:#0f1117;--card:#171a21;--line:#262b36;--tx:#e6e8ee;--dim:#9aa3b2;--acc:#5b8cff;--bad:#e06060}\n*{box-sizing:border-box}\nbody{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}\n.lock{width:min(360px,calc(100vw - 48px));background:var(--card);border:1px solid var(--line);border-radius:14px;padding:32px 28px;text-align:center}\n.lock .ico{font-size:28px;margin-bottom:10px}\n.lock h1{font-size:18px;margin:0 0 4px;letter-spacing:-.01em}\n.lock p{color:var(--dim);font-size:13px;margin:0 0 20px}\n.lock input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--tx);font-family:inherit;font-size:15px;padding:11px 14px;border-radius:9px;outline:none;text-align:center;letter-spacing:.15em;transition:border-color .15s}\n.lock input:focus{border-color:var(--acc)}\n.lock button{width:100%;margin-top:10px;background:var(--acc);border:none;color:#fff;font-family:inherit;font-size:14px;font-weight:600;padding:11px;border-radius:9px;cursor:pointer;transition:opacity .15s}\n.lock button:hover{opacity:.9}\n.lock button:disabled{opacity:.5;cursor:wait}\n.msg{min-height:18px;margin-top:12px;font-size:12.5px;color:var(--bad)}\n.msg.dim{color:var(--dim)}\n</style>\n</head>\n<body>\n<div class="lock">\n  <div class="ico">🔒</div>\n  <h1>sulkoo.works</h1>\n  <p>비밀번호를 입력하면 대시보드가 열립니다</p>\n  <input type="password" id="pw" autocomplete="current-password" autofocus aria-label="비밀번호">\n  <button id="go" type="button">열기</button>\n  <div class="msg" id="msg"></div>\n</div>\n<script>\nvar PAYLOAD = ';
-  var LOCK_TAIL=';\nvar pw=document.getElementById("pw"),go=document.getElementById("go"),msg=document.getElementById("msg");\nfunction b64(s){var bin=atob(s),a=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return a;}\nasync function unlock(){\n  var v=pw.value;\n  if(!v){msg.textContent="비밀번호를 입력해주세요.";return;}\n  go.disabled=true;msg.className="msg dim";msg.textContent="확인 중…";\n  try{\n    var keyMat=await crypto.subtle.importKey("raw",new TextEncoder().encode(v),"PBKDF2",false,["deriveKey"]);\n    var key=await crypto.subtle.deriveKey(\n      {name:"PBKDF2",salt:b64(PAYLOAD.salt),iterations:PAYLOAD.iter,hash:"SHA-256"},\n      keyMat,{name:"AES-GCM",length:256},false,["decrypt"]);\n    var plain=await crypto.subtle.decrypt({name:"AES-GCM",iv:b64(PAYLOAD.iv)},key,b64(PAYLOAD.ct));\n    var html=new TextDecoder().decode(plain);\n    document.open();document.write(html);document.close();\n  }catch(e){\n    go.disabled=false;msg.className="msg";\n    msg.textContent="비밀번호가 올바르지 않습니다.";\n    pw.value="";pw.focus();\n  }\n}\ngo.addEventListener("click",unlock);\npw.addEventListener("keydown",function(e){if(e.key==="Enter")unlock();});\n<\/script>\n</body>\n</html>\n';
+  var LOCK_HEAD="<!DOCTYPE html>\n<html lang=\"ko\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<meta name=\"robots\" content=\"noindex,nofollow\">\n<title>sulkoo.works<\/title>\n<style>\n:root{--bg:#0f1117;--card:#171a21;--line:#262b36;--tx:#e6e8ee;--dim:#9aa3b2;--acc:#5b8cff;--bad:#e06060}\n*{box-sizing:border-box}\nbody{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans KR\",sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}\n.lock{width:min(360px,calc(100vw - 48px));background:var(--card);border:1px solid var(--line);border-radius:14px;padding:32px 28px;text-align:center}\n.lock .ico{font-size:28px;margin-bottom:10px}\n.lock h1{font-size:18px;margin:0 0 4px;letter-spacing:-.01em}\n.lock p{color:var(--dim);font-size:13px;margin:0 0 20px}\n.lock input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--tx);font-family:inherit;font-size:15px;padding:11px 14px;border-radius:9px;outline:none;text-align:center;letter-spacing:.15em;transition:border-color .15s}\n.lock input:focus{border-color:var(--acc)}\n.lock button{width:100%;margin-top:10px;background:var(--acc);border:none;color:#fff;font-family:inherit;font-size:14px;font-weight:600;padding:11px;border-radius:9px;cursor:pointer;transition:opacity .15s}\n.lock button:hover{opacity:.9}\n.lock button:disabled{opacity:.5;cursor:wait}\n.msg{min-height:18px;margin-top:12px;font-size:12.5px;color:var(--bad)}\n.msg.dim{color:var(--dim)}\n<\/style>\n<\/head>\n<body>\n<div class=\"lock\">\n  <div class=\"ico\">🔒<\/div>\n  <h1>sulkoo.works<\/h1>\n  <p>비밀번호를 입력하면 대시보드가 열립니다<br>인증은 이 브라우저에서 30분간 유지됩니다<\/p>\n  <input type=\"password\" id=\"pw\" autocomplete=\"current-password\" autofocus aria-label=\"비밀번호\">\n  <button id=\"go\" type=\"button\">열기<\/button>\n  <div class=\"msg\" id=\"msg\"><\/div>\n<\/div>\n<script>\nvar PAYLOAD = ";
+  var LOCK_TAIL=";\nvar SKEY=\"ckUnlockSession\",SESSION_MS=30*60*1000; /* 인증 유지 30분 */\nvar pw=document.getElementById(\"pw\"),go=document.getElementById(\"go\"),msg=document.getElementById(\"msg\");\nfunction b64(s){var bin=atob(s),a=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return a;}\nfunction ab2b64(buf){var y=new Uint8Array(buf),bin=\"\",CH=8192;for(var i=0;i<y.length;i+=CH)bin+=String.fromCharCode.apply(null,y.subarray(i,i+CH));return btoa(bin);}\nfunction render(html){document.open();document.write(html);document.close();}\nasync function decryptWith(key){\n  var plain=await crypto.subtle.decrypt({name:\"AES-GCM\",iv:b64(PAYLOAD.iv)},key,b64(PAYLOAD.ct));\n  return new TextDecoder().decode(plain);\n}\n/* 30분 세션: 저장된 키가 유효하면 비밀번호 없이 자동 열림 */\n(async function tryCached(){\n  try{\n    var s=JSON.parse(localStorage.getItem(SKEY)||\"null\");\n    if(!s||Date.now()>s.exp){localStorage.removeItem(SKEY);return;}\n    var key=await crypto.subtle.importKey(\"raw\",b64(s.k),{name:\"AES-GCM\"},false,[\"decrypt\"]);\n    render(await decryptWith(key));\n  }catch(e){localStorage.removeItem(SKEY);} /* 만료·비밀번호 변경 시 폐기 */\n})();\nasync function unlock(){\n  var v=pw.value;\n  if(!v){msg.textContent=\"비밀번호를 입력해주세요.\";return;}\n  go.disabled=true;msg.className=\"msg dim\";msg.textContent=\"확인 중…\";\n  try{\n    var keyMat=await crypto.subtle.importKey(\"raw\",new TextEncoder().encode(v),\"PBKDF2\",false,[\"deriveKey\"]);\n    var key=await crypto.subtle.deriveKey(\n      {name:\"PBKDF2\",salt:b64(PAYLOAD.salt),iterations:PAYLOAD.iter,hash:\"SHA-256\"},\n      keyMat,{name:\"AES-GCM\",length:256},true,[\"decrypt\"]);\n    var html=await decryptWith(key);\n    try{\n      var raw=await crypto.subtle.exportKey(\"raw\",key);\n      localStorage.setItem(SKEY,JSON.stringify({k:ab2b64(raw),exp:Date.now()+SESSION_MS}));\n    }catch(e){}\n    render(html);\n  }catch(e){\n    go.disabled=false;msg.className=\"msg\";\n    msg.textContent=\"비밀번호가 올바르지 않습니다.\";\n    pw.value=\"\";pw.focus();\n  }\n}\ngo.addEventListener(\"click\",unlock);\npw.addEventListener(\"keydown\",function(e){if(e.key===\"Enter\")unlock();});\n<\/script>\n<\/body>\n<\/html>\n";
   function ab2b64(buf){
     var bytes=new Uint8Array(buf),bin="",CH=8192;
     for(var i=0;i<bytes.length;i+=CH)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+CH));
