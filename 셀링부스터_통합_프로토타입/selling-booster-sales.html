@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>판매하기 | 셀링부스터 — HTML 프로토타입</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+/* =====================================================================
+   SELLING BOOSTER — 판매하기 페이지 (와이어프레임 확정 반영)
+   · 서브비주얼 + 스크롤 포커싱 탭 7종
+   · 섹션: 즉시 판매 / 주문서 자동 생성 / PC·모바일 쇼핑몰 / 전용 관리자·앱 /
+           멀티링크 / 편리한 UI / 분석 판매 통합 / 하단 CTA 2단
+   · 이미지 요소: 와이어프레임 명세 라벨을 플레이스홀더에 표기
+   ===================================================================== */
+:root{
+  --primary:#00B1BD;--primary-dark:#009AA6;--primary-tint:#E5F7F8;
+  --violet:#8B8AF5;--ink:#1E2532;--ink-sub:#5B6572;--ink-weak:#98A2AE;
+  --line:#E9EEF0;--bg:#F7FAFA;--surface:#FFFFFF;--card-soft:#F5F9F9;
+  --fs-sm:13px;--fs-xs:12px;
+  --container:1160px;--r-xl:24px;--r-lg:18px;--r-md:12px;--r-sm:8px;
+  --shadow:0 6px 24px rgba(30,37,50,.05);--header-h:72px;--tab-h:58px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Pretendard Variable",Pretendard,-apple-system,"Noto Sans KR",sans-serif;
+  color:var(--ink);background:var(--surface);font-size:15px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;letter-spacing:-0.01em}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:none;background:none}
+.container{max-width:var(--container);margin:0 auto;padding:0 24px}
+.hl{color:var(--primary);font-weight:800}
+.btn{display:inline-flex;align-items:center;gap:6px;font-weight:700;border-radius:999px;transition:.15s}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--primary);color:#fff;padding:11px 24px;font-size:var(--fs-sm)}
+.btn-primary:hover{background:var(--primary-dark)}
+.btn-line{border:1.5px solid var(--primary);color:var(--primary);background:var(--surface);padding:11px 24px;font-size:var(--fs-sm)}
+.btn-line:hover{background:var(--primary-tint)}
+.btn-glow{position:relative;overflow:hidden;animation:glowPulse 2.8s ease-in-out infinite}
+.btn-glow::after{content:"";position:absolute;top:0;left:-80%;width:45%;height:100%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.55) 50%,transparent);
+  transform:skewX(-20deg);animation:shineSweep 2.8s ease-in-out infinite}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(0,177,189,0)}50%{box-shadow:0 0 20px 4px rgba(0,177,189,.38)}}
+@keyframes shineSweep{0%,18%{left:-80%}58%,100%{left:140%}}
+@media (prefers-reduced-motion: reduce){.btn-glow{animation:none}.btn-glow::after{display:none}}
+
+/* 플레이스홀더 (와이어프레임 명세 라벨 내장) */
+.ph{position:relative;background:
+    linear-gradient(to top right,transparent calc(50% - 1px),#CBD9DB calc(50% - .5px),#CBD9DB calc(50% + .5px),transparent calc(50% + 1px)),
+    linear-gradient(to bottom right,transparent calc(50% - 1px),#CBD9DB calc(50% - .5px),#CBD9DB calc(50% + .5px),transparent calc(50% + 1px)),
+    #EFF5F5;
+  border:1px dashed #B6CDD0;border-radius:var(--r-md);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  font-size:14px;font-weight:600;color:var(--ink-sub);padding:16px;line-height:1.5}
+.ph::after{content:attr(data-token);position:absolute;left:10px;bottom:10px;font-size:11px;
+  font-weight:700;color:#fff;background:var(--ink);padding:2px 8px;border-radius:4px;opacity:.85}
+
+/* 헤더 */
+.header{position:sticky;top:0;z-index:50;background:var(--surface);border-bottom:1px solid var(--line)}
+.header .container{display:flex;align-items:center;gap:40px;height:var(--header-h)}
+.logo{display:flex;align-items:center;gap:8px}
+.gnb{display:flex;gap:34px;font-weight:600;font-size:15px;margin:0 auto;align-items:stretch;height:var(--header-h)}
+.gnb>a{display:inline-flex;align-items:center;height:100%}
+.gnb>a:hover,.gnb .has-sub:hover>a{color:var(--primary)}
+.gnb>a.active{color:var(--primary);box-shadow:inset 0 -2px 0 var(--primary)}
+.gnb .has-sub{position:relative;display:flex;align-items:center;height:100%}
+.gnb .has-sub>a{display:inline-flex;align-items:center;gap:4px}
+.gnb .caret{font-size:10px;color:var(--ink-weak);transition:.15s}
+.gnb .has-sub:hover .caret{transform:rotate(180deg);color:var(--primary)}
+.submenu{position:absolute;top:100%;left:50%;transform:translate(-50%,6px);min-width:150px;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);
+  box-shadow:0 10px 30px rgba(30,37,50,.12);padding:8px;display:flex;flex-direction:column;
+  opacity:0;visibility:hidden;transition:.15s;z-index:60}
+.has-sub:hover .submenu,.has-sub:focus-within .submenu{opacity:1;visibility:visible;transform:translate(-50%,0)}
+.submenu a{padding:9px 14px;border-radius:var(--r-sm);font-size:var(--fs-sm);font-weight:600;color:var(--ink-sub);white-space:nowrap}
+.submenu a:hover{background:var(--primary-tint);color:var(--primary)}
+.util{display:flex;align-items:center;gap:18px;font-size:var(--fs-sm);font-weight:600;color:var(--ink-sub)}
+
+/* 서브비주얼 */
+.subvisual{background:linear-gradient(120deg,#F0F8F7 0%,#E7F4F2 100%);padding:76px 0 64px}
+.subvisual .badge{display:inline-block;font-size:var(--fs-sm);font-weight:700;color:var(--ink-sub);
+  background:#D9E9E6;border-radius:999px;padding:6px 16px;margin-bottom:20px}
+.subvisual h1{font-size:38px;font-weight:800;line-height:1.35;letter-spacing:-.03em}
+.subvisual p{color:var(--ink-sub);margin:16px 0 28px;font-size:16px;line-height:1.75}
+.subvisual .btn{padding:13px 30px;font-size:15px}
+
+/* 스크롤 포커싱 탭 (7종) */
+.tabbar{position:sticky;top:var(--header-h);z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+.tabbar .container{display:flex;padding:0 24px}
+.tabbar a{flex:1;text-align:center;padding:16px 4px;font-weight:700;font-size:13.5px;color:var(--ink-sub);
+  border-left:1px solid var(--line);transition:.15s;line-height:1.35;white-space:nowrap}
+.tabbar a:last-child{border-right:1px solid var(--line)}
+.tabbar a:hover{color:var(--primary);background:var(--primary-tint)}
+.tabbar a.on{background:var(--primary);color:#fff}
+section[id]{scroll-margin-top:calc(var(--header-h) + var(--tab-h))}
+
+/* 섹션 공통 */
+.section{padding:88px 0}
+.section.tint{background:var(--bg)}
+.sec-title{font-size:30px;font-weight:800;line-height:1.45;letter-spacing:-.02em;text-align:center}
+.sec-desc{text-align:center;color:var(--ink-sub);margin-top:14px;line-height:1.75}
+.img-row{display:grid;gap:24px;margin-top:44px}
+.img-row.c2{grid-template-columns:1fr 1fr;max-width:820px;margin-left:auto;margin-right:auto}
+.img-row.c3{grid-template-columns:repeat(3,1fr)}
+.img-row .ph{aspect-ratio:4/3}
+
+/* 분석 판매 통합 프로세스 */
+.process{display:flex;align-items:stretch;justify-content:center;gap:12px;margin-top:48px}
+.proc-card{flex:1;max-width:300px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:28px 24px;text-align:center;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
+.proc-card h4{font-size:20px;font-weight:800;color:var(--primary)}
+.proc-card p{font-size:var(--fs-sm);color:var(--ink-sub);line-height:1.6}
+.proc-card .ph{aspect-ratio:16/9;margin-top:auto}
+.proc-arrow{align-self:center;color:#C4CDD3;flex-shrink:0}
+
+/* 하단 CTA 2단 */
+.cta-simple{border:1px solid var(--line);border-radius:var(--r-xl);padding:40px 44px;background:var(--surface);
+  display:flex;align-items:center;gap:24px;box-shadow:var(--shadow)}
+.cta-simple h3{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.cta-simple .btn{margin-left:auto;flex-shrink:0}
+.cta-move{margin-top:20px;border:1px solid var(--line);border-radius:var(--r-xl);padding:36px 44px;background:var(--card-soft);
+  display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.cta-move .txt{flex:1;min-width:260px}
+.cta-move h3{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.cta-move p{color:var(--ink-sub);margin-top:8px;font-size:var(--fs-sm)}
+.cta-move .btn{flex-shrink:0}
+
+/* 푸터 */
+.footer{background:var(--surface);border-top:1px solid var(--line);padding:52px 0 44px;font-size:12.5px;color:var(--ink-weak)}
+.footer .top{display:flex;align-items:flex-start;gap:24px}
+.footer .info{line-height:2;margin-top:14px}
+.footer .info b{color:var(--ink-sub)}
+.footer .info .sep{margin:0 8px;color:var(--line)}
+.footer select{margin-left:auto;padding:9px 16px;border:1px solid var(--line);border-radius:999px;color:var(--ink-sub);background:var(--surface)}
+.footer .links{display:flex;gap:22px;margin-top:28px;padding-top:22px;border-top:1px solid var(--line);font-weight:600;color:var(--ink-sub);align-items:center;flex-wrap:wrap}
+.footer .sns{margin-left:auto;display:flex;gap:10px}
+.footer .sns a{width:30px;height:30px;border-radius:50%;background:var(--bg);border:1px solid var(--line);
+  display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--ink-sub)}
+.footer .sns a:hover{color:var(--primary);border-color:var(--primary)}
+
+@media (max-width:1024px){
+  .img-row.c3{grid-template-columns:1fr 1fr}
+  .process{flex-direction:column;align-items:center}
+  .proc-arrow{transform:rotate(90deg)}
+}
+@media (max-width:640px){
+  .gnb,.util .login{display:none}
+  .subvisual h1{font-size:25px}
+  .sec-title{font-size:22px}
+  .tabbar .container{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tabbar a{flex:0 0 auto;padding:14px 14px;font-size:12px;white-space:nowrap}
+  .img-row.c2,.img-row.c3{grid-template-columns:1fr}
+  .cta-simple{flex-direction:column;text-align:center}
+  .cta-simple .btn{margin-left:0}
+}
+
+/* ================= 전체 플로우 보기 ================= */
+.fbar{background:#1E2532;color:#C6CCD6;font-size:12px}
+.fbar-in{max-width:1160px;margin:0 auto;display:flex;align-items:center;gap:10px;height:38px;padding:0 24px}
+.fbar-in .sp{margin-left:auto}
+.flow-btn{border:1px solid #4A5364;background:transparent;color:#fff;font-size:11.5px;font-weight:700;
+  border-radius:999px;padding:5px 14px;cursor:pointer;transition:.15s;white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+.flow-btn:hover{background:#00B1BD;border-color:#00B1BD}
+.flow-dim{position:fixed;inset:0;background:rgba(15,20,28,.62);z-index:9000;display:none;align-items:center;justify-content:center;padding:20px}
+.flow-dim.open{display:flex}
+.flow-win{background:#fff;border-radius:20px;width:100%;max-width:1180px;height:88vh;display:flex;flex-direction:column;
+  box-shadow:0 30px 80px rgba(0,0,0,.35);overflow:hidden;font-family:"Pretendard Variable",Pretendard,sans-serif}
+.flow-hd{display:flex;align-items:center;gap:14px;padding:20px 24px 0}
+.flow-hd h2{font-size:18px;font-weight:800;color:#1E2532}
+.flow-hd .legend{margin-left:auto;display:flex;gap:14px;font-size:11.5px;font-weight:700;color:#5B6572;align-items:center}
+.flow-hd .legend i{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:5px}
+.flow-hd .x{width:34px;height:34px;border-radius:50%;border:none;background:#F1F4F6;color:#5B6572;font-size:17px;cursor:pointer}
+.flow-hd .x:hover{background:#E4E9ED;color:#1E2532}
+.flow-tabs{display:flex;gap:6px;padding:14px 24px 0;border-bottom:1px solid #E9EEF0}
+.flow-tabs button{padding:11px 18px;font-size:13.5px;font-weight:800;color:#98A2AE;background:none;border:none;cursor:pointer;
+  border-bottom:3px solid transparent;margin-bottom:-1px}
+.flow-tabs button.on{color:#00B1BD;border-bottom-color:#00B1BD}
+.flow-body{flex:1;overflow:auto;padding:26px 28px 34px;background:#F7FAFA}
+.fp{display:none}
+.fp.on{display:block}
+/* 노드 */
+.fnode{display:inline-flex;align-items:center;gap:7px;border:1.5px solid #DBE3E6;background:#fff;border-radius:10px;
+  padding:11px 15px;font-size:13px;font-weight:700;color:#1E2532;text-decoration:none;transition:.15s;white-space:nowrap}
+.fnode .d{width:8px;height:8px;border-radius:50%;background:#C6CDD3;flex-shrink:0}
+.fnode.live{border-color:#00B1BD;cursor:pointer}
+.fnode.live .d{background:#00B1BD}
+.fnode.live:hover{background:#E5F7F8;transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,177,189,.18)}
+.fnode.soon{border-style:dashed;color:#8C96A2}
+.fnode.soon .d{background:#F5B63E}
+.fnode.dec{border-radius:999px;background:#FFF9E8;border-color:#EFD79A}
+.fnode.term{background:#EFEDFD;border-color:#CFCBF7}
+.frow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.farr{color:#B9C3CB;font-size:15px;flex-shrink:0}
+.fgrp{background:#fff;border:1px solid #E9EEF0;border-radius:14px;padding:18px 20px;margin-bottom:16px}
+.fgrp>h4{font-size:13px;font-weight:800;color:#00B1BD;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.fgrp>h4 span{font-size:11px;font-weight:700;color:#98A2AE}
+.fnote{font-size:11.5px;color:#8C96A2;line-height:1.75;margin:6px 0 2px}
+.fcol{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+/* 메뉴 트리 */
+.tree{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+.tcol{background:#fff;border:1px solid #E9EEF0;border-radius:14px;padding:16px}
+.tcol h5{font-size:13px;font-weight:800;text-align:center;background:#2B3240;color:#fff;border-radius:8px;padding:9px;margin-bottom:12px}
+.tcol h5.y{background:#F6EFC8;color:#1E2532}
+.tcol .fnode{display:flex;width:100%;justify-content:flex-start;margin-bottom:7px;font-size:12.5px;padding:9px 12px}
+
+.fnode.db{border-radius:999px;background:#F3F6F8;border-color:#C9D3DA}
+.fnode.done{background:#F6B352;border-color:#E09B32;color:#3A2A08}
+.fnode.cta{background:#FFF6DA;border-color:#F0DCA0}
+.fnode.gray{background:#EDF0F2;border-color:#D8DEE3;color:#5B6572}
+.fnode.red{background:#FDE7E7;border-color:#F3B9B9;color:#B02B2B}
+.fgrp.gsec{background:#F1FAF4;border-color:#CFE8DA}
+.fgrp.osec{background:#FDF9EE;border-color:#EEE1C2}
+.ftwo{display:grid;grid-template-columns:230px 1fr;gap:20px;align-items:start}
+.ftwo .tcol{background:#FAFCFD;border:1px solid #E3EAEE;border-radius:12px;padding:14px}
+.ftwo .tcol h5{font-size:12px;font-weight:800;color:#5B6572;margin-bottom:10px;text-align:center;background:#EDF2F5;border-radius:6px;padding:7px}
+.ftwo .tcol h5.p{background:#EFEDFD;color:#4B2FC8}
+.ftwo .tcol .fnode{display:flex;width:100%;margin-bottom:7px;font-size:12.5px;padding:9px 12px}
+.ftwo .sub-box{border:1px solid #E9EEF0;border-radius:10px;padding:10px 10px 3px;margin-top:8px;background:#fff}
+.ftwo .tflow{min-width:0}
+@media (max-width:820px){.ftwo{grid-template-columns:1fr}}
+
+
+/* ---------- 플로우 다이어그램 캔버스 ---------- */
+.flow-hd .zoom{display:flex;align-items:center;gap:6px;margin-left:8px}
+.flow-hd .zoom button{width:26px;height:26px;border-radius:7px;border:1px solid #DDE4E8;background:#fff;color:#5B6572;font-size:14px;font-weight:800;cursor:pointer}
+.flow-hd .zoom button:hover{border-color:#00B1BD;color:#00B1BD}
+.flow-hd .zoom b{font-size:11px;color:#5B6572;min-width:34px;text-align:center}
+#flowBody{background:#F4F7F9;padding:26px 28px 40px}
+.fp{transform-origin:0 0}
+.fcanvas{position:relative;margin:12px auto 20px}
+.flines{position:absolute;left:0;top:0;pointer-events:none;z-index:1}
+.flines path{fill:none;stroke:#AFBAC4;stroke-width:1.4}
+.flines text.flbl{font-size:11px;font-weight:800;fill:#5B6572;text-anchor:middle;font-family:Pretendard,sans-serif}
+.fband{position:absolute;border-radius:14px;z-index:0}
+.fband>span{position:absolute;top:8px;left:14px;font-size:11px;font-weight:800;color:#8C96A2}
+.band-green{background:#EDFAF1;border:1px solid #D3ECDC}
+.band-beige{background:#FDF8EC;border:1px solid #EFE3C6}
+.band-lilac{background:#F5F3FD;border:1px solid #E1DCF7}
+.band-purple{background:#F6F4FE;border:1px solid #E3DEF8}
+.band-plain{background:#FAFCFD;border:1px solid #E5EBEF}
+/* 노드 */
+.fn{position:absolute;z-index:2;display:flex;align-items:center;gap:7px;box-sizing:border-box;
+  padding:9px 12px;border:1.5px solid #D5DDE3;background:#fff;border-radius:9px;
+  font-size:12.5px;font-weight:700;color:#1E2532;line-height:1.4;text-align:left;text-decoration:none;transition:.15s}
+.fn>i{width:7px;height:7px;border-radius:50%;background:#C6CDD3;flex-shrink:0}
+.fn>span{flex:1}
+.fn em{display:block;font-style:normal;font-size:10.5px;font-weight:600;color:#98A2AE;margin-top:3px;line-height:1.55}
+.fn.live{border-color:#00B1BD;cursor:pointer}
+.fn.live>i{background:#00B1BD}
+.fn.live:hover{background:#E5F7F8;box-shadow:0 6px 16px rgba(0,177,189,.22);transform:translateY(-1px)}
+.fn.term{background:#EFEDFD;border-color:#CFCBF7}
+.fn.dec{background:#EAF7EE;border-color:#C4E4CF;border-radius:999px}
+.fn.dec-o{background:#FFF6DE;border-color:#EDD79E;border-radius:999px}
+.fn.ob{background:#fff;border-color:#E8A33C}
+.fn.ob-fill{background:#FBEBCE;border-color:#E8A33C}
+.fn.done{background:#F0A93E;border-color:#DC9526;color:#2E2003}
+.fn.done>i{background:rgba(255,255,255,.85)}
+.fn.db{background:#F2F6F9;border-color:#C8D4DC;border-radius:22px/50%}
+.fn.note{background:#FDF6D9;border-color:#EBDCA2}
+.fn.plain{background:transparent;border:0;justify-content:center;text-align:center;color:#5B6572;font-size:11.5px}
+.fn.plain>i{display:none}
+.fn.cta{background:#FFF6DA;border-color:#F0DCA0}
+
+/* 밴드 라벨을 영역 밖으로 빼서 노드와 겹치지 않게 */
+.fband>span{position:absolute;top:-19px;left:2px;font-size:11px;font-weight:800;color:#8C96A2;background:transparent}
+/* 연결선 라벨 가독성 */
+.flines text.flbl{paint-order:stroke;stroke:#F4F7F9;stroke-width:4px;stroke-linejoin:round}
+.flines path.ret{stroke:#E5484D;stroke-dasharray:5 4}
+
+.fn.gray{background:#EDF0F2;border-color:#D5DBE0;color:#5B6572}
+.fn.red{background:#FDE7E7;border-color:#F1B6B6;color:#B02B2B}
+
+@media (max-width:640px){.flow-win{height:92vh}.flow-hd h2{font-size:15px}.flow-tabs button{padding:10px 10px;font-size:12px}}
+
+</style>
+</head>
+<body>
+
+<!-- ================= 상태 토글 바 (프로토타입 전용) ================= -->
+<div class="topbar">
+  <div class="container">
+    <span>헤더 상태 미리보기</span>
+    <button class="switch on" id="modeSwitch" role="switch" aria-checked="true" aria-label="헤더 상태 전환" onclick="toggleHeaderMode()"></button>
+    <span class="state" id="modeLabel">ON · 기본(비로그인)</span>
+    <span class="sp"></span>
+    <button class="flow-btn" onclick="openFlow()">⌘ 전체 플로우 보기</button>
+  </div>
+</div>
+
+<!-- ================= HEADER (판매하기 활성) ================= -->
+<header class="header">
+  <div class="container">
+    <a class="logo" href="selling-booster-prototype-v4.html"><img src="data:image/png;base64,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" alt="Selling Booster" style="height:26px;width:auto"></a>
+    <nav class="gnb">
+      <a class="active" href="selling-booster-sales.html">판매하기</a>
+      <a href="selling-booster-service.html">분석하기</a>
+      <div class="has-sub">
+        <a href="selling-booster-prototype-v4.html#ktrend">커뮤니티 <span class="caret">▾</span></a>
+        <div class="submenu">
+          <a href="https://sellingbooster.io/community/blog">블로그</a>
+          <a href="https://sellingbooster.io/community/free">자유게시판</a>
+          <a href="https://sellingbooster.io/community/story">성장스토리</a>
+          <a href="https://sellingbooster.io/community/ktrend">K-트렌드</a>
+        </div>
+      </div>
+      <div class="has-sub">
+        <a href="#">고객센터 <span class="caret">▾</span></a>
+        <div class="submenu">
+          <a href="https://sellingbooster.io/community/notice">공지사항</a>
+          <a href="https://sellingbooster.io/community/faq">FAQ</a>
+          <a href="https://sellingbooster.io/community/qna">Q&amp;A</a>
+          <a href="selling-booster-migration.html">이전 문의하기</a>
+        </div>
+      </div>
+      <a href="selling-booster-pricing.html">이용요금</a>
+    </nav>
+    <!-- ON: 기본(비로그인) -->
+    <div class="util util-default">
+      <a class="login" href="selling-booster-login.html">로그인</a>
+      <a class="btn btn-primary btn-glow" href="selling-booster-sales-admin.html" onclick="return ctaGo(event)">서비스 시작</a>
+    </div>
+    <!-- OFF: 프로필(로그인) -->
+    <div class="util util-profile">
+      <div class="notif-wrap" id="salesNotifWrap">
+        <button class="bell" aria-label="알림함 열기" onclick="event.stopPropagation();npToggle('salesNotifWrap')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 10-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10.2 20a2 2 0 003.6 0"/></svg>
+          <span class="dot"></span>
+        </button>
+        <div class="notif-panel" aria-label="알림함">
+          <b class="np-title" data-tip="셀링부스터 공통 알림">알림함</b>
+          <div class="np-tabs">
+            <a href="#" class="on" onclick="return npTab(this)">전체</a>
+            <a href="#" data-tip="공지사항 게시판 이벤트(긴급 중요 포함)" onclick="return npTab(this)">공지사항</a>
+            <a href="#" data-tip="회원가입, 콘텐츠 신규 발행, 결제 관리 등 주요 이벤트" onclick="return npTab(this)">서비스</a>
+            <a href="#" data-tip="댓글, 대댓글, 좋아요, 공유, 신고 관련 이벤트" onclick="return npTab(this)">커뮤니티</a>
+            <a href="#" data-tip="Q&amp;A 답글 관련 이벤트" onclick="return npTab(this)">고객센터</a>
+          </div>
+          <div class="np-cap">최근 7일간의 알림</div>
+          <div class="np-item unread"><div class="row"><span class="np-badge">셀링트렌드</span><span class="date">2026.07.26</span></div><div class="t">지금 트렌드는? 새로운 셀링트렌드 글을 확인하세요</div></div>
+          <div class="np-item unread"><div class="row"><span class="np-badge">셀링트렌드</span><span class="date">2026.07.24</span></div><div class="t">지금 트렌드는? 새로운 셀링트렌드 글을 확인하세요</div></div>
+          <div class="np-item faded"><div class="row"><span class="np-badge">셀링트렌드</span><span class="date">2026.07.22</span></div><div class="t">지금 트렌드는? 새로운 셀링트렌드 글을 확인하세요</div></div>
+          <a class="np-more" href="selling-booster-notifications.html">알림 더보기 ›</a>
+        </div>
+      </div>
+      <div class="profile-wrap" id="salesProfileWrap">
+        <button class="profile-chip" aria-label="프로필 메뉴" onclick="event.stopPropagation();document.getElementById('salesProfileWrap').classList.toggle('open')">
+          <svg class="lv-badge" viewBox="0 0 32 32"><path d="M16 2l12 5v9c0 7-5.2 12-12 14C9.2 28 4 23 4 16V7z" fill="#FFC531"/><path d="M11 11l5 10 5-10h-3.2L16 16.8 14.2 11z" fill="#fff"/></svg>
+          <span class="who"><span class="nick">씩씩한뷰티스타</span><span class="lv">Lv1. VISITER</span></span>
+          <span class="caret">▾</span>
+        </button>
+        <nav class="profile-menu" aria-label="프로필 메뉴">
+          <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-5.5 8-5.5s6.5 1.5 8 5.5"/></svg>개인정보 관리</a>
+          <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19"/><path d="M6.5 15h4"/></svg>요금/결제 관리</a>
+          <a href="https://sellingbooster.oopy.io"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 016.5 3H20v15H6.5A2.5 2.5 0 004 20.5z"/><path d="M20 18H6.5A2.5 2.5 0 004 20.5"/></svg>이용 가이드</a>
+          <a class="logout" href="#" onclick="toggleHeaderMode(true);document.getElementById('salesProfileWrap').classList.remove('open');return false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h4a1 1 0 011 1v14a1 1 0 01-1 1h-4"/><path d="M10 17l-5-5 5-5"/><path d="M5 12h11"/></svg>로그아웃</a>
+        </nav>
+      </div>
+      <a class="btn btn-primary btn-glow" href="selling-booster-sales-admin.html">판매 시작</a>
+    </div>
+  </div>
+</header>
+
+<!-- ================= 서브비주얼 ================= -->
+<section class="subvisual">
+  <div class="container">
+    <span class="badge">판매하기</span>
+    <h1>상품만 있다면 누구나, 3초만에 시작하는 판매</h1>
+    <p>사업자 등록도, 복잡한 심사도 필요 없습니다.<br>판매 링크부터 전용 쇼핑몰까지 셀링부스터가 준비해 드립니다.</p>
+    <a class="btn btn-primary btn-glow" href="selling-booster-sales-admin.html" onclick="return ctaGo(event)">판매 시작하기</a>
+  </div>
+</section>
+
+<!-- ================= 스크롤 포커싱 탭 7종 ================= -->
+<nav class="tabbar" id="tabbar">
+  <div class="container">
+    <a href="#instant" class="on" data-spy>즉시 판매</a>
+    <a href="#order" data-spy>주문서 자동 생성</a>
+    <a href="#mall" data-spy>PC/모바일 쇼핑몰</a>
+    <a href="#admin" data-spy>관리자용 모바일 앱</a>
+    <a href="#multilink" data-spy>멀티 링크</a>
+    <a href="#ui" data-spy>편리한 UI</a>
+    <a href="#integration" data-spy>분석 판매 통합</a>
+  </div>
+</nav>
+
+<!-- ================= ① 즉시 판매 ================= -->
+<section id="instant" class="section">
+  <div class="container">
+    <h2 class="sec-title">누구나 즉시 판매 가능</h2>
+    <p class="sec-desc">사업자도 비사업자도<br>가입 즉시 판매와 결제가 가능합니다.</p>
+    <div class="img-row c2">
+      <div class="ph" data-token="IMG/SHOT">사업자/비사업자<br>가입 화면 이미지</div>
+      <div class="ph" data-token="IMG/LOGO">카드사 로고<br>이미지</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ② 주문서 자동 생성 ================= -->
+<section id="order" class="section tint">
+  <div class="container">
+    <h2 class="sec-title">주문서 자동 생성</h2>
+    <p class="sec-desc">상품명, 가격만 입력하면<br>나만의 판매 링크가 완성됩니다.</p>
+    <div class="img-row c3">
+      <div class="ph" data-token="IMG/SHOT">상품등록 이미지</div>
+      <div class="ph" data-token="IMG/SHOT">링크 복사 이미지</div>
+      <div class="ph" data-token="IMG/SHOT">주문서 화면 이미지</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ③ PC/모바일 무료 쇼핑몰 제작 ================= -->
+<section id="mall" class="section">
+  <div class="container">
+    <h2 class="sec-title">PC/모바일 무료 쇼핑몰 제작</h2>
+    <p class="sec-desc">개발과 디자인을 몰라도 클릭 몇 번으로 완성할 수 있는<br>PC와 모바일 전용 쇼핑몰을 무료로 제공합니다.</p>
+    <div class="img-row c3">
+      <div class="ph" data-token="IMG/SHOT">PC 쇼핑몰<br>이미지</div>
+      <div class="ph" data-token="IMG/SHOT">모바일 쇼핑몰<br>이미지</div>
+      <div class="ph" data-token="IMG/SHOT">모바일 쇼핑몰<br>마이페이지 이미지</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ④ 판매자 전용 관리자+모바일 앱 ================= -->
+<section id="admin" class="section tint">
+  <div class="container">
+    <h2 class="sec-title">판매자 전용 관리자+모바일 앱 제공</h2>
+    <p class="sec-desc">주문부터 CS까지 손안에서 한 번에!<br>전용 관리자 앱 추가 제공으로 어디서나 간편하게 운영할 수 있습니다.</p>
+    <div class="img-row c3">
+      <div class="ph" data-token="IMG/SHOT">PC 관리자<br>메인 대시보드 이미지</div>
+      <div class="ph" data-token="IMG/SHOT">모바일 관리자<br>메인 대시보드 이미지</div>
+      <div class="ph" data-token="IMG/SHOT">모바일 앱<br>푸시 이미지</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ⑤ 멀티링크 서비스 무료 제공 ================= -->
+<section id="multilink" class="section">
+  <div class="container">
+    <h2 class="sec-title">멀티링크 서비스 무료 제공</h2>
+    <p class="sec-desc">프로필 링크 하나로 판매부터 통계까지!<br>단순한 링크 모음을 넘어 분석까지 제공합니다.</p>
+    <div class="img-row c3">
+      <div class="ph" data-token="IMG/SHOT">멀티링크 프로필<br>메인 이미지</div>
+      <div class="ph" data-token="IMG/SHOT">링크 클릭 시<br>주문서 이동 이미지</div>
+      <div class="ph" data-token="IMG/SHOT">통계 대시보드<br>이미지</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ⑥ 편리한 UI ================= -->
+<section id="ui" class="section tint">
+  <div class="container">
+    <p class="sec-desc" style="margin-top:0;font-size:17px;color:var(--ink);font-weight:600">기존 플랫폼의 불편함을 개선해서<br>가장 직관적이고 편리한 UI를 제공합니다.</p>
+    <div class="img-row c3">
+      <div class="ph" data-token="IMG/SHOT">디자인 레이아웃<br>드래그&amp;드랍<br>이미지</div>
+      <div class="ph" data-token="IMG/SHOT">배송비 설정<br>이미지</div>
+      <div class="ph" data-token="IMG/SHOT">정산달력<br>이미지</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ⑦ 분석 판매 통합 ================= -->
+<section id="integration" class="section">
+  <div class="container">
+    <h2 class="sec-title">관리 효율성과 매출 성장의 극대화</h2>
+    <p class="sec-desc">키워드 발굴부터 판매 관리까지 단 하나의 플랫폼에서 완성합니다.</p>
+    <div class="process">
+      <article class="proc-card">
+        <h4>분석</h4>
+        <p>돈 되는 키워드 선점</p>
+        <div class="ph" data-token="IMG/SHOT">이미지</div>
+      </article>
+      <svg class="proc-arrow" width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5l8 7-8 7z"/></svg>
+      <article class="proc-card">
+        <h4>판매</h4>
+        <p>10초 만에 판매 시작</p>
+        <div class="ph" data-token="IMG/SHOT">이미지</div>
+      </article>
+      <svg class="proc-arrow" width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5l8 7-8 7z"/></svg>
+      <article class="proc-card">
+        <h4>관리</h4>
+        <p>실시간 순위와 매출<br>한곳에서 확인</p>
+        <div class="ph" data-token="IMG/SHOT">이미지</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 하단 CTA 2단 ================= -->
+<section class="section tint" style="padding-top:72px">
+  <div class="container">
+    <!-- ① 판매 시작 CTA -->
+    <div class="cta-simple">
+      <h3>지금 바로 <span class="hl">셀링부스터</span>와 함께 판매를 시작해 보세요.</h3>
+      <a class="btn btn-primary btn-glow" href="selling-booster-sales-admin.html" onclick="return ctaGo(event)">판매 시작하기</a>
+    </div>
+    <!-- ② 쇼핑몰 이전 문의 CTA -->
+    <div class="cta-move">
+      <div class="txt">
+        <h3>쇼핑몰 이전을 고민하는 분이라면 셀링부스터가 도와드리겠습니다.</h3>
+        <p>결제 시스템부터 상품정보 이전까지 무료로 도와드리며, 저렴한 결제 수수료를 제공합니다.</p>
+      </div>
+      <a class="btn btn-line" href="mailto:hello@sellingbooster.io">문의하기</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="container">
+    <div class="top">
+      <div>
+        <a class="logo" href="selling-booster-prototype-v4.html"><img src="data:image/png;base64,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" alt="Selling Booster" style="height:22px;width:auto"></a>
+        <p class="info">
+          <b>(주)헥토데이터</b><span class="sep">|</span>서울특별시 강남구 테헤란로 223 큰길타워 10F<span class="sep">|</span>대표자 : 오승철<span class="sep">|</span>사업자등록번호 : 113-86-32627<span class="sep">|</span>통신판매업 신고 : 2023-서울강남-01633<br>
+          Tel : 02-6953-0257<span class="sep">|</span>FAX : 02-6008-0255<span class="sep">|</span>E-mail : hello@sellingbooster.io
+        </p>
+      </div>
+      <select aria-label="패밀리 사이트"><option>패밀리 사이트</option></select>
+    </div>
+    <div class="links">
+      <a href="https://sellingbooster.io/policy/personalPrivacy">개인정보처리방침</a>
+      <a href="https://sellingbooster.io/policy/servicePolicy">서비스 이용약관</a>
+      <a href="https://sellingbooster.io/about/company">회사 소개</a>
+      <a href="https://sellingbooster.oopy.io">이용 가이드</a>
+      <a href="https://chromewebstore.google.com/detail/kmpednpnonpkkjebpbcabcagkjihcohd">크롬 익스텐션</a>
+      <div class="sns">
+        <a href="https://blog.hectodata.co.kr" aria-label="헥토데이터 블로그">H</a>
+        <a href="https://blog.naver.com/sellingbooster" aria-label="네이버 블로그">b</a>
+        <a href="https://www.instagram.com/sellingbooster" aria-label="인스타그램">◎</a>
+        <a href="https://www.youtube.com/@sellingbooster_official" aria-label="유튜브">▶</a>
+      </div>
+    </div>
+    <p style="margin-top:22px">COPYRIGHT© HECTO DATA CO., LTE. ALL RIGHTS RESERVED.</p>
+  </div>
+</footer>
+
+<script>
+/* 스크롤 포커싱 탭 */
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.tabbar a[data-spy]'));
+  var secs=tabs.map(function(t){return document.querySelector(t.getAttribute('href'))});
+  function setOn(idx){ tabs.forEach(function(t,i){ t.classList.toggle('on', i===idx); }); }
+  window.addEventListener('scroll',function(){
+    var y=window.scrollY+72+58+24, idx=0;
+    secs.forEach(function(s,i){ if(s && s.offsetTop<=y) idx=i; });
+    if(window.innerHeight+window.scrollY>=document.body.offsetHeight-4) idx=tabs.length-1;
+    setOn(idx);
+  },{passive:true});
+})();
+</script>
+
+<style>
+/* ---------- 상태 토글 바 + 로그인 분기 헤더 (프로토타입) ---------- */
+.topbar .sp{margin-left:auto}
+.topbar{background:var(--ink);color:#C6CCD6;font-size:12px}
+.topbar .container{display:flex;align-items:center;gap:10px;height:38px}
+.switch{position:relative;width:40px;height:22px;border-radius:999px;background:#4A5364;transition:.2s;flex-shrink:0;border:none;cursor:pointer}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s}
+.switch.on{background:var(--primary)}
+.switch.on::after{left:21px}
+.topbar .state{font-weight:700;color:#fff;min-width:120px}
+.util-profile{display:none;align-items:center;gap:16px}
+body.mode-profile .util-default{display:none}
+body.mode-profile .util-profile{display:flex}
+.bell{position:relative;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;color:var(--ink-sub);border:none;background:none;cursor:pointer}
+.bell:hover{color:var(--primary)}
+.bell .dot{position:absolute;top:5px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--primary);border:1.5px solid #fff}
+.profile-wrap{position:relative}
+.profile-chip{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;border:1px solid var(--line);
+  border-radius:999px;background:var(--surface);cursor:pointer;transition:.15s}
+.profile-chip:hover,.profile-wrap.open .profile-chip{border-color:var(--primary)}
+.profile-chip .lv-badge{width:30px;height:30px;flex-shrink:0}
+.profile-chip .who{line-height:1.25;text-align:left}
+.profile-chip .nick{font-size:13px;font-weight:800;color:var(--ink);display:block}
+.profile-chip .lv{font-size:11px;font-weight:700;color:var(--ink-weak)}
+.profile-chip .caret{font-size:10px;color:var(--ink-weak);margin-left:2px;transition:.15s}
+.profile-wrap.open .caret{transform:rotate(180deg);color:var(--primary)}
+.profile-menu{position:absolute;top:calc(100% + 10px);right:0;min-width:210px;z-index:95;
+  background:var(--surface);border-radius:18px;padding:10px;
+  border:1.5px solid transparent;
+  background-image:linear-gradient(var(--surface),var(--surface)),linear-gradient(135deg,#4FD8E0,#4C8DF5);
+  background-origin:border-box;background-clip:padding-box,border-box;
+  box-shadow:0 16px 40px rgba(30,37,50,.16);
+  opacity:0;visibility:hidden;transform:translateY(6px);transition:.15s}
+.profile-wrap.open .profile-menu{opacity:1;visibility:visible;transform:translateY(0)}
+.profile-menu a{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;
+  font-size:14px;font-weight:600;color:var(--ink-sub)}
+.profile-menu a:hover{background:var(--primary-tint);color:var(--primary)}
+.profile-menu a svg{flex-shrink:0}
+.profile-menu a.logout{color:#E5484D}
+.profile-menu a.logout:hover{background:#FDEEEF;color:#E5484D}
+/* 알림함 드롭다운 */
+.notif-wrap{position:relative}
+.notif-panel{position:absolute;top:calc(100% + 12px);right:-60px;width:400px;max-width:92vw;z-index:95;
+  background:var(--surface);border-radius:20px;padding:22px 22px 14px;
+  border:1.5px solid transparent;
+  background-image:linear-gradient(var(--surface),var(--surface)),linear-gradient(135deg,#4FD8E0,#4C8DF5);
+  background-origin:border-box;background-clip:padding-box,border-box;
+  box-shadow:0 18px 46px rgba(30,37,50,.18);
+  opacity:0;visibility:hidden;transform:translateY(6px);transition:.15s}
+.notif-wrap.open .notif-panel{opacity:1;visibility:visible;transform:translateY(0)}
+.np-title{font-size:16px;font-weight:800;margin-bottom:14px;display:inline-block}
+.np-tabs{display:flex;border:1px solid var(--line);border-radius:2px;margin-bottom:14px}
+.np-tabs a{flex:1;text-align:center;padding:10px 2px;font-size:13px;font-weight:700;color:var(--ink-sub);
+  border-right:1px solid var(--line);position:relative;white-space:nowrap}
+.np-tabs a:last-child{border-right:0}
+.np-tabs a.on{background:#4B2FC8;color:#fff;box-shadow:inset 0 -3px 0 var(--primary)}
+.np-cap{text-align:right;font-size:12px;color:var(--ink-weak);margin-bottom:6px}
+.np-item{padding:14px 2px;border-bottom:1px dashed var(--line)}
+.np-item:last-of-type{border-bottom:0}
+.np-item .row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.np-badge{font-size:11px;font-weight:700;color:#6D5AE0;background:#EFEFFE;border:1px solid #D9D6F8;border-radius:6px;padding:2px 8px}
+.np-item .date{margin-left:auto;font-size:12px;color:var(--ink-weak)}
+.np-item .t{font-size:13.5px;font-weight:600;line-height:1.5}
+.np-item.unread .t{font-weight:800}
+.np-item.faded{opacity:.35}
+.np-more{display:flex;justify-content:center;gap:4px;padding:12px 0 4px;font-size:13px;font-weight:700;color:var(--ink-sub)}
+.np-more:hover{color:var(--primary)}
+[data-tip]{position:relative}
+[data-tip]:hover::after{content:attr(data-tip);position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);
+  background:var(--ink);color:#fff;font-size:11px;font-weight:600;padding:6px 11px;border-radius:8px;
+  white-space:nowrap;z-index:120;box-shadow:0 8px 20px rgba(30,37,50,.25);pointer-events:none}
+[data-tip]:hover::before{content:"";position:absolute;top:calc(100% + 3px);left:50%;transform:translateX(-50%);
+  border:5px solid transparent;border-bottom-color:var(--ink);z-index:120;pointer-events:none}
+@media (max-width:640px){.notif-panel{right:-90px;width:340px}.topbar .state{min-width:0}}
+</style>
+
+<script>
+/* ---------- 로그인 분기 (프로토타입) ----------
+ * 비로그인 CTA·헤더 [로그인] → selling-booster-join.html (로그인/시작하기 페이지) */
+function ctaGo(e){
+  if(!document.body.classList.contains('mode-profile')){
+    e.preventDefault();
+    window.location.href='selling-booster-join.html';
+    return false; }
+  return true; }
+function toggleHeaderMode(forceOn){
+  var sw=document.getElementById('modeSwitch'), lb=document.getElementById('modeLabel');
+  var on=(forceOn===true)?true:!sw.classList.contains('on');
+  sw.classList.toggle('on',on);
+  sw.setAttribute('aria-checked',on);
+  document.body.classList.toggle('mode-profile',!on);
+  lb.textContent=on?'ON · 기본(비로그인)':'OFF · 프로필(로그인)';
+}
+/* 알림함 드롭다운 */
+function npToggle(id){document.getElementById(id).classList.toggle('open');}
+function npTab(el){
+  el.parentNode.querySelectorAll('a').forEach(function(t){t.classList.toggle('on',t===el);});
+  return false;
+}
+document.addEventListener('click',function(e){
+  document.querySelectorAll('.notif-wrap.open,.profile-wrap.open').forEach(function(w){
+    if(!w.contains(e.target)) w.classList.remove('open');
+  });
+});
+</script>
+
+<!-- ================= 전체 플로우 보기 팝업 ================= -->
+<div class="flow-dim" id="flowDim" onclick="if(event.target===this)closeFlow()">
+  <div class="flow-win" role="dialog" aria-modal="true" aria-label="전체 플로우">
+    <div class="flow-hd">
+      <h2>셀링부스터 전체 플로우</h2>
+      <span class="legend">
+        <span><i style="background:#00B1BD"></i>프로토타입(클릭 이동)</span>
+        <span><i style="background:#C6CDD3"></i>미제작</span>
+      </span>
+      <span class="zoom">
+        <button onclick="flowZoom(-1)" aria-label="축소">−</button>
+        <b id="zoomVal">100%</b>
+        <button onclick="flowZoom(1)" aria-label="확대">＋</button>
+      </span>
+      <button class="x" onclick="closeFlow()" aria-label="닫기">✕</button>
+    </div>
+    <div class="flow-tabs" id="flowTabs">
+      <button class="on" onclick="flowTab(0)">회원가입 / 로그인</button>
+      <button onclick="flowTab(1)">전체 사용 흐름</button>
+      <button onclick="flowTab(2)">메뉴 트리</button>
+    </div>
+    <div class="flow-body" id="flowBody">
+      <div class="fp on" id="fp0"><div class="fcanvas" style="width:1590px;height:2050px"><div class="fband band-green" style="left:20px;top:915px;width:1540px;height:455px"><span>가입 상세 플로우</span></div><div class="fband band-beige" style="left:20px;top:1470px;width:1540px;height:545px"><span>사용자 온보딩 (로그인 완료 후 최초 진입)</span></div><svg class="flines" width="1590" height="2050" viewBox="0 0 1590 2050"><defs><marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#AFBAC4"/></marker></defs><path d="M170,95.0 H210 V50.0 H240" marker-end="url(#fa)" /><path d="M170,95.0 H210 V140.0 H240" marker-end="url(#fa)" /><path d="M430,50.0 H470 V95.0 H500" marker-end="url(#fa)" /><path d="M430,140.0 H470 V95.0 H500" marker-end="url(#fa)" /><path d="M650,95.0 H720" marker-end="url(#fa)" /><path d="M900,95.0 H940 V50.0 H980" marker-end="url(#fa)" /><text x="940" y="65.5" class="flbl"><tspan class="bg">N</tspan></text><path d="M900,95.0 H940 V140.0 H980" marker-end="url(#fa)" /><text x="940" y="110.5" class="flbl"><tspan class="bg">Y</tspan></text><path d="M170,375.0 H210 V330.0 H240" marker-end="url(#fa)" /><path d="M170,375.0 H210 V420.0 H240" marker-end="url(#fa)" /><path d="M430,330.0 H470 V375.0 H500" marker-end="url(#fa)" /><path d="M430,420.0 H470 V375.0 H500" marker-end="url(#fa)" /><path d="M650,375.0 H720" marker-end="url(#fa)" /><path d="M810.0,398.0 V453.0" marker-end="url(#fa)" /><path d="M900,480.0 H1020" marker-end="url(#fa)" /><text x="960.0" y="473.0" class="flbl"><tspan class="bg">N</tspan></text><path d="M810.0,507.0 V573.0" marker-end="url(#fa)" /><text x="810.0" y="533.0" class="flbl"><tspan class="bg">Y</tspan></text><path d="M900,600.0 H925 V565.0 H960" marker-end="url(#fa)" /><path d="M900,600.0 H925 V635.0 H960" marker-end="url(#fa)" /><path d="M1140,565.0 H1185 V600.0 H1220" marker-end="url(#fa)" /><path d="M1140,635.0 H1185 V600.0 H1220" marker-end="url(#fa)" /><path d="M1370,600.0 H1400" marker-end="url(#fa)" /><path d="M520,760.0 H640" marker-end="url(#fa)" /><path d="M920,760.0 H1030" marker-end="url(#fa)" /><path d="M240,955.0 H290" marker-end="url(#fa)" /><path d="M470,955.0 H520" marker-end="url(#fa)" /><path d="M690,955.0 H740" marker-end="url(#fa)" /><path d="M900,955.0 H960" marker-end="url(#fa)" /><path d="M1140,955.0 H1190" marker-end="url(#fa)" /><path d="M1340,955.0 H1380" marker-end="url(#fa)" /><path d="M240,1125.0 H290" marker-end="url(#fa)" /><path d="M470,1125.0 H520" marker-end="url(#fa)" /><path d="M900,1125.0 H960" marker-end="url(#fa)" /><path d="M1140,1125.0 H1190" marker-end="url(#fa)" /><path d="M690,1125.0 H740" marker-end="url(#fa)" /><text x="715.0" y="1118.0" class="flbl"><tspan class="bg">N</tspan></text><path d="M605.0,1102.0 V1060 H605.0 V978.0" marker-end="url(#fa)" /><text x="605.0" y="1053" class="flbl"><tspan class="bg">Y</tspan></text><path d="M1280.0,1098.0 V1065 H1050.0 V982.0" marker-end="url(#fa)" /><path d="M240,1280.0 H740" marker-end="url(#fa)" /><path d="M900,1280.0 H960" marker-end="url(#fa)" /><path d="M1050.0,1257.0 V1235 H1280.0 V1152.0" marker-end="url(#fa)" /><path d="M250,1520.0 H340" marker-end="url(#fa)" /><path d="M490,1520.0 H570" marker-end="url(#fa)" /><path d="M750,1520.0 H1210" marker-end="url(#fa)" /><path d="M660.0,1543.0 V1597.0" marker-end="url(#fa)" /><path d="M155.0,1547.0 V1730.0 H340" marker-end="url(#fa)" /><path d="M490,1730.0 H570" marker-end="url(#fa)" /><text x="530.0" y="1723.0" class="flbl"><tspan class="bg">N</tspan></text><path d="M750,1730.0 H820" marker-end="url(#fa)" /><path d="M915.0,1757.0 V1807.0" marker-end="url(#fa)" /><path d="M915.0,1853.0 V1903.0" marker-end="url(#fa)" /><path d="M1010,1930.0 H1450 V1520.0 H1370" marker-end="url(#fa)" /></svg><a class="fn term live" style="left:30px;top:72.0px;width:140px;min-height:46px" href="selling-booster-login.html" target="_blank" rel="noopener"><i></i><span>로그인</span></a><a class="fn dec live" style="left:240px;top:23.0px;width:190px;min-height:54px" href="selling-booster-join.html" target="_blank" rel="noopener"><i></i><span>간편 로그인<br>(SNS / 셀픽)</span></a><a class="fn dec live" style="left:240px;top:113.0px;width:190px;min-height:54px" href="selling-booster-login.html" target="_blank" rel="noopener"><i></i><span>사업자 로그인<br>(개인/법인)</span></a><span class="fn " style="left:500px;top:72.0px;width:150px;min-height:46px"><i></i><span>로그인 완료</span></span><span class="fn dec" style="left:720px;top:68.0px;width:180px;min-height:54px"><i></i><span>사용자 온보딩<br>유무</span></span><a class="fn  live" style="left:980px;top:27.0px;width:160px;min-height:46px" href="selling-booster-prototype-v4.html" target="_blank" rel="noopener"><i></i><span>메인 페이지</span></a><a class="fn  live" style="left:980px;top:117.0px;width:160px;min-height:46px" href="selling-booster-dashboard.html" target="_blank" rel="noopener"><i></i><span>대시보드 페이지</span></a><span class="fn note" style="left:1220px;top:68.0px;width:215px;min-height:54px"><i></i><span>사용자 온보딩<em>서비스 이용을 원하는 경우<br>사용자 온보딩 필수 호출</em></span></span><a class="fn term live" style="left:30px;top:352.0px;width:140px;min-height:46px" href="selling-booster-join.html" target="_blank" rel="noopener"><i></i><span>회원가입</span></a><a class="fn dec live" style="left:240px;top:303.0px;width:190px;min-height:54px" href="selling-booster-join.html" target="_blank" rel="noopener"><i></i><span>간편 가입<br>플로우</span></a><a class="fn dec live" style="left:240px;top:393.0px;width:190px;min-height:54px" href="selling-booster-join-biz.html" target="_blank" rel="noopener"><i></i><span>기업 가입<br>플로우</span></a><span class="fn " style="left:500px;top:352.0px;width:150px;min-height:46px"><i></i><span>가입 완료</span></span><a class="fn ob live" style="left:720px;top:352.0px;width:180px;min-height:46px" href="selling-booster-onboarding.html" target="_blank" rel="noopener"><i></i><span>사용자 온보딩</span></a><a class="fn dec-o live" style="left:720px;top:453.0px;width:180px;min-height:54px" href="selling-booster-onboarding.html" target="_blank" rel="noopener"><i></i><span>유형 구분<br>(분석/판매)</span></a><a class="fn  live" style="left:1020px;top:457.0px;width:160px;min-height:46px" href="selling-booster-prototype-v4.html" target="_blank" rel="noopener"><i></i><span>메인페이지</span></a><span class="fn ob-fill" style="left:720px;top:573.0px;width:180px;min-height:54px"><i></i><span>추가 정보 수집<br>플로우</span></span><a class="fn  live" style="left:960px;top:542.0px;width:180px;min-height:46px" href="selling-booster-onboarding-pre.html" target="_blank" rel="noopener"><i></i><span>[분석] 기본 설문 조사</span></a><a class="fn  live" style="left:960px;top:612.0px;width:180px;min-height:46px" href="selling-booster-onboarding-seller.html" target="_blank" rel="noopener"><i></i><span>[판매] 셀러 정보 수집</span></a><span class="fn " style="left:1220px;top:577.0px;width:150px;min-height:46px"><i></i><span>온보딩 완료</span></span><a class="fn  live" style="left:1400px;top:577.0px;width:150px;min-height:46px" href="selling-booster-dashboard.html" target="_blank" rel="noopener"><i></i><span>대시보드 페이지</span></a><span class="fn db" style="left:320px;top:737.0px;width:200px;min-height:46px"><i></i><span>셀픽 회원 DB</span></span><span class="fn db" style="left:1030px;top:737.0px;width:220px;min-height:46px"><i></i><span>셀링부스터 회원 DB</span></span><span class="fn plain" style="left:640px;top:737.0px;width:280px;min-height:46px"><i></i><span>가입정보 연동<em>단방향 가입(셀링부스터 → 셀픽)</em></span></span><span class="fn term" style="left:60px;top:932.0px;width:180px;min-height:46px"><i></i><span>[1] 셀픽으로 가입</span></span><span class="fn dec" style="left:290px;top:928.0px;width:180px;min-height:54px"><i></i><span>셀픽 인증<br>API 호출</span></span><span class="fn dec" style="left:520px;top:932.0px;width:170px;min-height:46px"><i></i><span>셀픽 정보 연동</span></span><span class="fn " style="left:740px;top:932.0px;width:160px;min-height:46px"><i></i><span>기본 정보 수집</span></span><span class="fn dec" style="left:960px;top:928.0px;width:180px;min-height:54px"><i></i><span>약관 동의 수집<br>(필수/선택)</span></span><span class="fn done" style="left:1190px;top:932.0px;width:150px;min-height:46px"><i></i><span>회원가입 완료</span></span><a class="fn term live" style="left:1380px;top:932.0px;width:140px;min-height:46px" href="selling-booster-login.html" target="_blank" rel="noopener"><i></i><span>로그인페이지</span></a><a class="fn term live" style="left:60px;top:1098.0px;width:180px;min-height:54px" href="selling-booster-join.html" target="_blank" rel="noopener"><i></i><span>[2] 간편 가입<br>(네이버/카카오/구글/애플)</span></a><span class="fn dec" style="left:290px;top:1098.0px;width:180px;min-height:54px"><i></i><span>간편 인증<br>API 호출</span></span><span class="fn dec" style="left:520px;top:1102.0px;width:170px;min-height:46px"><i></i><span>셀픽 회원 확인</span></span><span class="fn " style="left:740px;top:1102.0px;width:160px;min-height:46px"><i></i><span>기본 정보 수집</span></span><span class="fn dec" style="left:960px;top:1098.0px;width:180px;min-height:54px"><i></i><span>휴대폰 점유 인증<br>(셀픽 가입 여부)</span></span><span class="fn dec" style="left:1190px;top:1098.0px;width:180px;min-height:54px"><i></i><span>아이디, 이메일<br>중복 여부</span></span><a class="fn term live" style="left:60px;top:1257.0px;width:180px;min-height:46px" href="selling-booster-join-biz.html" target="_blank" rel="noopener"><i></i><span>[3] 법인 회원가입</span></a><a class="fn  live" style="left:740px;top:1257.0px;width:160px;min-height:46px" href="selling-booster-join-biz.html" target="_blank" rel="noopener"><i></i><span>기본 정보 수집</span></a><a class="fn dec live" style="left:960px;top:1257.0px;width:180px;min-height:46px" href="selling-booster-join-biz.html" target="_blank" rel="noopener"><i></i><span>휴대폰 점유 인증</span></a><span class="fn term" style="left:60px;top:1493.0px;width:190px;min-height:54px"><i></i><span>로그인 완료 후,<br>최초 진입</span></span><a class="fn dec-o live" style="left:340px;top:1497.0px;width:150px;min-height:46px" href="selling-booster-onboarding-seller.html" target="_blank" rel="noopener"><i></i><span>판매 유형</span></a><a class="fn  live" style="left:570px;top:1497.0px;width:180px;min-height:46px" href="selling-booster-onboarding-seller.html" target="_blank" rel="noopener"><i></i><span>셀러 정보 수집</span></a><span class="fn done" style="left:1210px;top:1497.0px;width:160px;min-height:46px"><i></i><span>수집 완료</span></span><span class="fn dec-o" style="left:570px;top:1597.0px;width:180px;min-height:46px"><i></i><span>셀러 구분</span></span><a class="fn dec-o live" style="left:340px;top:1707.0px;width:150px;min-height:46px" href="selling-booster-onboarding-pre.html" target="_blank" rel="noopener"><i></i><span>분석 유형</span></a><a class="fn  live" style="left:570px;top:1707.0px;width:180px;min-height:46px" href="selling-booster-onboarding-pre.html" target="_blank" rel="noopener"><i></i><span>비셀러 정보 수집</span></a><span class="fn " style="left:820px;top:1703.0px;width:190px;min-height:54px"><i></i><span>스토어(마켓)<br>정보 연동</span></span><span class="fn " style="left:820px;top:1807.0px;width:190px;min-height:46px"><i></i><span>필수 정보 수집</span></span><span class="fn dec-o" style="left:820px;top:1903.0px;width:190px;min-height:54px"><i></i><span>셀픽 연동 여부<br>(선택)</span></span></div></div>
+      <div class="fp" id="fp1"><div class="fcanvas" style="width:1360px;height:1400px"><div class="fband band-purple" style="left:40px;top:140px;width:250px;height:320px"><span>GNB 메뉴</span></div><div class="fband band-plain" style="left:40px;top:545px;width:250px;height:215px"><span>로그인 상태 전용</span></div><div class="fband band-lilac" style="left:720px;top:40px;width:580px;height:830px"><span>로그인 후 서비스 영역</span></div><div class="fband band-plain" style="left:40px;top:945px;width:280px;height:415px"><span>푸터 메뉴</span></div><svg class="flines" width="1360" height="1400" viewBox="0 0 1360 1400"><defs><marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#AFBAC4"/></marker></defs><path d="M270,73.0 H410" marker-end="url(#fa)" /><path d="M520.0,100.0 V170.0" marker-end="url(#fa)" /><path d="M520.0,216.0 V263.0" marker-end="url(#fa)" /><path d="M630,73.0 H740" marker-end="url(#fa)" /><text x="685.0" y="66.0" class="flbl"><tspan class="bg">Y</tspan></text><path d="M845.0,100.0 V170.0" marker-end="url(#fa)" /><path d="M845.0,216.0 V267.0" marker-end="url(#fa)" /><path d="M950,290.0 H990 V255.0 H1030" marker-end="url(#fa)" /><text x="990" y="265.5" class="flbl"><tspan class="bg">Y</tspan></text><path d="M950,290.0 H990 V335.0 H1030" marker-end="url(#fa)" /><path d="M270,642.0 H580 V578.0 H740" marker-end="url(#fa)" /><path d="M740,758.0 H32 V73.0 H60" class="ret" marker-end="url(#fa)" /><path d="M740,818.0 H18 V73.0 H60" class="ret" marker-end="url(#fa)" /></svg><a class="fn term live" style="left:60px;top:50.0px;width:210px;min-height:46px" href="selling-booster-prototype-v4.html" target="_blank" rel="noopener"><i></i><span>메인페이지</span></a><a class="fn  live" style="left:60px;top:150.0px;width:210px;min-height:46px" href="selling-booster-sales.html" target="_blank" rel="noopener"><i></i><span>판매하기</span></a><a class="fn  live" style="left:60px;top:210.0px;width:210px;min-height:46px" href="selling-booster-service.html" target="_blank" rel="noopener"><i></i><span>분석하기</span></a><span class="fn " style="left:60px;top:270.0px;width:210px;min-height:46px"><i></i><span>커뮤니티</span></span><span class="fn " style="left:60px;top:330.0px;width:210px;min-height:46px"><i></i><span>고객센터</span></span><a class="fn  live" style="left:60px;top:390.0px;width:210px;min-height:46px" href="selling-booster-pricing.html" target="_blank" rel="noopener"><i></i><span>이용요금</span></a><span class="fn dec" style="left:410px;top:46.0px;width:220px;min-height:54px"><i></i><span>로그인 여부<br>(액세스 유지 여부)</span></span><span class="fn cta" style="left:410px;top:170.0px;width:220px;min-height:46px"><i></i><span>CTA: 서비스 시작하기</span></span><a class="fn dec-o live" style="left:410px;top:263.0px;width:220px;min-height:54px" href="selling-booster-login.html" target="_blank" rel="noopener"><i></i><span>로그인/회원가입<br>플로우</span></a><span class="fn dec" style="left:740px;top:46.0px;width:210px;min-height:54px"><i></i><span>서비스 구분<br>분기</span></span><span class="fn " style="left:740px;top:170.0px;width:210px;min-height:46px"><i></i><span>CTA: 분석하기 or 판매하기</span></span><span class="fn dec" style="left:740px;top:267.0px;width:210px;min-height:46px"><i></i><span>셀러 유형 여부</span></span><a class="fn term live" style="left:1030px;top:232.0px;width:250px;min-height:46px" href="selling-booster-dashboard.html" target="_blank" rel="noopener"><i></i><span>[1] 비셀러: 분석하기 대시보드</span></a><a class="fn term live" style="left:1030px;top:312.0px;width:250px;min-height:46px" href="selling-booster-sales-admin.html" target="_blank" rel="noopener"><i></i><span>[2] 셀러: 판매하기 대시보드</span></a><a class="fn  live" style="left:60px;top:555.0px;width:210px;min-height:46px" href="selling-booster-notifications.html" target="_blank" rel="noopener"><i></i><span>알림함</span></a><span class="fn " style="left:60px;top:615.0px;width:210px;min-height:54px"><i></i><span>프로필<br>(환경설정)</span></span><span class="fn " style="left:60px;top:695.0px;width:210px;min-height:46px"><i></i><span>CTA 버튼</span></span><span class="fn " style="left:740px;top:555.0px;width:210px;min-height:46px"><i></i><span>개인정보관리</span></span><span class="fn " style="left:740px;top:615.0px;width:210px;min-height:46px"><i></i><span>셀러 정보 관리</span></span><span class="fn " style="left:740px;top:675.0px;width:210px;min-height:46px"><i></i><span>셀러 확장 기능</span></span><a class="fn gray live" style="left:740px;top:735.0px;width:210px;min-height:46px" href="selling-booster-prototype-v4.html" target="_blank" rel="noopener"><i></i><span>로그아웃</span></a><span class="fn red" style="left:740px;top:795.0px;width:210px;min-height:46px"><i></i><span>회원탈퇴</span></span><span class="fn " style="left:60px;top:955.0px;width:240px;min-height:46px"><i></i><span>회사소개</span></span><span class="fn " style="left:60px;top:1015.0px;width:240px;min-height:54px"><i></i><span>약관<br>(개인정보처리방침, 이용약관)</span></span><span class="fn " style="left:60px;top:1095.0px;width:240px;min-height:46px"><i></i><span>이용 가이드</span></span><span class="fn " style="left:60px;top:1155.0px;width:240px;min-height:46px"><i></i><span>크롬 익스텐션</span></span><span class="fn " style="left:60px;top:1215.0px;width:240px;min-height:46px"><i></i><span>패밀리 사이트</span></span><span class="fn " style="left:60px;top:1275.0px;width:240px;min-height:54px"><i></i><span>SNS채널<br>(네이버·인스타·유튜브·고스트)</span></span></div></div>
+      <div class="fp" id="fp2">
+<div class="frow" style="justify-content:center;margin-bottom:18px"><a class="fnode live term" href="selling-booster-prototype-v4.html" target="_blank" rel="noopener"><span class="d"></span>셀링부스터</a></div>
+<div class="tree">
+  <div class="tcol"><h5>판매하기</h5>
+    <a class="fnode live " href="selling-booster-sales-admin.html" target="_blank" rel="noopener"><span class="d"></span>대시보드 바로가기 ↗</a>
+  </div>
+  <div class="tcol"><h5>분석하기</h5>
+    <a class="fnode live " href="selling-booster-dashboard.html" target="_blank" rel="noopener"><span class="d"></span>대시보드 바로가기 ↗</a>
+  </div>
+  <div class="tcol"><h5>커뮤니티</h5>
+    <span class="fnode soon"><span class="d"></span>블로그</span><span class="fnode soon"><span class="d"></span>자유게시판</span><span class="fnode soon"><span class="d"></span>성장 스토리</span>
+    <span class="fnode soon"><span class="d"></span>K-트렌드</span>
+  </div>
+  <div class="tcol"><h5>고객센터</h5>
+    <span class="fnode soon"><span class="d"></span>공지사항</span><span class="fnode soon"><span class="d"></span>FAQ</span><span class="fnode soon"><span class="d"></span>Q&amp;A</span><a class="fnode live " href="selling-booster-migration.html" target="_blank" rel="noopener"><span class="d"></span>이전 문의하기 ↗</a>
+  </div>
+  <div class="tcol"><h5>이용요금</h5>
+    <a class="fnode live " href="selling-booster-pricing.html" target="_blank" rel="noopener"><span class="d"></span>이용요금</a>
+  </div>
+  <div class="tcol"><h5 class="y">로그인</h5>
+    <a class="fnode live " href="selling-booster-login.html" target="_blank" rel="noopener"><span class="d"></span>로그인</a>
+    <a class="fnode live " href="selling-booster-find-account.html" target="_blank" rel="noopener"><span class="d"></span>계정 찾기</a>
+    <a class="fnode live " href="selling-booster-join.html" target="_blank" rel="noopener"><span class="d"></span>간편 회원가입</a>
+    <a class="fnode live " href="selling-booster-join-biz.html" target="_blank" rel="noopener"><span class="d"></span>사업자 회원가입</a>
+    <span class="fnode soon"><span class="d"></span>개인정보 관리</span><span class="fnode soon"><span class="d"></span>셀러 정보 관리</span><span class="fnode soon"><span class="d"></span>셀러 확장 기능</span>
+    <a class="fnode live " href="selling-booster-notifications.html" target="_blank" rel="noopener"><span class="d"></span>알림함</a>
+    <span class="fnode soon"><span class="d"></span>스토어 연동</span><span class="fnode soon"><span class="d"></span>사용자 피드백(윙배너)</span>
+  </div>
+  <div class="tcol"><h5 class="y">푸터메뉴</h5>
+    <span class="fnode soon"><span class="d"></span>개인정보처리방침</span><span class="fnode soon"><span class="d"></span>서비스 이용약관</span>
+    <span class="fnode soon"><span class="d"></span>회사 소개</span><span class="fnode soon"><span class="d"></span>이용 가이드</span><span class="fnode soon"><span class="d"></span>크롬 익스텐션</span><span class="fnode soon"><span class="d"></span>SNS 채널 4종</span>
+  </div>
+</div>
+</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================= 전체 플로우 보기 ================= */
+function openFlow(){document.getElementById('flowDim').classList.add('open');document.body.style.overflow='hidden';applyZoom();}
+function closeFlow(){document.getElementById('flowDim').classList.remove('open');document.body.style.overflow='';}
+function flowTab(i){
+  var t=document.querySelectorAll('#flowTabs button');
+  for(var k=0;k<t.length;k++){t[k].classList.toggle('on',k===i);document.getElementById('fp'+k).classList.toggle('on',k===i);}
+  _curTab=i; applyZoom();
+}
+var _fz=[1,1,1];
+function flowZoom(dir){
+  var i=_curTab;
+  _fz[i]=Math.min(1.4,Math.max(0.5,_fz[i]+dir*0.1));
+  applyZoom();
+}
+function applyZoom(){
+  var el=document.getElementById('fp'+_curTab);
+  el.style.transform='scale('+_fz[_curTab]+')';
+  var c=el.querySelector('.fcanvas');
+  if(c){ el.style.width=(c.offsetWidth*_fz[_curTab])+'px'; el.style.height=(c.offsetHeight*_fz[_curTab])+'px'; }
+  document.getElementById('zoomVal').textContent=Math.round(_fz[_curTab]*100)+'%';
+}
+var _curTab=0;
+
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeFlow();});
+</script>
+</body>
+</html>

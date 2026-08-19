@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>회원가입 | 셀링부스터 — HTML 프로토타입</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+/* =====================================================================
+   SELLING BOOSTER — 회원가입 (소셜 시작하기)
+   · 기존 회원가입 화면 구성 + [법인 사업자로 시작하기] 추가
+   ===================================================================== */
+:root{
+  --primary:#00B1BD;--primary-dark:#009AA6;--primary-tint:#E5F7F8;
+  --violet:#8B8AF5;--ink:#1E2532;--ink-sub:#5B6572;--ink-weak:#98A2AE;
+  --line:#E9EEF0;--bg:#F1F3F6;--surface:#FFFFFF;
+  --naver:#03C75A;--kakao:#FEE500;--apple:#1E2532;--sellpick:#0B3A82;
+  --r-lg:18px;--hd-h:72px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Pretendard Variable",Pretendard,-apple-system,"Noto Sans KR",sans-serif;
+  color:var(--ink);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;letter-spacing:-0.01em;
+  background:
+    radial-gradient(760px 460px at 88% 6%, #FDECEF 0%, rgba(253,236,239,0) 62%),
+    radial-gradient(700px 480px at 96% 74%, #FCEFE6 0%, rgba(252,239,230,0) 60%),
+    var(--bg);
+  min-height:100vh}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+/* 헤더 */
+.header{height:var(--hd-h);display:flex;align-items:center;gap:10px;padding:0 34px}
+.header .logo{margin-right:auto}
+.icon-btn{width:42px;height:42px;border-radius:50%;background:var(--surface);color:var(--ink-sub);
+  display:inline-flex;align-items:center;justify-content:center;position:relative;
+  box-shadow:0 2px 8px rgba(30,37,50,.06);transition:.15s}
+.icon-btn:hover{color:var(--primary)}
+.icon-btn .dot{position:absolute;top:9px;right:10px;width:7px;height:7px;border-radius:50%;background:var(--primary);border:1.5px solid var(--surface)}
+.profile-chip{display:flex;align-items:center;gap:9px;padding:5px 16px 5px 6px;border-radius:999px;
+  background:var(--surface);box-shadow:0 2px 8px rgba(30,37,50,.06)}
+.profile-chip .lv-badge{width:30px;height:30px;flex-shrink:0}
+.profile-chip .nick{font-size:12.5px;font-weight:800;display:block;line-height:1.25}
+.profile-chip .lv{font-size:10.5px;font-weight:700;color:var(--ink-weak)}
+
+/* 카드 */
+.wrap{display:flex;justify-content:center;padding:52px 20px 90px}
+.join-card{background:var(--surface);border-radius:26px;width:100%;max-width:448px;
+  padding:44px 44px 40px;text-align:center;box-shadow:0 10px 40px rgba(30,37,50,.07)}
+.join-card h1{font-size:22px;font-weight:800;line-height:1.5;letter-spacing:-.03em;margin:22px 0 34px}
+.join-card h1 span{display:block;font-weight:600;font-size:20px}
+
+/* 소셜 버튼 */
+.sns-list{display:flex;flex-direction:column;gap:11px}
+.sns{display:flex;align-items:center;justify-content:center;gap:9px;height:50px;border-radius:999px;
+  font-size:14px;font-weight:800;transition:.15s}
+.sns:hover{filter:brightness(.96)}
+.sns .ic{width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.sns.naver{background:var(--naver);color:#fff}
+.sns.kakao{background:var(--kakao);color:#1E1A17}
+.sns.google{background:var(--surface);color:var(--ink);border:1px solid var(--line);box-shadow:0 1px 4px rgba(30,37,50,.06)}
+.sns.apple{background:var(--apple);color:#fff}
+.sns.sellpick{background:var(--sellpick);color:#fff}
+.sns.sellpick .ic{font-weight:800;font-size:15px}
+
+/* 법인 사업자 (추가 항목) */
+.biz-row{margin-top:26px;padding-top:22px;border-top:1px dashed var(--line);
+  font-size:13px;color:var(--ink-sub);font-weight:600}
+.biz-row a{margin-left:8px;font-weight:800;color:var(--violet);
+  text-decoration:underline;text-underline-offset:4px}
+.biz-row a:hover{color:#6D5AE0}
+
+/* 로그인 안내 */
+.login-row{margin-top:30px;font-size:12px;color:var(--ink-weak);font-weight:600}
+.login-row a{display:inline-block;margin-top:8px;font-size:12.5px;color:var(--ink-sub);font-weight:700;
+  text-decoration:underline;text-underline-offset:4px}
+.login-row a:hover{color:var(--primary)}
+
+/* 딤드 팝업 (프로토타입 안내) */
+.dim{position:fixed;inset:0;background:rgba(30,37,50,.55);z-index:200;display:none;align-items:center;justify-content:center;padding:24px}
+.dim.open{display:flex}
+.dim-box{background:var(--surface);border-radius:22px;width:100%;max-width:400px;padding:42px 38px 34px;
+  text-align:center;position:relative;box-shadow:0 24px 60px rgba(30,37,50,.25)}
+.dim-box .close{position:absolute;top:16px;right:18px;width:32px;height:32px;font-size:19px;color:var(--ink-sub)}
+.dim-box .ico{width:54px;height:54px;border-radius:50%;background:var(--primary-tint);color:var(--primary);
+  display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px}
+.dim-box h3{font-size:17px;font-weight:800;margin-bottom:8px}
+.dim-box p{font-size:13.5px;color:var(--ink-sub);line-height:1.7}
+
+/* 푸터 */
+.footer{border-top:1px solid var(--line);background:rgba(255,255,255,.6);padding:30px 20px 34px;text-align:center;
+  font-size:12px;color:var(--ink-weak)}
+.footer .links{display:flex;justify-content:center;gap:26px;font-weight:700;color:var(--ink-sub);margin-bottom:14px;flex-wrap:wrap}
+.footer .links a:hover{color:var(--primary)}
+
+@media (max-width:640px){
+  .header{padding:0 16px;gap:6px}
+  .header .icon-btn:nth-child(n+2):nth-child(-n+3){display:none}
+  .profile-chip .who{display:none}
+  .join-card{padding:34px 24px 30px}
+}
+
+/* ================= 공통 헤더 (메인과 동일) ================= */
+.cm-header{position:sticky;top:0;z-index:60;background:#fff;border-bottom:1px solid #E9EEF0}
+.cm-header .hd-in{max-width:1160px;margin:0 auto;display:flex;align-items:center;gap:40px;height:72px;padding:0 24px}
+.cm-header .logo{display:flex;align-items:center}
+.cm-gnb{display:flex;gap:34px;font-weight:600;font-size:15px;margin:0 auto;align-items:stretch;height:72px;color:#1E2532}
+.cm-gnb>a{display:inline-flex;align-items:center;height:100%}
+.cm-gnb>a:hover,.cm-gnb .has-sub:hover>a{color:#00B1BD}
+.cm-gnb .has-sub{position:relative;display:flex;align-items:center;height:100%}
+.cm-gnb .has-sub>a{display:inline-flex;align-items:center;gap:4px}
+.cm-gnb .caret{font-size:10px;color:#98A2AE;transition:.15s}
+.cm-gnb .has-sub:hover .caret{transform:rotate(180deg);color:#00B1BD}
+.cm-sub{position:absolute;top:100%;left:50%;transform:translate(-50%,6px);min-width:150px;background:#fff;
+  border:1px solid #E9EEF0;border-radius:12px;box-shadow:0 10px 30px rgba(30,37,50,.12);padding:8px;
+  display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:.15s;z-index:70}
+.cm-gnb .has-sub:hover .cm-sub{opacity:1;visibility:visible;transform:translate(-50%,0)}
+.cm-sub a{padding:9px 14px;border-radius:8px;font-size:13px;font-weight:600;color:#5B6572;white-space:nowrap}
+.cm-sub a:hover{background:#E5F7F8;color:#00B1BD}
+.cm-util{display:flex;align-items:center;gap:16px;font-size:13px;font-weight:600;color:#5B6572}
+.cm-util .login:hover{color:#00B1BD}
+.cm-bell{position:relative;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;color:#5B6572}
+.cm-bell:hover{color:#00B1BD}
+.cm-bell .dot{position:absolute;top:5px;right:6px;width:7px;height:7px;border-radius:50%;background:#00B1BD;border:1.5px solid #fff}
+.cm-pf{position:relative}
+.cm-chip{display:flex;align-items:center;gap:10px;padding:5px 12px 5px 6px;border:1px solid #E9EEF0;border-radius:999px;background:#fff;transition:.15s}
+.cm-chip:hover,.cm-pf.open .cm-chip{border-color:#00B1BD}
+.cm-chip .lv-badge{width:30px;height:30px;flex-shrink:0}
+.cm-chip .who{line-height:1.25;text-align:left}
+.cm-chip .nick{font-size:13px;font-weight:800;color:#1E2532;display:block}
+.cm-chip .lv{font-size:11px;font-weight:700;color:#98A2AE}
+.cm-chip .caret{font-size:10px;color:#98A2AE;transition:.15s}
+.cm-pf.open .caret{transform:rotate(180deg);color:#00B1BD}
+.cm-menu{position:absolute;top:calc(100% + 10px);right:0;min-width:210px;z-index:80;background:#fff;border-radius:18px;padding:10px;
+  border:1.5px solid transparent;background-image:linear-gradient(#fff,#fff),linear-gradient(135deg,#4FD8E0,#4C8DF5);
+  background-origin:border-box;background-clip:padding-box,border-box;box-shadow:0 16px 40px rgba(30,37,50,.16);
+  opacity:0;visibility:hidden;transform:translateY(6px);transition:.15s}
+.cm-pf.open .cm-menu{opacity:1;visibility:visible;transform:translateY(0)}
+.cm-menu a{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;font-size:14px;font-weight:600;color:#5B6572}
+.cm-menu a:hover{background:#E5F7F8;color:#00B1BD}
+.cm-menu a.logout{color:#E5484D}
+.cm-menu a.logout:hover{background:#FDEEEF}
+.cm-cta{display:inline-flex;align-items:center;background:#00B1BD;color:#fff;padding:11px 24px;border-radius:999px;font-size:13px;font-weight:700;transition:.15s}
+.cm-cta:hover{background:#009AA6}
+@media (max-width:900px){.cm-gnb{display:none}.cm-chip .who{display:none}}
+
+/* ================= 공통 푸터 (메인과 동일) ================= */
+.cm-footer{background:#fff;border-top:1px solid #E9EEF0;padding:52px 0 44px;font-size:12.5px;color:#98A2AE}
+.cm-footer .ft-in{max-width:1160px;margin:0 auto;padding:0 24px}
+.cm-footer .top{display:flex;align-items:flex-start;gap:24px}
+.cm-footer .info{line-height:2;margin-top:14px}
+.cm-footer .info b{color:#5B6572}
+.cm-footer .info .sep{margin:0 8px;color:#E9EEF0}
+.cm-footer select{margin-left:auto;padding:9px 16px;border:1px solid #E9EEF0;border-radius:999px;color:#5B6572;background:#fff}
+.cm-footer .links{display:flex;gap:22px;margin-top:28px;padding-top:22px;border-top:1px solid #E9EEF0;font-weight:600;color:#5B6572;align-items:center;flex-wrap:wrap}
+.cm-footer .links a:hover{color:#00B1BD}
+.cm-footer .sns{margin-left:auto;display:flex;gap:10px}
+.cm-footer .sns a{width:30px;height:30px;border-radius:50%;background:#F7FAFA;border:1px solid #E9EEF0;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#5B6572}
+.cm-footer .sns a:hover{color:#00B1BD;border-color:#00B1BD}
+
+
+/* ================= 전체 플로우 보기 ================= */
+.fbar{background:#1E2532;color:#C6CCD6;font-size:12px}
+.fbar-in{max-width:1160px;margin:0 auto;display:flex;align-items:center;gap:10px;height:38px;padding:0 24px}
+.fbar-in .sp{margin-left:auto}
+.flow-btn{border:1px solid #4A5364;background:transparent;color:#fff;font-size:11.5px;font-weight:700;
+  border-radius:999px;padding:5px 14px;cursor:pointer;transition:.15s;white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+.flow-btn:hover{background:#00B1BD;border-color:#00B1BD}
+.flow-dim{position:fixed;inset:0;background:rgba(15,20,28,.62);z-index:9000;display:none;align-items:center;justify-content:center;padding:20px}
+.flow-dim.open{display:flex}
+.flow-win{background:#fff;border-radius:20px;width:100%;max-width:1180px;height:88vh;display:flex;flex-direction:column;
+  box-shadow:0 30px 80px rgba(0,0,0,.35);overflow:hidden;font-family:"Pretendard Variable",Pretendard,sans-serif}
+.flow-hd{display:flex;align-items:center;gap:14px;padding:20px 24px 0}
+.flow-hd h2{font-size:18px;font-weight:800;color:#1E2532}
+.flow-hd .legend{margin-left:auto;display:flex;gap:14px;font-size:11.5px;font-weight:700;color:#5B6572;align-items:center}
+.flow-hd .legend i{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:5px}
+.flow-hd .x{width:34px;height:34px;border-radius:50%;border:none;background:#F1F4F6;color:#5B6572;font-size:17px;cursor:pointer}
+.flow-hd .x:hover{background:#E4E9ED;color:#1E2532}
+.flow-tabs{display:flex;gap:6px;padding:14px 24px 0;border-bottom:1px solid #E9EEF0}
+.flow-tabs button{padding:11px 18px;font-size:13.5px;font-weight:800;color:#98A2AE;background:none;border:none;cursor:pointer;
+  border-bottom:3px solid transparent;margin-bottom:-1px}
+.flow-tabs button.on{color:#00B1BD;border-bottom-color:#00B1BD}
+.flow-body{flex:1;overflow:auto;padding:26px 28px 34px;background:#F7FAFA}
+.fp{display:none}
+.fp.on{display:block}
+/* 노드 */
+.fnode{display:inline-flex;align-items:center;gap:7px;border:1.5px solid #DBE3E6;background:#fff;border-radius:10px;
+  padding:11px 15px;font-size:13px;font-weight:700;color:#1E2532;text-decoration:none;transition:.15s;white-space:nowrap}
+.fnode .d{width:8px;height:8px;border-radius:50%;background:#C6CDD3;flex-shrink:0}
+.fnode.live{border-color:#00B1BD;cursor:pointer}
+.fnode.live .d{background:#00B1BD}
+.fnode.live:hover{background:#E5F7F8;transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,177,189,.18)}
+.fnode.soon{border-style:dashed;color:#8C96A2}
+.fnode.soon .d{background:#F5B63E}
+.fnode.dec{border-radius:999px;background:#FFF9E8;border-color:#EFD79A}
+.fnode.term{background:#EFEDFD;border-color:#CFCBF7}
+.frow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.farr{color:#B9C3CB;font-size:15px;flex-shrink:0}
+.fgrp{background:#fff;border:1px solid #E9EEF0;border-radius:14px;padding:18px 20px;margin-bottom:16px}
+.fgrp>h4{font-size:13px;font-weight:800;color:#00B1BD;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.fgrp>h4 span{font-size:11px;font-weight:700;color:#98A2AE}
+.fnote{font-size:11.5px;color:#8C96A2;line-height:1.75;margin:6px 0 2px}
+.fcol{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+/* 메뉴 트리 */
+.tree{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+.tcol{background:#fff;border:1px solid #E9EEF0;border-radius:14px;padding:16px}
+.tcol h5{font-size:13px;font-weight:800;text-align:center;background:#2B3240;color:#fff;border-radius:8px;padding:9px;margin-bottom:12px}
+.tcol h5.y{background:#F6EFC8;color:#1E2532}
+.tcol .fnode{display:flex;width:100%;justify-content:flex-start;margin-bottom:7px;font-size:12.5px;padding:9px 12px}
+
+.fnode.db{border-radius:999px;background:#F3F6F8;border-color:#C9D3DA}
+.fnode.done{background:#F6B352;border-color:#E09B32;color:#3A2A08}
+.fnode.cta{background:#FFF6DA;border-color:#F0DCA0}
+.fnode.gray{background:#EDF0F2;border-color:#D8DEE3;color:#5B6572}
+.fnode.red{background:#FDE7E7;border-color:#F3B9B9;color:#B02B2B}
+.fgrp.gsec{background:#F1FAF4;border-color:#CFE8DA}
+.fgrp.osec{background:#FDF9EE;border-color:#EEE1C2}
+.ftwo{display:grid;grid-template-columns:230px 1fr;gap:20px;align-items:start}
+.ftwo .tcol{background:#FAFCFD;border:1px solid #E3EAEE;border-radius:12px;padding:14px}
+.ftwo .tcol h5{font-size:12px;font-weight:800;color:#5B6572;margin-bottom:10px;text-align:center;background:#EDF2F5;border-radius:6px;padding:7px}
+.ftwo .tcol h5.p{background:#EFEDFD;color:#4B2FC8}
+.ftwo .tcol .fnode{display:flex;width:100%;margin-bottom:7px;font-size:12.5px;padding:9px 12px}
+.ftwo .sub-box{border:1px solid #E9EEF0;border-radius:10px;padding:10px 10px 3px;margin-top:8px;background:#fff}
+.ftwo .tflow{min-width:0}
+@media (max-width:820px){.ftwo{grid-template-columns:1fr}}
+
+
+/* ---------- 플로우 다이어그램 캔버스 ---------- */
+.flow-hd .zoom{display:flex;align-items:center;gap:6px;margin-left:8px}
+.flow-hd .zoom button{width:26px;height:26px;border-radius:7px;border:1px solid #DDE4E8;background:#fff;color:#5B6572;font-size:14px;font-weight:800;cursor:pointer}
+.flow-hd .zoom button:hover{border-color:#00B1BD;color:#00B1BD}
+.flow-hd .zoom b{font-size:11px;color:#5B6572;min-width:34px;text-align:center}
+#flowBody{background:#F4F7F9;padding:26px 28px 40px}
+.fp{transform-origin:0 0}
+.fcanvas{position:relative;margin:12px auto 20px}
+.flines{position:absolute;left:0;top:0;pointer-events:none;z-index:1}
+.flines path{fill:none;stroke:#AFBAC4;stroke-width:1.4}
+.flines text.flbl{font-size:11px;font-weight:800;fill:#5B6572;text-anchor:middle;font-family:Pretendard,sans-serif}
+.fband{position:absolute;border-radius:14px;z-index:0}
+.fband>span{position:absolute;top:8px;left:14px;font-size:11px;font-weight:800;color:#8C96A2}
+.band-green{background:#EDFAF1;border:1px solid #D3ECDC}
+.band-beige{background:#FDF8EC;border:1px solid #EFE3C6}
+.band-lilac{background:#F5F3FD;border:1px solid #E1DCF7}
+.band-purple{background:#F6F4FE;border:1px solid #E3DEF8}
+.band-plain{background:#FAFCFD;border:1px solid #E5EBEF}
+/* 노드 */
+.fn{position:absolute;z-index:2;display:flex;align-items:center;gap:7px;box-sizing:border-box;
+  padding:9px 12px;border:1.5px solid #D5DDE3;background:#fff;border-radius:9px;
+  font-size:12.5px;font-weight:700;color:#1E2532;line-height:1.4;text-align:left;text-decoration:none;transition:.15s}
+.fn>i{width:7px;height:7px;border-radius:50%;background:#C6CDD3;flex-shrink:0}
+.fn>span{flex:1}
+.fn em{display:block;font-style:normal;font-size:10.5px;font-weight:600;color:#98A2AE;margin-top:3px;line-height:1.55}
+.fn.live{border-color:#00B1BD;cursor:pointer}
+.fn.live>i{background:#00B1BD}
+.fn.live:hover{background:#E5F7F8;box-shadow:0 6px 16px rgba(0,177,189,.22);transform:translateY(-1px)}
+.fn.term{background:#EFEDFD;border-color:#CFCBF7}
+.fn.dec{background:#EAF7EE;border-color:#C4E4CF;border-radius:999px}
+.fn.dec-o{background:#FFF6DE;border-color:#EDD79E;border-radius:999px}
+.fn.ob{background:#fff;border-color:#E8A33C}
+.fn.ob-fill{background:#FBEBCE;border-color:#E8A33C}
+.fn.done{background:#F0A93E;border-color:#DC9526;color:#2E2003}
+.fn.done>i{background:rgba(255,255,255,.85)}
+.fn.db{background:#F2F6F9;border-color:#C8D4DC;border-radius:22px/50%}
+.fn.note{background:#FDF6D9;border-color:#EBDCA2}
+.fn.plain{background:transparent;border:0;justify-content:center;text-align:center;color:#5B6572;font-size:11.5px}
+.fn.plain>i{display:none}
+.fn.cta{background:#FFF6DA;border-color:#F0DCA0}
+
+/* 밴드 라벨을 영역 밖으로 빼서 노드와 겹치지 않게 */
+.fband>span{position:absolute;top:-19px;left:2px;font-size:11px;font-weight:800;color:#8C96A2;background:transparent}
+/* 연결선 라벨 가독성 */
+.flines text.flbl{paint-order:stroke;stroke:#F4F7F9;stroke-width:4px;stroke-linejoin:round}
+.flines path.ret{stroke:#E5484D;stroke-dasharray:5 4}
+
+.fn.gray{background:#EDF0F2;border-color:#D5DBE0;color:#5B6572}
+.fn.red{background:#FDE7E7;border-color:#F1B6B6;color:#B02B2B}
+
+@media (max-width:640px){.flow-win{height:92vh}.flow-hd h2{font-size:15px}.flow-tabs button{padding:10px 10px;font-size:12px}}
+
+</style>
+</head>
+<body>
+<div class="fbar"><div class="fbar-in">
+  <span>프로토타입 · 간편 회원가입</span>
+  <span class="sp"></span>
+  <button class="flow-btn" onclick="openFlow()">⌘ 전체 플로우 보기</button>
+</div></div>
+
+
+<!-- ================= 헤더 ================= -->
+<header class="cm-header">
+  <div class="hd-in">
+    <a class="logo" href="selling-booster-prototype-v4.html"><img src="data:image/png;base64,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" alt="Selling Booster" style="height:26px;width:auto"></a>
+    <nav class="cm-gnb">
+      <a href="selling-booster-sales.html">판매하기</a>
+      <a href="selling-booster-service.html">분석하기</a>
+      <div class="has-sub"><a href="selling-booster-prototype-v4.html#ktrend">커뮤니티 <span class="caret">▾</span></a>
+        <div class="cm-sub">
+          <a href="https://sellingbooster.io/community/blog">블로그</a>
+          <a href="https://sellingbooster.io/community/free">자유게시판</a>
+          <a href="https://sellingbooster.io/community/story">성장스토리</a>
+          <a href="https://sellingbooster.io/community/ktrend">K-트렌드</a>
+        </div></div>
+      <div class="has-sub"><a href="#">고객센터 <span class="caret">▾</span></a>
+        <div class="cm-sub">
+          <a href="https://sellingbooster.io/community/notice">공지사항</a>
+          <a href="https://sellingbooster.io/community/faq">FAQ</a>
+          <a href="https://sellingbooster.io/community/qna">Q&amp;A</a>
+          <a href="selling-booster-migration.html">이전 문의하기</a>
+        </div></div>
+      <a href="selling-booster-pricing.html">이용요금</a>
+    </nav>
+    <div class="cm-util">
+      <a class="login" href="selling-booster-login.html">로그인</a>
+      <a class="cm-cta" href="selling-booster-login.html">서비스 시작</a>
+    </div>
+  </div>
+</header>
+
+<!-- ================= 회원가입 카드 ================= -->
+<div class="wrap">
+  <section class="join-card">
+    <img src="data:image/png;base64,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" alt="Selling Booster" style="height:26px;width:auto;margin:0 auto">
+    <h1>성공을 향한 가벼운 첫걸음<span>지금 바로 시작하세요.</span></h1>
+
+    <div class="sns-list">
+      <a class="sns naver" href="#" onclick="return joinGo('네이버')">
+        <span class="ic"><svg width="15" height="15" viewBox="0 0 20 20" fill="#fff"><path d="M12.6 10.6L7.2 3H3.2v14h4.2V9.4l5.4 7.6h4V3h-4.2z"/></svg></span>
+        네이버로 시작하기</a>
+      <a class="sns kakao" href="#" onclick="return joinGo('카카오')">
+        <span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="#1E1A17"><path d="M12 3C6.9 3 2.8 6.3 2.8 10.3c0 2.6 1.7 4.9 4.3 6.2-.2.7-.7 2.5-.8 2.9-.1.5.2.5.4.4.2-.1 2.7-1.8 3.8-2.6.5.1 1 .1 1.5.1 5.1 0 9.2-3.3 9.2-7.3S17.1 3 12 3z"/></svg></span>
+        카카오로 시작하기</a>
+      <a class="sns google" href="#" onclick="return joinGo('Google')">
+        <span class="ic"><svg width="17" height="17" viewBox="0 0 24 24"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.9h5.4a4.6 4.6 0 01-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.4z"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0012 22z"/><path fill="#FBBC05" d="M6.4 14c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2V7.4H3.1a10 10 0 000 9.2z"/><path fill="#EA4335" d="M12 5.9c1.5 0 2.8.5 3.8 1.5l2.8-2.8C16.9 2.9 14.7 2 12 2a10 10 0 00-8.9 5.4L6.4 10c.8-2.3 3-4.1 5.6-4.1z"/></svg></span>
+        Google로 시작하기</a>
+      <a class="sns apple" href="#" onclick="return joinGo('Apple')">
+        <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M16.4 12.7c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.8-2-1.6-.2-3.1.9-3.9.9s-2.1-.9-3.4-.9c-1.8 0-3.4 1-4.3 2.6-1.8 3.2-.5 7.9 1.3 10.5.9 1.3 1.9 2.7 3.2 2.6 1.3-.1 1.8-.8 3.4-.8s2 .8 3.4.8 2.3-1.3 3.1-2.6c1-1.5 1.4-2.9 1.4-3-.1 0-2.6-1-2.6-4.2zM14 4.9c.7-.9 1.2-2.1 1.1-3.3-1 0-2.3.7-3.1 1.6-.7.8-1.2 2-1.1 3.2 1.2.1 2.4-.6 3.1-1.5z"/></svg></span>
+        Apple로 시작하기</a>
+      <a class="sns sellpick" href="#" onclick="return joinGo('셀픽')">
+        <span class="ic">S</span>
+        셀픽으로 시작하기</a>
+    </div>
+
+    <!-- 하단 분기: 사업자 시작 (→ 로그인 페이지) -->
+    <p class="biz-row">
+      혹시 사업자이신가요?
+      <a href="selling-booster-login.html">사업자로 시작</a>
+    </p>
+  </section>
+</div>
+
+<!-- ================= 준비중 딤드 팝업 ================= -->
+<div class="dim" id="joinDim" onclick="if(event.target===this)closeJoin()">
+  <div class="dim-box" role="dialog" aria-modal="true">
+    <button class="close" aria-label="닫기" onclick="closeJoin()">✕</button>
+    <span class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg></span>
+    <h3 id="joinTitle">준비 중인 기능입니다</h3>
+    <p>실제 인증 연동 전 프로토타입 화면입니다.<br>연동 완료 후 해당 채널로 가입이 진행됩니다.</p>
+  </div>
+</div>
+
+<!-- ================= 푸터 ================= -->
+<footer class="cm-footer">
+  <div class="ft-in">
+    <div class="top">
+      <div>
+        <a href="selling-booster-prototype-v4.html"><img src="data:image/png;base64,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" alt="Selling Booster" style="height:22px;width:auto"></a>
+        <p class="info">
+          <b>(주)헥토데이터</b><span class="sep">|</span>서울특별시 강남구 테헤란로 223 큰길타워 10F<span class="sep">|</span>대표자 : 오승철<span class="sep">|</span>사업자등록번호 : 113-86-32627<span class="sep">|</span>통신판매업 신고 : 2023-서울강남-01633<br>
+          Tel : 02-6953-0257<span class="sep">|</span>FAX : 02-6008-0255<span class="sep">|</span>E-mail : hello@sellingbooster.io
+        </p>
+      </div>
+      <select aria-label="패밀리 사이트"><option>패밀리 사이트</option></select>
+    </div>
+    <div class="links">
+      <a href="https://sellingbooster.io/policy/personalPrivacy">개인정보처리방침</a>
+      <a href="https://sellingbooster.io/policy/servicePolicy">서비스 이용약관</a>
+      <a href="https://sellingbooster.io/about/company">회사 소개</a>
+      <a href="https://sellingbooster.oopy.io">이용 가이드</a>
+      <a href="https://chromewebstore.google.com/detail/kmpednpnonpkkjebpbcabcagkjihcohd">크롬 익스텐션</a>
+      <div class="sns">
+        <a href="https://blog.hectodata.co.kr">H</a><a href="https://blog.naver.com/sellingbooster">b</a>
+        <a href="https://www.instagram.com/sellingbooster">◎</a><a href="https://www.youtube.com/@sellingbooster_official">▶</a>
+      </div>
+    </div>
+    <p style="margin-top:22px">COPYRIGHT© HECTO DATA CO., LTE. ALL RIGHTS RESERVED.</p>
+  </div>
+</footer>
+
+<script>
+/* 가입 채널 클릭 → 프로토타입 안내 팝업 (실제 OAuth 연동 시 교체) */
+function joinGo(name){
+  document.getElementById('joinTitle').textContent=name+' 가입은 준비 중입니다';
+  document.getElementById('joinDim').classList.add('open');
+  return false;
+}
+function closeJoin(){document.getElementById('joinDim').classList.remove('open');}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeJoin();});
+</script>
+
+<!-- ================= 전체 플로우 보기 팝업 ================= -->
+<div class="flow-dim" id="flowDim" onclick="if(event.target===this)closeFlow()">
+  <div class="flow-win" role="dialog" aria-modal="true" aria-label="전체 플로우">
+    <div class="flow-hd">
+      <h2>셀링부스터 전체 플로우</h2>
+      <span class="legend">
+        <span><i style="background:#00B1BD"></i>프로토타입(클릭 이동)</span>
+        <span><i style="background:#C6CDD3"></i>미제작</span>
+      </span>
+      <span class="zoom">
+        <button onclick="flowZoom(-1)" aria-label="축소">−</button>
+        <b id="zoomVal">100%</b>
+        <button onclick="flowZoom(1)" aria-label="확대">＋</button>
+      </span>
+      <button class="x" onclick="closeFlow()" aria-label="닫기">✕</button>
+    </div>
+    <div class="flow-tabs" id="flowTabs">
+      <button class="on" onclick="flowTab(0)">회원가입 / 로그인</button>
+      <button onclick="flowTab(1)">전체 사용 흐름</button>
+      <button onclick="flowTab(2)">메뉴 트리</button>
+    </div>
+    <div class="flow-body" id="flowBody">
+      <div class="fp on" id="fp0"><div class="fcanvas" style="width:1590px;height:2050px"><div class="fband band-green" style="left:20px;top:915px;width:1540px;height:455px"><span>가입 상세 플로우</span></div><div class="fband band-beige" style="left:20px;top:1470px;width:1540px;height:545px"><span>사용자 온보딩 (로그인 완료 후 최초 진입)</span></div><svg class="flines" width="1590" height="2050" viewBox="0 0 1590 2050"><defs><marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#AFBAC4"/></marker></defs><path d="M170,95.0 H210 V50.0 H240" marker-end="url(#fa)" /><path d="M170,95.0 H210 V140.0 H240" marker-end="url(#fa)" /><path d="M430,50.0 H470 V95.0 H500" marker-end="url(#fa)" /><path d="M430,140.0 H470 V95.0 H500" marker-end="url(#fa)" /><path d="M650,95.0 H720" marker-end="url(#fa)" /><path d="M900,95.0 H940 V50.0 H980" marker-end="url(#fa)" /><text x="940" y="65.5" class="flbl"><tspan class="bg">N</tspan></text><path d="M900,95.0 H940 V140.0 H980" marker-end="url(#fa)" /><text x="940" y="110.5" class="flbl"><tspan class="bg">Y</tspan></text><path d="M170,375.0 H210 V330.0 H240" marker-end="url(#fa)" /><path d="M170,375.0 H210 V420.0 H240" marker-end="url(#fa)" /><path d="M430,330.0 H470 V375.0 H500" marker-end="url(#fa)" /><path d="M430,420.0 H470 V375.0 H500" marker-end="url(#fa)" /><path d="M650,375.0 H720" marker-end="url(#fa)" /><path d="M810.0,398.0 V453.0" marker-end="url(#fa)" /><path d="M900,480.0 H1020" marker-end="url(#fa)" /><text x="960.0" y="473.0" class="flbl"><tspan class="bg">N</tspan></text><path d="M810.0,507.0 V573.0" marker-end="url(#fa)" /><text x="810.0" y="533.0" class="flbl"><tspan class="bg">Y</tspan></text><path d="M900,600.0 H925 V565.0 H960" marker-end="url(#fa)" /><path d="M900,600.0 H925 V635.0 H960" marker-end="url(#fa)" /><path d="M1140,565.0 H1185 V600.0 H1220" marker-end="url(#fa)" /><path d="M1140,635.0 H1185 V600.0 H1220" marker-end="url(#fa)" /><path d="M1370,600.0 H1400" marker-end="url(#fa)" /><path d="M520,760.0 H640" marker-end="url(#fa)" /><path d="M920,760.0 H1030" marker-end="url(#fa)" /><path d="M240,955.0 H290" marker-end="url(#fa)" /><path d="M470,955.0 H520" marker-end="url(#fa)" /><path d="M690,955.0 H740" marker-end="url(#fa)" /><path d="M900,955.0 H960" marker-end="url(#fa)" /><path d="M1140,955.0 H1190" marker-end="url(#fa)" /><path d="M1340,955.0 H1380" marker-end="url(#fa)" /><path d="M240,1125.0 H290" marker-end="url(#fa)" /><path d="M470,1125.0 H520" marker-end="url(#fa)" /><path d="M900,1125.0 H960" marker-end="url(#fa)" /><path d="M1140,1125.0 H1190" marker-end="url(#fa)" /><path d="M690,1125.0 H740" marker-end="url(#fa)" /><text x="715.0" y="1118.0" class="flbl"><tspan class="bg">N</tspan></text><path d="M605.0,1102.0 V1060 H605.0 V978.0" marker-end="url(#fa)" /><text x="605.0" y="1053" class="flbl"><tspan class="bg">Y</tspan></text><path d="M1280.0,1098.0 V1065 H1050.0 V982.0" marker-end="url(#fa)" /><path d="M240,1280.0 H740" marker-end="url(#fa)" /><path d="M900,1280.0 H960" marker-end="url(#fa)" /><path d="M1050.0,1257.0 V1235 H1280.0 V1152.0" marker-end="url(#fa)" /><path d="M250,1520.0 H340" marker-end="url(#fa)" /><path d="M490,1520.0 H570" marker-end="url(#fa)" /><path d="M750,1520.0 H1210" marker-end="url(#fa)" /><path d="M660.0,1543.0 V1597.0" marker-end="url(#fa)" /><path d="M155.0,1547.0 V1730.0 H340" marker-end="url(#fa)" /><path d="M490,1730.0 H570" marker-end="url(#fa)" /><text x="530.0" y="1723.0" class="flbl"><tspan class="bg">N</tspan></text><path d="M750,1730.0 H820" marker-end="url(#fa)" /><path d="M915.0,1757.0 V1807.0" marker-end="url(#fa)" /><path d="M915.0,1853.0 V1903.0" marker-end="url(#fa)" /><path d="M1010,1930.0 H1450 V1520.0 H1370" marker-end="url(#fa)" /></svg><a class="fn term live" style="left:30px;top:72.0px;width:140px;min-height:46px" href="selling-booster-login.html" target="_blank" rel="noopener"><i></i><span>로그인</span></a><a class="fn dec live" style="left:240px;top:23.0px;width:190px;min-height:54px" href="selling-booster-join.html" target="_blank" rel="noopener"><i></i><span>간편 로그인<br>(SNS / 셀픽)</span></a><a class="fn dec live" style="left:240px;top:113.0px;width:190px;min-height:54px" href="selling-booster-login.html" target="_blank" rel="noopener"><i></i><span>사업자 로그인<br>(개인/법인)</span></a><span class="fn " style="left:500px;top:72.0px;width:150px;min-height:46px"><i></i><span>로그인 완료</span></span><span class="fn dec" style="left:720px;top:68.0px;width:180px;min-height:54px"><i></i><span>사용자 온보딩<br>유무</span></span><a class="fn  live" style="left:980px;top:27.0px;width:160px;min-height:46px" href="selling-booster-prototype-v4.html" target="_blank" rel="noopener"><i></i><span>메인 페이지</span></a><a class="fn  live" style="left:980px;top:117.0px;width:160px;min-height:46px" href="selling-booster-dashboard.html" target="_blank" rel="noopener"><i></i><span>대시보드 페이지</span></a><span class="fn note" style="left:1220px;top:68.0px;width:215px;min-height:54px"><i></i><span>사용자 온보딩<em>서비스 이용을 원하는 경우<br>사용자 온보딩 필수 호출</em></span></span><a class="fn term live" style="left:30px;top:352.0px;width:140px;min-height:46px" href="selling-booster-join.html" target="_blank" rel="noopener"><i></i><span>회원가입</span></a><a class="fn dec live" style="left:240px;top:303.0px;width:190px;min-height:54px" href="selling-booster-join.html" target="_blank" rel="noopener"><i></i><span>간편 가입<br>플로우</span></a><a class="fn dec live" style="left:240px;top:393.0px;width:190px;min-height:54px" href="selling-booster-join-biz.html" target="_blank" rel="noopener"><i></i><span>기업 가입<br>플로우</span></a><span class="fn " style="left:500px;top:352.0px;width:150px;min-height:46px"><i></i><span>가입 완료</span></span><a class="fn ob live" style="left:720px;top:352.0px;width:180px;min-height:46px" href="selling-booster-onboarding.html" target="_blank" rel="noopener"><i></i><span>사용자 온보딩</span></a><a class="fn dec-o live" style="left:720px;top:453.0px;width:180px;min-height:54px" href="selling-booster-onboarding.html" target="_blank" rel="noopener"><i></i><span>유형 구분<br>(분석/판매)</span></a><a class="fn  live" style="left:1020px;top:457.0px;width:160px;min-height:46px" href="selling-booster-prototype-v4.html" target="_blank" rel="noopener"><i></i><span>메인페이지</span></a><span class="fn ob-fill" style="left:720px;top:573.0px;width:180px;min-height:54px"><i></i><span>추가 정보 수집<br>플로우</span></span><a class="fn  live" style="left:960px;top:542.0px;width:180px;min-height:46px" href="selling-booster-onboarding-pre.html" target="_blank" rel="noopener"><i></i><span>[분석] 기본 설문 조사</span></a><a class="fn  live" style="left:960px;top:612.0px;width:180px;min-height:46px" href="selling-booster-onboarding-seller.html" target="_blank" rel="noopener"><i></i><span>[판매] 셀러 정보 수집</span></a><span class="fn " style="left:1220px;top:577.0px;width:150px;min-height:46px"><i></i><span>온보딩 완료</span></span><a class="fn  live" style="left:1400px;top:577.0px;width:150px;min-height:46px" href="selling-booster-dashboard.html" target="_blank" rel="noopener"><i></i><span>대시보드 페이지</span></a><span class="fn db" style="left:320px;top:737.0px;width:200px;min-height:46px"><i></i><span>셀픽 회원 DB</span></span><span class="fn db" style="left:1030px;top:737.0px;width:220px;min-height:46px"><i></i><span>셀링부스터 회원 DB</span></span><span class="fn plain" style="left:640px;top:737.0px;width:280px;min-height:46px"><i></i><span>가입정보 연동<em>단방향 가입(셀링부스터 → 셀픽)</em></span></span><span class="fn term" style="left:60px;top:932.0px;width:180px;min-height:46px"><i></i><span>[1] 셀픽으로 가입</span></span><span class="fn dec" style="left:290px;top:928.0px;width:180px;min-height:54px"><i></i><span>셀픽 인증<br>API 호출</span></span><span class="fn dec" style="left:520px;top:932.0px;width:170px;min-height:46px"><i></i><span>셀픽 정보 연동</span></span><span class="fn " style="left:740px;top:932.0px;width:160px;min-height:46px"><i></i><span>기본 정보 수집</span></span><span class="fn dec" style="left:960px;top:928.0px;width:180px;min-height:54px"><i></i><span>약관 동의 수집<br>(필수/선택)</span></span><span class="fn done" style="left:1190px;top:932.0px;width:150px;min-height:46px"><i></i><span>회원가입 완료</span></span><a class="fn term live" style="left:1380px;top:932.0px;width:140px;min-height:46px" href="selling-booster-login.html" target="_blank" rel="noopener"><i></i><span>로그인페이지</span></a><a class="fn term live" style="left:60px;top:1098.0px;width:180px;min-height:54px" href="selling-booster-join.html" target="_blank" rel="noopener"><i></i><span>[2] 간편 가입<br>(네이버/카카오/구글/애플)</span></a><span class="fn dec" style="left:290px;top:1098.0px;width:180px;min-height:54px"><i></i><span>간편 인증<br>API 호출</span></span><span class="fn dec" style="left:520px;top:1102.0px;width:170px;min-height:46px"><i></i><span>셀픽 회원 확인</span></span><span class="fn " style="left:740px;top:1102.0px;width:160px;min-height:46px"><i></i><span>기본 정보 수집</span></span><span class="fn dec" style="left:960px;top:1098.0px;width:180px;min-height:54px"><i></i><span>휴대폰 점유 인증<br>(셀픽 가입 여부)</span></span><span class="fn dec" style="left:1190px;top:1098.0px;width:180px;min-height:54px"><i></i><span>아이디, 이메일<br>중복 여부</span></span><a class="fn term live" style="left:60px;top:1257.0px;width:180px;min-height:46px" href="selling-booster-join-biz.html" target="_blank" rel="noopener"><i></i><span>[3] 법인 회원가입</span></a><a class="fn  live" style="left:740px;top:1257.0px;width:160px;min-height:46px" href="selling-booster-join-biz.html" target="_blank" rel="noopener"><i></i><span>기본 정보 수집</span></a><a class="fn dec live" style="left:960px;top:1257.0px;width:180px;min-height:46px" href="selling-booster-join-biz.html" target="_blank" rel="noopener"><i></i><span>휴대폰 점유 인증</span></a><span class="fn term" style="left:60px;top:1493.0px;width:190px;min-height:54px"><i></i><span>로그인 완료 후,<br>최초 진입</span></span><a class="fn dec-o live" style="left:340px;top:1497.0px;width:150px;min-height:46px" href="selling-booster-onboarding-seller.html" target="_blank" rel="noopener"><i></i><span>판매 유형</span></a><a class="fn  live" style="left:570px;top:1497.0px;width:180px;min-height:46px" href="selling-booster-onboarding-seller.html" target="_blank" rel="noopener"><i></i><span>셀러 정보 수집</span></a><span class="fn done" style="left:1210px;top:1497.0px;width:160px;min-height:46px"><i></i><span>수집 완료</span></span><span class="fn dec-o" style="left:570px;top:1597.0px;width:180px;min-height:46px"><i></i><span>셀러 구분</span></span><a class="fn dec-o live" style="left:340px;top:1707.0px;width:150px;min-height:46px" href="selling-booster-onboarding-pre.html" target="_blank" rel="noopener"><i></i><span>분석 유형</span></a><a class="fn  live" style="left:570px;top:1707.0px;width:180px;min-height:46px" href="selling-booster-onboarding-pre.html" target="_blank" rel="noopener"><i></i><span>비셀러 정보 수집</span></a><span class="fn " style="left:820px;top:1703.0px;width:190px;min-height:54px"><i></i><span>스토어(마켓)<br>정보 연동</span></span><span class="fn " style="left:820px;top:1807.0px;width:190px;min-height:46px"><i></i><span>필수 정보 수집</span></span><span class="fn dec-o" style="left:820px;top:1903.0px;width:190px;min-height:54px"><i></i><span>셀픽 연동 여부<br>(선택)</span></span></div></div>
+      <div class="fp" id="fp1"><div class="fcanvas" style="width:1360px;height:1400px"><div class="fband band-purple" style="left:40px;top:140px;width:250px;height:320px"><span>GNB 메뉴</span></div><div class="fband band-plain" style="left:40px;top:545px;width:250px;height:215px"><span>로그인 상태 전용</span></div><div class="fband band-lilac" style="left:720px;top:40px;width:580px;height:830px"><span>로그인 후 서비스 영역</span></div><div class="fband band-plain" style="left:40px;top:945px;width:280px;height:415px"><span>푸터 메뉴</span></div><svg class="flines" width="1360" height="1400" viewBox="0 0 1360 1400"><defs><marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#AFBAC4"/></marker></defs><path d="M270,73.0 H410" marker-end="url(#fa)" /><path d="M520.0,100.0 V170.0" marker-end="url(#fa)" /><path d="M520.0,216.0 V263.0" marker-end="url(#fa)" /><path d="M630,73.0 H740" marker-end="url(#fa)" /><text x="685.0" y="66.0" class="flbl"><tspan class="bg">Y</tspan></text><path d="M845.0,100.0 V170.0" marker-end="url(#fa)" /><path d="M845.0,216.0 V267.0" marker-end="url(#fa)" /><path d="M950,290.0 H990 V255.0 H1030" marker-end="url(#fa)" /><text x="990" y="265.5" class="flbl"><tspan class="bg">Y</tspan></text><path d="M950,290.0 H990 V335.0 H1030" marker-end="url(#fa)" /><path d="M270,642.0 H580 V578.0 H740" marker-end="url(#fa)" /><path d="M740,758.0 H32 V73.0 H60" class="ret" marker-end="url(#fa)" /><path d="M740,818.0 H18 V73.0 H60" class="ret" marker-end="url(#fa)" /></svg><a class="fn term live" style="left:60px;top:50.0px;width:210px;min-height:46px" href="selling-booster-prototype-v4.html" target="_blank" rel="noopener"><i></i><span>메인페이지</span></a><a class="fn  live" style="left:60px;top:150.0px;width:210px;min-height:46px" href="selling-booster-sales.html" target="_blank" rel="noopener"><i></i><span>판매하기</span></a><a class="fn  live" style="left:60px;top:210.0px;width:210px;min-height:46px" href="selling-booster-service.html" target="_blank" rel="noopener"><i></i><span>분석하기</span></a><span class="fn " style="left:60px;top:270.0px;width:210px;min-height:46px"><i></i><span>커뮤니티</span></span><span class="fn " style="left:60px;top:330.0px;width:210px;min-height:46px"><i></i><span>고객센터</span></span><a class="fn  live" style="left:60px;top:390.0px;width:210px;min-height:46px" href="selling-booster-pricing.html" target="_blank" rel="noopener"><i></i><span>이용요금</span></a><span class="fn dec" style="left:410px;top:46.0px;width:220px;min-height:54px"><i></i><span>로그인 여부<br>(액세스 유지 여부)</span></span><span class="fn cta" style="left:410px;top:170.0px;width:220px;min-height:46px"><i></i><span>CTA: 서비스 시작하기</span></span><a class="fn dec-o live" style="left:410px;top:263.0px;width:220px;min-height:54px" href="selling-booster-login.html" target="_blank" rel="noopener"><i></i><span>로그인/회원가입<br>플로우</span></a><span class="fn dec" style="left:740px;top:46.0px;width:210px;min-height:54px"><i></i><span>서비스 구분<br>분기</span></span><span class="fn " style="left:740px;top:170.0px;width:210px;min-height:46px"><i></i><span>CTA: 분석하기 or 판매하기</span></span><span class="fn dec" style="left:740px;top:267.0px;width:210px;min-height:46px"><i></i><span>셀러 유형 여부</span></span><a class="fn term live" style="left:1030px;top:232.0px;width:250px;min-height:46px" href="selling-booster-dashboard.html" target="_blank" rel="noopener"><i></i><span>[1] 비셀러: 분석하기 대시보드</span></a><a class="fn term live" style="left:1030px;top:312.0px;width:250px;min-height:46px" href="selling-booster-sales-admin.html" target="_blank" rel="noopener"><i></i><span>[2] 셀러: 판매하기 대시보드</span></a><a class="fn  live" style="left:60px;top:555.0px;width:210px;min-height:46px" href="selling-booster-notifications.html" target="_blank" rel="noopener"><i></i><span>알림함</span></a><span class="fn " style="left:60px;top:615.0px;width:210px;min-height:54px"><i></i><span>프로필<br>(환경설정)</span></span><span class="fn " style="left:60px;top:695.0px;width:210px;min-height:46px"><i></i><span>CTA 버튼</span></span><span class="fn " style="left:740px;top:555.0px;width:210px;min-height:46px"><i></i><span>개인정보관리</span></span><span class="fn " style="left:740px;top:615.0px;width:210px;min-height:46px"><i></i><span>셀러 정보 관리</span></span><span class="fn " style="left:740px;top:675.0px;width:210px;min-height:46px"><i></i><span>셀러 확장 기능</span></span><a class="fn gray live" style="left:740px;top:735.0px;width:210px;min-height:46px" href="selling-booster-prototype-v4.html" target="_blank" rel="noopener"><i></i><span>로그아웃</span></a><span class="fn red" style="left:740px;top:795.0px;width:210px;min-height:46px"><i></i><span>회원탈퇴</span></span><span class="fn " style="left:60px;top:955.0px;width:240px;min-height:46px"><i></i><span>회사소개</span></span><span class="fn " style="left:60px;top:1015.0px;width:240px;min-height:54px"><i></i><span>약관<br>(개인정보처리방침, 이용약관)</span></span><span class="fn " style="left:60px;top:1095.0px;width:240px;min-height:46px"><i></i><span>이용 가이드</span></span><span class="fn " style="left:60px;top:1155.0px;width:240px;min-height:46px"><i></i><span>크롬 익스텐션</span></span><span class="fn " style="left:60px;top:1215.0px;width:240px;min-height:46px"><i></i><span>패밀리 사이트</span></span><span class="fn " style="left:60px;top:1275.0px;width:240px;min-height:54px"><i></i><span>SNS채널<br>(네이버·인스타·유튜브·고스트)</span></span></div></div>
+      <div class="fp" id="fp2">
+<div class="frow" style="justify-content:center;margin-bottom:18px"><a class="fnode live term" href="selling-booster-prototype-v4.html" target="_blank" rel="noopener"><span class="d"></span>셀링부스터</a></div>
+<div class="tree">
+  <div class="tcol"><h5>판매하기</h5>
+    <a class="fnode live " href="selling-booster-sales-admin.html" target="_blank" rel="noopener"><span class="d"></span>대시보드 바로가기 ↗</a>
+  </div>
+  <div class="tcol"><h5>분석하기</h5>
+    <a class="fnode live " href="selling-booster-dashboard.html" target="_blank" rel="noopener"><span class="d"></span>대시보드 바로가기 ↗</a>
+  </div>
+  <div class="tcol"><h5>커뮤니티</h5>
+    <span class="fnode soon"><span class="d"></span>블로그</span><span class="fnode soon"><span class="d"></span>자유게시판</span><span class="fnode soon"><span class="d"></span>성장 스토리</span>
+    <span class="fnode soon"><span class="d"></span>K-트렌드</span>
+  </div>
+  <div class="tcol"><h5>고객센터</h5>
+    <span class="fnode soon"><span class="d"></span>공지사항</span><span class="fnode soon"><span class="d"></span>FAQ</span><span class="fnode soon"><span class="d"></span>Q&amp;A</span><a class="fnode live " href="selling-booster-migration.html" target="_blank" rel="noopener"><span class="d"></span>이전 문의하기 ↗</a>
+  </div>
+  <div class="tcol"><h5>이용요금</h5>
+    <a class="fnode live " href="selling-booster-pricing.html" target="_blank" rel="noopener"><span class="d"></span>이용요금</a>
+  </div>
+  <div class="tcol"><h5 class="y">로그인</h5>
+    <a class="fnode live " href="selling-booster-login.html" target="_blank" rel="noopener"><span class="d"></span>로그인</a>
+    <a class="fnode live " href="selling-booster-find-account.html" target="_blank" rel="noopener"><span class="d"></span>계정 찾기</a>
+    <a class="fnode live " href="selling-booster-join.html" target="_blank" rel="noopener"><span class="d"></span>간편 회원가입</a>
+    <a class="fnode live " href="selling-booster-join-biz.html" target="_blank" rel="noopener"><span class="d"></span>사업자 회원가입</a>
+    <span class="fnode soon"><span class="d"></span>개인정보 관리</span><span class="fnode soon"><span class="d"></span>셀러 정보 관리</span><span class="fnode soon"><span class="d"></span>셀러 확장 기능</span>
+    <a class="fnode live " href="selling-booster-notifications.html" target="_blank" rel="noopener"><span class="d"></span>알림함</a>
+    <span class="fnode soon"><span class="d"></span>스토어 연동</span><span class="fnode soon"><span class="d"></span>사용자 피드백(윙배너)</span>
+  </div>
+  <div class="tcol"><h5 class="y">푸터메뉴</h5>
+    <span class="fnode soon"><span class="d"></span>개인정보처리방침</span><span class="fnode soon"><span class="d"></span>서비스 이용약관</span>
+    <span class="fnode soon"><span class="d"></span>회사 소개</span><span class="fnode soon"><span class="d"></span>이용 가이드</span><span class="fnode soon"><span class="d"></span>크롬 익스텐션</span><span class="fnode soon"><span class="d"></span>SNS 채널 4종</span>
+  </div>
+</div>
+</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================= 전체 플로우 보기 ================= */
+function openFlow(){document.getElementById('flowDim').classList.add('open');document.body.style.overflow='hidden';applyZoom();}
+function closeFlow(){document.getElementById('flowDim').classList.remove('open');document.body.style.overflow='';}
+function flowTab(i){
+  var t=document.querySelectorAll('#flowTabs button');
+  for(var k=0;k<t.length;k++){t[k].classList.toggle('on',k===i);document.getElementById('fp'+k).classList.toggle('on',k===i);}
+  _curTab=i; applyZoom();
+}
+var _fz=[1,1,1];
+function flowZoom(dir){
+  var i=_curTab;
+  _fz[i]=Math.min(1.4,Math.max(0.5,_fz[i]+dir*0.1));
+  applyZoom();
+}
+function applyZoom(){
+  var el=document.getElementById('fp'+_curTab);
+  el.style.transform='scale('+_fz[_curTab]+')';
+  var c=el.querySelector('.fcanvas');
+  if(c){ el.style.width=(c.offsetWidth*_fz[_curTab])+'px'; el.style.height=(c.offsetHeight*_fz[_curTab])+'px'; }
+  document.getElementById('zoomVal').textContent=Math.round(_fz[_curTab]*100)+'%';
+}
+var _curTab=0;
+
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeFlow();});
+</script>
+</body>
+</html>
