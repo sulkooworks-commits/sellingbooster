@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>셀링부스터 팀 업무 정리</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pretendard/1.3.9/static/pretendard.min.css">
+<style>
+  :root{
+    --ink:#1c2330;
+    --sub:#5a6474;
+    --line:#e3e6ec;
+    --paper:#ffffff;
+    --bg:#f4f5f7;
+    --accent:#00B1BD;
+    --plan:#eef1ff;
+    --mkt:#fff4e5;
+    --common:#f0f9f1;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.6;
+    font-size:14px;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:32px 20px 80px;}
+
+  /* ── header ── */
+  .doc-header{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-top:4px solid var(--accent);
+    border-radius:10px;
+    padding:28px 32px;
+    margin-bottom:24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:16px;
+    position:sticky;
+    top:0;
+    z-index:50;
+    transition:padding .18s ease, box-shadow .18s ease;
+  }
+  .doc-header.compact{
+    padding:9px 20px;
+    align-items:center;
+    border-radius:0 0 10px 10px;
+    border-top-width:3px;
+    box-shadow:0 4px 14px rgba(28,35,48,.10);
+  }
+  .doc-header.compact h1{font-size:15px;}
+  .doc-header.compact .meta{display:none;}
+  .doc-header.compact button{padding:6px 11px;font-size:12px;}
+  .doc-header.compact #saveStatus{min-width:0;}
+  .doc-header h1{font-size:22px;font-weight:800;letter-spacing:-0.02em;}
+  .doc-header .meta{color:var(--sub);font-size:13px;margin-top:6px;}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  button{
+    font-family:inherit;font-size:13px;font-weight:700;
+    padding:10px 16px;border-radius:8px;cursor:pointer;
+    border:1px solid var(--line);background:#fff;color:var(--ink);
+    transition:background .15s ease, transform .05s ease;
+  }
+  button:hover{background:#f2f4f6;}
+  button:active{transform:translateY(1px);}
+  button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  button.primary{background:var(--accent);border-color:var(--accent);color:#fff;}
+  button.primary:hover{background:#009aa5;}
+  #saveStatus{font-size:12px;color:var(--sub);min-width:110px;text-align:right;}
+
+  /* ── sections ── */
+  section{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:26px 32px;
+    margin-bottom:22px;
+  }
+  h2{
+    font-size:16px;font-weight:800;letter-spacing:-0.01em;
+    display:flex;align-items:center;gap:10px;margin-bottom:16px;
+  }
+  h2 .num{
+    background:var(--ink);color:#fff;border-radius:6px;
+    width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:800;flex:none;
+  }
+  h3{font-size:14px;font-weight:800;margin:20px 0 10px;color:var(--ink);}
+  .note{font-size:12.5px;color:var(--sub);margin-top:10px;}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top;}
+  th{background:#f7f8fa;font-weight:700;font-size:13px;white-space:nowrap;}
+  td ul{padding-left:16px;}
+  td li{margin-bottom:4px;}
+  td li:last-child{margin-bottom:0;}
+  td.group-cell{vertical-align:middle;background:#fbfcfd;}
+  .tag{
+    display:inline-block;font-size:11.5px;font-weight:700;
+    border-radius:4px;padding:1px 7px;white-space:nowrap;
+  }
+  .tag.plan{background:var(--plan);color:#4553c4;}
+  .tag.mkt{background:var(--mkt);color:#b06000;}
+  .tag.common{background:var(--common);color:#1e7a2e;}
+  .status{font-size:11.5px;color:var(--sub);}
+  .empty{color:#aab0bb;text-align:center;}
+
+  /* section 3 controls */
+  .controls{
+    display:flex;gap:14px;flex-wrap:wrap;align-items:center;
+    margin-bottom:12px;padding:10px 12px;
+    background:#f8f9fb;border:1px solid var(--line);border-radius:8px;
+  }
+  .controls label{font-size:12.5px;font-weight:700;color:var(--sub);}
+  .controls select{
+    font-family:inherit;font-size:13px;padding:6px 10px;
+    border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink);
+  }
+  .controls select:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+  #rowCount{font-size:12px;color:var(--sub);margin-left:auto;}
+
+  /* fixed task list */
+  .task-group{margin-bottom:14px;}
+  .task-group:last-child{margin-bottom:0;}
+  .task-group .cat{
+    font-weight:800;font-size:13px;
+    border-left:3px solid var(--accent);padding-left:8px;margin-bottom:6px;
+  }
+  .task-group ul{padding-left:20px;}
+  .task-group li{margin-bottom:3px;}
+  .who{font-weight:700;}
+
+  /* memo fields */
+  textarea{
+    width:100%;min-height:52px;resize:vertical;
+    font-family:inherit;font-size:12.5px;line-height:1.55;color:var(--ink);
+    border:1px dashed #c9ced8;border-radius:6px;
+    padding:7px 9px;background:#fcfcfd;
+  }
+  textarea:focus{outline:none;border:1px solid var(--accent);background:#fff;}
+  textarea::placeholder{color:#b4bac4;}
+  #issueMemo{min-height:200px;font-size:13.5px;}
+  .memo-col{width:200px;}
+
+  /* history (이슈사항 전용) */
+  .hist{font-size:12px;color:var(--sub);display:flex;flex-direction:column;gap:8px;}
+  .hist-entry{border-left:2px solid #cfd4dd;padding-left:8px;white-space:pre-line;line-height:1.5;}
+  .hist-date{display:block;font-size:10.5px;font-weight:800;color:#9aa2af;letter-spacing:.02em;margin-bottom:1px;}
+  .hist-empty{color:#c3c8d1;}
+  .issue-hist{background:#f8f9fb;border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:6px;}
+  .hist-more{
+    align-self:flex-start;
+    font-size:12px;font-weight:700;color:var(--accent);
+    background:none;border:1px solid var(--accent);border-radius:6px;
+    padding:4px 12px;margin-top:2px;cursor:pointer;
+  }
+  .hist-more:hover{background:#e5f7f8;}
+
+  @media (max-width:760px){
+    section{padding:20px 16px;}
+    .doc-header{padding:20px 16px;}
+    table{font-size:12.5px;}
+    .memo-col{width:140px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    button{transition:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="doc-header">
+    <div>
+      <h1>📋 셀링부스터 팀 업무 정리</h1>
+      <div class="meta">기준: 2026년 8월 · 기획 이슬기 / 마케팅 안지호</div>
+    </div>
+    <div class="btns">
+      <span id="saveStatus"></span>
+      <button id="btnSave">메모 저장</button>
+      <button id="btnArchive">이슈 마감 (히스토리 이동)</button>
+      <button id="btnExportHtml">HTML로 내보내기</button>
+      <button id="btnExport" class="primary">Word(.docx)로 내보내기</button>
+    </div>
+  </div>
+
+  <div id="doc">
+
+  <!-- 1. 기본 업의 정의 -->
+  <section>
+    <h2><span class="num">1</span>기본 업의 정의 (범례)</h2>
+    <table>
+      <thead>
+        <tr><th style="width:90px;">구분</th><th style="width:110px;">담당자</th><th>역할 정의</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag plan">기획</span></td>
+          <td><strong>이슬기</strong></td>
+          <td>셀링부스터 서비스 기획 총괄: 커머스/앱/익스텐션 개발 대응, 통합 기획(셀부+셀스), 콘텐츠 발행·운영, 보고 및 행정 처리, HAI(본부 AI부서) 협업</td>
+        </tr>
+        <tr>
+          <td><span class="tag mkt">마케팅</span></td>
+          <td><strong>안지호</strong></td>
+          <td>셀링부스터 마케팅 총괄: 유료 광고 집행·대행사 대응, SEO툴 모니터링, 마케팅 문구·소구점 개발</td>
+        </tr>
+        <tr>
+          <td><span class="tag common">공통</span></td>
+          <td>이슬기 · 안지호</td>
+          <td>셀링부스터 고도화 아이디에이션(소구점/기능 개선), SEO·GEO 활용 증진 아이디에이션, SEO실 대응, GA4·GTM 설정</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note">업무 유형 구분: 광고 관리 / 프로젝트 / 셀링스파크 통합 / 운영 / 데이터·분석 / 행정 처리 / 공통 협업</p>
+  </section>
+
+  <!-- 2. 고정 업무 리스트 -->
+  <section>
+    <h2><span class="num">2</span>고정 업무 리스트</h2>
+
+    <div class="task-group">
+      <div class="cat">광고 관리</div>
+      <ul>
+        <li><span class="who">마케터:</span> 메타/네이버 키워드 검색 광고 집행, 광고 대행사 대응(메타 소재 제작, 미래아이앤씨 커뮤니케이션), 신규 마케팅 소구점 아이디에이션</li>
+      </ul>
+    </div>
+
+    <div class="task-group">
+      <div class="cat">프로젝트</div>
+      <ul>
+        <li><span class="who">기획자:</span> 커머스 확장 및 앱 개발 프로젝트 관리, 크롬 익스텐션 개발 대응/모니터링, HAI(본부 AI부서) 협업 대응</li>
+      </ul>
+    </div>
+
+    <div class="task-group">
+      <div class="cat">셀링스파크 통합</div>
+      <ul>
+        <li><span class="who">기획자:</span> 정책·사용자 플로우 기획, 프로토타입 구현</li>
+        <li><span class="who">마케터:</span> 서비스 내 마케팅 문구 워싱 (8월)</li>
+      </ul>
+    </div>
+
+    <div class="task-group">
+      <div class="cat">운영</div>
+      <ul>
+        <li><span class="who">기획자:</span> K트렌드 매거진 발행(주 3회), 서비스 모니터링 및 긴급 대응, 노션(우피) 이용 가이드 제작/운영</li>
+        <li><span class="who">마케터:</span> SEO툴 모니터링(네이버 서치어드바이저, 구글 서치 콘솔)</li>
+      </ul>
+    </div>
+
+    <div class="task-group">
+      <div class="cat">데이터/분석</div>
+      <ul>
+        <li><span class="who">기획자·마케터:</span> GA4, GTM 설정</li>
+      </ul>
+    </div>
+
+    <div class="task-group">
+      <div class="cat">행정 처리</div>
+      <ul>
+        <li><span class="who">기획자:</span> 주간/월간 보고서 작성, 재무 보조지표 보고, 지출 관리(품의 및 예산 검토), 공용계정 관리 (개발, 광고, 외부솔루션 등)</li>
+      </ul>
+    </div>
+
+    <div class="task-group">
+      <div class="cat">공통 협업</div>
+      <ul>
+        <li><span class="who">기획자·마케터:</span> 셀링부스터 고도화 아이디에이션(소구점/기능 개선), SEO·GEO 활용 증진 아이디에이션, SEO실 대응</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3. 현황 및 계획 -->
+  <section>
+    <h2><span class="num">3</span>현황 및 계획 정의 테이블 (8~9월)</h2>
+
+    <div class="controls">
+      <label for="ownerFilter">담당 필터</label>
+      <select id="ownerFilter">
+        <option value="all" selected>전체</option>
+        <option value="plan">기획</option>
+        <option value="mkt">마케팅</option>
+        <option value="common">공통</option>
+      </select>
+      <label for="sortMode">정렬</label>
+      <select id="sortMode">
+        <option value="base" selected>구분순 (가나다)</option>
+        <option value="mkt">마케팅 우선</option>
+        <option value="plan">기획 우선</option>
+      </select>
+      <span id="rowCount"></span>
+    </div>
+
+    <table id="planTable">
+      <thead>
+        <tr>
+          <th style="width:110px;">구분</th>
+          <th style="width:66px;">담당</th>
+          <th>8월</th>
+          <th>9월</th>
+          <th class="memo-col">비고 (메모)</th>
+        </tr>
+      </thead>
+      <tbody id="planBody"><!-- JS 렌더링 --></tbody>
+    </table>
+  </section>
+
+  <!-- 4. 마일스톤 -->
+  <section>
+    <h2><span class="num">4</span>마일스톤 (8~9월)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:120px;">시점</th>
+          <th>마일스톤</th>
+          <th style="width:100px;">담당</th>
+          <th style="width:170px;">상태 / 비고</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>8월 초</strong></td>
+          <td>당월 광고 품의 확정 (광고비·대행 수수료·기타 지출 계획)</td>
+          <td><span class="tag plan">기획</span></td>
+          <td>매월 반복</td>
+        </tr>
+        <tr>
+          <td><strong>8월 9일~13일</strong></td>
+          <td>주간업무 현황 정리 및 공유</td>
+          <td><span class="tag common">공통</span></td>
+          <td>대기/요청</td>
+        </tr>
+        <tr>
+          <td><strong>8월 중</strong></td>
+          <td>셀링스파크 통합 — 마케팅 문구 워싱 완료</td>
+          <td><span class="tag mkt">마케팅</span></td>
+          <td>🎯 목표 (8월)</td>
+        </tr>
+        <tr>
+          <td><strong>8월 31일</strong></td>
+          <td>허니콘(기프티콘) 종료 → 재갱신 여부 결정</td>
+          <td><span class="tag plan">기획</span></td>
+          <td>⚠️ 재갱신 필요</td>
+        </tr>
+        <tr>
+          <td><strong>8월 말</strong></td>
+          <td>네이버 솔루션 마켓 입점 완료</td>
+          <td><span class="tag plan">기획</span></td>
+          <td>🎯 목표 (심사 기간 확인 필요)</td>
+        </tr>
+        <tr>
+          <td><strong>8~9월</strong></td>
+          <td>카페24 솔루션 마켓 입점 준비</td>
+          <td><span class="tag plan">기획</span></td>
+          <td>진행 중 (일정 확정 필요)</td>
+        </tr>
+        <tr>
+          <td><strong>8~9월</strong></td>
+          <td>셀픽·허니콘 캠페인 외부 성과 관리 및 공유</td>
+          <td><span class="tag plan">기획</span></td>
+          <td>진행 중</td>
+        </tr>
+        <tr>
+          <td><strong>8~9월</strong></td>
+          <td>셀링스파크 통합 — 정책·플로우 기획, 프로토타입 구현</td>
+          <td><span class="tag plan">기획</span></td>
+          <td>진행 중</td>
+        </tr>
+        <tr>
+          <td><strong>9월 중순</strong></td>
+          <td>월간보고서 작성 (격월 주기)</td>
+          <td><span class="tag plan">기획</span></td>
+          <td>예정 (직전: 7월 말)</td>
+        </tr>
+        <tr>
+          <td><strong>9월</strong></td>
+          <td>GA4·GTM 설정 검증 및 보완 완료</td>
+          <td><span class="tag common">공통</span></td>
+          <td>🎯 목표</td>
+        </tr>
+        <tr>
+          <td><strong>일정 미정</strong></td>
+          <td>SEO실 자문 미팅 (SEO/GEO TF)</td>
+          <td><span class="tag common">공통</span></td>
+          <td>SEO실 회신 대기 중</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note">🎯 표시는 기한이 있는 목표성 마일스톤입니다. 미확정 일정은 확정 시 갱신해 주세요.</p>
+  </section>
+
+  <!-- 5. 고정 일정 -->
+  <section>
+    <h2><span class="num">5</span>고정 일정</h2>
+
+    <h3 style="margin-top:0;">5-1. 회의 일정</h3>
+    <table>
+      <thead>
+        <tr><th style="width:230px;">회의명</th><th style="width:70px;">주기</th><th style="width:190px;">일시</th><th style="width:70px;">참석</th><th>비고</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>[SB] 사업팀 주간 회의</td><td>주간</td><td>월요일 08:30</td><td><span class="tag common">공통</span></td><td>실장님 주관</td></tr>
+        <tr><td>[SB] 셀링스파크 주간 점검 회의</td><td>주간</td><td>월요일 15:00</td><td><span class="tag common">공통</span></td><td class="empty">-</td></tr>
+        <tr><td>[SB] 개발 점검 회의</td><td>주간</td><td>화요일 13:30 또는 15:30</td><td><span class="tag common">공통</span></td><td>전무님 주관</td></tr>
+        <tr><td>[SB] 사업실 주간 회의</td><td>주간</td><td>목요일 08:30</td><td><span class="tag common">공통</span></td><td>대표님 주관</td></tr>
+        <tr><td>[SB] 기획/마케팅 주간 회의</td><td>주간</td><td>15:00 (요일 미정)</td><td><span class="tag common">공통</span></td><td class="empty">-</td></tr>
+        <tr><td>[SB] SEO/GEO TF 회의</td><td>-</td><td>일정 미정</td><td><span class="tag common">공통</span></td><td>SEO실 회신 대기</td></tr>
+        <tr><td>[SB] 주간업무 현황 공유</td><td>주간</td><td>기록으로 공유</td><td><span class="tag common">공통</span></td><td>별도 회의 없이 기록 대체</td></tr>
+      </tbody>
+    </table>
+
+    <h3>5-2. 품의 · 보고 일정</h3>
+    <table>
+      <thead>
+        <tr><th style="width:150px;">항목</th><th style="width:230px;">주기 / 시점</th><th>내용</th><th style="width:120px;">담당</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>광고 품의</strong></td>
+          <td>매월 초 (당월)</td>
+          <td>광고비, 대행 수수료, 기타 지출 품의 계획</td>
+          <td><span class="tag plan">기획</span></td>
+        </tr>
+        <tr>
+          <td><strong>지출 품의</strong></td>
+          <td>정기(월말·월초 주간) + 상시</td>
+          <td>비용 품의 및 월 예산 검토/취합</td>
+          <td><span class="tag plan">기획</span></td>
+        </tr>
+        <tr>
+          <td rowspan="3"><strong>주간보고서</strong></td>
+          <td>① 취합: 매주 목요일 15:00 마감</td>
+          <td>팀별 주간 업무 내역 취합</td>
+          <td><span class="tag plan">기획</span></td>
+        </tr>
+        <tr>
+          <td>② 검토: 차주 월요일 주간회의</td>
+          <td>주간회의 시 실장님 보고</td>
+          <td><span class="tag plan">기획</span></td>
+        </tr>
+        <tr>
+          <td>③ 마감·전달: 매주 월요일 16:00</td>
+          <td>한대수 팀장님 전달</td>
+          <td><span class="tag plan">기획</span></td>
+        </tr>
+        <tr>
+          <td><strong>월간보고서</strong></td>
+          <td>격월 중순 작성</td>
+          <td>직전 작성: 7월 말</td>
+          <td><span class="tag plan">기획</span></td>
+        </tr>
+        <tr>
+          <td><strong>재무보조지표</strong></td>
+          <td>매월 말일</td>
+          <td>월간 재무지표용 보조지표 작성 및 보고</td>
+          <td><span class="tag plan">기획</span></td>
+        </tr>
+        <tr>
+          <td><strong>회의록</strong></td>
+          <td>상시</td>
+          <td>회의별 회의록 작성 및 공유</td>
+          <td><span class="tag plan">기획</span> <span class="tag mkt">마케팅</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 6. 이슈사항 -->
+  <section>
+    <h2><span class="num">6</span>이슈사항</h2>
+
+    <h3 style="margin-top:0;">이전 히스토리</h3>
+    <div class="hist issue-hist" data-hist="m_issue">
+      <div class="hist-entry"><span class="hist-date">2026-07-31</span>(예시)
+· 7월 월간보고서 작성 완료 및 실장님 보고 완료
+· 셀픽 캠페인 1차 성과 공유 완료 — 8월 2차 리포트 예정</div>
+    </div>
+
+    <h3>현재 이슈</h3>
+    <textarea id="issueMemo" class="memo" data-key="m_issue" placeholder="이슈사항을 자유롭게 입력하세요. (메모 저장으로 저장, 이슈 마감으로 히스토리 이동, HTML/Word 내보내기에 모두 반영)">1. 업무 안정화 이후 마케팅 업무 이관 예정 
+    - k트렌드 매거진 밯행, SNS 온드 채널(네이버, 인스타) 
+2. 유튜브 채널 운영 아이디어
+    - 영상 소재 적용 시 별도 섹션 추가 해서 운영해도 좋을듯 
+       - 단기: 미래 아이앤씨 대행 검토 필요
+       - 중장기: 대표님 피드백 -> 성공사례 바이럴 소재 (혹은 사용 가이드 교육소재) 등으로 풀어서 게시하는 것 고려 필요
+   -> 실행을 위해서는 소재 제작 의뢰를 위한 예산 재편성 필요 (릴스 1건 당 1~5만원 발생 예상 /레뷰 구두 견적)    0
+   -> 글로브(뷰티 콘텐츠 제작 업체)의 경우 2차 소유권도 받을 수 있음 (원본, 클린본)  - 알바몬, 
+   -> 발행 시점, 컨셉에 대한 결정필요
+   -> 성과 측정이 어려울 수 있음 (바이럴 특성)
+3. SEO실 자문 미팅 일정 미정 — SEO실 회신 대기 중
+4. 네이버 솔루션 마켓 입점 심사 소요 기간 확인 필요 (8월 말 목표 리스크 점검)
+
+상세 회의록 참고
+https://app.notion.com/p/3b5e74f1071c80039ee8cb0259f59408?v=27ee74f</textarea>
+  </section>
+
+  </div><!-- /#doc -->
+
+</div>
+
+<!-- 메모 데이터 (HTML 내보내기 시 현재 입력값이 이 블록에 내장됨) -->
+<script type="application/json" id="memoData">
+{"m_ad_plan":"셀픽, 기프티콘","m_ad_mkt":"","m_proj_plan":"허니콘(기프티콘) 종료 예정: 8/31 -> 재갱신 필요","m_spark_plan":"","m_spark_mkt":"","m_ops_plan":"","m_ops_mkt":"","m_data_plan":"","m_data_common":"","m_admin_plan":"","m_admin_mkt":"","m_common":""}
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.3.1/html-docx.min.js"></script>
+<script>
+(function(){
+  var STORAGE_KEY = 'sb-team-doc-memos';
+  var HIST_KEY = 'sb-team-doc-history';
+  var statusEl = document.getElementById('saveStatus');
+
+  /* ══════════ 섹션 3: 데이터 정의 ══════════ */
+  var OWNER_TAG = {
+    plan:'<span class="tag plan">기획</span>',
+    mkt:'<span class="tag mkt">마케팅</span>',
+    common:'<span class="tag common">공통</span>'
+  };
+
+  var ROWS = [
+    { group:'광고 관리', owner:'plan',
+      aug:'<ul><li>외부업체 광고배너 주간 리포트 <span class="status">(주간 · 대기/요청)</span></li></ul>',
+      sep:'<ul><li>외부업체 광고배너 주간 리포트 (지속)</li></ul>',
+      key:'m_ad_plan' },
+    { group:'광고 관리', owner:'mkt',
+      aug:'<ul><li>메타/네이버 검색 광고 운영 (상시)</li><li>대행사(미래아이앤씨) 커뮤니케이션</li></ul>',
+      sep:'<ul><li>메타/네이버 검색 광고 운영 (지속)</li><li>대행사 커뮤니케이션 (지속)</li></ul>',
+      key:'m_ad_mkt' },
+    { group:'프로젝트', owner:'plan',
+      aug:'<ul><li>외부 성과 관리 및 공유 — 셀픽, 허니콘 캠페인 <span class="status">(진행 중)</span></li><li>솔루션 마켓 입점 준비 — 카페24, 네이버 <span class="status">(네이버 8월 말 목표)</span></li></ul>',
+      sep:'<ul><li>외부 성과 관리 및 공유 (지속)</li><li>솔루션 마켓 입점 후속 대응 (입점 완료 시 운영 전환)</li></ul>',
+      key:'m_proj_plan' },
+    { group:'셀링스파크 통합', owner:'plan',
+      aug:'<ul><li>통합 정책 기획</li><li>사용자 플로우 기획</li><li>프로토타입 구현</li></ul>',
+      sep:'<ul><li>정책·플로우 구체화 및 프로토타입 고도화 (지속)</li></ul>',
+      key:'m_spark_plan' },
+    { group:'셀링스파크 통합', owner:'mkt',
+      aug:'<ul><li>서비스 내 마케팅 문구 워싱 <span class="status">(8월 완료 목표)</span></li></ul>',
+      sep:'<ul><li>문구 워싱 결과 검수 및 반영 지원</li></ul>',
+      key:'m_spark_mkt' },
+    { group:'운영', owner:'plan',
+      aug:'<ul><li>K트렌드 매거진 발행 (주 3회)</li><li>커뮤니티 가상글 발행 <span class="status">(상시 · 대기/요청)</span></li><li>서비스 모니터링 및 긴급 대응</li></ul>',
+      sep:'<ul><li>K트렌드 매거진 발행 (지속)</li><li>커뮤니티 가상글 발행 (지속)</li><li>서비스 모니터링 및 긴급 대응 (지속)</li></ul>',
+      key:'m_ops_plan' },
+    { group:'운영', owner:'mkt',
+      aug:'<ul><li>SEO툴 모니터링 리포트 (주간) — 서치어드바이저·서치콘솔</li></ul>',
+      sep:'<ul><li>SEO툴 모니터링 리포트 (지속)</li></ul>',
+      key:'m_ops_mkt' },
+    { group:'데이터/분석', owner:'plan',
+      aug:'<ul><li>우피 SEO 지표 리포트 <span class="status">(주간 · 대기/요청)</span></li><li>익스텐션 활성 현황 지표 리포트 <span class="status">(주간 · 대기/요청)</span></li></ul>',
+      sep:'<ul><li>우피 SEO 지표 리포트 (지속)</li><li>익스텐션 활성 현황 지표 리포트 (지속)</li></ul>',
+      key:'m_data_plan' },
+    { group:'데이터/분석', owner:'common',
+      aug:'<ul><li>GA4, GTM 설정</li></ul>',
+      sep:'<ul><li>GA4, GTM 설정 검증 및 보완</li></ul>',
+      key:'m_data_common' },
+    { group:'행정 처리', owner:'plan',
+      aug:'<ul><li>주간 성과 공유 (기록으로 대체)</li><li>솔루션 결제 내역 정리 <span class="status">(월간 · 대기/요청)</span></li><li>주간/월간 보고서, 재무 보조지표, 지출 관리</li></ul>',
+      sep:'<ul><li>주간 성과 공유 (지속)</li><li>솔루션 결제 내역 정리 (지속)</li><li>주간/월간 보고서, 재무 보조지표, 지출 관리 (지속)</li></ul>',
+      key:'m_admin_plan' },
+    { group:'행정 처리', owner:'mkt',
+      aug:'<ul><li>광고비 예산 확인 및 개정 <span class="status">(매월 지속 갱신)</span></li></ul>',
+      sep:'<ul><li>광고비 예산 확인 및 개정 (지속)</li></ul>',
+      key:'m_admin_mkt' },
+    { group:'공통 협업', owner:'common',
+      aug:'<ul><li>셀부 고도화 아이디에이션 (소구점/기능 개선)</li><li>SEO·GEO 활용 증진 아이디에이션</li><li>SEO실 대응</li></ul>',
+      sep:'<ul><li>아이디에이션 결과 구체화 및 실행 항목 도출</li><li>SEO실 대응 (지속)</li></ul>',
+      key:'m_common' }
+  ];
+
+  var GROUP_ORDER = ['광고 관리','프로젝트','셀링스파크 통합','운영','데이터/분석','행정 처리','공통 협업'];
+
+  /* 메모 값 저장소 (필터로 숨겨진 행의 값도 유지) */
+  var memoValues = {};
+  (function initMemoValues(){
+    ROWS.forEach(function(r){ memoValues[r.key] = ''; });
+    var dataEl = document.getElementById('memoData');
+    if(dataEl){
+      try{
+        var parsed = JSON.parse(dataEl.textContent);
+        Object.keys(parsed).forEach(function(k){
+          if(k in memoValues){ memoValues[k] = parsed[k]; }
+        });
+      }catch(e){ /* 데이터 블록 파싱 실패 시 빈 값으로 시작 */ }
+    }
+  })();
+
+  /* ══════════ 섹션 3: 필터/정렬/병합 렌더링 ══════════ */
+  var ownerFilterEl = document.getElementById('ownerFilter');
+  var sortModeEl = document.getElementById('sortMode');
+  var rowCountEl = document.getElementById('rowCount');
+
+  function groupHasOwner(group, owner){
+    return ROWS.some(function(r){ return r.group === group && r.owner === owner; });
+  }
+
+  function sortedGroups(mode){
+    var groups = GROUP_ORDER.slice();
+    if(mode === 'mkt' || mode === 'plan'){
+      // 해당 담당이 포함된 구분을 앞으로 (구분 내 원래 순서 유지)
+      var priority = groups.filter(function(g){ return groupHasOwner(g, mode); });
+      var rest = groups.filter(function(g){ return !groupHasOwner(g, mode); });
+      return priority.concat(rest);
+    }
+    // base(구분순): 1번 컬럼(구분) 이름 기준 가나다 정렬
+    return groups.sort(function(a, b){ return a.localeCompare(b, 'ko'); });
+  }
+
+  function ownerRank(owner, mode){
+    if(mode === 'mkt'){ return owner === 'mkt' ? 0 : (owner === 'plan' ? 1 : 2); }
+    if(mode === 'plan'){ return owner === 'plan' ? 0 : (owner === 'mkt' ? 1 : 2); }
+    return owner === 'plan' ? 0 : (owner === 'mkt' ? 1 : 2); // base
+  }
+
+  function renderPlanTable(){
+    var filter = ownerFilterEl.value;
+    var mode = sortModeEl.value;
+    var tbody = document.getElementById('planBody');
+    tbody.innerHTML = '';
+
+    var visible = ROWS.filter(function(r){ return filter === 'all' || r.owner === filter; });
+    var groups = sortedGroups(mode);
+    var count = 0;
+
+    groups.forEach(function(g){
+      var rows = visible
+        .filter(function(r){ return r.group === g; })
+        .sort(function(a,b){ return ownerRank(a.owner, mode) - ownerRank(b.owner, mode); });
+      rows.forEach(function(r, i){
+        var tr = document.createElement('tr');
+        var cells = '';
+        if(i === 0){
+          cells += '<td class="group-cell"' + (rows.length > 1 ? ' rowspan="' + rows.length + '"' : '') + '><strong>' + g + '</strong></td>';
+        }
+        cells += '<td>' + OWNER_TAG[r.owner] + '</td>'
+              + '<td>' + r.aug + '</td>'
+              + '<td>' + r.sep + '</td>'
+              + '<td><textarea class="memo" data-key="' + r.key + '" placeholder="메모 입력"></textarea></td>';
+        tr.innerHTML = cells;
+        var ta = tr.querySelector('textarea');
+        ta.value = memoValues[r.key] || '';
+        ta.addEventListener('input', function(){ memoValues[r.key] = ta.value; });
+        tbody.appendChild(tr);
+        count++;
+      });
+    });
+    rowCountEl.textContent = count + '개 행 표시';
+  }
+
+  ownerFilterEl.addEventListener('change', renderPlanTable);
+  sortModeEl.addEventListener('change', renderPlanTable);
+
+  /* ══════════ 메모/이슈 저장 ══════════ */
+  function setStatus(msg){
+    statusEl.textContent = msg;
+    if(msg){ setTimeout(function(){ statusEl.textContent=''; }, 3500); }
+  }
+
+  function collectMemos(){
+    var issueTa = document.getElementById('issueMemo');
+    memoValues['m_issue'] = issueTa ? issueTa.value : (memoValues['m_issue'] || '');
+    var data = {};
+    Object.keys(memoValues).forEach(function(k){ data[k] = memoValues[k]; });
+    return data;
+  }
+
+  function applyMemos(data){
+    if(!data){ return; }
+    Object.keys(data).forEach(function(k){
+      // 저장된 값이 있을 때만 반영 (빈 값으로 내장 데이터를 덮어쓰지 않음)
+      if(typeof data[k] === 'string' && data[k].trim() !== ''){ memoValues[k] = data[k]; }
+    });
+    var issueTa = document.getElementById('issueMemo');
+    if(issueTa && memoValues['m_issue']){ issueTa.value = memoValues['m_issue']; }
+    renderPlanTable();
+  }
+
+  /* ══════════ 이슈 히스토리 (최신순 · 페이징) ══════════ */
+  var issueHistory = [];       // [{date, text}]
+  var histVisible = 1;         // 기본 1건 표시, 더보기 클릭 시 +3
+
+  (function initHistory(){
+    // HTML에 내장된 히스토리 항목 수집
+    document.querySelectorAll('.issue-hist .hist-entry').forEach(function(e){
+      var dateEl = e.querySelector('.hist-date');
+      var date = dateEl ? dateEl.textContent : '';
+      var clone = e.cloneNode(true);
+      var dc = clone.querySelector('.hist-date');
+      if(dc){ dc.remove(); }
+      issueHistory.push({date: date, text: clone.textContent.trim()});
+    });
+  })();
+
+  function sortedHistoryDesc(){
+    return issueHistory.slice().sort(function(a, b){
+      return b.date.localeCompare(a.date); // 최신 날짜 먼저
+    });
+  }
+
+  function renderIssueHistory(showAll){
+    var box = document.querySelector('.issue-hist');
+    box.innerHTML = '';
+    var list = sortedHistoryDesc();
+    if(list.length === 0){
+      box.innerHTML = '<div class="hist-empty">-</div>';
+      return;
+    }
+    var limit = showAll ? list.length : Math.min(histVisible, list.length);
+    list.slice(0, limit).forEach(function(item){
+      appendHistEntry(box, item.date, item.text);
+    });
+    var remain = list.length - limit;
+    if(remain > 0){
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'hist-more';
+      btn.textContent = '더보기 (' + remain + '건)';
+      btn.addEventListener('click', function(){
+        histVisible += 3;
+        renderIssueHistory();
+      });
+      box.appendChild(btn);
+    }
+  }
+
+  function collectHistory(){
+    return { m_issue: issueHistory.slice() };
+  }
+
+  function renderHistory(data){
+    if(!data || !Array.isArray(data.m_issue)){ return; }
+    issueHistory = data.m_issue.slice();
+    histVisible = 1;
+    renderIssueHistory();
+  }
+
+  function appendHistEntry(box, date, text){
+    var entry = document.createElement('div');
+    entry.className = 'hist-entry';
+    var d = document.createElement('span');
+    d.className = 'hist-date';
+    d.textContent = date;
+    entry.appendChild(d);
+    entry.appendChild(document.createTextNode(text));
+    box.appendChild(entry);
+  }
+
+  /* 히스토리 배열에 등록: 같은 날은 갱신, 동일 내용은 생략 */
+  function upsertHistory(text){
+    var today = new Date().toISOString().slice(0,10);
+    var latest = sortedHistoryDesc()[0];
+    if(latest && latest.text === text){ return false; }   // 내용 변화 없음
+    var todayIdx = issueHistory.findIndex(function(h){ return h.date === today; });
+    if(todayIdx >= 0){ issueHistory[todayIdx].text = text; }  // 오늘 항목 갱신
+    else{ issueHistory.push({date: today, text: text}); }     // 신규 등록
+    renderIssueHistory();
+    return true;
+  }
+
+  /* 이슈 저장 시 히스토리 자동 등록:
+     - 저장할 때 현재 이슈 내용을 오늘 날짜로 히스토리에 스냅샷 (입력칸은 유지)
+     - 같은 날 여러 번 저장하면 오늘 항목을 갱신 (중복 누적 방지)
+     - 마지막 히스토리와 내용이 같으면 건너뜀 */
+  function snapshotIssueToHistory(){
+    var issueTa = document.getElementById('issueMemo');
+    if(!issueTa || issueTa.value.trim() === ''){ return; }
+    upsertHistory(issueTa.value.trim());
+  }
+
+  /* 이슈 마감: 현재 이슈 내용을 히스토리로 이동하고 입력칸 비움 */
+  async function archiveVersion(){
+    var issueTa = document.getElementById('issueMemo');
+    if(!issueTa || issueTa.value.trim() === ''){ setStatus('이동할 이슈 내용이 없습니다'); return; }
+    if(!confirm('현재 이슈사항을 히스토리로 이동하고 입력칸을 비웁니다. 진행할까요?')){ return; }
+    upsertHistory(issueTa.value.trim());
+    issueTa.value = '';
+    memoValues['m_issue'] = '';
+    await persistAll();
+    setStatus('✅ 이슈 마감 완료');
+  }
+
+  /* ══════════ 저장/로드 ══════════ */
+  async function persistAll(){
+    if(window.storage && typeof window.storage.set === 'function'){
+      try{
+        await window.storage.set(STORAGE_KEY, JSON.stringify(collectMemos()));
+        await window.storage.set(HIST_KEY, JSON.stringify(collectHistory()));
+        return true;
+      }catch(e){ /* 저장 미지원 환경 */ }
+    }
+    return false;
+  }
+
+  /* 이슈 저장 시 히스토리 자동 등록: snapshotIssueToHistory() → upsertHistory() 사용 */
+  async function saveMemos(){
+    snapshotIssueToHistory();
+    var ok = await persistAll();
+    if(ok){ setStatus('✅ 저장 완료 (이슈 히스토리 등록)'); return; }
+    downloadMemoText(collectMemos());
+    setStatus('📄 메모 파일로 다운로드');
+  }
+
+  async function loadMemos(){
+    if(window.storage && typeof window.storage.get === 'function'){
+      try{
+        var res = await window.storage.get(STORAGE_KEY);
+        if(res && res.value){ applyMemos(JSON.parse(res.value)); }
+      }catch(e){ /* 저장된 메모 없음 */ }
+      try{
+        var h = await window.storage.get(HIST_KEY);
+        if(h && h.value){ renderHistory(JSON.parse(h.value)); }
+      }catch(e){ /* 저장된 히스토리 없음 → 내장 히스토리 유지 */ }
+    }
+  }
+
+  var MEMO_LABELS = {
+    m_ad_plan:'광고 관리 (기획)', m_ad_mkt:'광고 관리 (마케팅)', m_proj_plan:'프로젝트 (기획)',
+    m_spark_plan:'셀링스파크 통합 (기획)', m_spark_mkt:'셀링스파크 통합 (마케팅)',
+    m_ops_plan:'운영 (기획)', m_ops_mkt:'운영 (마케팅)', m_data_plan:'데이터/분석 (기획)',
+    m_data_common:'데이터/분석 (공통)', m_admin_plan:'행정 처리 (기획)', m_admin_mkt:'행정 처리 (마케팅)', m_common:'공통 협업',
+    m_issue:'이슈사항'
+  };
+
+  function downloadMemoText(data){
+    var lines = ['[셀링부스터 팀 업무 정리 - 메모] ' + new Date().toLocaleString('ko-KR'), ''];
+    Object.keys(MEMO_LABELS).forEach(function(k){
+      if(data[k] && data[k].trim()){
+        lines.push('■ ' + MEMO_LABELS[k]);
+        lines.push(data[k].trim());
+        lines.push('');
+      }
+    });
+    if(lines.length <= 2){ lines.push('(작성된 메모 없음)'); }
+    var blob = new Blob(['\uFEFF' + lines.join('\r\n')], {type:'text/plain;charset=utf-8'});
+    triggerDownload(blob, '팀업무정리_메모.txt');
+  }
+
+  function triggerDownload(blob, filename){
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  }
+
+  /* ══════════ 내보내기 ══════════ */
+  function prepareFullView(){
+    // 전체 행 기준으로 재렌더링 후 현재 입력값을 DOM에 동기화
+    collectMemos();
+    ownerFilterEl.value = 'all';
+    renderPlanTable();
+    renderIssueHistory(true); // 히스토리 전체 표시 (내보내기에 전량 포함)
+    document.querySelectorAll('textarea.memo').forEach(function(t){
+      t.textContent = t.value;
+    });
+    // 메모 데이터 블록 갱신 (스냅샷에 값 내장)
+    var dataEl = document.getElementById('memoData');
+    if(dataEl){ dataEl.textContent = JSON.stringify(collectMemos()); }
+  }
+
+  function restoreCompactView(){
+    histVisible = 1;
+    renderIssueHistory();
+  }
+
+  /* HTML 내보내기: 현재 메모·이슈·히스토리가 내장된 문서 스냅샷 (재열람 시 그대로 표시, 계속 수정 가능) */
+  function exportHtml(){
+    prepareFullView();
+    var prevStatus = statusEl.textContent;
+    statusEl.textContent = '';
+    var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    statusEl.textContent = prevStatus;
+    restoreCompactView();
+    var blob = new Blob(['\uFEFF' + html], {type:'text/html;charset=utf-8'});
+    triggerDownload(blob, '셀링부스터_팀업무정리_' + new Date().toISOString().slice(0,10) + '.html');
+    setStatus('✅ HTML 다운로드 (메모 포함)');
+  }
+
+  /* Word 내보내기 */
+  function buildExportHtml(){
+    prepareFullView();
+    var clone = document.getElementById('doc').cloneNode(true);
+    clone.querySelectorAll('.controls').forEach(function(c){ c.remove(); });
+    clone.querySelectorAll('textarea').forEach(function(t){
+      var live = document.querySelector('textarea[data-key="' + t.dataset.key + '"]');
+      var val = live ? live.value.trim() : '';
+      var div = document.createElement('div');
+      val.split('\n').forEach(function(lineTxt, i){
+        if(i > 0){ div.appendChild(document.createElement('br')); }
+        div.appendChild(document.createTextNode(lineTxt));
+      });
+      if(!val){ div.textContent = '-'; }
+      t.parentNode.replaceChild(div, t);
+    });
+    var css = ''
+      + 'body{font-family:"Malgun Gothic",sans-serif;font-size:11pt;color:#1c2330;line-height:1.5;}'
+      + 'h1{font-size:16pt;} h2{font-size:13pt;margin:14pt 0 6pt;} h3{font-size:11.5pt;margin:10pt 0 4pt;}'
+      + 'table{border-collapse:collapse;width:100%;margin-bottom:10pt;}'
+      + 'th,td{border:1px solid #999999;padding:4pt 6pt;font-size:10pt;vertical-align:top;text-align:left;}'
+      + 'th{background:#efefef;font-weight:bold;}'
+      + 'ul{margin:0;padding-left:14pt;} li{margin-bottom:2pt;}'
+      + '.num{display:none;} .tag{font-weight:bold;} .status{color:#666666;font-size:9pt;} .note{color:#666666;font-size:9pt;}'
+      + '.cat{font-weight:bold;margin-top:8pt;}'
+      + '.hist-entry{font-size:9pt;color:#555555;margin-bottom:4pt;}'
+      + '.hist-date{font-weight:bold;color:#888888;display:block;font-size:8pt;}'
+      + '.hist-empty{color:#aaaaaa;}';
+    return '<!DOCTYPE html><html><head><meta charset="utf-8"><style>' + css + '</style></head><body>'
+      + '<h1>셀링부스터 팀 업무 정리</h1>'
+      + '<p style="color:#666666;font-size:9pt;">기준: 2026년 8월 · 기획 이슬기 / 마케팅 안지호 · 내보내기: ' + new Date().toLocaleDateString('ko-KR') + '</p>'
+      + clone.innerHTML
+      + '</body></html>';
+  }
+
+  function exportDocx(){
+    var html = buildExportHtml();
+    restoreCompactView();
+    try{
+      if(window.htmlDocx && typeof window.htmlDocx.asBlob === 'function'){
+        var blob = window.htmlDocx.asBlob(html, {orientation:'landscape'});
+        triggerDownload(blob, '셀링부스터_팀업무정리.docx');
+        setStatus('✅ Word(.docx) 다운로드');
+        return;
+      }
+      throw new Error('lib not loaded');
+    }catch(e){
+      var blob2 = new Blob(['\uFEFF' + html], {type:'application/msword;charset=utf-8'});
+      triggerDownload(blob2, '셀링부스터_팀업무정리.doc');
+      setStatus('✅ Word(.doc) 다운로드');
+    }
+  }
+
+  /* ══════════ 스티키 헤더: 스크롤 시 한 줄로 축소 ══════════ */
+  var headerEl = document.querySelector('.doc-header');
+  window.addEventListener('scroll', function(){
+    headerEl.classList.toggle('compact', window.scrollY > 60);
+  }, {passive: true});
+
+  /* ══════════ 초기화 ══════════ */
+  document.getElementById('btnSave').addEventListener('click', saveMemos);
+  document.getElementById('btnArchive').addEventListener('click', archiveVersion);
+  document.getElementById('btnExport').addEventListener('click', exportDocx);
+  document.getElementById('btnExportHtml').addEventListener('click', exportHtml);
+  renderPlanTable();
+  renderIssueHistory();
+  loadMemos();
+})();
+</script>
+</body>
+</html>
