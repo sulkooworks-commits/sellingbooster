@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>sulkoo.works · 대시보드</title>
+<style>
+:root{--bg:#0f1117;--card:#171a21;--line:#262b36;--tx:#e6e8ee;--dim:#9aa3b2;--acc:#5b8cff;--ok:#3fbf7f;--warn:#e5b84b;--bad:#e06060}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif;line-height:1.6}
+.wrap{max-width:960px;margin:0 auto;padding:48px 24px 80px}
+h1{font-size:28px;margin:0 0 6px;letter-spacing:-.02em}
+.sub{color:var(--dim);margin:0 0 36px;font-size:15px}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:44px 0 14px;font-weight:600}
+h2 .no{color:var(--acc);margin-right:8px}
+h2 small{text-transform:none;letter-spacing:0;font-weight:400}
+
+/* ============ GNB ============ */
+.ck-gnb{position:sticky;top:0;z-index:50;background:rgba(15,17,23,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.ck-gnb-in{max-width:960px;margin:0 auto;padding:0 24px;display:flex;align-items:stretch;gap:2px}
+.ck-gnb a,.ck-gnb button,.ck-gnb input{font-family:inherit}
+.ck-home{display:flex;align-items:center;text-decoration:none;color:var(--tx);font-weight:700;font-size:14px;letter-spacing:-.01em;padding:14px 14px 14px 0;margin-right:6px;white-space:nowrap}
+.ck-home::before{content:'⌂';margin-right:6px;color:var(--acc)}
+.ck-gnb-menu{display:flex;align-items:stretch;list-style:none;margin:0;padding:0;min-width:0}
+.ck-gnb-item{position:relative}
+.ck-gnb-top{display:flex;align-items:center;gap:5px;height:100%;padding:14px 11px;background:none;border:none;color:var(--dim);font-size:13px;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
+.ck-gnb-top .caret{font-size:9px;color:var(--dim);transition:transform .15s}
+.ck-gnb-item:hover .ck-gnb-top,.ck-gnb-top:focus-visible,.ck-gnb-item.open .ck-gnb-top{color:var(--tx);border-bottom-color:var(--acc);outline:none}
+.ck-gnb-item.open .ck-gnb-top .caret{transform:rotate(180deg)}
+.ck-gnb-drop{position:absolute;top:100%;left:0;min-width:220px;background:var(--card);border:1px solid var(--line);border-radius:0 0 10px 10px;box-shadow:0 12px 28px rgba(0,0,0,.45);padding:8px 0;margin:0;list-style:none;display:none}
+.ck-gnb-item:hover .ck-gnb-drop,.ck-gnb-item.open .ck-gnb-drop,.ck-gnb-item:focus-within .ck-gnb-drop{display:block}
+.ck-gnb-drop a{display:block;padding:8px 16px;color:var(--tx);opacity:.8;text-decoration:none;font-size:13px}
+.ck-gnb-drop a:hover,.ck-gnb-drop a:focus-visible{opacity:1;background:rgba(91,140,255,.12);color:var(--acc);outline:none}
+/* 검색 */
+.ck-search{position:relative;display:flex;align-items:center;margin-left:auto;align-self:center}
+.ck-search input{width:170px;background:var(--card);border:1px solid var(--line);color:var(--tx);font-size:13px;padding:6px 10px 6px 30px;border-radius:8px;outline:none;transition:border-color .15s,width .2s}
+.ck-search input::placeholder{color:var(--dim)}
+.ck-search input:focus{border-color:var(--acc);width:220px}
+.ck-search .ico{position:absolute;left:10px;color:var(--dim);font-size:13px;pointer-events:none}
+.ck-search-res{position:absolute;top:calc(100% + 6px);right:0;width:320px;max-height:340px;overflow-y:auto;background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 28px rgba(0,0,0,.45);padding:6px 0;margin:0;list-style:none;display:none}
+.ck-search-res.open{display:block}
+.ck-search-res a{display:block;padding:9px 14px;text-decoration:none}
+.ck-search-res .rt{color:var(--tx);font-size:13px;font-weight:600}
+.ck-search-res .rt mark{background:none;color:var(--acc)}
+.ck-search-res .rc{color:var(--dim);font-size:11.5px;margin-top:1px}
+.ck-search-res li.active a,.ck-search-res a:hover{background:rgba(91,140,255,.12)}
+.ck-search-res .empty{padding:12px 14px;color:var(--dim);font-size:13px}
+/* 전체 메뉴 */
+.ck-map-btn{margin-left:8px;align-self:center;background:var(--card);border:1px solid var(--line);color:var(--tx);font-size:13px;padding:6px 12px;border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;transition:border-color .15s}
+.ck-map-btn:hover,.ck-map-btn:focus-visible{border-color:var(--acc);outline:none}
+.ck-map-btn .ic{color:var(--acc);font-size:12px;line-height:1}
+.ck-map-btn[aria-expanded=true] .ic{transform:rotate(180deg)}
+.ck-map-panel{display:none;border-top:1px solid var(--line);background:rgba(15,17,23,.98)}
+.ck-map-panel.open{display:block}
+.ck-map-panel-in{max-width:960px;margin:0 auto;padding:22px 24px 26px}
+.ck-map-panel .ck-sitemap{margin-bottom:0}
+@media(max-width:900px){.ck-gnb-menu{display:none}.ck-search input{width:130px}.ck-search input:focus{width:170px}}
+/* 사이트맵 그리드 (패널·푸터 공용) */
+.ck-sitemap{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:20px 28px;margin-bottom:28px}
+.ck-sm-col h3{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);font-weight:600}
+.ck-sm-col h3 .no{color:var(--acc);margin-right:6px}
+.ck-sm-col ul{list-style:none;margin:0;padding:0}
+.ck-sm-col li{margin:4px 0}
+.ck-sm-col a{color:var(--tx);opacity:.75;text-decoration:none;font-size:13px}
+.ck-sm-col a:hover{opacity:1;color:var(--acc)}
+@media print{.ck-gnb{display:none}}
+
+/* ============ 대시보드 본문 ============ */
+.status{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.stat .k{font-size:12px;color:var(--dim);margin-bottom:4px}
+.stat .v{font-size:20px;font-weight:700;letter-spacing:-.01em}
+.stat .v small{font-size:13px;font-weight:400;color:var(--dim);margin-left:4px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.dot.ok{background:var(--ok)}.dot.warn{background:var(--warn)}.dot.bad{background:var(--bad)}
+.gauge{height:6px;background:var(--line);border-radius:3px;margin-top:8px;overflow:hidden}
+.gauge i{display:block;height:100%;background:var(--acc);border-radius:3px}
+.sched{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.sched-col{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.sched-col h3{margin:0 0 10px;font-size:14px;font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+.sched-col h3::before{content:'';width:10px;height:10px;border-radius:3px;background:var(--acc);flex:0 0 auto}
+.sched-col.plan h3::before{background:var(--ok)}
+.sched-col.team h3::before{background:var(--warn)}
+.sched-col ul{list-style:none;margin:0;padding:0}
+.sched-col li{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.sched-col li:last-child{border-bottom:none;padding-bottom:0}
+.sched-col .date{flex:0 0 72px;color:var(--acc);font-weight:600;font-variant-numeric:tabular-nums;font-size:13px;padding-top:1px}
+.sched-col.plan .date{color:var(--ok)}
+.sched-col.team .date{color:var(--warn)}
+.sched-col .what{flex:1}
+.sched-col .what small{display:block;color:var(--dim);font-size:12px;margin-top:1px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+a.card{display:block;padding:15px 18px;background:var(--card);border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--tx);transition:border-color .15s,transform .15s}
+a.card:hover{border-color:var(--acc);transform:translateY(-1px)}
+a.card .t{font-weight:600;font-size:15px}
+a.card .d{color:var(--dim);font-size:13px;margin-top:2px}
+.menu-cols{display:grid;grid-template-columns:1fr 1fr;gap:0 28px}
+.menu-cols section{min-width:0}
+.menu-cols .grid{grid-template-columns:1fr}
+@media(max-width:760px){.menu-cols{grid-template-columns:1fr}}
+/* ============ GitHub 업로더 ============ */
+.up-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+.up-cfg{display:grid;grid-template-columns:1fr 1fr 90px;gap:8px;margin-bottom:8px}
+.up-cfg input,.up-token input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--tx);font-family:inherit;font-size:13px;padding:8px 11px;border-radius:8px;outline:none;transition:border-color .15s}
+.up-cfg input:focus,.up-token input:focus{border-color:var(--acc)}
+.up-token{display:flex;gap:8px;align-items:center;margin-bottom:6px}
+.up-token input{flex:1}
+.up-remember{display:flex;align-items:center;gap:6px;color:var(--dim);font-size:12px;white-space:nowrap;cursor:pointer}
+.up-note{color:var(--dim);font-size:11.5px;margin:0 0 14px;line-height:1.5}
+.up-note a{color:var(--acc);text-decoration:none}
+.dropzone{border:1.5px dashed var(--line);border-radius:10px;padding:30px 16px;text-align:center;color:var(--dim);font-size:13.5px;cursor:pointer;transition:border-color .15s,background .15s}
+.dropzone:hover,.dropzone.drag{border-color:var(--acc);background:rgba(91,140,255,.06);color:var(--tx)}
+.dropzone strong{color:var(--acc)}
+.up-list{list-style:none;margin:12px 0 0;padding:0}
+.up-list li{display:flex;align-items:center;gap:10px;padding:8px 2px;border-bottom:1px solid var(--line);font-size:13px}
+.up-list li:last-child{border-bottom:none}
+.up-list .fn{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.up-list .st{font-size:12px;white-space:nowrap}
+.up-list .st.ok{color:var(--ok)}
+.up-list .st.err{color:var(--bad)}
+.up-list .st.run{color:var(--acc)}
+.up-list a{color:var(--acc);text-decoration:none;font-size:12px;white-space:nowrap}
+@media(max-width:640px){.up-cfg{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- ================= GNB (인덱스 내장 — common.js와 동일 구조) ================= -->
+<header class="ck-gnb">
+  <div class="ck-gnb-in">
+    <a class="ck-home" href="index.html">sulkoo.works</a>
+    <ul class="ck-gnb-menu">
+      <li class="ck-gnb-item">
+        <button type="button" class="ck-gnb-top" aria-expanded="false" aria-haspopup="true">콘텐츠 운영 <span class="caret">▾</span></button>
+        <ul class="ck-gnb-drop">
+          <li><a href="content-washing.html">CMS 워싱 표준 워크플로</a></li>
+          <li><a href="content-calendar.html">편집 캘린더 (8–9월)</a></li>
+          <li><a href="content-naver.html">네이버 블로그 발행 표준</a></li>
+        </ul>
+      </li>
+      <li class="ck-gnb-item">
+        <button type="button" class="ck-gnb-top" aria-expanded="false" aria-haspopup="true">SEO 모니터링 <span class="caret">▾</span></button>
+        <ul class="ck-gnb-drop">
+          <li><a href="seo-policy.html">발행 정책 (기준 문서)</a></li>
+          <li><a href="seo-log.html">발행 로그 (일일 스냅샷)</a></li>
+          <li><a href="seo-weekly.html">주간 달성 리포트</a></li>
+          <li><a href="highook-review.html">하이훅 연동 검토</a></li>
+        </ul>
+      </li>
+      <li class="ck-gnb-item">
+        <button type="button" class="ck-gnb-top" aria-expanded="false" aria-haspopup="true">기획·어드민 <span class="caret">▾</span></button>
+        <ul class="ck-gnb-drop">
+          <li><a href="admin-spec.html">어드민 화면 기능 명세</a></li>
+          <li><a href="sellingspark-plan.html">셀링스파크 통합 기획</a></li>
+        </ul>
+      </li>
+      <li class="ck-gnb-item">
+        <button type="button" class="ck-gnb-top" aria-expanded="false" aria-haspopup="true">분석·리서치 <span class="caret">▾</span></button>
+        <ul class="ck-gnb-drop">
+          <li><a href="research-kr.html">국내 25종 벤치마킹</a></li>
+          <li><a href="research-jp.html">일본 커머스 서비스 조사</a></li>
+        </ul>
+      </li>
+      <li class="ck-gnb-item">
+        <button type="button" class="ck-gnb-top" aria-expanded="false" aria-haspopup="true">도구 <span class="caret">▾</span></button>
+        <ul class="ck-gnb-drop">
+          <li><a href="tool-adcost.html">해외 광고비 정산 툴</a></li>
+        </ul>
+      </li>
+      <li class="ck-gnb-item">
+        <button type="button" class="ck-gnb-top" aria-expanded="false" aria-haspopup="true">팀 관리 <span class="caret">▾</span></button>
+        <ul class="ck-gnb-drop">
+          <li><a href="셀링부스터_팀업무정리.html">셀링부스터 팀 업무 정리</a></li>
+          <li><a href="team-comms.html">협업·커뮤니케이션 기준</a></li>
+        </ul>
+      </li>
+      <li class="ck-gnb-item">
+        <button type="button" class="ck-gnb-top" aria-expanded="false" aria-haspopup="true">운영 계획 <span class="caret">▾</span></button>
+        <ul class="ck-gnb-drop">
+          <li><a href="plan-roadmap.html">하반기 제품 로드맵</a></li>
+          <li><a href="plan-deadlines.html">일정·기한 체크리스트</a></li>
+        </ul>
+      </li>
+    </ul>
+    <div class="ck-search"><span class="ico">⌕</span>
+      <input type="search" placeholder="페이지 검색 ( / )" aria-label="페이지 검색" autocomplete="off">
+      <ul class="ck-search-res" role="listbox"></ul>
+    </div>
+    <button type="button" class="ck-map-btn" aria-expanded="false" aria-controls="ck-map-panel">전체 메뉴 <span class="ic">▾</span></button>
+  </div>
+  <div class="ck-map-panel" id="ck-map-panel">
+    <div class="ck-map-panel-in">
+      <div class="ck-sitemap">
+        <div class="ck-sm-col"><h3><span class="no">01</span>콘텐츠 운영</h3><ul>
+          <li><a href="content-washing.html">CMS 워싱 표준 워크플로</a></li>
+          <li><a href="content-calendar.html">편집 캘린더 (8–9월)</a></li>
+          <li><a href="content-naver.html">네이버 블로그 발행 표준</a></li></ul></div>
+        <div class="ck-sm-col"><h3><span class="no">02</span>SEO 모니터링</h3><ul>
+          <li><a href="seo-policy.html">발행 정책 (기준 문서)</a></li>
+          <li><a href="seo-log.html">발행 로그 (일일 스냅샷)</a></li>
+          <li><a href="seo-weekly.html">주간 달성 리포트</a></li>
+          <li><a href="highook-review.html">하이훅 연동 검토</a></li></ul></div>
+        <div class="ck-sm-col"><h3><span class="no">03</span>기획·어드민</h3><ul>
+          <li><a href="admin-spec.html">어드민 화면 기능 명세</a></li>
+          <li><a href="sellingspark-plan.html">셀링스파크 통합 기획</a></li></ul></div>
+        <div class="ck-sm-col"><h3><span class="no">04</span>분석·리서치</h3><ul>
+          <li><a href="research-kr.html">국내 25종 벤치마킹</a></li>
+          <li><a href="research-jp.html">일본 커머스 서비스 조사</a></li></ul></div>
+        <div class="ck-sm-col"><h3><span class="no">05</span>도구</h3><ul>
+          <li><a href="tool-adcost.html">해외 광고비 정산 툴</a></li></ul></div>
+        <div class="ck-sm-col"><h3><span class="no">06</span>팀 관리</h3><ul>
+          <li><a href="셀링부스터_팀업무정리.html">셀링부스터 팀 업무 정리</a></li>
+          <li><a href="team-comms.html">협업·커뮤니케이션 기준</a></li></ul></div>
+        <div class="ck-sm-col"><h3><span class="no">07</span>운영 계획</h3><ul>
+          <li><a href="plan-roadmap.html">하반기 제품 로드맵</a></li>
+          <li><a href="plan-deadlines.html">일정·기한 체크리스트</a></li></ul></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<h1>sulkoo.works</h1>
+<p class="sub">셀링부스터 업무 백오피스 · 콘텐츠 운영 / SEO 모니터링 / 기획 / 분석 / 팀 관리</p>
+
+<!-- ============ 이번 주 발행 현황 ============ -->
+<h2><span class="no">●</span>이번 주 발행 현황 <small>(2026-08-17 ~ 08-23 · 8/19 기준)</small></h2>
+<div class="status">
+  <div class="stat">
+    <div class="k">K트렌드 매거진 (주 3회)</div>
+    <div class="v"><span class="dot ok"></span>2<small>/ 3 · 정상 페이스</small></div>
+    <div class="gauge"><i style="width:66%"></i></div>
+  </div>
+  <div class="stat">
+    <div class="k">셀링부스터 블로그 (주 3회)</div>
+    <div class="v"><span class="dot ok"></span>2<small>/ 3 · 정상 페이스</small></div>
+    <div class="gauge"><i style="width:66%"></i></div>
+  </div>
+  <div class="stat">
+    <div class="k">전체 누적 발행</div>
+    <div class="v">94<small>건</small></div>
+    <div class="gauge"><i style="width:100%;background:var(--line)"></i></div>
+  </div>
+  <div class="stat">
+    <div class="k">네이버 블로그</div>
+    <div class="v"><span class="dot warn"></span>착수 전<small>· URL 미등록</small></div>
+    <div class="gauge"><i style="width:0"></i></div>
+  </div>
+</div>
+
+<!-- ============ 다가오는 일정 ============ -->
+<h2><span class="no">●</span>다가오는 일정</h2>
+<div class="sched">
+  <div class="sched-col pub">
+    <h3>발행</h3>
+    <ul>
+      <li><span class="date">08-26 수</span><span class="what">네이버 블로그 발행 착수<small>URL 확정 시 발행 정책 문서에 등록</small></span></li>
+      <li><span class="date">09월~</span><span class="what">셀링부스터 블로그 주 5회 확대<small>주 3회 → 주 5회 · 편집 캘린더 개편 필요</small></span></li>
+      <li><span class="date">09–10월</span><span class="what">네이버 전용 콘텐츠 가이드 적용<small>GEO 가이드 · 하이훅 업데이트 연계</small></span></li>
+    </ul>
+  </div>
+  <div class="sched-col plan">
+    <h3>운영 계획</h3>
+    <ul>
+      <li><span class="date">09월</span><span class="what">앱 출시 · 커머스솔루션마켓 입점<small>네이버 · cafe24</small></span></li>
+      <li><span class="date">10월</span><span class="what">셀링스파크/블로그페이 통합<small>TTJ 커머스 랭킹 추가</small></span></li>
+      <li><span class="date">10월</span><span class="what">블로그마켓 · TikTok Shop 연계 출시</span></li>
+    </ul>
+  </div>
+  <div class="sched-col team">
+    <h3>팀원 업무 관리</h3>
+    <ul>
+      <li><span class="date">진행 중</span><span class="what">App Store 스크린샷 카피 확정<small>최종 확정 후 디자이너 전달 (미완)</small></span></li>
+      <li><span class="date">대기</span><span class="what">하이훅 GEO 가이드 수령<small>수령 후 콘텐츠 지침 반영</small></span></li>
+      <li><span class="date">상시</span><span class="what">마케팅 협업 · 검토 문서 회신 관리<small>기획 이슬기 / 마케팅 안지호</small></span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============ GitHub 업로드 ============ -->
+<h2><span class="no">●</span>페이지 업로드 → GitHub 배포</h2>
+<div class="up-card">
+  <div class="up-cfg">
+    <input id="up-owner" placeholder="GitHub 사용자명 (owner)" autocomplete="off">
+    <input id="up-repo" placeholder="저장소 이름 (repo)" autocomplete="off">
+    <input id="up-branch" placeholder="브랜치" value="main" autocomplete="off">
+  </div>
+  <div class="up-token">
+    <input id="up-token" type="password" placeholder="Personal Access Token (Fine-grained · Contents: Read/Write)" autocomplete="off">
+    <label class="up-remember"><input type="checkbox" id="up-save"> 이 브라우저에 저장</label>
+  </div>
+  <p class="up-note">토큰은 <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">Fine-grained token</a>으로 발급 — 이 저장소 하나만 · Contents 권한 Read/Write만 · 만료일 설정 권장. 토큰은 이 기기의 브라우저에만 저장되고 페이지 소스에는 포함되지 않습니다. 같은 이름의 파일은 새 커밋으로 덮어쓰며, 반영까지 GitHub Pages 재빌드 약 1분이 걸립니다. (파일당 1MB 이하)</p>
+  <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="파일 업로드">
+    HTML 파일을 여기에 <strong>드래그앤드랍</strong> 하거나 클릭해서 선택 (여러 개 가능)
+    <input type="file" id="up-file" accept=".html,.htm,.js,.css,.md" multiple hidden>
+  </div>
+  <ul class="up-list" id="up-list"></ul>
+</div>
+
+<!-- ============ 메뉴 (2단 배치) ============ -->
+<div class="menu-cols">
+
+<section>
+<h2><span class="no">01</span>콘텐츠 운영</h2>
+<div class="grid">
+  <a class="card" href="content-washing.html"><div class="t">CMS 워싱 표준 워크플로</div><div class="d">11개 항목 확정 · 에디터 형식 규칙 포함</div></a>
+  <a class="card" href="content-calendar.html"><div class="t">편집 캘린더 (8–9월)</div><div class="d">월·수·금 주 3회 · 시즌 2–3주 선행</div></a>
+  <a class="card" href="content-naver.html"><div class="t">네이버 블로그 발행 표준</div><div class="d">2주 시차 · 경어체 전환 · ALT 대조표</div></a>
+</div>
+
+<h2><span class="no">02</span>SEO 모니터링</h2>
+<div class="grid">
+  <a class="card" href="seo-policy.html"><div class="t">발행 정책 (기준 문서)</div><div class="d">채널별 목표 · 판정 규칙 · 자동 반영</div></a>
+  <a class="card" href="seo-log.html"><div class="t">발행 로그 (일일 스냅샷)</div><div class="d">매일 오전 자동 갱신 · 8/19 베이스라인 94건</div></a>
+  <a class="card" href="seo-weekly.html"><div class="t">주간 달성 리포트</div><div class="d">월요일 전주 최종 판정 (정상/주의/미달)</div></a>
+  <a class="card" href="highook-review.html"><div class="t">하이훅 연동 검토</div><div class="d">8개 제안 (우선순위 상·중) · GEO 가이드 대기</div></a>
+</div>
+
+<h2><span class="no">03</span>기획·어드민</h2>
+<div class="grid">
+  <a class="card" href="admin-spec.html"><div class="t">어드민 화면 기능 명세</div><div class="d">배너 · 팝업 · 셀링플래너 · 온보딩 관리</div></a>
+  <a class="card" href="sellingspark-plan.html"><div class="t">셀링스파크 통합 기획</div><div class="d">정책 · 플로우 · 프로토타입 (10월 통합 대비)</div></a>
+</div>
+
+<h2><span class="no">04</span>분석·리서치</h2>
+<div class="grid">
+  <a class="card" href="research-kr.html"><div class="t">국내 25종 벤치마킹</div><div class="d">최적가 추천 = 셀링부스터 단독 보유 확인</div></a>
+  <a class="card" href="research-jp.html"><div class="t">일본 커머스 서비스 조사</div><div class="d">Nint · Keepa · Kalodata</div></a>
+</div>
+</section>
+
+<section>
+<h2><span class="no">05</span>도구</h2>
+<div class="grid">
+  <a class="card" href="tool-adcost.html"><div class="t">해외 광고비 정산 툴</div><div class="d">하나은행 고시환율 · 수출입은행 API · 엑셀 출력</div></a>
+</div>
+
+<h2><span class="no">06</span>팀 관리</h2>
+<div class="grid">
+  <a class="card" href="셀링부스터_팀업무정리.html"><div class="t">셀링부스터 팀 업무 정리</div><div class="d">기준: 2026년 8월 · 기획 이슬기 / 마케팅 안지호</div></a>
+  <a class="card" href="team-comms.html"><div class="t">협업·커뮤니케이션 기준</div><div class="d">검토 요청형 문체 · 기술 문의 항목화</div></a>
+</div>
+
+<h2><span class="no">07</span>운영 계획</h2>
+<div class="grid">
+  <a class="card" href="plan-roadmap.html"><div class="t">하반기 제품 로드맵</div><div class="d">8월 멀티마켓 → 9월 앱·입점 → 10월 통합</div></a>
+  <a class="card" href="plan-deadlines.html"><div class="t">일정·기한 체크리스트</div><div class="d">네이버 착수 · 주 5회 전환 · 통합 일정</div></a>
+</div>
+</section>
+
+</div><!-- /.menu-cols -->
+
+</div><!-- /.wrap -->
+
+
+<script>
+/* ===== 인덱스 내장 GNB 동작 (common.js와 동일 로직 · 이 파일 단독 동작) ===== */
+(function(){
+  var gnb=document.querySelector(".ck-gnb");
+
+  /* 1뎁스 클릭 토글 (hover는 CSS로 동작) */
+  var items=gnb.querySelectorAll(".ck-gnb-item");
+  function closeMenus(){items.forEach(function(el){el.classList.remove("open");el.querySelector(".ck-gnb-top").setAttribute("aria-expanded","false");});}
+  items.forEach(function(el){
+    el.querySelector(".ck-gnb-top").addEventListener("click",function(){
+      var willOpen=!el.classList.contains("open");
+      closeMenus();
+      if(willOpen){el.classList.add("open");this.setAttribute("aria-expanded","true");}
+    });
+  });
+
+  /* 전체 메뉴 패널 */
+  var btn=gnb.querySelector(".ck-map-btn"),panel=gnb.querySelector(".ck-map-panel");
+  function setPanel(open){panel.classList.toggle("open",open);btn.setAttribute("aria-expanded",open?"true":"false");}
+  btn.addEventListener("click",function(){closeMenus();closeSearch();setPanel(!panel.classList.contains("open"));});
+
+  /* 검색 인덱스: GNB 드롭다운에서 자동 생성 + 보조 키워드 */
+  var KW={
+    "content-washing.html":"블로그 워싱 하이훅 초안 에디터 형식 키워드 링크 이미지 표 FAQ",
+    "content-calendar.html":"발행 일정 월수금 주3회 시즌 콘텐츠 선점",
+    "content-naver.html":"스마트에디터 유사문서 2주 시차 ALT 대조표 경어체 해시태그",
+    "seo-policy.html":"모니터링 기준 채널 목표 판정 규칙 주5회",
+    "seo-log.html":"자동 모니터링 베이스라인 94건 스냅샷 증분",
+    "seo-weekly.html":"주간 집계 정상 주의 미달 월요일",
+    "highook-review.html":"highook GEO 가이드 콘텐츠 생성 솔루션 검토의견 8개 제안",
+    "admin-spec.html":"배너 팝업 셀링플래너 온보딩 와이어프레임 명세서",
+    "sellingspark-plan.html":"블로그페이 블로그마켓 틱톡샵 TikTok Shop 10월 통합",
+    "research-kr.html":"아이템스카웃 판다랭크 경쟁 서비스 비교 최적가 추천",
+    "research-jp.html":"Nint Keepa Kalodata 일본 리서치",
+    "tool-adcost.html":"환율 하나은행 수출입은행 API 메타 구글 엑셀 ExcelJS 정산",
+    "셀링부스터_팀업무정리.html":"이슬기 안지호 기획 마케팅 업무 분장",
+    "team-comms.html":"검토 문서 문체 기술 문의 개발팀 보고",
+    "plan-roadmap.html":"멀티마켓 쿠팡 11번가 앱 출시 커머스솔루션마켓 cafe24 TTJ 랭킹",
+    "plan-deadlines.html":"네이버 착수 8월26일 주5회 전환 기한 데드라인"
+  };
+  var INDEX=[];
+  gnb.querySelectorAll(".ck-gnb-item").forEach(function(el){
+    var sec=el.querySelector(".ck-gnb-top").textContent.replace("▾","").trim();
+    el.querySelectorAll(".ck-gnb-drop a").forEach(function(a){
+      var href=a.getAttribute("href");
+      INDEX.push({t:a.textContent,href:href,sec:sec,hay:(a.textContent+" "+sec+" "+(KW[href]||"")).toLowerCase()});
+    });
+  });
+
+  var sInput=gnb.querySelector(".ck-search input"),sRes=gnb.querySelector(".ck-search-res"),sActive=-1;
+  function escH(s){return s.replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  function highlight(title,terms){
+    var out=escH(title);
+    terms.forEach(function(term){
+      if(!term)return;
+      var re=new RegExp("("+term.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","gi");
+      out=out.replace(re,"<mark>$1</mark>");
+    });
+    return out;
+  }
+  function closeSearch(){sRes.classList.remove("open");sRes.innerHTML="";sActive=-1;}
+  function runSearch(){
+    var q=sInput.value.trim().toLowerCase();
+    if(!q){closeSearch();return;}
+    var terms=q.split(/\s+/);
+    var hits=INDEX.filter(function(p){return terms.every(function(t){return p.hay.indexOf(t)!==-1;});}).slice(0,8);
+    sActive=-1;
+    sRes.innerHTML=hits.length
+      ? hits.map(function(p){return '<li role="option"><a href="'+p.href+'"><div class="rt">'+highlight(p.t,terms)+'</div><div class="rc">'+escH(p.sec)+'</div></a></li>';}).join("")
+      : '<li class="empty">"'+escH(sInput.value.trim())+'" 검색 결과 없음</li>';
+    sRes.classList.add("open");
+  }
+  sInput.addEventListener("input",runSearch);
+  sInput.addEventListener("focus",function(){closeMenus();setPanel(false);if(sInput.value.trim())runSearch();});
+  sInput.addEventListener("keydown",function(e){
+    var opts=sRes.querySelectorAll("li[role=option]");
+    if(e.key==="ArrowDown"||e.key==="ArrowUp"){
+      e.preventDefault();
+      if(!opts.length)return;
+      sActive=e.key==="ArrowDown"?(sActive+1)%opts.length:(sActive-1+opts.length)%opts.length;
+      opts.forEach(function(o,i){o.classList.toggle("active",i===sActive);});
+      opts[sActive].scrollIntoView({block:"nearest"});
+    }else if(e.key==="Enter"){
+      if(sActive>=0&&opts[sActive])location.href=opts[sActive].querySelector("a").href;
+      else if(opts.length===1)location.href=opts[0].querySelector("a").href;
+    }else if(e.key==="Escape"){closeSearch();sInput.blur();}
+  });
+  document.addEventListener("keydown",function(e){
+    if(e.key==="/"&&document.activeElement!==sInput
+       &&!/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)
+       &&!document.activeElement.isContentEditable){e.preventDefault();sInput.focus();}
+    if(e.key==="Escape"){closeMenus();setPanel(false);closeSearch();}
+  });
+  document.addEventListener("click",function(e){
+    if(!gnb.contains(e.target)){closeMenus();setPanel(false);closeSearch();}
+  });
+})();
+
+/* ===== GitHub 업로더 (contents API · 서버 불필요) ===== */
+(function(){
+  var $=function(id){return document.getElementById(id);};
+  var owner=$("up-owner"),repo=$("up-repo"),branch=$("up-branch"),
+      token=$("up-token"),save=$("up-save"),
+      dz=$("dropzone"),file=$("up-file"),list=$("up-list");
+  if(!dz)return;
+
+  /* 설정 복원/저장 (owner·repo·branch는 항상, 토큰은 체크 시에만) */
+  var CFG="ghUploaderCfg",TOK="ghUploaderTok";
+  try{
+    var c=JSON.parse(localStorage.getItem(CFG)||"{}");
+    if(c.owner)owner.value=c.owner;
+    if(c.repo)repo.value=c.repo;
+    if(c.branch)branch.value=c.branch;
+    var t=localStorage.getItem(TOK);
+    if(t){token.value=t;save.checked=true;}
+  }catch(e){}
+  function persist(){
+    try{
+      localStorage.setItem(CFG,JSON.stringify({owner:owner.value.trim(),repo:repo.value.trim(),branch:branch.value.trim()||"main"}));
+      if(save.checked&&token.value)localStorage.setItem(TOK,token.value);
+      else localStorage.removeItem(TOK);
+    }catch(e){}
+  }
+  [owner,repo,branch,token].forEach(function(el){el.addEventListener("change",persist);});
+  save.addEventListener("change",persist);
+
+  /* 드롭존 */
+  dz.addEventListener("click",function(){file.click();});
+  dz.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();file.click();}});
+  ["dragenter","dragover"].forEach(function(ev){dz.addEventListener(ev,function(e){e.preventDefault();dz.classList.add("drag");});});
+  ["dragleave","drop"].forEach(function(ev){dz.addEventListener(ev,function(e){e.preventDefault();dz.classList.remove("drag");});});
+  dz.addEventListener("drop",function(e){handleFiles(e.dataTransfer.files);});
+  file.addEventListener("change",function(){handleFiles(file.files);file.value="";});
+
+  function esc(s){return s.replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  function row(name){
+    var li=document.createElement("li");
+    li.innerHTML='<span class="fn">'+esc(name)+'</span><span class="st run">대기…</span>';
+    list.insertBefore(li,list.firstChild);
+    return li.querySelector(".st");
+  }
+  function toB64(buf){
+    var bytes=new Uint8Array(buf),bin="",CH=8192;
+    for(var i=0;i<bytes.length;i+=CH)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+CH));
+    return btoa(bin);
+  }
+  async function gh(path,opt){
+    opt=opt||{};
+    opt.headers=Object.assign({
+      "Authorization":"Bearer "+token.value.trim(),
+      "Accept":"application/vnd.github+json",
+      "X-GitHub-Api-Version":"2022-11-28"
+    },opt.headers||{});
+    return fetch("https://api.github.com"+path,opt);
+  }
+  async function uploadOne(f,st){
+    var o=owner.value.trim(),r=repo.value.trim(),b=branch.value.trim()||"main";
+    var api="/repos/"+o+"/"+r+"/contents/"+encodeURIComponent(f.name);
+    st.className="st run";st.textContent="SHA 확인…";
+    var sha=null;
+    var g=await gh(api+"?ref="+encodeURIComponent(b));
+    if(g.status===200){sha=(await g.json()).sha;}
+    else if(g.status!==404){throw new Error("조회 실패 HTTP "+g.status+(g.status===401?" (토큰 확인)":g.status===403?" (권한/한도)":""));}
+    st.textContent="업로드 중…";
+    var body={message:"chore: upload "+f.name+" via dashboard",content:toB64(await f.arrayBuffer()),branch:b};
+    if(sha)body.sha=sha;
+    var p=await gh(api,{method:"PUT",body:JSON.stringify(body)});
+    if(!p.ok){
+      var err=await p.json().catch(function(){return{};});
+      throw new Error("HTTP "+p.status+(err.message?" · "+err.message:""));
+    }
+    var res=await p.json();
+    st.className="st ok";
+    st.innerHTML=(sha?"덮어씀 ✓":"신규 ✓")+' <a href="'+res.content.html_url+'" target="_blank" rel="noopener noreferrer">커밋 보기</a>';
+  }
+  async function handleFiles(files){
+    if(!files||!files.length)return;
+    if(!owner.value.trim()||!repo.value.trim()||!token.value.trim()){
+      alert("GitHub 사용자명·저장소·토큰을 먼저 입력해주세요.");return;
+    }
+    persist();
+    for(var i=0;i<files.length;i++){
+      var f=files[i],st=row(f.name);
+      if(f.size>1024*1024){st.className="st err";st.textContent="실패 · 1MB 초과";continue;}
+      try{await uploadOne(f,st);}
+      catch(e){st.className="st err";st.textContent="실패 · "+e.message;}
+    }
+  }
+})();
+</script>
+</body>
+</html>
