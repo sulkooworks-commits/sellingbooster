@@ -72,15 +72,27 @@ async function decryptWith(key){
   var plain=await crypto.subtle.decrypt({name:"AES-GCM",iv:b64(PAYLOAD.iv)},key,b64(PAYLOAD.ct));
   return new TextDecoder().decode(plain);
 }
-/* 30분 세션: 저장된 키가 유효하면 비밀번호 없이 자동 열림 */
-(async function tryCached(){
+/* 30분 세션: 저장된 키가 유효하면 비밀번호 없이 자동 열림
+   ⚠️ document.write 는 반드시 파싱 완료 후 실행 — 파싱 중 실행하면
+   새 문서로 교체되지 않고 잠금 페이지 안에 끼어들어 화면이 깨짐 */
+async function tryCached(){
   try{
     var s=JSON.parse(localStorage.getItem(SKEY)||"null");
     if(!s||Date.now()>s.exp){localStorage.removeItem(SKEY);return;}
+    msg.className="msg dim";msg.textContent="자동 인증 확인 중…";
     var key=await crypto.subtle.importKey("raw",b64(s.k),{name:"AES-GCM"},false,["decrypt"]);
-    render(await decryptWith(key));
-  }catch(e){localStorage.removeItem(SKEY);} /* 만료·비밀번호 변경 시 폐기 */
-})();
+    var html=await decryptWith(key);
+    render(html);
+  }catch(e){
+    localStorage.removeItem(SKEY); /* 만료·비밀번호 변경 시 폐기 */
+    msg.textContent="";
+  }
+}
+if(document.readyState==="loading"){
+  document.addEventListener("DOMContentLoaded",function(){setTimeout(tryCached,0);});
+}else{
+  setTimeout(tryCached,0);
+}
 async function unlock(){
   var v=pw.value;
   if(!v){msg.textContent="비밀번호를 입력해주세요.";return;}
@@ -93,7 +105,7 @@ async function unlock(){
     var html=await decryptWith(key);
     try{
       var raw=await crypto.subtle.exportKey("raw",key);
-      localStorage.setItem(SKEY,JSON.stringify({k:ab2b64(raw),exp:Date.now()+SESSION_MS}));
+      localStorage.setItem(SKEY,JSON.stringify({k:ab2b64(raw),salt:PAYLOAD.salt,iter:PAYLOAD.iter,exp:Date.now()+SESSION_MS}));
     }catch(e){}
     render(html);
   }catch(e){

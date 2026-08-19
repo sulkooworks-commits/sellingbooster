@@ -104,6 +104,20 @@ body.ck-editing .edit-only{display:block}
 .ck-linkedit input{text-align:left;letter-spacing:0}
 body.ck-editing .wrap a.card{cursor:pointer}
 body.ck-editing .wrap a.card::after{content:'✎ 클릭해서 수정';display:block;margin-top:6px;font-size:11px;color:var(--warn)}
+/* 메뉴 추가 타일 (편집 모드에서만 표시) */
+.add-tile{display:none;width:100%;padding:14px 18px;background:none;border:1.5px dashed var(--line);border-radius:10px;color:var(--dim);font-family:inherit;font-size:13.5px;cursor:pointer;text-align:center;transition:border-color .15s,color .15s}
+.add-tile:hover{border-color:var(--warn);color:var(--warn)}
+body.ck-editing .add-tile{display:block}
+/* 카드 개별 삭제 × (편집 모드 전용, 저장본 미포함) */
+body.ck-editing .wrap a.card{position:relative}
+.card-x{position:absolute;top:8px;right:10px;width:22px;height:22px;border-radius:50%;border:1px solid rgba(224,96,96,.55);background:rgba(15,17,23,.7);color:var(--bad);font-size:12px;line-height:1;display:none;align-items:center;justify-content:center;cursor:pointer;padding:0;font-family:inherit}
+body.ck-editing .card-x{display:flex}
+.card-x:hover{background:rgba(224,96,96,.2);border-color:var(--bad)}
+/* 저장 필요 배지 */
+.ck-edit-acts button.dirty{background:rgba(229,184,75,.15);font-weight:700}
+/* 모달 내 메뉴 삭제 버튼 */
+.le-delete{width:100%;margin-top:14px;background:none;border:1px solid rgba(224,96,96,.55);color:var(--bad);font-family:inherit;font-size:12.5px;padding:8px;border-radius:8px;cursor:pointer;transition:background .15s,border-color .15s}
+.le-delete:hover{border-color:var(--bad);background:rgba(224,96,96,.12)}
 /* ---- 푸터 ---- */
 .ck-footer{margin-top:72px;border-top:1px solid var(--line);background:var(--card)}
 .ck-footer-in{max-width:960px;margin:0 auto;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
@@ -484,13 +498,14 @@ body.ed-loaded .ed-foot{display:flex}
 <!-- ================= 메뉴 링크 수정 모달 (편집 모드 전용) ================= -->
 <div class="ck-auth ck-linkedit" id="ck-linkedit">
   <div class="ck-auth-box">
-    <h3>✎ 메뉴 수정</h3>
+    <h3 id="le-head">✎ 메뉴 수정</h3>
     <label>제목</label>
     <input type="text" id="le-title" autocomplete="off">
     <label id="le-desc-label">설명</label>
     <input type="text" id="le-desc" autocomplete="off">
     <label>링크 (파일명 또는 URL)</label>
-    <input type="text" id="le-href" autocomplete="off" placeholder="예: seo-policy.html">
+    <input type="text" id="le-href" autocomplete="off" placeholder="예: seo/new-page.html">
+    <button type="button" id="le-delete" class="le-delete">이 메뉴 삭제</button>
     <div class="ck-auth-btns">
       <button type="button" class="ck-auth-cancel" id="le-cancel">취소</button>
       <button type="button" class="ck-auth-ok" id="le-apply">적용</button>
@@ -893,14 +908,21 @@ body.ed-loaded .ed-foot{display:flex}
     if(on)wrap.setAttribute("contenteditable","true");
     else wrap.removeAttribute("contenteditable");
   }
+  wrap.addEventListener("input",function(){if(editing&&window.__ckMarkDirty)window.__ckMarkDirty();});
   editBtn.addEventListener("click",function(){
-    if(editing)setEditing(false);  /* OFF: 즉시 인증 해제·편집/설정 불가 */
+    if(editing){
+      if(window.__ckIsDirty&&window.__ckIsDirty()){
+        if(!confirm("저장소에 저장되지 않은 변경사항이 있습니다.\n저장하지 않고 편집 모드를 종료할까요?\n(취소 후 [GitHub에 저장]을 눌러 저장할 수 있습니다)"))return;
+      }
+      setEditing(false);           /* OFF: 인증 해제·편집/설정 불가 */
+    }
     else openAuth();               /* ON 시도: 무조건 비밀번호 인증 */
   });
 
   /* 저장/추출: 편집 반영본을 잠금 전 원본(index-source.html) 형태로 정리 */
   function serializePage(){
     var doc=document.documentElement.cloneNode(true);
+    doc.querySelectorAll("[data-ck-runtime]").forEach(function(el){el.remove();});
     doc.querySelectorAll(".wrap[contenteditable]").forEach(function(el){el.removeAttribute("contenteditable");});
     var body=doc.querySelector("body");
     if(body){body.classList.remove("ck-editing");if(!body.className)body.removeAttribute("class");}
@@ -935,10 +957,23 @@ body.ed-loaded .ed-foot{display:flex}
   var leTitle=document.getElementById("le-title"),leDesc=document.getElementById("le-desc"),
       leHref=document.getElementById("le-href"),leMsg=document.getElementById("le-msg"),
       leDescLabel=document.getElementById("le-desc-label");
-  var leTarget=null; /* {a, kind:'card'|'link'} */
+  var leTarget=null; /* {mode:'edit',a,kind} | {mode:'add',grid,secNo} */
+  var leHead=document.getElementById("le-head");
+  var leDelete=document.getElementById("le-delete");
 
+  /* 섹션 번호(01~07)로 사이트맵 패널 컬럼 ul 찾기 */
+  function panelUl(secNo){
+    var cols=document.querySelectorAll(".ck-map-panel .ck-sm-col");
+    for(var i=0;i<cols.length;i++){
+      var no=cols[i].querySelector("h3 .no");
+      if(no&&no.textContent.trim()===secNo)return cols[i].querySelector("ul");
+    }
+    return null;
+  }
   function openLinkEdit(a,kind){
-    leTarget={a:a,kind:kind};
+    leTarget={mode:"edit",a:a,kind:kind};
+    leHead.textContent="✎ 메뉴 수정";
+    leDelete.style.display="";
     if(kind==="card"){
       leTitle.value=a.querySelector(".t")?a.querySelector(".t").textContent:"";
       leDesc.value=a.querySelector(".d")?a.querySelector(".d").textContent:"";
@@ -952,13 +987,42 @@ body.ed-loaded .ed-foot{display:flex}
     le.classList.add("open");
     setTimeout(function(){leTitle.focus();},50);
   }
+  function openLinkAdd(grid,secNo){
+    leTarget={mode:"add",grid:grid,secNo:secNo};
+    leHead.textContent="＋ 메뉴 등록 ("+secNo+" 섹션)";
+    leDelete.style.display="none";
+    leTitle.value="";leDesc.value="";leHref.value="";
+    leDesc.style.display="";leDescLabel.style.display="";
+    leMsg.textContent="";
+    le.classList.add("open");
+    setTimeout(function(){leTitle.focus();},50);
+  }
   function closeLinkEdit(){le.classList.remove("open");leTarget=null;}
   document.getElementById("le-cancel").addEventListener("click",closeLinkEdit);
-  le.addEventListener("click",function(e){if(e.target===le)closeLinkEdit();});
+  /* 모달은 [취소] 버튼으로만 닫힘 — 바깥 클릭·드래그로 닫히지 않음 */
   document.getElementById("le-apply").addEventListener("click",function(){
     if(!leTarget)return;
     var t=leTitle.value.trim(),h=leHref.value.trim();
     if(!t||!h){leMsg.textContent="제목과 링크는 비울 수 없습니다.";return;}
+    /* ── 등록(추가) 모드: 새 카드 + 사이트맵 항목 생성 ── */
+    if(leTarget.mode==="add"){
+      var card=document.createElement("a");
+      card.className="card";card.setAttribute("href",h);
+      var dt=document.createElement("div");dt.className="t";dt.textContent=t;
+      var dd=document.createElement("div");dd.className="d";dd.textContent=leDesc.value.trim();
+      card.appendChild(dt);card.appendChild(dd);
+      var tile=leTarget.grid.querySelector(".add-tile");
+      leTarget.grid.insertBefore(card,tile||null);
+      attachCardX(card);
+      var ul=panelUl(leTarget.secNo);
+      if(ul){
+        var li=document.createElement("li");
+        var pa=document.createElement("a");pa.setAttribute("href",h);pa.textContent=t;
+        li.appendChild(pa);ul.appendChild(li);
+      }
+      if(window.__ckMarkDirty)window.__ckMarkDirty();
+      closeLinkEdit();return;
+    }
     var a=leTarget.a;
     /* ① 클릭한 요소 갱신 */
     if(leTarget.kind==="card"){
@@ -980,11 +1044,67 @@ body.ed-loaded .ed-foot{display:flex}
         other.textContent=t;
       }
     });
+    if(window.__ckMarkDirty)window.__ckMarkDirty();
     closeLinkEdit();
   });
+  /* ── 이 메뉴 삭제: 카드 ↔ 사이트맵 동기 제거 ── */
+  leDelete.addEventListener("click",function(){
+    if(!leTarget||leTarget.mode!=="edit")return;
+    var a=leTarget.a,href=a.getAttribute("href");
+    var title=leTarget.kind==="card"?(a.querySelector(".t")?a.querySelector(".t").textContent:href):a.textContent.trim();
+    if(!confirm('"'+title+'" 메뉴를 목록에서 삭제할까요?\n(페이지 파일 자체는 남습니다 — 파일 삭제는 "올라온 파일 수정"의 [삭제] 사용)'))return;
+    document.querySelectorAll('a[href="'+(window.CSS&&CSS.escape?CSS.escape(href):href)+'"]').forEach(function(el){
+      if(el.classList.contains("card"))el.remove();
+      else if(el.closest(".ck-sm-col")){var li=el.closest("li");if(li)li.remove();}
+    });
+    if(window.__ckMarkDirty)window.__ckMarkDirty();
+    closeLinkEdit();
+  });
+
+  /* ── 카드 개별 삭제 × 버튼 주입 (편집 모드에서만 표시, 저장본엔 미포함) ── */
+  function removeMenuByHref(href){
+    document.querySelectorAll('a[href="'+(window.CSS&&CSS.escape?CSS.escape(href):href)+'"]').forEach(function(el){
+      if(el.classList.contains("card"))el.remove();
+      else if(el.closest(".ck-sm-col")){var li=el.closest("li");if(li)li.remove();}
+    });
+  }
+  function attachCardX(card){
+    if(card.querySelector(".card-x"))return;
+    var b=document.createElement("button");
+    b.type="button";b.className="card-x";b.textContent="✕";
+    b.title="이 메뉴 삭제";
+    b.setAttribute("data-ck-runtime","");b.setAttribute("contenteditable","false");
+    b.setAttribute("aria-label","메뉴 삭제");
+    b.addEventListener("click",function(e){
+      e.preventDefault();e.stopPropagation();
+      var href=card.getAttribute("href");
+      var title=card.querySelector(".t")?card.querySelector(".t").textContent:href;
+      if(!confirm('"'+title+'" 메뉴를 삭제할까요?\n사이트맵에서도 함께 제거되며, [GitHub에 저장]을 눌러야 저장소에 반영됩니다.\n(페이지 파일 삭제는 "올라온 파일 수정"의 [삭제] 사용)'))return;
+      removeMenuByHref(href);
+      if(window.__ckMarkDirty)window.__ckMarkDirty();
+    });
+    card.appendChild(b);
+  }
+  document.querySelectorAll(".menu-cols a.card").forEach(attachCardX);
+
+  /* ── [+ 메뉴 등록] 타일: 각 섹션 그리드에 주입 (편집 모드에서만 표시, 저장본엔 미포함) ── */
+  document.querySelectorAll(".menu-cols section h2").forEach(function(h2){
+    var no=h2.querySelector(".no");if(!no)return;
+    var secNo=no.textContent.trim();
+    var grid=h2.nextElementSibling;
+    if(!grid||!grid.classList.contains("grid"))return;
+    var tile=document.createElement("button");
+    tile.type="button";tile.className="add-tile";
+    tile.setAttribute("data-ck-runtime","");tile.setAttribute("contenteditable","false");
+    tile.textContent="＋ 메뉴 등록";
+    tile.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();openLinkAdd(grid,secNo);});
+    grid.appendChild(tile);
+  });
+
   /* 편집 모드에서 메뉴 카드/사이트맵 링크 클릭 가로채기 */
   document.addEventListener("click",function(e){
     if(!editing)return;
+    if(e.target.closest(".card-x"))return; /* × 버튼은 자체 삭제 핸들러 */
     var a=e.target.closest("a[href]");
     if(!a)return;
     var isCard=a.classList.contains("card");
@@ -997,21 +1117,11 @@ body.ed-loaded .ed-foot{display:flex}
 
   /* ===== 잠금 저장: 브라우저에서 재암호화한 배포용 index.html 다운로드 ===== */
   var LOCK_HEAD="<!DOCTYPE html>\n<html lang=\"ko\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<meta name=\"robots\" content=\"noindex,nofollow\">\n<title>sulkoo.works<\/title>\n<style>\n:root{--bg:#0f1117;--card:#171a21;--line:#262b36;--tx:#e6e8ee;--dim:#9aa3b2;--acc:#5b8cff;--bad:#e06060}\n*{box-sizing:border-box}\nbody{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans KR\",sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}\n.lock{width:min(360px,calc(100vw - 48px));background:var(--card);border:1px solid var(--line);border-radius:14px;padding:32px 28px;text-align:center}\n.lock .ico{font-size:28px;margin-bottom:10px}\n.lock h1{font-size:18px;margin:0 0 4px;letter-spacing:-.01em}\n.lock p{color:var(--dim);font-size:13px;margin:0 0 20px}\n.lock input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--tx);font-family:inherit;font-size:15px;padding:11px 14px;border-radius:9px;outline:none;text-align:center;letter-spacing:.15em;transition:border-color .15s}\n.lock input:focus{border-color:var(--acc)}\n.lock button{width:100%;margin-top:10px;background:var(--acc);border:none;color:#fff;font-family:inherit;font-size:14px;font-weight:600;padding:11px;border-radius:9px;cursor:pointer;transition:opacity .15s}\n.lock button:hover{opacity:.9}\n.lock button:disabled{opacity:.5;cursor:wait}\n.msg{min-height:18px;margin-top:12px;font-size:12.5px;color:var(--bad)}\n.msg.dim{color:var(--dim)}\n<\/style>\n<\/head>\n<body>\n<div class=\"lock\">\n  <div class=\"ico\">🔒<\/div>\n  <h1>sulkoo.works<\/h1>\n  <p>비밀번호를 입력하면 대시보드가 열립니다<br>인증은 이 브라우저에서 30분간 유지됩니다<\/p>\n  <input type=\"password\" id=\"pw\" autocomplete=\"current-password\" autofocus aria-label=\"비밀번호\">\n  <button id=\"go\" type=\"button\">열기<\/button>\n  <div class=\"msg\" id=\"msg\"><\/div>\n<\/div>\n<script>\nvar PAYLOAD = ";
-  var LOCK_TAIL=";\nvar SKEY=\"ckUnlockSession\",SESSION_MS=30*60*1000; /* 인증 유지 30분 */\nvar pw=document.getElementById(\"pw\"),go=document.getElementById(\"go\"),msg=document.getElementById(\"msg\");\nfunction b64(s){var bin=atob(s),a=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return a;}\nfunction ab2b64(buf){var y=new Uint8Array(buf),bin=\"\",CH=8192;for(var i=0;i<y.length;i+=CH)bin+=String.fromCharCode.apply(null,y.subarray(i,i+CH));return btoa(bin);}\nfunction render(html){document.open();document.write(html);document.close();}\nasync function decryptWith(key){\n  var plain=await crypto.subtle.decrypt({name:\"AES-GCM\",iv:b64(PAYLOAD.iv)},key,b64(PAYLOAD.ct));\n  return new TextDecoder().decode(plain);\n}\n/* 30분 세션: 저장된 키가 유효하면 비밀번호 없이 자동 열림\n   ⚠️ document.write 는 반드시 파싱 완료 후 실행 — 파싱 중 실행하면\n   새 문서로 교체되지 않고 잠금 페이지 안에 끼어들어 화면이 깨짐 */\nasync function tryCached(){\n  try{\n    var s=JSON.parse(localStorage.getItem(SKEY)||\"null\");\n    if(!s||Date.now()>s.exp){localStorage.removeItem(SKEY);return;}\n    msg.className=\"msg dim\";msg.textContent=\"자동 인증 확인 중…\";\n    var key=await crypto.subtle.importKey(\"raw\",b64(s.k),{name:\"AES-GCM\"},false,[\"decrypt\"]);\n    var html=await decryptWith(key);\n    render(html);\n  }catch(e){\n    localStorage.removeItem(SKEY); /* 만료·비밀번호 변경 시 폐기 */\n    msg.textContent=\"\";\n  }\n}\nif(document.readyState===\"loading\"){\n  document.addEventListener(\"DOMContentLoaded\",function(){setTimeout(tryCached,0);});\n}else{\n  setTimeout(tryCached,0);\n}\nasync function unlock(){\n  var v=pw.value;\n  if(!v){msg.textContent=\"비밀번호를 입력해주세요.\";return;}\n  go.disabled=true;msg.className=\"msg dim\";msg.textContent=\"확인 중…\";\n  try{\n    var keyMat=await crypto.subtle.importKey(\"raw\",new TextEncoder().encode(v),\"PBKDF2\",false,[\"deriveKey\"]);\n    var key=await crypto.subtle.deriveKey(\n      {name:\"PBKDF2\",salt:b64(PAYLOAD.salt),iterations:PAYLOAD.iter,hash:\"SHA-256\"},\n      keyMat,{name:\"AES-GCM\",length:256},true,[\"decrypt\"]);\n    var html=await decryptWith(key);\n    try{\n      var raw=await crypto.subtle.exportKey(\"raw\",key);\n      localStorage.setItem(SKEY,JSON.stringify({k:ab2b64(raw),exp:Date.now()+SESSION_MS}));\n    }catch(e){}\n    render(html);\n  }catch(e){\n    go.disabled=false;msg.className=\"msg\";\n    msg.textContent=\"비밀번호가 올바르지 않습니다.\";\n    pw.value=\"\";pw.focus();\n  }\n}\ngo.addEventListener(\"click\",unlock);\npw.addEventListener(\"keydown\",function(e){if(e.key===\"Enter\")unlock();});\n<\/script>\n<\/body>\n<\/html>\n";
+  var LOCK_TAIL=";\nvar SKEY=\"ckUnlockSession\",SESSION_MS=30*60*1000; /* 인증 유지 30분 */\nvar pw=document.getElementById(\"pw\"),go=document.getElementById(\"go\"),msg=document.getElementById(\"msg\");\nfunction b64(s){var bin=atob(s),a=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return a;}\nfunction ab2b64(buf){var y=new Uint8Array(buf),bin=\"\",CH=8192;for(var i=0;i<y.length;i+=CH)bin+=String.fromCharCode.apply(null,y.subarray(i,i+CH));return btoa(bin);}\nfunction render(html){document.open();document.write(html);document.close();}\nasync function decryptWith(key){\n  var plain=await crypto.subtle.decrypt({name:\"AES-GCM\",iv:b64(PAYLOAD.iv)},key,b64(PAYLOAD.ct));\n  return new TextDecoder().decode(plain);\n}\n/* 30분 세션: 저장된 키가 유효하면 비밀번호 없이 자동 열림\n   ⚠️ document.write 는 반드시 파싱 완료 후 실행 — 파싱 중 실행하면\n   새 문서로 교체되지 않고 잠금 페이지 안에 끼어들어 화면이 깨짐 */\nasync function tryCached(){\n  try{\n    var s=JSON.parse(localStorage.getItem(SKEY)||\"null\");\n    if(!s||Date.now()>s.exp){localStorage.removeItem(SKEY);return;}\n    msg.className=\"msg dim\";msg.textContent=\"자동 인증 확인 중…\";\n    var key=await crypto.subtle.importKey(\"raw\",b64(s.k),{name:\"AES-GCM\"},false,[\"decrypt\"]);\n    var html=await decryptWith(key);\n    render(html);\n  }catch(e){\n    localStorage.removeItem(SKEY); /* 만료·비밀번호 변경 시 폐기 */\n    msg.textContent=\"\";\n  }\n}\nif(document.readyState===\"loading\"){\n  document.addEventListener(\"DOMContentLoaded\",function(){setTimeout(tryCached,0);});\n}else{\n  setTimeout(tryCached,0);\n}\nasync function unlock(){\n  var v=pw.value;\n  if(!v){msg.textContent=\"비밀번호를 입력해주세요.\";return;}\n  go.disabled=true;msg.className=\"msg dim\";msg.textContent=\"확인 중…\";\n  try{\n    var keyMat=await crypto.subtle.importKey(\"raw\",new TextEncoder().encode(v),\"PBKDF2\",false,[\"deriveKey\"]);\n    var key=await crypto.subtle.deriveKey(\n      {name:\"PBKDF2\",salt:b64(PAYLOAD.salt),iterations:PAYLOAD.iter,hash:\"SHA-256\"},\n      keyMat,{name:\"AES-GCM\",length:256},true,[\"decrypt\"]);\n    var html=await decryptWith(key);\n    try{\n      var raw=await crypto.subtle.exportKey(\"raw\",key);\n      localStorage.setItem(SKEY,JSON.stringify({k:ab2b64(raw),salt:PAYLOAD.salt,iter:PAYLOAD.iter,exp:Date.now()+SESSION_MS}));\n    }catch(e){}\n    render(html);\n  }catch(e){\n    go.disabled=false;msg.className=\"msg\";\n    msg.textContent=\"비밀번호가 올바르지 않습니다.\";\n    pw.value=\"\";pw.focus();\n  }\n}\ngo.addEventListener(\"click\",unlock);\npw.addEventListener(\"keydown\",function(e){if(e.key===\"Enter\")unlock();});\n<\/script>\n<\/body>\n<\/html>\n";
   function ab2b64(buf){
     var bytes=new Uint8Array(buf),bin="",CH=8192;
     for(var i=0;i<bytes.length;i+=CH)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+CH));
     return btoa(bin);
-  }
-  async function buildLockedHtml(pw1){
-    var srcHtml=serializePage();
-    var salt=crypto.getRandomValues(new Uint8Array(16));
-    var iv=crypto.getRandomValues(new Uint8Array(12));
-    var keyMat=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw1),"PBKDF2",false,["deriveKey"]);
-    var key=await crypto.subtle.deriveKey({name:"PBKDF2",salt:salt,iterations:310000,hash:"SHA-256"},keyMat,{name:"AES-GCM",length:256},false,["encrypt"]);
-    var ct=await crypto.subtle.encrypt({name:"AES-GCM",iv:iv},key,new TextEncoder().encode(srcHtml));
-    var payload=JSON.stringify({salt:ab2b64(salt),iv:ab2b64(iv),ct:ab2b64(ct),iter:310000});
-    return LOCK_HEAD+payload+LOCK_TAIL;
   }
   function askLockPw(){
     var pw1=prompt("배포용 index.html 을 잠글 비밀번호를 입력하세요\n(현재 페이지 잠금과 같은 비밀번호 권장)");
@@ -1020,10 +1130,39 @@ body.ed-loaded .ed-foot{display:flex}
     if(pw1!==pw2){alert("비밀번호가 서로 다릅니다.");return null;}
     return pw1;
   }
-  gnb.querySelector(".ck-lock-save").addEventListener("click",async function(){
-    var pw1=askLockPw();if(!pw1)return;
+  /* 잠금 컨텍스트: 유효한 30분 세션이 있으면 그 키·salt 재사용(비밀번호 재입력 불필요),
+     없으면 비밀번호 입력 후 파생 — 파생 결과는 세션에 저장해 이후 저장부터 생략 */
+  async function getLockContext(){
     try{
-      var locked=await buildLockedHtml(pw1);
+      var s=JSON.parse(localStorage.getItem("ckUnlockSession")||"null");
+      if(s&&s.k&&s.salt&&Date.now()<s.exp){
+        var bin=atob(s.k),raw=new Uint8Array(bin.length);
+        for(var i=0;i<bin.length;i++)raw[i]=bin.charCodeAt(i);
+        var key=await crypto.subtle.importKey("raw",raw,{name:"AES-GCM"},false,["encrypt"]);
+        return {key:key,salt:s.salt,iter:s.iter||310000,fromSession:true};
+      }
+    }catch(e){}
+    var pw1=askLockPw();if(!pw1)return null;
+    var salt=crypto.getRandomValues(new Uint8Array(16));
+    var keyMat=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw1),"PBKDF2",false,["deriveKey"]);
+    var key=await crypto.subtle.deriveKey({name:"PBKDF2",salt:salt,iterations:310000,hash:"SHA-256"},keyMat,{name:"AES-GCM",length:256},true,["encrypt"]);
+    try{
+      var rawk=await crypto.subtle.exportKey("raw",key);
+      localStorage.setItem("ckUnlockSession",JSON.stringify({k:ab2b64(rawk),salt:ab2b64(salt),iter:310000,exp:Date.now()+30*60*1000}));
+    }catch(e){}
+    return {key:key,salt:ab2b64(salt),iter:310000,fromSession:false};
+  }
+  async function buildLockedHtml(ctx){
+    var srcHtml=serializePage();
+    var iv=crypto.getRandomValues(new Uint8Array(12));
+    var ct=await crypto.subtle.encrypt({name:"AES-GCM",iv:iv},ctx.key,new TextEncoder().encode(srcHtml));
+    var payload=JSON.stringify({salt:ctx.salt,iv:ab2b64(iv),ct:ab2b64(ct),iter:ctx.iter});
+    return LOCK_HEAD+payload+LOCK_TAIL;
+  }
+  gnb.querySelector(".ck-lock-save").addEventListener("click",async function(){
+    var ctx=await getLockContext();if(!ctx)return;
+    try{
+      var locked=await buildLockedHtml(ctx);
       var blob=new Blob([locked],{type:"text/html;charset=utf-8"});
       var a=document.createElement("a");
       a.href=URL.createObjectURL(blob);a.download="index.html";a.click();
@@ -1031,17 +1170,23 @@ body.ed-loaded .ed-foot{display:flex}
       alert("잠긴 index.html 을 다운로드했습니다.\n그대로 업로더에 드래그해 배포하면 됩니다.");
     }catch(e){alert("잠금 저장 실패: "+e.message);}
   });
-  /* ===== GitHub에 저장: 현재 대시보드 상태를 잠근 뒤 index.html 로 바로 커밋 ===== */
-  gnb.querySelector(".ck-commit-index").addEventListener("click",async function(){
+  /* ===== GitHub에 저장: 현재 상태를 잠근 뒤 index.html 로 커밋 (세션 유효 시 비밀번호 재입력 없음) ===== */
+  var commitBtn=gnb.querySelector(".ck-commit-index");
+  var dirty=false;
+  function markDirty(){dirty=true;commitBtn.classList.add("dirty");commitBtn.textContent="GitHub에 저장 ●";}
+  function clearDirty(){dirty=false;commitBtn.classList.remove("dirty");commitBtn.textContent="GitHub에 저장";}
+  window.__ckMarkDirty=markDirty;
+  window.__ckIsDirty=function(){return dirty;};
+  async function doCommitIndex(){
     var G=window.__ckGh;
-    if(!G){alert("저장소 연동 모듈을 찾을 수 없습니다.");return;}
-    if(!G.ready())return;
-    var pw1=askLockPw();if(!pw1)return;
-    if(!confirm("현재 대시보드 상태를 암호화해 index.html 로 저장소에 커밋할까요?"))return;
-    var self=this,orig=self.textContent;
-    self.disabled=true;self.textContent="커밋 중…";
+    if(!G){alert("저장소 연동 모듈을 찾을 수 없습니다.");return false;}
+    if(!G.ready())return false;
+    var ctx=await getLockContext();if(!ctx)return false;
+    if(!confirm("현재 대시보드 상태를 저장소(index.html)에 커밋할까요?"))return false;
+    var orig=commitBtn.textContent;
+    commitBtn.disabled=true;commitBtn.textContent="커밋 중…";
     try{
-      var locked=await buildLockedHtml(pw1);
+      var locked=await buildLockedHtml(ctx);
       var sha=null;
       var g=await G.gh("/repos/"+G.owner()+"/"+G.repo()+"/contents/index.html?ref="+encodeURIComponent(G.branch()));
       if(g.status===200){sha=(await g.json()).sha;}
@@ -1050,10 +1195,17 @@ body.ed-loaded .ed-foot{display:flex}
       if(sha)body.sha=sha;
       var p=await G.gh("/repos/"+G.owner()+"/"+G.repo()+"/contents/index.html",{method:"PUT",body:JSON.stringify(body)});
       if(!p.ok){var err=await p.json().catch(function(){return{};});throw new Error("HTTP "+p.status+(err.message?" · "+err.message:""));}
+      clearDirty();
+      commitBtn.disabled=false;commitBtn.textContent="GitHub에 저장";
       alert("index.html 커밋 완료 ✓\nPages 반영(약 1분) 후 새로고침하면 저장한 상태로 열립니다.");
-    }catch(e){alert("커밋 실패: "+e.message);}
-    self.disabled=false;self.textContent=orig;
-  });
+      return true;
+    }catch(e){
+      commitBtn.disabled=false;commitBtn.textContent=orig;
+      alert("커밋 실패: "+e.message);
+      return false;
+    }
+  }
+  commitBtn.addEventListener("click",doCommitIndex);
 })();
 </script>
 </body>
