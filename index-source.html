@@ -10,7 +10,23 @@
 body{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif;line-height:1.6}
 .wrap{max-width:960px;margin:0 auto;padding:48px 24px 40px}
 h1{font-size:28px;margin:0 0 6px;letter-spacing:-.02em}
+.today{color:var(--acc);font-size:13.5px;font-weight:600;letter-spacing:.01em;margin:0 0 10px;font-variant-numeric:tabular-nums}
 .sub{color:var(--dim);margin:0 0 36px;font-size:15px}
+/* ---- 정기 일정 ---- */
+.fix{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.fix-col{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.fix-col h3{margin:0 0 10px;font-size:14px;font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+.fix-col h3::before{content:'';width:10px;height:10px;border-radius:3px;background:var(--acc);flex:0 0 auto}
+.fix-col.report h3::before{background:var(--ok)}
+.fix-col ul{list-style:none;margin:0;padding:0}
+.fix-col li{display:flex;gap:10px;padding:7px 6px;border-bottom:1px solid var(--line);font-size:13.5px;border-radius:6px}
+.fix-col li:last-child{border-bottom:none}
+.fix-col .when{flex:0 0 108px;color:var(--acc);font-weight:600;font-variant-numeric:tabular-nums;font-size:13px;padding-top:1px}
+.fix-col.report .when{color:var(--ok)}
+.fix-col .what{flex:1}
+.fix-col .what small{display:block;color:var(--dim);font-size:12px;margin-top:1px}
+.fix-col li.today-hl{background:rgba(91,140,255,.1);border-bottom-color:transparent}
+.fix-col li.today-hl .when::after{content:' · 오늘';color:var(--warn);font-size:11px}
 h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:44px 0 14px;font-weight:600}
 h2 .no{color:var(--acc);margin-right:8px}
 h2 small{text-transform:none;letter-spacing:0;font-weight:400}
@@ -81,6 +97,13 @@ body.ck-editing .edit-only{display:block}
 .ck-auth-ok{background:var(--warn);color:#1a1a1a}
 .ck-auth-cancel{background:var(--line);color:var(--tx)}
 .ck-auth-msg{min-height:16px;margin-top:10px;font-size:12px;color:var(--bad)}
+/* 메뉴 링크 수정 모달 */
+.ck-linkedit .ck-auth-box{text-align:left;width:min(400px,calc(100vw - 48px))}
+.ck-linkedit h3{text-align:center}
+.ck-linkedit label{display:block;font-size:12px;color:var(--dim);margin:12px 0 4px}
+.ck-linkedit input{text-align:left;letter-spacing:0}
+body.ck-editing .wrap a.card{cursor:pointer}
+body.ck-editing .wrap a.card::after{content:'✎ 클릭해서 수정';display:block;margin-top:6px;font-size:11px;color:var(--warn)}
 /* ---- 푸터 ---- */
 .ck-footer{margin-top:72px;border-top:1px solid var(--line);background:var(--card)}
 .ck-footer-in{max-width:960px;margin:0 auto;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
@@ -157,6 +180,23 @@ a.card .d{color:var(--dim);font-size:13px;margin-top:2px}
 .up-list .st.run{color:var(--acc)}
 .up-list a{color:var(--acc);text-decoration:none;font-size:12px;white-space:nowrap}
 @media(max-width:640px){.up-cfg{grid-template-columns:1fr}}
+/* ---- 올라온 파일 수정 ---- */
+.ed-row{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.ed-row select{flex:1;min-width:200px;background:var(--bg);border:1px solid var(--line);color:var(--tx);font-family:inherit;font-size:13px;padding:8px 11px;border-radius:8px;outline:none}
+.ed-row select:focus{border-color:var(--acc)}
+.ed-row button,.ed-foot button{background:var(--card);border:1px solid var(--line);color:var(--tx);font-family:inherit;font-size:12.5px;padding:8px 13px;border-radius:8px;cursor:pointer;white-space:nowrap;transition:border-color .15s}
+.ed-row button:hover,.ed-foot button:hover{border-color:var(--acc)}
+.ed-foot button.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+.ed-foot button.primary:hover{opacity:.9}
+.ed-foot button:disabled{opacity:.5;cursor:not-allowed}
+#ed-content{width:100%;min-height:340px;background:var(--bg);border:1px solid var(--line);color:var(--tx);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.55;padding:12px 14px;border-radius:8px;outline:none;resize:vertical;tab-size:2;display:none}
+#ed-content:focus{border-color:var(--acc)}
+body.ed-loaded #ed-content{display:block}
+.ed-foot{display:none;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+body.ed-loaded .ed-foot{display:flex}
+.ed-status{flex:1;font-size:12.5px;color:var(--dim);min-width:140px}
+.ed-status.ok{color:var(--ok)}
+.ed-status.err{color:var(--bad)}
 </style>
 </head>
 <body>
@@ -173,6 +213,7 @@ a.card .d{color:var(--dim);font-size:13px;margin-top:2px}
     <span class="ck-edit-acts">
       <button type="button" class="ck-save" title="편집 반영본을 index-source.html로 다운로드">저장</button>
       <button type="button" class="ck-extract" title="현재 HTML 클립보드 복사">추출</button>
+      <button type="button" class="ck-lock-save" title="비밀번호로 암호화한 배포용 index.html 다운로드">잠금 저장</button>
     </span>
     <button type="button" class="ck-map-btn" aria-expanded="false" aria-controls="ck-map-panel">전체 메뉴 <span class="ic">▾</span></button>
   </div>
@@ -209,6 +250,7 @@ a.card .d{color:var(--dim);font-size:13px;margin-top:2px}
 
 <div class="wrap">
 
+<p class="today" id="today-kst"></p>
 <h1>sulkoo.works</h1>
 <p class="sub">셀링부스터 업무 백오피스 · 콘텐츠 운영 / SEO 모니터링 / 기획 / 분석 / 팀 관리</p>
 
@@ -266,6 +308,36 @@ a.card .d{color:var(--dim);font-size:13px;margin-top:2px}
   </div>
 </div>
 
+<!-- ============ 정기 일정 ============ -->
+<h2><span class="no">●</span>정기 일정 <small>(연결지점 추후 지정 예정)</small></h2>
+<div class="fix">
+
+  <div class="fix-col meeting">
+    <h3>회의 (주간)</h3>
+    <ul>
+      <li data-day="1"><span class="when">월 08:30</span><span class="what">[SB] 사업팀 주간 회의<small>실장님 주관</small></span></li>
+      <li data-day="1"><span class="when">월 15:00</span><span class="what">[SB] 셀링스파크 주간 점검 회의</span></li>
+      <li data-day="2"><span class="when">화 13:30/15:30</span><span class="what">[SB] 개발 점검 회의<small>전무님 주관</small></span></li>
+      <li data-day="4"><span class="when">목 08:30</span><span class="what">[SB] 사업실 주간 회의<small>대표님 주관</small></span></li>
+      <li><span class="when">주간 15:00</span><span class="what">[SB] 기획/마케팅 주간 회의<small>요일 미정</small></span></li>
+      <li><span class="when">일정 미정</span><span class="what">[SB] SEO/GEO TF 회의<small>SEO실 회신 대기</small></span></li>
+    </ul>
+  </div>
+
+  <div class="fix-col report">
+    <h3>품의 · 보고</h3>
+    <ul>
+      <li><span class="when">매월 초</span><span class="what">광고 품의<small>광고비 · 대행 수수료 · 기타 지출 계획</small></span></li>
+      <li data-day="4"><span class="when">목 15:00</span><span class="what">주간보고서 취합 마감<small>팀별 주간 업무 내역</small></span></li>
+      <li data-day="1"><span class="when">월 16:00</span><span class="what">주간보고서 마감·전달<small>주간회의 검토 후 한대수 팀장님 전달</small></span></li>
+      <li><span class="when">격월 중순</span><span class="what">월간보고서 작성<small>직전 작성: 7월 말 → 다음 9월 중순</small></span></li>
+      <li><span class="when">매월 말일</span><span class="what">재무 보조지표 보고</span></li>
+      <li><span class="when">상시</span><span class="what">회의록 작성·공유<small>기획 · 마케팅</small></span></li>
+    </ul>
+  </div>
+
+</div>
+
 <!-- ============ 최근 이용한 메뉴 ============ -->
 <div class="recent-head">
   <h2><span class="no">●</span>최근 이용한 메뉴 <small>(최대 10개)</small></h2>
@@ -292,6 +364,22 @@ a.card .d{color:var(--dim);font-size:13px;margin-top:2px}
     <input type="file" id="up-file" accept=".html,.htm,.js,.css,.md" multiple hidden>
   </div>
   <ul class="up-list" id="up-list"></ul>
+</div>
+
+
+<h2><span class="no">●</span>올라온 파일 수정 <small>(편집 모드 전용 · GitHub에서 불러와 수정 후 커밋)</small></h2>
+<div class="up-card">
+  <div class="ed-row">
+    <select id="ed-file"><option value="">저장소 파일 목록을 불러오세요</option></select>
+    <button type="button" id="ed-list">목록 새로고침</button>
+    <button type="button" id="ed-load">불러오기</button>
+  </div>
+  <textarea id="ed-content" spellcheck="false" aria-label="파일 내용 편집"></textarea>
+  <div class="ed-foot">
+    <span class="ed-status" id="ed-status"></span>
+    <button type="button" id="ed-preview">미리보기</button>
+    <button type="button" id="ed-commit" class="primary">GitHub에 커밋</button>
+  </div>
 </div>
 
 </div><!-- /.edit-only -->
@@ -374,6 +462,24 @@ a.card .d{color:var(--dim);font-size:13px;margin-top:2px}
       <button type="button" class="ck-auth-ok">인증</button>
     </div>
     <div class="ck-auth-msg"></div>
+  </div>
+</div>
+
+<!-- ================= 메뉴 링크 수정 모달 (편집 모드 전용) ================= -->
+<div class="ck-auth ck-linkedit" id="ck-linkedit">
+  <div class="ck-auth-box">
+    <h3>✎ 메뉴 수정</h3>
+    <label>제목</label>
+    <input type="text" id="le-title" autocomplete="off">
+    <label id="le-desc-label">설명</label>
+    <input type="text" id="le-desc" autocomplete="off">
+    <label>링크 (파일명 또는 URL)</label>
+    <input type="text" id="le-href" autocomplete="off" placeholder="예: seo-policy.html">
+    <div class="ck-auth-btns">
+      <button type="button" class="ck-auth-cancel" id="le-cancel">취소</button>
+      <button type="button" class="ck-auth-ok" id="le-apply">적용</button>
+    </div>
+    <div class="ck-auth-msg" id="le-msg" style="text-align:center"></div>
   </div>
 </div>
 
@@ -463,6 +569,19 @@ a.card .d{color:var(--dim);font-size:13px;margin-top:2px}
   });
   document.addEventListener("click",function(e){
     if(!gnb.contains(e.target)){closeMenus();setPanel(false);closeSearch();}
+  });
+})();
+
+/* ===== 오늘 날짜 (한국시간) + 정기 일정 오늘 하이라이트 ===== */
+(function(){
+  var now=new Date();
+  var kst=new Intl.DateTimeFormat("ko-KR",{timeZone:"Asia/Seoul",year:"numeric",month:"long",day:"numeric",weekday:"long"}).format(now);
+  document.getElementById("today-kst").textContent=kst;
+  /* KST 기준 요일 (0=일 … 6=토) */
+  var dayName=new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Seoul",weekday:"short"}).format(now);
+  var dayNum={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6}[dayName];
+  document.querySelectorAll('.fix-col li[data-day="'+dayNum+'"]').forEach(function(li){
+    li.classList.add("today-hl");
   });
 })();
 
@@ -603,6 +722,84 @@ a.card .d{color:var(--dim);font-size:13px;margin-top:2px}
       catch(e){st.className="st err";st.textContent="실패 · "+e.message;}
     }
   }
+
+  /* ===== 올라온 파일 수정 (불러오기 → 편집 → 커밋) ===== */
+  var edFile=$("ed-file"),edList=$("ed-list"),edLoad=$("ed-load"),
+      edArea=$("ed-content"),edStatus=$("ed-status"),
+      edPreview=$("ed-preview"),edCommit=$("ed-commit");
+  var edSha=null,edName=null;
+
+  function edMsg(text,cls){edStatus.textContent=text;edStatus.className="ed-status"+(cls?" "+cls:"");}
+  function cfgReady(){
+    if(!owner.value.trim()||!repo.value.trim()||!token.value.trim()){
+      alert("GitHub 사용자명·저장소·토큰을 먼저 입력해주세요.");return false;
+    }
+    persist();return true;
+  }
+  function b64ToText(b64){
+    var bin=atob(b64.replace(/\n/g,"")),a=new Uint8Array(bin.length);
+    for(var i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);
+    return new TextDecoder("utf-8").decode(a);
+  }
+  function textToB64(t){
+    var bytes=new TextEncoder().encode(t),bin="",CH=8192;
+    for(var i=0;i<bytes.length;i+=CH)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+CH));
+    return btoa(bin);
+  }
+  /* 저장소 루트의 텍스트 파일 목록 */
+  edList.addEventListener("click",async function(){
+    if(!cfgReady())return;
+    edMsg("목록 불러오는 중…");
+    try{
+      var r=await gh("/repos/"+owner.value.trim()+"/"+repo.value.trim()+"/contents/?ref="+encodeURIComponent(branch.value.trim()||"main"));
+      if(!r.ok)throw new Error("HTTP "+r.status+(r.status===401?" (토큰 확인)":""));
+      var files=(await r.json()).filter(function(f){
+        return f.type==="file"&&/\.(html?|js|css|md|json|txt)$/i.test(f.name);
+      });
+      edFile.innerHTML=files.length
+        ? files.map(function(f){return '<option value="'+f.name+'">'+f.name+" ("+Math.round(f.size/1024*10)/10+"KB)</option>";}).join("")
+        : '<option value="">수정 가능한 파일이 없습니다</option>';
+      edMsg(files.length+"개 파일","ok");
+    }catch(e){edMsg("목록 실패 · "+e.message,"err");}
+  });
+  /* 파일 내용 불러오기 */
+  edLoad.addEventListener("click",async function(){
+    if(!cfgReady())return;
+    var name=edFile.value;
+    if(!name){alert("먼저 [목록 새로고침]으로 파일을 선택해주세요.");return;}
+    edMsg("불러오는 중…");
+    try{
+      var r=await gh("/repos/"+owner.value.trim()+"/"+repo.value.trim()+"/contents/"+encodeURIComponent(name)+"?ref="+encodeURIComponent(branch.value.trim()||"main"));
+      if(!r.ok)throw new Error("HTTP "+r.status);
+      var j=await r.json();
+      edSha=j.sha;edName=name;
+      edArea.value=b64ToText(j.content);
+      document.body.classList.add("ed-loaded");
+      edMsg(name+" 불러옴 · 수정 후 커밋하세요","ok");
+    }catch(e){edMsg("불러오기 실패 · "+e.message,"err");}
+  });
+  /* 미리보기 (새 탭) */
+  edPreview.addEventListener("click",function(){
+    var blob=new Blob([edArea.value],{type:"text/html;charset=utf-8"});
+    window.open(URL.createObjectURL(blob),"_blank");
+  });
+  /* 커밋 (덮어쓰기) */
+  edCommit.addEventListener("click",async function(){
+    if(!cfgReady()||!edName)return;
+    if(!confirm(edName+" 을(를) 새 커밋으로 덮어쓸까요?"))return;
+    edCommit.disabled=true;edMsg("커밋 중…");
+    try{
+      var r=await gh("/repos/"+owner.value.trim()+"/"+repo.value.trim()+"/contents/"+encodeURIComponent(edName),{
+        method:"PUT",
+        body:JSON.stringify({message:"chore: edit "+edName+" via dashboard",content:textToB64(edArea.value),sha:edSha,branch:branch.value.trim()||"main"})
+      });
+      if(!r.ok){var err=await r.json().catch(function(){return{};});throw new Error("HTTP "+r.status+(err.message?" · "+err.message:""));}
+      var j=await r.json();
+      edSha=j.content.sha; /* 연속 저장 대비 sha 갱신 */
+      edMsg("커밋 완료 ✓ · Pages 반영 약 1분","ok");
+    }catch(e){edMsg("커밋 실패 · "+e.message,"err");}
+    edCommit.disabled=false;
+  });
 })();
 
 /* ===== 편집 모드 (토글 ON = 인증 필수 / OFF = 즉시 해제) ===== */
@@ -677,6 +874,103 @@ a.card .d{color:var(--dim);font-size:13px;margin-top:2px}
       var t=self.textContent;self.textContent="복사됨 ✓";
       setTimeout(function(){self.textContent=t;},1500);
     },function(){alert("클립보드 복사에 실패했습니다.");});
+  });
+
+  /* ===== 편집 모드: 기존 메뉴 클릭 → 제목/설명/링크 수정 ===== */
+  var le=document.getElementById("ck-linkedit");
+  var leTitle=document.getElementById("le-title"),leDesc=document.getElementById("le-desc"),
+      leHref=document.getElementById("le-href"),leMsg=document.getElementById("le-msg"),
+      leDescLabel=document.getElementById("le-desc-label");
+  var leTarget=null; /* {a, kind:'card'|'link'} */
+
+  function openLinkEdit(a,kind){
+    leTarget={a:a,kind:kind};
+    if(kind==="card"){
+      leTitle.value=a.querySelector(".t")?a.querySelector(".t").textContent:"";
+      leDesc.value=a.querySelector(".d")?a.querySelector(".d").textContent:"";
+      leDesc.style.display="";leDescLabel.style.display="";
+    }else{
+      leTitle.value=a.textContent.trim();
+      leDesc.value="";leDesc.style.display="none";leDescLabel.style.display="none";
+    }
+    leHref.value=a.getAttribute("href")||"";
+    leMsg.textContent="";
+    le.classList.add("open");
+    setTimeout(function(){leTitle.focus();},50);
+  }
+  function closeLinkEdit(){le.classList.remove("open");leTarget=null;}
+  document.getElementById("le-cancel").addEventListener("click",closeLinkEdit);
+  le.addEventListener("click",function(e){if(e.target===le)closeLinkEdit();});
+  document.getElementById("le-apply").addEventListener("click",function(){
+    if(!leTarget)return;
+    var t=leTitle.value.trim(),h=leHref.value.trim();
+    if(!t||!h){leMsg.textContent="제목과 링크는 비울 수 없습니다.";return;}
+    var a=leTarget.a;
+    /* ① 클릭한 요소 갱신 */
+    if(leTarget.kind==="card"){
+      var tt=a.querySelector(".t"),dd=a.querySelector(".d");
+      if(tt)tt.textContent=t;
+      if(dd)dd.textContent=leDesc.value.trim();
+    }else{
+      a.textContent=t;
+    }
+    var oldHref=a.getAttribute("href");
+    a.setAttribute("href",h);
+    /* ② 같은 링크를 쓰는 다른 위치(카드↔사이트맵 패널) 동기화 */
+    document.querySelectorAll('a[href="'+(window.CSS&&CSS.escape?CSS.escape(oldHref):oldHref)+'"]').forEach(function(other){
+      if(other===a)return;
+      other.setAttribute("href",h);
+      if(other.classList.contains("card")){
+        var ot=other.querySelector(".t");if(ot)ot.textContent=t;
+      }else if(other.closest(".ck-sm-col")){
+        other.textContent=t;
+      }
+    });
+    closeLinkEdit();
+  });
+  /* 편집 모드에서 메뉴 카드/사이트맵 링크 클릭 가로채기 */
+  document.addEventListener("click",function(e){
+    if(!editing)return;
+    var a=e.target.closest("a[href]");
+    if(!a)return;
+    var isCard=a.classList.contains("card");
+    var isPanel=!!a.closest(".ck-map-panel .ck-sm-col");
+    var isRecent=!!a.closest("#recent-menu");
+    if(!isCard&&!isPanel&&!isRecent)return;
+    e.preventDefault();e.stopPropagation();
+    openLinkEdit(a,isCard?"card":"link");
+  },true);
+
+  /* ===== 잠금 저장: 브라우저에서 재암호화한 배포용 index.html 다운로드 ===== */
+  var LOCK_HEAD='<!DOCTYPE html>\n<html lang="ko">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n<meta name="robots" content="noindex,nofollow">\n<title>sulkoo.works</title>\n<style>\n:root{--bg:#0f1117;--card:#171a21;--line:#262b36;--tx:#e6e8ee;--dim:#9aa3b2;--acc:#5b8cff;--bad:#e06060}\n*{box-sizing:border-box}\nbody{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}\n.lock{width:min(360px,calc(100vw - 48px));background:var(--card);border:1px solid var(--line);border-radius:14px;padding:32px 28px;text-align:center}\n.lock .ico{font-size:28px;margin-bottom:10px}\n.lock h1{font-size:18px;margin:0 0 4px;letter-spacing:-.01em}\n.lock p{color:var(--dim);font-size:13px;margin:0 0 20px}\n.lock input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--tx);font-family:inherit;font-size:15px;padding:11px 14px;border-radius:9px;outline:none;text-align:center;letter-spacing:.15em;transition:border-color .15s}\n.lock input:focus{border-color:var(--acc)}\n.lock button{width:100%;margin-top:10px;background:var(--acc);border:none;color:#fff;font-family:inherit;font-size:14px;font-weight:600;padding:11px;border-radius:9px;cursor:pointer;transition:opacity .15s}\n.lock button:hover{opacity:.9}\n.lock button:disabled{opacity:.5;cursor:wait}\n.msg{min-height:18px;margin-top:12px;font-size:12.5px;color:var(--bad)}\n.msg.dim{color:var(--dim)}\n</style>\n</head>\n<body>\n<div class="lock">\n  <div class="ico">🔒</div>\n  <h1>sulkoo.works</h1>\n  <p>비밀번호를 입력하면 대시보드가 열립니다</p>\n  <input type="password" id="pw" autocomplete="current-password" autofocus aria-label="비밀번호">\n  <button id="go" type="button">열기</button>\n  <div class="msg" id="msg"></div>\n</div>\n<script>\nvar PAYLOAD = ';
+  var LOCK_TAIL=';\nvar pw=document.getElementById("pw"),go=document.getElementById("go"),msg=document.getElementById("msg");\nfunction b64(s){var bin=atob(s),a=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return a;}\nasync function unlock(){\n  var v=pw.value;\n  if(!v){msg.textContent="비밀번호를 입력해주세요.";return;}\n  go.disabled=true;msg.className="msg dim";msg.textContent="확인 중…";\n  try{\n    var keyMat=await crypto.subtle.importKey("raw",new TextEncoder().encode(v),"PBKDF2",false,["deriveKey"]);\n    var key=await crypto.subtle.deriveKey(\n      {name:"PBKDF2",salt:b64(PAYLOAD.salt),iterations:PAYLOAD.iter,hash:"SHA-256"},\n      keyMat,{name:"AES-GCM",length:256},false,["decrypt"]);\n    var plain=await crypto.subtle.decrypt({name:"AES-GCM",iv:b64(PAYLOAD.iv)},key,b64(PAYLOAD.ct));\n    var html=new TextDecoder().decode(plain);\n    document.open();document.write(html);document.close();\n  }catch(e){\n    go.disabled=false;msg.className="msg";\n    msg.textContent="비밀번호가 올바르지 않습니다.";\n    pw.value="";pw.focus();\n  }\n}\ngo.addEventListener("click",unlock);\npw.addEventListener("keydown",function(e){if(e.key==="Enter")unlock();});\n<\/script>\n</body>\n</html>\n';
+  function ab2b64(buf){
+    var bytes=new Uint8Array(buf),bin="",CH=8192;
+    for(var i=0;i<bytes.length;i+=CH)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+CH));
+    return btoa(bin);
+  }
+  gnb.querySelector(".ck-lock-save").addEventListener("click",async function(){
+    var pw1=prompt("배포용 index.html 을 잠글 비밀번호를 입력하세요\n(현재 페이지 잠금과 같은 비밀번호 권장)");
+    if(!pw1)return;
+    var pw2=prompt("비밀번호를 한 번 더 입력하세요");
+    if(pw1!==pw2){alert("비밀번호가 서로 다릅니다.");return;}
+    try{
+      var srcHtml=serializePage();
+      var salt=crypto.getRandomValues(new Uint8Array(16));
+      var iv=crypto.getRandomValues(new Uint8Array(12));
+      var keyMat=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw1),"PBKDF2",false,["deriveKey"]);
+      var key=await crypto.subtle.deriveKey({name:"PBKDF2",salt:salt,iterations:310000,hash:"SHA-256"},keyMat,{name:"AES-GCM",length:256},false,["encrypt"]);
+      var ct=await crypto.subtle.encrypt({name:"AES-GCM",iv:iv},key,new TextEncoder().encode(srcHtml));
+      var payload=JSON.stringify({salt:ab2b64(salt),iv:ab2b64(iv),ct:ab2b64(ct),iter:310000});
+      var locked=LOCK_HEAD+payload+LOCK_TAIL;
+      var blob=new Blob([locked],{type:"text/html;charset=utf-8"});
+      var a=document.createElement("a");
+      a.href=URL.createObjectURL(blob);
+      a.download="index.html";
+      a.click();
+      URL.revokeObjectURL(a.href);
+      alert("잠긴 index.html 을 다운로드했습니다.\n그대로 업로더에 드래그해 배포하면 됩니다.");
+    }catch(e){alert("잠금 저장 실패: "+e.message);}
   });
 })();
 </script>
