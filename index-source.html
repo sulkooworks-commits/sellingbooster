@@ -186,6 +186,8 @@ a.card .d{color:var(--dim);font-size:13px;margin-top:2px}
 .ed-row select:focus{border-color:var(--acc)}
 .ed-row button,.ed-foot button{background:var(--card);border:1px solid var(--line);color:var(--tx);font-family:inherit;font-size:12.5px;padding:8px 13px;border-radius:8px;cursor:pointer;white-space:nowrap;transition:border-color .15s}
 .ed-row button:hover,.ed-foot button:hover{border-color:var(--acc)}
+.ed-row button.danger{border-color:rgba(224,96,96,.55);color:var(--bad)}
+.ed-row button.danger:hover{border-color:var(--bad);background:rgba(224,96,96,.12)}
 .ed-foot button.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
 .ed-foot button.primary:hover{opacity:.9}
 .ed-foot button:disabled{opacity:.5;cursor:not-allowed}
@@ -214,6 +216,7 @@ body.ed-loaded .ed-foot{display:flex}
       <button type="button" class="ck-save" title="편집 반영본을 index-source.html로 다운로드">저장</button>
       <button type="button" class="ck-extract" title="현재 HTML 클립보드 복사">추출</button>
       <button type="button" class="ck-lock-save" title="비밀번호로 암호화한 배포용 index.html 다운로드">잠금 저장</button>
+      <button type="button" class="ck-commit-index" title="잠근 index.html 을 저장소에 바로 커밋">GitHub에 저장</button>
     </span>
     <button type="button" class="ck-map-btn" aria-expanded="false" aria-controls="ck-map-panel">전체 메뉴 <span class="ic">▾</span></button>
   </div>
@@ -385,6 +388,7 @@ body.ed-loaded .ed-foot{display:flex}
     <select id="ed-file"><option value="">저장소 파일 목록을 불러오세요</option></select>
     <button type="button" id="ed-list">목록 새로고침</button>
     <button type="button" id="ed-load">불러오기</button>
+    <button type="button" id="ed-delete" class="danger">삭제</button>
   </div>
   <textarea id="ed-content" spellcheck="false" aria-label="파일 내용 편집"></textarea>
   <div class="ed-foot">
@@ -817,6 +821,39 @@ body.ed-loaded .ed-foot{display:flex}
     }catch(e){edMsg("커밋 실패 · "+e.message,"err");}
     edCommit.disabled=false;
   });
+
+  /* ===== 하위 페이지 삭제 (index.html·common.js 는 보호) ===== */
+  var edDelete=$("ed-delete");
+  edDelete.addEventListener("click",async function(){
+    if(!cfgReady())return;
+    var name=edFile.value;
+    if(!name){alert("먼저 [목록 새로고침]으로 파일을 선택해주세요.");return;}
+    if(name==="index.html"||name==="common.js"){
+      alert("index.html 과 common.js 는 사이트 필수 파일이라 이 화면에서 삭제할 수 없습니다.");return;
+    }
+    if(!confirm('"'+name+'" 을(를) 저장소에서 삭제할까요?\n삭제 커밋이 즉시 반영되며 되돌리려면 git 이력에서 복구해야 합니다.'))return;
+    edMsg("삭제 중…");
+    try{
+      var b=branch.value.trim()||"main";
+      var g=await gh("/repos/"+owner.value.trim()+"/"+repo.value.trim()+"/contents/"+encPath(name)+"?ref="+encodeURIComponent(b));
+      if(!g.ok)throw new Error("조회 실패 HTTP "+g.status);
+      var sha=(await g.json()).sha;
+      var r=await gh("/repos/"+owner.value.trim()+"/"+repo.value.trim()+"/contents/"+encPath(name),{
+        method:"DELETE",
+        body:JSON.stringify({message:"chore: delete "+name+" via dashboard",sha:sha,branch:b})
+      });
+      if(!r.ok){var err=await r.json().catch(function(){return{};});throw new Error("HTTP "+r.status+(err.message?" · "+err.message:""));}
+      for(var i=edFile.options.length-1;i>=0;i--){if(edFile.options[i].value===name)edFile.remove(i);}
+      if(edName===name){edName=null;edSha=null;edArea.value="";document.body.classList.remove("ed-loaded");}
+      edMsg(name+" 삭제 완료 ✓ · Pages 반영 약 1분","ok");
+    }catch(e){edMsg("삭제 실패 · "+e.message,"err");}
+  });
+
+  /* ===== 편집 모드에서 쓰는 저장소 연동 헬퍼 노출 ===== */
+  window.__ckGh={gh:gh,ready:cfgReady,enc:encPath,b64:textToB64,
+    owner:function(){return owner.value.trim();},
+    repo:function(){return repo.value.trim();},
+    branch:function(){return branch.value.trim()||"main";}};
 })();
 
 /* ===== 편집 모드 (토글 ON = 인증 필수 / OFF = 즉시 해제) ===== */
@@ -960,34 +997,62 @@ body.ed-loaded .ed-foot{display:flex}
 
   /* ===== 잠금 저장: 브라우저에서 재암호화한 배포용 index.html 다운로드 ===== */
   var LOCK_HEAD="<!DOCTYPE html>\n<html lang=\"ko\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<meta name=\"robots\" content=\"noindex,nofollow\">\n<title>sulkoo.works<\/title>\n<style>\n:root{--bg:#0f1117;--card:#171a21;--line:#262b36;--tx:#e6e8ee;--dim:#9aa3b2;--acc:#5b8cff;--bad:#e06060}\n*{box-sizing:border-box}\nbody{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans KR\",sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}\n.lock{width:min(360px,calc(100vw - 48px));background:var(--card);border:1px solid var(--line);border-radius:14px;padding:32px 28px;text-align:center}\n.lock .ico{font-size:28px;margin-bottom:10px}\n.lock h1{font-size:18px;margin:0 0 4px;letter-spacing:-.01em}\n.lock p{color:var(--dim);font-size:13px;margin:0 0 20px}\n.lock input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--tx);font-family:inherit;font-size:15px;padding:11px 14px;border-radius:9px;outline:none;text-align:center;letter-spacing:.15em;transition:border-color .15s}\n.lock input:focus{border-color:var(--acc)}\n.lock button{width:100%;margin-top:10px;background:var(--acc);border:none;color:#fff;font-family:inherit;font-size:14px;font-weight:600;padding:11px;border-radius:9px;cursor:pointer;transition:opacity .15s}\n.lock button:hover{opacity:.9}\n.lock button:disabled{opacity:.5;cursor:wait}\n.msg{min-height:18px;margin-top:12px;font-size:12.5px;color:var(--bad)}\n.msg.dim{color:var(--dim)}\n<\/style>\n<\/head>\n<body>\n<div class=\"lock\">\n  <div class=\"ico\">🔒<\/div>\n  <h1>sulkoo.works<\/h1>\n  <p>비밀번호를 입력하면 대시보드가 열립니다<br>인증은 이 브라우저에서 30분간 유지됩니다<\/p>\n  <input type=\"password\" id=\"pw\" autocomplete=\"current-password\" autofocus aria-label=\"비밀번호\">\n  <button id=\"go\" type=\"button\">열기<\/button>\n  <div class=\"msg\" id=\"msg\"><\/div>\n<\/div>\n<script>\nvar PAYLOAD = ";
-  var LOCK_TAIL=";\nvar SKEY=\"ckUnlockSession\",SESSION_MS=30*60*1000; /* 인증 유지 30분 */\nvar pw=document.getElementById(\"pw\"),go=document.getElementById(\"go\"),msg=document.getElementById(\"msg\");\nfunction b64(s){var bin=atob(s),a=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return a;}\nfunction ab2b64(buf){var y=new Uint8Array(buf),bin=\"\",CH=8192;for(var i=0;i<y.length;i+=CH)bin+=String.fromCharCode.apply(null,y.subarray(i,i+CH));return btoa(bin);}\nfunction render(html){document.open();document.write(html);document.close();}\nasync function decryptWith(key){\n  var plain=await crypto.subtle.decrypt({name:\"AES-GCM\",iv:b64(PAYLOAD.iv)},key,b64(PAYLOAD.ct));\n  return new TextDecoder().decode(plain);\n}\n/* 30분 세션: 저장된 키가 유효하면 비밀번호 없이 자동 열림 */\n(async function tryCached(){\n  try{\n    var s=JSON.parse(localStorage.getItem(SKEY)||\"null\");\n    if(!s||Date.now()>s.exp){localStorage.removeItem(SKEY);return;}\n    var key=await crypto.subtle.importKey(\"raw\",b64(s.k),{name:\"AES-GCM\"},false,[\"decrypt\"]);\n    render(await decryptWith(key));\n  }catch(e){localStorage.removeItem(SKEY);} /* 만료·비밀번호 변경 시 폐기 */\n})();\nasync function unlock(){\n  var v=pw.value;\n  if(!v){msg.textContent=\"비밀번호를 입력해주세요.\";return;}\n  go.disabled=true;msg.className=\"msg dim\";msg.textContent=\"확인 중…\";\n  try{\n    var keyMat=await crypto.subtle.importKey(\"raw\",new TextEncoder().encode(v),\"PBKDF2\",false,[\"deriveKey\"]);\n    var key=await crypto.subtle.deriveKey(\n      {name:\"PBKDF2\",salt:b64(PAYLOAD.salt),iterations:PAYLOAD.iter,hash:\"SHA-256\"},\n      keyMat,{name:\"AES-GCM\",length:256},true,[\"decrypt\"]);\n    var html=await decryptWith(key);\n    try{\n      var raw=await crypto.subtle.exportKey(\"raw\",key);\n      localStorage.setItem(SKEY,JSON.stringify({k:ab2b64(raw),exp:Date.now()+SESSION_MS}));\n    }catch(e){}\n    render(html);\n  }catch(e){\n    go.disabled=false;msg.className=\"msg\";\n    msg.textContent=\"비밀번호가 올바르지 않습니다.\";\n    pw.value=\"\";pw.focus();\n  }\n}\ngo.addEventListener(\"click\",unlock);\npw.addEventListener(\"keydown\",function(e){if(e.key===\"Enter\")unlock();});\n<\/script>\n<\/body>\n<\/html>\n";
+  var LOCK_TAIL=";\nvar SKEY=\"ckUnlockSession\",SESSION_MS=30*60*1000; /* 인증 유지 30분 */\nvar pw=document.getElementById(\"pw\"),go=document.getElementById(\"go\"),msg=document.getElementById(\"msg\");\nfunction b64(s){var bin=atob(s),a=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return a;}\nfunction ab2b64(buf){var y=new Uint8Array(buf),bin=\"\",CH=8192;for(var i=0;i<y.length;i+=CH)bin+=String.fromCharCode.apply(null,y.subarray(i,i+CH));return btoa(bin);}\nfunction render(html){document.open();document.write(html);document.close();}\nasync function decryptWith(key){\n  var plain=await crypto.subtle.decrypt({name:\"AES-GCM\",iv:b64(PAYLOAD.iv)},key,b64(PAYLOAD.ct));\n  return new TextDecoder().decode(plain);\n}\n/* 30분 세션: 저장된 키가 유효하면 비밀번호 없이 자동 열림\n   ⚠️ document.write 는 반드시 파싱 완료 후 실행 — 파싱 중 실행하면\n   새 문서로 교체되지 않고 잠금 페이지 안에 끼어들어 화면이 깨짐 */\nasync function tryCached(){\n  try{\n    var s=JSON.parse(localStorage.getItem(SKEY)||\"null\");\n    if(!s||Date.now()>s.exp){localStorage.removeItem(SKEY);return;}\n    msg.className=\"msg dim\";msg.textContent=\"자동 인증 확인 중…\";\n    var key=await crypto.subtle.importKey(\"raw\",b64(s.k),{name:\"AES-GCM\"},false,[\"decrypt\"]);\n    var html=await decryptWith(key);\n    render(html);\n  }catch(e){\n    localStorage.removeItem(SKEY); /* 만료·비밀번호 변경 시 폐기 */\n    msg.textContent=\"\";\n  }\n}\nif(document.readyState===\"loading\"){\n  document.addEventListener(\"DOMContentLoaded\",function(){setTimeout(tryCached,0);});\n}else{\n  setTimeout(tryCached,0);\n}\nasync function unlock(){\n  var v=pw.value;\n  if(!v){msg.textContent=\"비밀번호를 입력해주세요.\";return;}\n  go.disabled=true;msg.className=\"msg dim\";msg.textContent=\"확인 중…\";\n  try{\n    var keyMat=await crypto.subtle.importKey(\"raw\",new TextEncoder().encode(v),\"PBKDF2\",false,[\"deriveKey\"]);\n    var key=await crypto.subtle.deriveKey(\n      {name:\"PBKDF2\",salt:b64(PAYLOAD.salt),iterations:PAYLOAD.iter,hash:\"SHA-256\"},\n      keyMat,{name:\"AES-GCM\",length:256},true,[\"decrypt\"]);\n    var html=await decryptWith(key);\n    try{\n      var raw=await crypto.subtle.exportKey(\"raw\",key);\n      localStorage.setItem(SKEY,JSON.stringify({k:ab2b64(raw),exp:Date.now()+SESSION_MS}));\n    }catch(e){}\n    render(html);\n  }catch(e){\n    go.disabled=false;msg.className=\"msg\";\n    msg.textContent=\"비밀번호가 올바르지 않습니다.\";\n    pw.value=\"\";pw.focus();\n  }\n}\ngo.addEventListener(\"click\",unlock);\npw.addEventListener(\"keydown\",function(e){if(e.key===\"Enter\")unlock();});\n<\/script>\n<\/body>\n<\/html>\n";
   function ab2b64(buf){
     var bytes=new Uint8Array(buf),bin="",CH=8192;
     for(var i=0;i<bytes.length;i+=CH)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+CH));
     return btoa(bin);
   }
-  gnb.querySelector(".ck-lock-save").addEventListener("click",async function(){
+  async function buildLockedHtml(pw1){
+    var srcHtml=serializePage();
+    var salt=crypto.getRandomValues(new Uint8Array(16));
+    var iv=crypto.getRandomValues(new Uint8Array(12));
+    var keyMat=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw1),"PBKDF2",false,["deriveKey"]);
+    var key=await crypto.subtle.deriveKey({name:"PBKDF2",salt:salt,iterations:310000,hash:"SHA-256"},keyMat,{name:"AES-GCM",length:256},false,["encrypt"]);
+    var ct=await crypto.subtle.encrypt({name:"AES-GCM",iv:iv},key,new TextEncoder().encode(srcHtml));
+    var payload=JSON.stringify({salt:ab2b64(salt),iv:ab2b64(iv),ct:ab2b64(ct),iter:310000});
+    return LOCK_HEAD+payload+LOCK_TAIL;
+  }
+  function askLockPw(){
     var pw1=prompt("배포용 index.html 을 잠글 비밀번호를 입력하세요\n(현재 페이지 잠금과 같은 비밀번호 권장)");
-    if(!pw1)return;
+    if(!pw1)return null;
     var pw2=prompt("비밀번호를 한 번 더 입력하세요");
-    if(pw1!==pw2){alert("비밀번호가 서로 다릅니다.");return;}
+    if(pw1!==pw2){alert("비밀번호가 서로 다릅니다.");return null;}
+    return pw1;
+  }
+  gnb.querySelector(".ck-lock-save").addEventListener("click",async function(){
+    var pw1=askLockPw();if(!pw1)return;
     try{
-      var srcHtml=serializePage();
-      var salt=crypto.getRandomValues(new Uint8Array(16));
-      var iv=crypto.getRandomValues(new Uint8Array(12));
-      var keyMat=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw1),"PBKDF2",false,["deriveKey"]);
-      var key=await crypto.subtle.deriveKey({name:"PBKDF2",salt:salt,iterations:310000,hash:"SHA-256"},keyMat,{name:"AES-GCM",length:256},false,["encrypt"]);
-      var ct=await crypto.subtle.encrypt({name:"AES-GCM",iv:iv},key,new TextEncoder().encode(srcHtml));
-      var payload=JSON.stringify({salt:ab2b64(salt),iv:ab2b64(iv),ct:ab2b64(ct),iter:310000});
-      var locked=LOCK_HEAD+payload+LOCK_TAIL;
+      var locked=await buildLockedHtml(pw1);
       var blob=new Blob([locked],{type:"text/html;charset=utf-8"});
       var a=document.createElement("a");
-      a.href=URL.createObjectURL(blob);
-      a.download="index.html";
-      a.click();
+      a.href=URL.createObjectURL(blob);a.download="index.html";a.click();
       URL.revokeObjectURL(a.href);
       alert("잠긴 index.html 을 다운로드했습니다.\n그대로 업로더에 드래그해 배포하면 됩니다.");
     }catch(e){alert("잠금 저장 실패: "+e.message);}
+  });
+  /* ===== GitHub에 저장: 현재 대시보드 상태를 잠근 뒤 index.html 로 바로 커밋 ===== */
+  gnb.querySelector(".ck-commit-index").addEventListener("click",async function(){
+    var G=window.__ckGh;
+    if(!G){alert("저장소 연동 모듈을 찾을 수 없습니다.");return;}
+    if(!G.ready())return;
+    var pw1=askLockPw();if(!pw1)return;
+    if(!confirm("현재 대시보드 상태를 암호화해 index.html 로 저장소에 커밋할까요?"))return;
+    var self=this,orig=self.textContent;
+    self.disabled=true;self.textContent="커밋 중…";
+    try{
+      var locked=await buildLockedHtml(pw1);
+      var sha=null;
+      var g=await G.gh("/repos/"+G.owner()+"/"+G.repo()+"/contents/index.html?ref="+encodeURIComponent(G.branch()));
+      if(g.status===200){sha=(await g.json()).sha;}
+      else if(g.status!==404){throw new Error("조회 실패 HTTP "+g.status);}
+      var body={message:"chore: update index.html via dashboard",content:G.b64(locked),branch:G.branch()};
+      if(sha)body.sha=sha;
+      var p=await G.gh("/repos/"+G.owner()+"/"+G.repo()+"/contents/index.html",{method:"PUT",body:JSON.stringify(body)});
+      if(!p.ok){var err=await p.json().catch(function(){return{};});throw new Error("HTTP "+p.status+(err.message?" · "+err.message:""));}
+      alert("index.html 커밋 완료 ✓\nPages 반영(약 1분) 후 새로고침하면 저장한 상태로 열립니다.");
+    }catch(e){alert("커밋 실패: "+e.message);}
+    self.disabled=false;self.textContent=orig;
   });
 })();
 </script>
