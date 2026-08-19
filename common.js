@@ -87,16 +87,6 @@
     + ".ck-gnb a,.ck-gnb button,.ck-gnb input{font-family:inherit}"
     + ".ck-home{display:flex;align-items:center;text-decoration:none;color:var(--tx,#e6e8ee);font-weight:700;font-size:14px;letter-spacing:-.01em;padding:14px 14px 14px 0;margin-right:6px;white-space:nowrap}"
     + ".ck-home::before{content:'⌂';margin-right:6px;color:var(--acc,#5b8cff)}"
-    + ".ck-gnb-menu{display:flex;align-items:stretch;list-style:none;margin:0;padding:0;min-width:0}"
-    + ".ck-gnb-item{position:relative}"
-    + ".ck-gnb-top{display:flex;align-items:center;gap:5px;height:100%;padding:14px 11px;background:none;border:none;color:var(--dim,#9aa3b2);font-size:13px;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}"
-    + ".ck-gnb-top .caret{font-size:9px;color:var(--dim,#9aa3b2);transition:transform .15s}"
-    + ".ck-gnb-item:hover .ck-gnb-top,.ck-gnb-top:focus-visible,.ck-gnb-item.open .ck-gnb-top{color:var(--tx,#e6e8ee);border-bottom-color:var(--acc,#5b8cff);outline:none}"
-    + ".ck-gnb-item.open .ck-gnb-top .caret{transform:rotate(180deg)}"
-    + ".ck-gnb-drop{position:absolute;top:100%;left:0;min-width:220px;background:var(--card,#171a21);border:1px solid var(--line,#262b36);border-radius:0 0 10px 10px;box-shadow:0 12px 28px rgba(0,0,0,.45);padding:8px 0;margin:0;list-style:none;display:none}"
-    + ".ck-gnb-item:hover .ck-gnb-drop,.ck-gnb-item.open .ck-gnb-drop,.ck-gnb-item:focus-within .ck-gnb-drop{display:block}"
-    + ".ck-gnb-drop a{display:block;padding:8px 16px;color:var(--tx,#e6e8ee);opacity:.8;text-decoration:none;font-size:13px}"
-    + ".ck-gnb-drop a:hover,.ck-gnb-drop a:focus-visible{opacity:1;background:rgba(91,140,255,.12);color:var(--acc,#5b8cff);outline:none}"
     /* 검색 */
     + ".ck-search{position:relative;display:flex;align-items:center;margin-left:auto;align-self:center}"
     + ".ck-search input{width:150px;background:var(--card,#171a21);border:1px solid var(--line,#262b36);color:var(--tx,#e6e8ee);font-size:13px;padding:6px 10px 6px 30px;border-radius:8px;outline:none;transition:border-color .15s,width .2s}"
@@ -147,7 +137,6 @@
     + ".ck-auth-ok{background:var(--warn,#e5b84b);color:#1a1a1a}"
     + ".ck-auth-cancel{background:var(--line,#262b36);color:var(--tx,#e6e8ee)}"
     + ".ck-auth-msg{min-height:16px;margin-top:10px;font-size:12px;color:var(--bad,#e06060)}"
-    + "@media(max-width:900px){.ck-gnb-menu{display:none}.ck-search input{width:110px}.ck-search input:focus{width:150px}}"
     /* 사이트맵 그리드 */
     + ".ck-sitemap{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:20px 28px;margin-bottom:28px}"
     + ".ck-sm-col h3{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim,#9aa3b2);font-weight:600}"
@@ -156,7 +145,16 @@
     + ".ck-sm-col li{margin:4px 0}"
     + ".ck-sm-col a{color:var(--tx,#e6e8ee);opacity:.75;text-decoration:none;font-size:13px}"
     + ".ck-sm-col a:hover{opacity:1;color:var(--acc,#5b8cff)}"
-    + "@media print{.ck-gnb,.ck-auth{display:none}}";
+    /* 푸터 */
+    + ".ck-footer{margin-top:72px;border-top:1px solid var(--line,#262b36);background:var(--card,#171a21)}"
+    + ".ck-footer-in{max-width:960px;margin:0 auto;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}"
+    + ".ck-footer .links{display:flex;align-items:center;gap:18px;flex-wrap:wrap}"
+    + ".ck-footer .links .lb{color:var(--dim,#9aa3b2);font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:600}"
+    + ".ck-footer a{color:var(--tx,#e6e8ee);opacity:.8;text-decoration:none;font-size:13px;display:inline-flex;align-items:center;gap:6px}"
+    + ".ck-footer a:hover{opacity:1;color:var(--acc,#5b8cff)}"
+    + ".ck-footer a .ic{color:var(--acc,#5b8cff);font-size:13px}"
+    + ".ck-footer .copy{color:var(--dim,#9aa3b2);font-size:12.5px}"
+    + "@media print{.ck-gnb,.ck-auth,.ck-footer{display:none}}";
   var st = document.createElement("style");
   st.setAttribute("data-ck-injected", "");
   st.textContent = css;
@@ -166,19 +164,9 @@
   var gnb = document.createElement("header");
   gnb.className = "ck-gnb";
   gnb.setAttribute("data-ck-injected", "");
-  var menuLis = MENU.map(function (g, i) {
-    var drop = g.items.map(function (it) {
-      return '<li><a href="' + ROOT + it.href + '">' + it.t + "</a></li>";
-    }).join("");
-    return '<li class="ck-gnb-item" data-i="' + i + '">'
-      + '<button type="button" class="ck-gnb-top" aria-expanded="false" aria-haspopup="true">'
-      + g.title + ' <span class="caret">▾</span></button>'
-      + '<ul class="ck-gnb-drop">' + drop + "</ul></li>";
-  }).join("");
   gnb.innerHTML =
     '<div class="ck-gnb-in">'
     + '<a class="ck-home" href="' + ROOT + 'index.html">sulkoo.works</a>'
-    + '<ul class="ck-gnb-menu">' + menuLis + "</ul>"
     + '<div class="ck-search"><span class="ico">⌕</span>'
     + '<input type="search" placeholder="검색 ( / )" aria-label="페이지 검색" autocomplete="off">'
     + '<ul class="ck-search-res" role="listbox"></ul></div>'
@@ -211,21 +199,7 @@
     + "</div>";
   document.body.appendChild(auth);
 
-  /* ---------- 1뎁스 토글 ---------- */
-  var items = gnb.querySelectorAll(".ck-gnb-item");
-  function closeMenus() {
-    items.forEach(function (el) {
-      el.classList.remove("open");
-      el.querySelector(".ck-gnb-top").setAttribute("aria-expanded", "false");
-    });
-  }
-  items.forEach(function (el) {
-    el.querySelector(".ck-gnb-top").addEventListener("click", function () {
-      var willOpen = !el.classList.contains("open");
-      closeMenus();
-      if (willOpen) { el.classList.add("open"); this.setAttribute("aria-expanded", "true"); }
-    });
-  });
+  function closeMenus() {}
 
   /* ---------- 전체 메뉴 패널 ---------- */
   var mapBtn = gnb.querySelector(".ck-map-btn");
@@ -386,6 +360,43 @@
       setTimeout(function () { self.textContent = t; }, 1500);
     }, function () { alert("클립보드 복사에 실패했습니다."); });
   });
+
+  /* ---------- 최근 이용한 메뉴 기록 (인덱스 대시보드에서 표시) ---------- */
+  var RKEY = "ckRecentMenu", RMAX = 10;
+  var RLOOKUP = {};
+  MENU.forEach(function (g) {
+    g.items.forEach(function (it) {
+      RLOOKUP[it.href] = { t: it.t, sec: g.no + " " + g.title };
+    });
+  });
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest("a[href]");
+    if (!a) return;
+    var href = a.getAttribute("href");
+    if (!href || /^(https?:|#|mailto:)/.test(href)) return;
+    var f = decodeURIComponent(href.split("/").pop());
+    var meta = RLOOKUP[f];
+    if (!meta) return;
+    try {
+      var list = JSON.parse(localStorage.getItem(RKEY) || "[]").filter(function (it) { return it.f !== f; });
+      list.unshift({ f: f, t: meta.t, sec: meta.sec, ts: Date.now() });
+      localStorage.setItem(RKEY, JSON.stringify(list.slice(0, RMAX)));
+    } catch (err) {}
+  }, true);
+
+  /* ---------- 푸터 (바로가기 · 연락처) ---------- */
+  var footer = document.createElement("footer");
+  footer.className = "ck-footer";
+  footer.setAttribute("data-ck-injected", "");
+  footer.innerHTML =
+    '<div class="ck-footer-in">'
+    + '<div class="links"><span class="lb">바로가기</span>'
+    + '<a href="https://github.com/sulkooworks-commits/sellingbooster" target="_blank" rel="noopener noreferrer"><span class="ic">⎇</span>GitHub 저장소</a>'
+    + '<a href="mailto:sulkoo@hecto.co.kr"><span class="ic">✉</span>sulkoo@hecto.co.kr</a>'
+    + "</div>"
+    + '<span class="copy">© ' + new Date().getFullYear() + ' sulkoo.works · 커머스커넥트실 셀링부스터팀</span>'
+    + "</div>";
+  document.body.appendChild(footer);
 
   /* ---------- 바깥 클릭·ESC ---------- */
   document.addEventListener("click", function (e) {
