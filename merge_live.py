@@ -68,7 +68,41 @@ def sm_cols(html):
         pos += rng[1]
     return out
 
+def scan_history(n=12):
+    """최근 n개 커밋을 복호화해 HEAD 에 없는 카드(=덮어쓰기 유실 후보)를 보고"""
+    import urllib.request as U
+    h=U.urlopen("https://github.com/sulkooworks-commits/sellingbooster/commits/main/index.html",timeout=20).read().decode("utf-8","ignore")
+    shas=[]
+    for m in re.finditer(r"/sulkooworks-commits/sellingbooster/commit/([0-9a-f]{40})",h):
+        if m.group(1) not in shas: shas.append(m.group(1))
+    head=fetch_live()
+    base=set(re.findall(r'<a class="card"[^>]*href="([^"]+)"',head))
+    hit=False
+    for s in shas[:n]:
+        try:
+            raw=U.urlopen(f"https://raw.githubusercontent.com/sulkooworks-commits/sellingbooster/{s}/index.html",timeout=20).read().decode("utf-8")
+            plain=fetch_live.__wrapped__(raw) if False else None
+        except Exception:
+            continue
+        try:
+            m2=re.search(r"var PAYLOAD = (\{.*?\});",raw,re.DOTALL)
+            import json as J,base64 as B,hashlib as H
+            from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+            p=J.loads(m2.group(1))
+            key=H.pbkdf2_hmac("sha256",PW.encode(),B.b64decode(p["salt"]),p["iter"],32)
+            plain=AESGCM(key).decrypt(B.b64decode(p["iv"]),B.b64decode(p["ct"]),None).decode()
+        except Exception:
+            continue
+        extra=[(t.strip(),href) for href,t in re.findall(r'<a class="card"[^>]*href="([^"]+)"[^>]*>\s*<div class="t">([^<]*)</div>',plain) if href not in base]
+        if extra:
+            hit=True
+            print(f"★ {s[:10]}: HEAD 에 없는 카드 → "+", ".join(f"{t}({h})" for t,h in extra))
+    if not hit:
+        print("✓ 최근 이력에 유실 카드 없음")
+
 def main():
+    if "--history" in sys.argv:
+        scan_history(); return
     apply_ = "--apply" in sys.argv
     fpath = None
     if "--file" in sys.argv:
