@@ -1,0 +1,11 @@
+{
+  "totals": [
+    {
+      "date": "2026-08-19",
+      "total": 94
+    }
+  ],
+  "lastRun": null,
+  "lastStatus": "seed",
+  "notes": "totals: 블로그 페이지 '전체(N)' 표시 이력 / lastStatus: ok:N | parse_failed | fetch_failed | seed"
+}
