@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
+<html lang="ko"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>sulkoo.works · 대시보드</title>
@@ -167,6 +166,9 @@ a.card{display:block;padding:15px 18px;background:var(--card);border:1px solid v
 a.card:hover{border-color:var(--acc);transform:translateY(-1px)}
 a.card .t{font-weight:600;font-size:15px}
 a.card .d{color:var(--dim);font-size:13px;margin-top:2px}
+a.card .u{color:var(--dim);opacity:.75;font-size:11px;margin-top:6px;font-variant-numeric:tabular-nums}
+.ck-cache-btn{background:none;border:1px solid var(--line);color:var(--dim);font-family:inherit;font-size:12px;padding:5px 11px;border-radius:7px;cursor:pointer;transition:border-color .15s,color .15s}
+.ck-cache-btn:hover{border-color:var(--acc);color:var(--acc)}
 .menu-cols{display:grid;grid-template-columns:1fr 1fr;gap:0 28px}
 .menu-cols section{min-width:0}
 .menu-cols .grid{grid-template-columns:1fr}
@@ -214,8 +216,8 @@ body.ed-loaded .ed-foot{display:flex}
 .ed-status.ok{color:var(--ok)}
 .ed-status.err{color:var(--bad)}
 </style>
-</head>
-<body>
+<link rel="stylesheet" href="chrome-extension://cgococegfcmmfcjggpgelfbjkkncclkf/static/css/imageSearch.css"><link rel="stylesheet" href="chrome-extension://cgococegfcmmfcjggpgelfbjkkncclkf/static/css/translateOverlay.css"><style data-styled="active" data-styled-version="5.3.11"></style><link rel="stylesheet" href="chrome-extension://cgococegfcmmfcjggpgelfbjkkncclkf/static/css/imageSearch.css"><link rel="stylesheet" href="chrome-extension://cgococegfcmmfcjggpgelfbjkkncclkf/static/css/translateOverlay.css"></head>
+<body cz-shortcut-listen="true">
 
 <!-- ================= GNB (인덱스 내장 — common.js와 동일 구조) ================= -->
 <header class="ck-gnb">
@@ -242,21 +244,21 @@ body.ed-loaded .ed-foot{display:flex}
           <li><a href="content/content-calendar.html">편집 캘린더 (8–9월)</a></li>
           <li><a href="content/content-naver.html">네이버 블로그 발행 표준</a></li></ul></div>
         <div class="ck-sm-col"><h3><span class="no">02</span>SEO 모니터링</h3><ul>
-          <li><a href="seo/seo-policy.html">발행 정책 (기준 문서)</a></li>
+          <li><a href="셀링부스터_블로그_발행계획_8-9월.html">발행 정책 (기준 문서)</a></li>
           <li><a href="seo/seo-log.html">발행 로그 (일일 스냅샷)</a></li>
           <li><a href="seo/seo-weekly.html">주간 달성 리포트</a></li>
           <li><a href="seo/highook-review.html">하이훅 연동 검토</a></li></ul></div>
         <div class="ck-sm-col"><h3><span class="no">03</span>기획·어드민</h3><ul>
           <li><a href="admin/admin-spec.html">어드민 화면 기능 명세</a></li>
-          <li><a href="admin/sellingspark-plan.html">셀링스파크 통합 기획</a></li></ul></div>
+          <li><a href="셀링부스터_통합_프로토타입/selling-booster-prototype-v4.html">셀링스파크 통합 기획</a></li></ul></div>
         <div class="ck-sm-col"><h3><span class="no">04</span>분석·리서치</h3><ul>
           <li><a href="research/research-kr.html">국내 25종 벤치마킹</a></li>
-          <li><a href="research/research-jp.html">일본 커머스 서비스 조사</a></li></ul></div>
+          </ul></div>
         <div class="ck-sm-col"><h3><span class="no">05</span>도구</h3><ul>
           <li><a href="tools/tool-adcost.html">해외 광고비 정산 툴</a></li></ul></div>
         <div class="ck-sm-col"><h3><span class="no">06</span>팀 관리</h3><ul>
           <li><a href="team/셀링부스터_팀업무정리.html">셀링부스터 팀 업무 정리</a></li>
-          <li><a href="team/team-comms.html">협업·커뮤니케이션 기준</a></li></ul></div>
+          </ul></div>
         <div class="ck-sm-col"><h3><span class="no">07</span>운영 계획</h3><ul>
           <li><a href="plan/plan-roadmap.html">하반기 제품 로드맵</a></li>
           <li><a href="plan/plan-deadlines.html">일정·기한 체크리스트</a></li></ul></div>
@@ -267,7 +269,7 @@ body.ed-loaded .ed-foot{display:flex}
 
 <div class="wrap">
 
-<p class="today" id="today-kst"></p>
+<p class="today" id="today-kst">2026년 8월 20일 목요일</p>
 <h1>sulkoo.works</h1>
 <p class="sub">셀링부스터 업무 백오피스 · 콘텐츠 운영 / SEO 모니터링 / 기획 / 분석 / 팀 관리</p>
 
@@ -335,7 +337,7 @@ body.ed-loaded .ed-foot{display:flex}
       <li data-day="1"><span class="when">월 08:30</span><span class="what">[SB] 사업팀 주간 회의<small>실장님 주관</small></span></li>
       <li data-day="1"><span class="when">월 15:00</span><span class="what">[SB] 셀링스파크 주간 점검 회의</span></li>
       <li data-day="2"><span class="when">화 13:30/15:30</span><span class="what">[SB] 개발 점검 회의<small>전무님 주관</small></span></li>
-      <li data-day="4"><span class="when">목 08:30</span><span class="what">[SB] 사업실 주간 회의<small>대표님 주관</small></span></li>
+      <li data-day="4" class="today-hl"><span class="when">목 08:30</span><span class="what">[SB] 사업실 주간 회의<small>대표님 주관</small></span></li>
       <li><span class="when">주간 15:00</span><span class="what">[SB] 기획/마케팅 주간 회의<small>요일 미정</small></span></li>
       <li><span class="when">일정 미정</span><span class="what">[SB] SEO/GEO TF 회의<small>SEO실 회신 대기</small></span></li>
     </ul>
@@ -345,7 +347,7 @@ body.ed-loaded .ed-foot{display:flex}
     <h3>품의 · 보고</h3>
     <ul>
       <li><span class="when">매월 초</span><span class="what">광고 품의<small>광고비 · 대행 수수료 · 기타 지출 계획</small></span></li>
-      <li data-day="4"><span class="when">목 15:00</span><span class="what">주간보고서 취합 마감<small>팀별 주간 업무 내역</small></span></li>
+      <li data-day="4" class="today-hl"><span class="when">목 15:00</span><span class="what">주간보고서 취합 마감<small>팀별 주간 업무 내역</small></span></li>
       <li data-day="1"><span class="when">월 16:00</span><span class="what">주간보고서 마감·전달<small>주간회의 검토 후 한대수 팀장님 전달</small></span></li>
       <li><span class="when">격월 중순</span><span class="what">월간보고서 작성<small>직전 작성: 7월 말 → 다음 9월 중순</small></span></li>
       <li><span class="when">매월 말일</span><span class="what">재무 보조지표 보고</span></li>
@@ -360,7 +362,7 @@ body.ed-loaded .ed-foot{display:flex}
   <h2><span class="no">●</span>최근 이용한 메뉴 <small>(최대 10개)</small></h2>
   <button type="button" class="recent-clear" id="recent-clear">기록 지우기</button>
 </div>
-<div class="recent" id="recent-menu"><span class="empty">아직 기록이 없습니다 — 메뉴를 클릭하면 여기에 쌓입니다.</span></div>
+<div class="recent" id="recent-menu"><a href="team/team-comms.html"><span>협업·커뮤니케이션 기준</span><span class="sec">06팀 관리</span></a><a href="%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%ED%86%B5%ED%95%A9_%ED%94%84%EB%A1%9C%ED%86%A0%ED%83%80%EC%9E%85/selling-booster-prototype-v4.html"><span>셀링스파크 통합 기획</span><span class="sec">03기획·어드민</span></a><a href="seo/seo-policy.html"><span>발행 정책 (기준 문서)</span><span class="sec">02SEO 모니터링</span></a><a href="team/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%ED%8C%80%EC%97%85%EB%AC%B4%EC%A0%95%EB%A6%AC.html"><span>셀링부스터 팀 업무 정리</span><span class="sec">06팀 관리</span></a><a href="seo/highook-review.html"><span>하이훅 연동 검토</span><span class="sec">02SEO 모니터링</span></a><a href="research/research-jp.html"><span>일본 커머스 서비스 조사</span><span class="sec">04분석·리서치</span></a><a href="admin/sellingspark-plan.html"><span>셀링스파크 통합 기획</span><span class="sec">03기획·어드민</span></a><a href="research/research-kr.html"><span>국내 25종 벤치마킹</span><span class="sec">04분석·리서치</span></a><a href="tools/tool-adcost.html"><span>해외 광고비 정산 툴</span><span class="sec">05도구</span></a><a href="plan/plan-deadlines.html"><span>일정·기한 체크리스트</span><span class="sec">07운영 계획</span></a></div>
 
 <!-- ============ GitHub 업로드 ============ -->
 <div class="edit-only" contenteditable="false">
@@ -369,7 +371,7 @@ body.ed-loaded .ed-foot{display:flex}
   <div class="up-cfg">
     <input id="up-owner" placeholder="GitHub 사용자명 (owner)" autocomplete="off">
     <input id="up-repo" placeholder="저장소 이름 (repo)" autocomplete="off">
-    <input id="up-branch" placeholder="브랜치" value="main" autocomplete="off">
+    <input id="up-branch" placeholder="브랜치" autocomplete="off" value="main">
   </div>
   <div class="ed-row" style="margin-bottom:8px">
     <select id="up-folder" aria-label="업로드 폴더">
@@ -385,12 +387,14 @@ body.ed-loaded .ed-foot{display:flex}
   </div>
   <div class="up-token">
     <input id="up-token" type="password" placeholder="Personal Access Token (Fine-grained · Contents: Read/Write)" autocomplete="off">
+    <button type="button" id="up-test" style="background:var(--card);border:1px solid var(--line);color:var(--tx);font-family:inherit;font-size:12.5px;padding:8px 13px;border-radius:8px;cursor:pointer;white-space:nowrap">연동 테스트</button>
     <label class="up-remember"><input type="checkbox" id="up-save"> 이 브라우저에 저장</label>
   </div>
+  <div id="up-test-result" style="display: block; margin: 0px 0px 10px; padding: 10px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; font-size: 12.5px; line-height: 1.7;"><div style="color:var(--ok)">✓ 토큰 계정: <b>sulkooworks-commits</b></div><div style="color:var(--ok)">✓ <b>쓰기 검증 통과 — 커밋 가능 상태입니다</b></div><div style="color:var(--ok)">✓ 임시 테스트 파일 정리 완료</div></div>
   <p class="up-note">토큰은 <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">Fine-grained token</a>으로 발급 — 이 저장소 하나만 · Contents 권한 Read/Write만 · 만료일 설정 권장. 토큰은 이 기기의 브라우저에만 저장되고 페이지 소스에는 포함되지 않습니다. 같은 이름의 파일은 새 커밋으로 덮어쓰며, 반영까지 GitHub Pages 재빌드 약 1분이 걸립니다. (파일당 1MB 이하)</p>
   <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="파일 업로드">
     HTML 파일을 여기에 <strong>드래그앤드랍</strong> 하거나 클릭해서 선택 (여러 개 가능)
-    <input type="file" id="up-file" accept=".html,.htm,.js,.css,.md" multiple hidden>
+    <input type="file" id="up-file" accept=".html,.htm,.js,.css,.md" multiple="" hidden="">
   </div>
   <ul class="up-list" id="up-list"></ul>
 </div>
@@ -426,7 +430,7 @@ body.ed-loaded .ed-foot{display:flex}
 
 <h2><span class="no">02</span>SEO 모니터링</h2>
 <div class="grid">
-  <a class="card" href="seo/seo-policy.html"><div class="t">발행 정책 (기준 문서)</div><div class="d">채널별 목표 · 판정 규칙 · 자동 반영</div></a>
+  <a class="card" href="셀링부스터_블로그_발행계획_8-9월.html"><div class="t">발행 정책 (기준 문서)</div><div class="d">월별 발행 계획  ·채널별 목표 · 판정 규칙</div></a>
   <a class="card" href="seo/seo-log.html"><div class="t">발행 로그 (일일 스냅샷)</div><div class="d">매일 오전 자동 갱신 · 8/19 베이스라인 94건</div></a>
   <a class="card" href="seo/seo-weekly.html"><div class="t">주간 달성 리포트</div><div class="d">월요일 전주 최종 판정 (정상/주의/미달)</div></a>
   <a class="card" href="seo/highook-review.html"><div class="t">하이훅 연동 검토</div><div class="d">8개 제안 (우선순위 상·중) · GEO 가이드 대기</div></a>
@@ -435,13 +439,13 @@ body.ed-loaded .ed-foot{display:flex}
 <h2><span class="no">03</span>기획·어드민</h2>
 <div class="grid">
   <a class="card" href="admin/admin-spec.html"><div class="t">어드민 화면 기능 명세</div><div class="d">배너 · 팝업 · 셀링플래너 · 온보딩 관리</div></a>
-  <a class="card" href="admin/sellingspark-plan.html"><div class="t">셀링스파크 통합 기획</div><div class="d">정책 · 플로우 · 프로토타입 (10월 통합 대비)</div></a>
+  <a class="card" href="셀링부스터_통합_프로토타입/selling-booster-prototype-v4.html"><div class="t">셀링스파크 통합 기획</div><div class="d">정책 · 플로우 · 프로토타입 (10월 통합 대비)</div></a>
 </div>
 
 <h2><span class="no">04</span>분석·리서치</h2>
 <div class="grid">
   <a class="card" href="research/research-kr.html"><div class="t">국내 25종 벤치마킹</div><div class="d">최적가 추천 = 셀링부스터 단독 보유 확인</div></a>
-  <a class="card" href="research/research-jp.html"><div class="t">일본 커머스 서비스 조사</div><div class="d">Nint · Keepa · Kalodata</div></a>
+  
 </div>
 </section>
 
@@ -454,7 +458,7 @@ body.ed-loaded .ed-foot{display:flex}
 <h2><span class="no">06</span>팀 관리</h2>
 <div class="grid">
   <a class="card" href="team/셀링부스터_팀업무정리.html"><div class="t">셀링부스터 팀 업무 정리</div><div class="d">기준: 2026년 8월 · 기획 이슬기 / 마케팅 안지호</div></a>
-  <a class="card" href="team/team-comms.html"><div class="t">협업·커뮤니케이션 기준</div><div class="d">검토 요청형 문체 · 기술 문의 항목화</div></a>
+  
 </div>
 
 <h2><span class="no">07</span>운영 계획</h2>
@@ -477,6 +481,7 @@ body.ed-loaded .ed-foot{display:flex}
       <a href="https://github.com/sulkooworks-commits/sellingbooster" target="_blank" rel="noopener noreferrer"><span class="ic">⎇</span>GitHub 저장소</a>
       <a href="mailto:sulkoo@hecto.co.kr"><span class="ic">✉</span>sulkoo@hecto.co.kr</a>
     </div>
+    <button type="button" class="ck-cache-btn" id="ck-cache-clear" title="캐시 기준 초기화 후 최신본 강제 로드">🧹 캐시 비우기·최신 새로고침</button>
     <span class="copy">© 2026 sulkoo.works · 커머스커넥트실 셀링부스터팀</span>
   </div>
 </footer>
@@ -614,6 +619,16 @@ body.ed-loaded .ed-foot{display:flex}
   document.querySelectorAll('.fix-col li[data-day="'+dayNum+'"]').forEach(function(li){
     li.classList.add("today-hl");
   });
+  /* ── 푸터: 캐시 비우기·최신 새로고침 ── */
+  var cbtn=document.getElementById("ck-cache-clear");
+  if(cbtn)cbtn.addEventListener("click",function(){
+    if(!confirm("캐시 기준을 초기화하고 저장소의 최신 버전을 강제로 불러옵니다.\n(로그인 30분 세션은 유지됩니다)"))return;
+    try{localStorage.removeItem("ckExpectedBid");}catch(e){}
+    try{sessionStorage.removeItem("ckStaleRetry");}catch(e){}
+    var fresh=location.pathname+"?v="+Date.now();
+    window.__ckCacheReload=fresh;
+    try{location.replace(fresh);}catch(e){location.href=fresh;}
+  });
 })();
 
 /* ===== 최근 이용한 메뉴 (localStorage · 최대 10) ===== */
@@ -714,6 +729,7 @@ body.ed-loaded .ed-foot{display:flex}
   }
   async function gh(path,opt){
     opt=opt||{};
+    opt.cache="no-store"; /* GitHub API 60초 캐시로 인한 stale sha(409) 방지 */
     opt.headers=Object.assign({
       "Authorization":"Bearer "+token.value.trim(),
       "Accept":"application/vnd.github+json",
@@ -736,11 +752,21 @@ body.ed-loaded .ed-foot{display:flex}
     var body={message:"chore: upload "+path+" via dashboard",content:toB64(await f.arrayBuffer()),branch:b};
     if(sha)body.sha=sha;
     var p=await gh(api,{method:"PUT",body:JSON.stringify(body)});
+    if(p.status===409){var g2=await gh(api+"?ref="+encodeURIComponent(b));
+      if(g2.status===200){body.sha=(await g2.json()).sha;p=await gh(api,{method:"PUT",body:JSON.stringify(body)});}}
     if(!p.ok){
       var err=await p.json().catch(function(){return{};});
-      throw new Error("HTTP "+p.status+(err.message?" · "+err.message:""));
+      throw new Error("HTTP "+p.status+(err.message?" · "+err.message:"")+(p.status===403?"\n→ [연동 테스트] 버튼으로 원인을 확인하세요 (토큰 계정·쓰기 권한)":""));
     }
     var res=await p.json();
+    if(path==="index.html"){ /* 수동 업로드한 잠금본의 bid로 신선도 기준 갱신 */
+      try{
+        var txt=new TextDecoder().decode(await f.arrayBuffer());
+        var bm=txt.match(/"bid":\s*(\d+)/);
+        if(bm)localStorage.setItem("ckExpectedBid",bm[1]);
+      }catch(e){}
+    }
+    if(window.__ckStampByPath)window.__ckStampByPath(path);
     st.className="st ok";
     st.innerHTML=(sha?"덮어씀 ✓":"신규 ✓")+' <a href="'+res.content.html_url+'" target="_blank" rel="noopener noreferrer">커밋 보기</a>';
   }
@@ -825,13 +851,16 @@ body.ed-loaded .ed-foot{display:flex}
     if(!confirm(edName+" 을(를) 새 커밋으로 덮어쓸까요?"))return;
     edCommit.disabled=true;edMsg("커밋 중…");
     try{
-      var r=await gh("/repos/"+owner.value.trim()+"/"+repo.value.trim()+"/contents/"+encPath(edName),{
-        method:"PUT",
-        body:JSON.stringify({message:"chore: edit "+edName+" via dashboard",content:textToB64(edArea.value),sha:edSha,branch:branch.value.trim()||"main"})
-      });
+      var edApi="/repos/"+owner.value.trim()+"/"+repo.value.trim()+"/contents/"+encPath(edName);
+      var edB=branch.value.trim()||"main";
+      var edBody={message:"chore: edit "+edName+" via dashboard",content:textToB64(edArea.value),sha:edSha,branch:edB};
+      var r=await gh(edApi,{method:"PUT",body:JSON.stringify(edBody)});
+      if(r.status===409){var g2=await gh(edApi+"?ref="+encodeURIComponent(edB));
+        if(g2.status===200){edBody.sha=(await g2.json()).sha;r=await gh(edApi,{method:"PUT",body:JSON.stringify(edBody)});}}
       if(!r.ok){var err=await r.json().catch(function(){return{};});throw new Error("HTTP "+r.status+(err.message?" · "+err.message:""));}
       var j=await r.json();
       edSha=j.content.sha; /* 연속 저장 대비 sha 갱신 */
+      if(window.__ckStampByPath)window.__ckStampByPath(edName);
       edMsg("커밋 완료 ✓ · Pages 반영 약 1분","ok");
     }catch(e){edMsg("커밋 실패 · "+e.message,"err");}
     edCommit.disabled=false;
@@ -862,6 +891,57 @@ body.ed-loaded .ed-foot{display:flex}
       if(edName===name){edName=null;edSha=null;edArea.value="";document.body.classList.remove("ed-loaded");}
       edMsg(name+" 삭제 완료 ✓ · Pages 반영 약 1분","ok");
     }catch(e){edMsg("삭제 실패 · "+e.message,"err");}
+  });
+
+  /* ===== 연동 테스트: 실제 쓰기 검증 (임시 파일 커밋 → 즉시 삭제) =====
+     주의: 저장소 API의 permissions.push 는 '계정 권한'이라 fine-grained 토큰의
+     Contents 권한 부족을 잡지 못함 → 반드시 실쓰기로 판정 */
+  $("up-test").addEventListener("click",async function(){
+    var box=$("up-test-result");
+    box.style.display="block";
+    box.innerHTML='<span style="color:var(--dim)">진단 중… (임시 파일 커밋/삭제로 실제 쓰기를 검증합니다)</span>';
+    if(!owner.value.trim()||!repo.value.trim()||!token.value.trim()){
+      box.innerHTML='<span style="color:var(--bad)">✗ 사용자명·저장소·토큰을 먼저 입력해주세요.</span>';return;
+    }
+    persist();
+    var lines=[];
+    function line(okFlag,text){lines.push('<div style="color:'+(okFlag===true?'var(--ok)':okFlag===false?'var(--bad)':'var(--dim)')+'">'+(okFlag===true?'✓ ':okFlag===false?'✗ ':'· ')+text+'</div>');}
+    function show(){box.innerHTML=lines.join("");}
+    try{
+      var o=owner.value.trim(),r=repo.value.trim(),b=branch.value.trim()||"main";
+      /* ① 토큰 유효성 + 소유 계정 */
+      var u=await gh("/user");
+      if(u.status===401){line(false,"토큰이 유효하지 않습니다 (만료·오타·폐기 여부 확인)");show();return;}
+      var uj=await u.json();
+      var sameOwner=uj.login&&uj.login.toLowerCase()===o.toLowerCase();
+      line(true,"토큰 계정: <b>"+uj.login+"</b>"+(sameOwner?"":' <span style="color:var(--warn)">— 저장소 소유자('+o+')와 다른 계정</span>'));
+      /* ② 실제 쓰기 검증: 임시 파일 커밋 */
+      var probe=".connection-test-"+Date.now()+".md";
+      var put=await gh("/repos/"+o+"/"+r+"/contents/"+probe,{
+        method:"PUT",
+        body:JSON.stringify({message:"chore: connection write test (auto-removed)",content:btoa("write-test"),branch:b})
+      });
+      if(!put.ok){
+        var perr=await put.json().catch(function(){return{};});
+        line(false,"<b>쓰기 실패 HTTP "+put.status+"</b>"+(perr.message?" · "+perr.message:""));
+        if(put.status===403){
+          line(null,"→ 토큰의 <b>Contents 권한이 Read and write 가 아닙니다.</b> 토큰 상세 화면(Settings→Fine-grained tokens→해당 토큰)의 Permissions 에 \"Contents — Read and write\" 로 표시되는지 확인하세요. Repository access 가 \"Public repositories (read-only)\" 로 선택돼 있어도 동일 증상입니다.");
+          if(!sameOwner)line(null,"→ 또는 "+uj.login+" 계정에 저장소 쓰기 권한이 없습니다: "+o+" 계정으로 재발급하거나 협업자(Write)로 추가하세요.");
+        }else if(put.status===404){
+          line(null,"→ 토큰의 Repository access 에 이 저장소가 포함되지 않았습니다.");
+        }
+        show();return;
+      }
+      var pj=await put.json();
+      line(true,"<b>쓰기 검증 통과 — 커밋 가능 상태입니다</b>");
+      /* ③ 임시 파일 즉시 삭제 (정리) */
+      var del=await gh("/repos/"+o+"/"+r+"/contents/"+probe,{
+        method:"DELETE",
+        body:JSON.stringify({message:"chore: remove connection write test",sha:pj.content.sha,branch:b})
+      });
+      line(del.ok,"임시 테스트 파일 정리"+(del.ok?" 완료":" 실패 — 저장소에서 "+probe+" 수동 삭제 필요"));
+    }catch(e){line(false,"진단 실패: "+e.message);}
+    show();
   });
 
   /* ===== 편집 모드에서 쓰는 저장소 연동 헬퍼 노출 ===== */
@@ -928,6 +1008,16 @@ body.ed-loaded .ed-foot{display:flex}
     if(body){body.classList.remove("ck-editing");if(!body.className)body.removeAttribute("class");}
     var t=doc.querySelector(".ck-edit-toggle");
     if(t){t.classList.remove("on");t.setAttribute("aria-pressed","false");}
+    /* 편집 액션 버튼 상태 정화 — disabled·dirty·임시 라벨이 저장본에 남지 않게 */
+    doc.querySelectorAll(".ck-edit-acts button").forEach(function(bt){bt.removeAttribute("disabled");bt.classList.remove("dirty");});
+    var cb=doc.querySelector(".ck-commit-index");if(cb)cb.textContent="GitHub에 저장";
+    var sv=doc.querySelector(".ck-save");if(sv)sv.textContent="저장";
+    var ex=doc.querySelector(".ck-extract");if(ex)ex.textContent="추출";
+    var tr=doc.querySelector("#up-test-result");if(tr){tr.style.display="none";tr.innerHTML="";}
+    var ea=doc.querySelector("#ed-content");if(ea)ea.textContent="";
+    var ef=doc.querySelector("#ed-file");if(ef)ef.innerHTML='<option value="">저장소 파일 목록을 불러오세요</option>';
+    var es=doc.querySelector("#ed-status");if(es){es.textContent="";es.className="ed-status";}
+    var bd=doc.querySelector("body");if(bd)bd.classList.remove("ed-loaded");
     var a=doc.querySelector("#ck-auth");if(a)a.classList.remove("open");
     doc.querySelectorAll(".ck-map-panel.open").forEach(function(el){el.classList.remove("open");});
     /* 업로더 입력값(토큰 등)은 저장본에 남기지 않음 */
@@ -1014,6 +1104,7 @@ body.ed-loaded .ed-foot{display:flex}
       var tile=leTarget.grid.querySelector(".add-tile");
       leTarget.grid.insertBefore(card,tile||null);
       attachCardX(card);
+      stampCard(card);
       var ul=panelUl(leTarget.secNo);
       if(ul){
         var li=document.createElement("li");
@@ -1044,6 +1135,7 @@ body.ed-loaded .ed-foot{display:flex}
         other.textContent=t;
       }
     });
+    if(leTarget.kind==="card")stampCard(a);
     if(window.__ckMarkDirty)window.__ckMarkDirty();
     closeLinkEdit();
   });
@@ -1060,6 +1152,25 @@ body.ed-loaded .ed-foot{display:flex}
     if(window.__ckMarkDirty)window.__ckMarkDirty();
     closeLinkEdit();
   });
+
+  /* ── 최종 업데이트 날짜 스탬프 (KST) ── */
+  function kstToday(){
+    return new Intl.DateTimeFormat("sv-SE",{timeZone:"Asia/Seoul"}).format(new Date()); /* YYYY-MM-DD */
+  }
+  function stampCard(card){
+    if(!card)return;
+    var u=card.querySelector(".u");
+    if(!u){u=document.createElement("div");u.className="u";card.appendChild(u);}
+    u.textContent="최종 업데이트 "+kstToday();
+    /* × 버튼이 항상 마지막에 오도록 */
+    var x=card.querySelector(".card-x");if(x)card.appendChild(x);
+  }
+  /* 파일 경로로 카드 찾기 → 스탬프 (업로더·파일편집기에서 호출) */
+  window.__ckStampByPath=function(path){
+    var card=document.querySelector('.menu-cols a.card[href="'+(window.CSS&&CSS.escape?CSS.escape(path):path)+'"]');
+    if(card){stampCard(card);if(window.__ckMarkDirty)window.__ckMarkDirty();return true;}
+    return false;
+  };
 
   /* ── 카드 개별 삭제 × 버튼 주입 (편집 모드에서만 표시, 저장본엔 미포함) ── */
   function removeMenuByHref(href){
@@ -1117,7 +1228,7 @@ body.ed-loaded .ed-foot{display:flex}
 
   /* ===== 잠금 저장: 브라우저에서 재암호화한 배포용 index.html 다운로드 ===== */
   var LOCK_HEAD="<!DOCTYPE html>\n<html lang=\"ko\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<meta name=\"robots\" content=\"noindex,nofollow\">\n<title>sulkoo.works<\/title>\n<style>\n:root{--bg:#0f1117;--card:#171a21;--line:#262b36;--tx:#e6e8ee;--dim:#9aa3b2;--acc:#5b8cff;--bad:#e06060}\n*{box-sizing:border-box}\nbody{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans KR\",sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}\n.lock{width:min(360px,calc(100vw - 48px));background:var(--card);border:1px solid var(--line);border-radius:14px;padding:32px 28px;text-align:center}\n.lock .ico{font-size:28px;margin-bottom:10px}\n.lock h1{font-size:18px;margin:0 0 4px;letter-spacing:-.01em}\n.lock p{color:var(--dim);font-size:13px;margin:0 0 20px}\n.lock input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--tx);font-family:inherit;font-size:15px;padding:11px 14px;border-radius:9px;outline:none;text-align:center;letter-spacing:.15em;transition:border-color .15s}\n.lock input:focus{border-color:var(--acc)}\n.lock button{width:100%;margin-top:10px;background:var(--acc);border:none;color:#fff;font-family:inherit;font-size:14px;font-weight:600;padding:11px;border-radius:9px;cursor:pointer;transition:opacity .15s}\n.lock button:hover{opacity:.9}\n.lock button:disabled{opacity:.5;cursor:wait}\n.msg{min-height:18px;margin-top:12px;font-size:12.5px;color:var(--bad)}\n.msg.dim{color:var(--dim)}\n<\/style>\n<\/head>\n<body>\n<div class=\"lock\">\n  <div class=\"ico\">🔒<\/div>\n  <h1>sulkoo.works<\/h1>\n  <p>비밀번호를 입력하면 대시보드가 열립니다<br>인증은 이 브라우저에서 30분간 유지됩니다<\/p>\n  <input type=\"password\" id=\"pw\" autocomplete=\"current-password\" autofocus aria-label=\"비밀번호\">\n  <button id=\"go\" type=\"button\">열기<\/button>\n  <div class=\"msg\" id=\"msg\"><\/div>\n<\/div>\n<script>\nvar PAYLOAD = ";
-  var LOCK_TAIL=";\nvar SKEY=\"ckUnlockSession\",SESSION_MS=30*60*1000; /* 인증 유지 30분 */\nvar pw=document.getElementById(\"pw\"),go=document.getElementById(\"go\"),msg=document.getElementById(\"msg\");\nfunction b64(s){var bin=atob(s),a=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return a;}\nfunction ab2b64(buf){var y=new Uint8Array(buf),bin=\"\",CH=8192;for(var i=0;i<y.length;i+=CH)bin+=String.fromCharCode.apply(null,y.subarray(i,i+CH));return btoa(bin);}\nfunction render(html){document.open();document.write(html);document.close();}\nasync function decryptWith(key){\n  var plain=await crypto.subtle.decrypt({name:\"AES-GCM\",iv:b64(PAYLOAD.iv)},key,b64(PAYLOAD.ct));\n  return new TextDecoder().decode(plain);\n}\n/* 30분 세션: 저장된 키가 유효하면 비밀번호 없이 자동 열림\n   ⚠️ document.write 는 반드시 파싱 완료 후 실행 — 파싱 중 실행하면\n   새 문서로 교체되지 않고 잠금 페이지 안에 끼어들어 화면이 깨짐 */\nasync function tryCached(){\n  try{\n    var s=JSON.parse(localStorage.getItem(SKEY)||\"null\");\n    if(!s||Date.now()>s.exp){localStorage.removeItem(SKEY);return;}\n    msg.className=\"msg dim\";msg.textContent=\"자동 인증 확인 중…\";\n    var key=await crypto.subtle.importKey(\"raw\",b64(s.k),{name:\"AES-GCM\"},false,[\"decrypt\"]);\n    var html=await decryptWith(key);\n    render(html);\n  }catch(e){\n    localStorage.removeItem(SKEY); /* 만료·비밀번호 변경 시 폐기 */\n    msg.textContent=\"\";\n  }\n}\nif(document.readyState===\"loading\"){\n  document.addEventListener(\"DOMContentLoaded\",function(){setTimeout(tryCached,0);});\n}else{\n  setTimeout(tryCached,0);\n}\nasync function unlock(){\n  var v=pw.value;\n  if(!v){msg.textContent=\"비밀번호를 입력해주세요.\";return;}\n  go.disabled=true;msg.className=\"msg dim\";msg.textContent=\"확인 중…\";\n  try{\n    var keyMat=await crypto.subtle.importKey(\"raw\",new TextEncoder().encode(v),\"PBKDF2\",false,[\"deriveKey\"]);\n    var key=await crypto.subtle.deriveKey(\n      {name:\"PBKDF2\",salt:b64(PAYLOAD.salt),iterations:PAYLOAD.iter,hash:\"SHA-256\"},\n      keyMat,{name:\"AES-GCM\",length:256},true,[\"decrypt\"]);\n    var html=await decryptWith(key);\n    try{\n      var raw=await crypto.subtle.exportKey(\"raw\",key);\n      localStorage.setItem(SKEY,JSON.stringify({k:ab2b64(raw),salt:PAYLOAD.salt,iter:PAYLOAD.iter,exp:Date.now()+SESSION_MS}));\n    }catch(e){}\n    render(html);\n  }catch(e){\n    go.disabled=false;msg.className=\"msg\";\n    msg.textContent=\"비밀번호가 올바르지 않습니다.\";\n    pw.value=\"\";pw.focus();\n  }\n}\ngo.addEventListener(\"click\",unlock);\npw.addEventListener(\"keydown\",function(e){if(e.key===\"Enter\")unlock();});\n<\/script>\n<\/body>\n<\/html>\n";
+  var LOCK_TAIL=";\nvar SKEY=\"ckUnlockSession\",SESSION_MS=30*60*1000; /* 인증 유지 30분 */\n/* ── 저장본 신선도 검사: 대시보드에서 커밋한 최신 빌드(bid)보다 이 파일이 오래됐으면\n     GitHub Pages CDN/브라우저 캐시가 옛 버전을 준 것 → 캐시 우회 파라미터로 재요청 ── */\nvar STALE=false;\n(function(){\n  try{\n    var expect=parseInt(localStorage.getItem(\"ckExpectedBid\")||\"0\",10)||0;\n    var mine=PAYLOAD.bid||0;\n    if(expect>mine){\n      var rc=parseInt(sessionStorage.getItem(\"ckStaleRetry\")||\"0\",10);\n      if(rc<8){ /* Pages 재빌드(~1분) 대기: 최대 8회 재시도 */\n        STALE=true;\n        sessionStorage.setItem(\"ckStaleRetry\",String(rc+1));\n        var fresh=location.pathname+\"?v=\"+Date.now();\n        window.__ckStaleRedirect=fresh;\n        setTimeout(function(){location.replace(fresh);},rc===0?150:8000);\n      }else{\n        sessionStorage.removeItem(\"ckStaleRetry\"); /* 반영 지연 — 이번 회차는 그대로 진행 */\n      }\n    }else{\n      sessionStorage.removeItem(\"ckStaleRetry\");\n    }\n  }catch(e){}\n})();\nvar pw=document.getElementById(\"pw\"),go=document.getElementById(\"go\"),msg=document.getElementById(\"msg\");\nfunction b64(s){var bin=atob(s),a=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return a;}\nfunction ab2b64(buf){var y=new Uint8Array(buf),bin=\"\",CH=8192;for(var i=0;i<y.length;i+=CH)bin+=String.fromCharCode.apply(null,y.subarray(i,i+CH));return btoa(bin);}\nfunction render(html){document.open();document.write(html);document.close();}\nasync function decryptWith(key){\n  var plain=await crypto.subtle.decrypt({name:\"AES-GCM\",iv:b64(PAYLOAD.iv)},key,b64(PAYLOAD.ct));\n  return new TextDecoder().decode(plain);\n}\n/* 30분 세션: 저장된 키가 유효하면 비밀번호 없이 자동 열림\n   ⚠️ document.write 는 반드시 파싱 완료 후 실행 — 파싱 중 실행하면\n   새 문서로 교체되지 않고 잠금 페이지 안에 끼어들어 화면이 깨짐 */\nasync function tryCached(){\n  if(STALE){msg.className=\"msg dim\";msg.textContent=\"방금 저장한 최신 버전을 불러오는 중…\";return;}\n  try{\n    var s=JSON.parse(localStorage.getItem(SKEY)||\"null\");\n    if(!s||Date.now()>s.exp){localStorage.removeItem(SKEY);return;}\n    msg.className=\"msg dim\";msg.textContent=\"자동 인증 확인 중…\";\n    var key=await crypto.subtle.importKey(\"raw\",b64(s.k),{name:\"AES-GCM\"},false,[\"decrypt\"]);\n    var html=await decryptWith(key);\n    render(html);\n  }catch(e){\n    localStorage.removeItem(SKEY); /* 만료·비밀번호 변경 시 폐기 */\n    msg.textContent=\"\";\n  }\n}\nif(document.readyState===\"loading\"){\n  document.addEventListener(\"DOMContentLoaded\",function(){setTimeout(tryCached,0);});\n}else{\n  setTimeout(tryCached,0);\n}\nasync function unlock(){\n  var v=pw.value;\n  if(!v){msg.textContent=\"비밀번호를 입력해주세요.\";return;}\n  go.disabled=true;msg.className=\"msg dim\";msg.textContent=\"확인 중…\";\n  try{\n    var keyMat=await crypto.subtle.importKey(\"raw\",new TextEncoder().encode(v),\"PBKDF2\",false,[\"deriveKey\"]);\n    var key=await crypto.subtle.deriveKey(\n      {name:\"PBKDF2\",salt:b64(PAYLOAD.salt),iterations:PAYLOAD.iter,hash:\"SHA-256\"},\n      keyMat,{name:\"AES-GCM\",length:256},true,[\"decrypt\"]);\n    var html=await decryptWith(key);\n    try{\n      var raw=await crypto.subtle.exportKey(\"raw\",key);\n      localStorage.setItem(SKEY,JSON.stringify({k:ab2b64(raw),salt:PAYLOAD.salt,iter:PAYLOAD.iter,exp:Date.now()+SESSION_MS}));\n    }catch(e){}\n    render(html);\n  }catch(e){\n    go.disabled=false;msg.className=\"msg\";\n    msg.textContent=\"비밀번호가 올바르지 않습니다.\";\n    pw.value=\"\";pw.focus();\n  }\n}\ngo.addEventListener(\"click\",unlock);\npw.addEventListener(\"keydown\",function(e){if(e.key===\"Enter\")unlock();});\n<\/script>\n<\/body>\n<\/html>\n";
   function ab2b64(buf){
     var bytes=new Uint8Array(buf),bin="",CH=8192;
     for(var i=0;i<bytes.length;i+=CH)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+CH));
@@ -1156,14 +1267,15 @@ body.ed-loaded .ed-foot{display:flex}
     var srcHtml=serializePage();
     var iv=crypto.getRandomValues(new Uint8Array(12));
     var ct=await crypto.subtle.encrypt({name:"AES-GCM",iv:iv},ctx.key,new TextEncoder().encode(srcHtml));
-    var payload=JSON.stringify({salt:ctx.salt,iv:ab2b64(iv),ct:ab2b64(ct),iter:ctx.iter});
-    return LOCK_HEAD+payload+LOCK_TAIL;
+    var bid=Date.now();
+    var payload=JSON.stringify({salt:ctx.salt,iv:ab2b64(iv),ct:ab2b64(ct),iter:ctx.iter,bid:bid});
+    return {html:LOCK_HEAD+payload+LOCK_TAIL,bid:bid};
   }
   gnb.querySelector(".ck-lock-save").addEventListener("click",async function(){
     var ctx=await getLockContext();if(!ctx)return;
     try{
-      var locked=await buildLockedHtml(ctx);
-      var blob=new Blob([locked],{type:"text/html;charset=utf-8"});
+      var built=await buildLockedHtml(ctx);
+      var blob=new Blob([built.html],{type:"text/html;charset=utf-8"});
       var a=document.createElement("a");
       a.href=URL.createObjectURL(blob);a.download="index.html";a.click();
       URL.revokeObjectURL(a.href);
@@ -1183,18 +1295,25 @@ body.ed-loaded .ed-foot{display:flex}
     if(!G.ready())return false;
     var ctx=await getLockContext();if(!ctx)return false;
     if(!confirm("현재 대시보드 상태를 저장소(index.html)에 커밋할까요?"))return false;
-    var orig=commitBtn.textContent;
+    /* ⚠️ 스냅샷은 버튼 비활성화 '이전'에 생성 — 커밋 중 상태가 저장본에 구워지는 문제 방지 */
+    var built,locked;
+    try{built=await buildLockedHtml(ctx);locked=built.html;}
+    catch(e){alert("암호화 실패: "+e.message);return false;}
+    var orig="GitHub에 저장";
     commitBtn.disabled=true;commitBtn.textContent="커밋 중…";
     try{
-      var locked=await buildLockedHtml(ctx);
       var sha=null;
       var g=await G.gh("/repos/"+G.owner()+"/"+G.repo()+"/contents/index.html?ref="+encodeURIComponent(G.branch()));
       if(g.status===200){sha=(await g.json()).sha;}
       else if(g.status!==404){throw new Error("조회 실패 HTTP "+g.status);}
       var body={message:"chore: update index.html via dashboard",content:G.b64(locked),branch:G.branch()};
       if(sha)body.sha=sha;
-      var p=await G.gh("/repos/"+G.owner()+"/"+G.repo()+"/contents/index.html",{method:"PUT",body:JSON.stringify(body)});
-      if(!p.ok){var err=await p.json().catch(function(){return{};});throw new Error("HTTP "+p.status+(err.message?" · "+err.message:""));}
+      var ixApi="/repos/"+G.owner()+"/"+G.repo()+"/contents/index.html";
+      var p=await G.gh(ixApi,{method:"PUT",body:JSON.stringify(body)});
+      if(p.status===409){var g2=await G.gh(ixApi+"?ref="+encodeURIComponent(G.branch()));
+        if(g2.status===200){body.sha=(await g2.json()).sha;p=await G.gh(ixApi,{method:"PUT",body:JSON.stringify(body)});}}
+      if(!p.ok){var err=await p.json().catch(function(){return{};});throw new Error("HTTP "+p.status+(err.message?" · "+err.message:"")+(p.status===403?"\n→ [연동 테스트] 버튼으로 원인을 확인하세요 (토큰 계정·쓰기 권한)":""));}
+      try{localStorage.setItem("ckExpectedBid",String(built.bid));}catch(e){}
       clearDirty();
       commitBtn.disabled=false;commitBtn.textContent="GitHub에 저장";
       alert("index.html 커밋 완료 ✓\nPages 반영(약 1분) 후 새로고침하면 저장한 상태로 열립니다.");
@@ -1208,5 +1327,6 @@ body.ed-loaded .ed-foot{display:flex}
   commitBtn.addEventListener("click",doCommitIndex);
 })();
 </script>
-</body>
-</html>
+
+
+<div id="jsExtensionEmbedder"><div role="region" aria-label="Notifications (F8)" tabindex="-1" style="pointer-events: none;"><ol tabindex="-1" class="StyledViewport-sc-1famsgu-1 dLRKDU"></ol></div><div id="jsExtensionMenuParent"></div></div></body></html>
