@@ -24,9 +24,12 @@ def encrypt(html: str, password: str) -> dict:
     iv = os.urandom(12)
     key = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt,
                      iterations=ITER).derive(password.encode("utf-8"))
+    import time as _t
+    bid = int(_t.time()*1000)
+    html = html.replace("__CK_BID__", str(bid))  # 평문에 빌드 bid 주입 (스테일 가드용)
     ct = AESGCM(key).encrypt(iv, html.encode("utf-8"), None)
     b64 = lambda b: base64.b64encode(b).decode()
-    return {"salt": b64(salt), "iv": b64(iv), "ct": b64(ct), "iter": ITER}
+    return {"salt": b64(salt), "iv": b64(iv), "ct": b64(ct), "iter": ITER, "bid": bid}
 
 LOCK_TEMPLATE = """<!DOCTYPE html>
 <html lang="ko">
@@ -64,6 +67,29 @@ body{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,Bli
 <script>
 var PAYLOAD = __PAYLOAD__;
 var SKEY="ckUnlockSession",SESSION_MS=30*60*1000; /* 인증 유지 30분 */
+/* ── 저장본 신선도 검사: 대시보드에서 커밋한 최신 빌드(bid)보다 이 파일이 오래됐으면
+     GitHub Pages CDN/브라우저 캐시가 옛 버전을 준 것 → 캐시 우회 파라미터로 재요청 ── */
+var STALE=false;
+(function(){
+  try{
+    var expect=parseInt(localStorage.getItem("ckExpectedBid")||"0",10)||0;
+    var mine=PAYLOAD.bid||0;
+    if(expect>mine){
+      var rc=parseInt(sessionStorage.getItem("ckStaleRetry")||"0",10);
+      if(rc<8){ /* Pages 재빌드(~1분) 대기: 최대 8회 재시도 */
+        STALE=true;
+        sessionStorage.setItem("ckStaleRetry",String(rc+1));
+        var fresh=location.pathname+"?v="+Date.now();
+        window.__ckStaleRedirect=fresh;
+        setTimeout(function(){location.replace(fresh);},rc===0?150:8000);
+      }else{
+        sessionStorage.removeItem("ckStaleRetry"); /* 반영 지연 — 이번 회차는 그대로 진행 */
+      }
+    }else{
+      sessionStorage.removeItem("ckStaleRetry");
+    }
+  }catch(e){}
+})();
 var pw=document.getElementById("pw"),go=document.getElementById("go"),msg=document.getElementById("msg");
 function b64(s){var bin=atob(s),a=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return a;}
 function ab2b64(buf){var y=new Uint8Array(buf),bin="",CH=8192;for(var i=0;i<y.length;i+=CH)bin+=String.fromCharCode.apply(null,y.subarray(i,i+CH));return btoa(bin);}
@@ -76,6 +102,7 @@ async function decryptWith(key){
    ⚠️ document.write 는 반드시 파싱 완료 후 실행 — 파싱 중 실행하면
    새 문서로 교체되지 않고 잠금 페이지 안에 끼어들어 화면이 깨짐 */
 async function tryCached(){
+  if(STALE){msg.className="msg dim";msg.textContent="방금 저장한 최신 버전을 불러오는 중…";return;}
   try{
     var s=JSON.parse(localStorage.getItem(SKEY)||"null");
     if(!s||Date.now()>s.exp){localStorage.removeItem(SKEY);return;}
@@ -106,6 +133,12 @@ async function unlock(){
     try{
       var raw=await crypto.subtle.exportKey("raw",key);
       localStorage.setItem(SKEY,JSON.stringify({k:ab2b64(raw),salt:PAYLOAD.salt,iter:PAYLOAD.iter,exp:Date.now()+SESSION_MS}));
+    }catch(e){}
+    /* 개인 데이터(메모·완료체크) 동기화 키: 고정 솔트 파생 — 재배포(솔트 변경)와 무관하게 유지 */
+    try{
+      var pmat=await crypto.subtle.importKey("raw",new TextEncoder().encode(v),"PBKDF2",false,["deriveBits"]);
+      var pbits=await crypto.subtle.deriveBits({name:"PBKDF2",salt:new TextEncoder().encode("ck-personal-v1"),iterations:310000,hash:"SHA-256"},pmat,256);
+      localStorage.setItem("ckPKey",ab2b64(pbits));
     }catch(e){}
     render(html);
   }catch(e){
