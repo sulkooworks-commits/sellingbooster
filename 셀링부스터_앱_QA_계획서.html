@@ -80,7 +80,7 @@
 </head>
 <body>
 <div class="topbar">
-  <div class="t">셀링부스터 앱 QA 계획서 <span>커머스커넥트실 셀링부스터팀 · v1.2 · 2026-08-20</span></div>
+  <div class="t">셀링부스터 앱 QA 계획서 <span>커머스커넥트실 셀링부스터팀 · v1.3 · 2026-08-20</span></div>
   <div class="btns">
     <button class="btn" onclick="downloadDocx()">워드(docx) 다운로드</button>
     <button class="btn primary" onclick="window.print()">PDF 다운로드</button>
@@ -113,7 +113,7 @@
 
 <section class="card" id="sec2">
   <h2><span class="num">2</span>주요 일정</h2>
-  <p class="lead">QA 종료 9/11(금) 고정. 종료 후 실장 → 전무 → 대표 순으로 보고하고 9/16(수) 오픈을 목표로 하되, 입점 승인이 9/21 이후로 밀리면 추석(9/24~9/28)을 피해 9/30(수)으로 이동한다. 어드민 구축(~8/26)과 대표 현행 리뷰(8/24)는 QA와 병행한다.</p>
+  <p class="lead">QA 종료 9/11(금) 고정. 검증 인력은 3단계로 확대한다 — 8월 말까지 팀원 검증, 9/1(화)~9/2(수) 커머스커넥트실 실원 검증, 9/3(목)~9/4(금) 사내 자원 이벤트 검증. 실원 검증 후 대표 별도 보고를 거쳐 9/16(수) 오픈을 목표로 하되, 입점 승인이 9/21 이후로 밀리면 추석(9/24~9/28)을 피해 9/30(수)으로 이동한다.</p>
 
   <h3>2-1. 단계별 일정</h3>
   <table>
@@ -121,7 +121,10 @@
     <tbody>
       <tr><td>현행</td><td>8/20(목) 기준</td><td>앱 개발 완료, 운영서버 배포 완료</td><td><span class="chip">이승재</span><span class="chip">채민우</span><span class="chip">김승래</span></td></tr>
       <tr><td>사전검증</td><td>~8/20(목)</td><td>스모크 테스트(설치·로그인·핵심 플로우 1회), TC 설계, 테스트 계정·기기 준비, APK 보안 스캔(MobSF)·Robo 테스트 1회</td><td><span class="chip">이슬기</span></td></tr>
-      <tr><td>정식 QA 1차</td><td>8/21(금) ~ 9/4(금)</td><td>TC 전수 수행, 결함 카드 생성, 디자인 검수 병행, 수정 배포 및 재확인 반복</td><td><span class="chip">이슬기</span><span class="chip">이순우</span><span class="chip">이승재</span></td></tr>
+      <tr><td>정식 QA 1차<br><span class="note">① 팀원 검증</span></td><td>8/21(금) ~ 8/31(월)</td><td>TC 전수 수행(P1 첫 주 완료), 결함 카드 생성, 디자인 검수 병행, 수정 배포 및 재확인 반복 — 기존 QA 인원·일정대로 수행</td><td><span class="chip">이슬기</span><span class="chip">안지호</span><span class="chip">이순우</span><span class="chip">이승재</span></td></tr>
+      <tr><td>정식 QA 1차<br><span class="note">② 실원 검증</span></td><td>9/1(화) ~ 9/2(수)</td><td>커머스커넥트실 기획자 전원 + 개발자 1인이 핵심 플로우·P1 TC 교차 검증. 팀원 검증에서 정리되지 않은 결함 재현, 설계 의도 대비 검토</td><td><span class="chip">임승용</span><span class="chip">서영우</span><span class="chip">배범진</span><span class="chip">개발자 1(미정)</span></td></tr>
+      <tr><td>정식 QA 1차<br><span class="note">③ 사내 이벤트 검증</span></td><td>9/3(목) ~ 9/4(금)</td><td>회사 내부 자원 대상 자유 탐색 검증(리워드 제공, 이벤트성). 실사용 시나리오 기반 이슈 제보 → 검증자가 중복 제거 후 카드 전환</td><td><span class="chip">사내 참여자</span><span class="chip">이슬기</span></td></tr>
+      <tr><td>대표 별도 보고</td><td>9/3 이후 (일정 설정 예정)</td><td>실원 검증 결과 기준 중간 보고 — 결함 현황, 오픈 리스크, 입점 심사 진행 상태</td><td><span class="chip">이슬기</span></td></tr>
       <tr><td>재검증(회귀)</td><td>9/7(월) ~ 9/10(목)</td><td>수정 건 전수 재검증, 핵심 플로우 회귀 테스트, 잔여 결함 정리</td><td><span class="chip">이슬기</span><span class="chip">이순우</span></td></tr>
       <tr><td>QA 종료</td><td>9/11(금)</td><td>최종 대응 마감, 통과율 기준 릴리즈 판정, 잔여 M·L 건 오픈 후 처리 합의</td><td><span class="chip">전원</span></td></tr>
       <tr><td>실장 보고</td><td>9/11(금)</td><td>QA 종료 판정 결과, 잔여 건, 오픈일 1안·2안 보고 (종료 회의 직후)</td><td><span class="chip">이슬기</span></td></tr>
@@ -136,7 +139,7 @@
   <table>
     <thead><tr><th style="width:20%">항목</th><th style="width:20%">일정</th><th>내용</th><th style="width:18%">담당</th></tr></thead>
     <tbody>
-      <tr><td>대표 현행 리뷰</td><td>8/24(월) 목표</td><td>개발 완료·운영 배포 상태 시연, QA 계획·입점 일정 공유. 리뷰 피드백은 Asana 카드로 등록해 QA 범위에 포함</td><td><span class="chip">이슬기</span></td></tr>
+      <tr><td>커머스 확장 모니터링</td><td>8/18(화) 배포 ~ 지속</td><td>웹버전 운영 배포 완료(8/18) 이후 운영 지표·오류 모니터링 지속. 앱 QA 중 발견되는 웹 공통 이슈는 동일 Asana 프로젝트에 카드로 등록해 함께 대응</td><td><span class="chip">이승재</span><span class="chip">이슬기</span></td></tr>
       <tr><td>어드민 구축</td><td>~8/26(수)</td><td>메인·슬라이드 배너 등록, 팝업 등록, 캘린더 등록 기능 구축. 완료 후 어드민 등록 → 앱 노출 연동 TC를 1차 QA에 편입</td><td><span class="chip">이다솜</span><span class="chip">이승재</span></td></tr>
     </tbody>
   </table>
@@ -159,9 +162,10 @@
     <thead><tr><th>구분</th><th>8/17~</th><th>8/24~</th><th>8/31~</th><th>9/7~</th><th>9/14~</th><th>9/21~</th><th>9/28~</th></tr></thead>
     <tbody>
       <tr><td>사전검증</td><td><span class="bar b-pre"></span></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td>대표 현행 리뷰</td><td></td><td><span class="bar b-rev" style="width:22%"></span></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>커머스 확장 모니터링</td><td><span class="bar b-mkt" style="width:80%;margin-left:20%"></span></td><td><span class="bar b-mkt"></span></td><td><span class="bar b-mkt"></span></td><td><span class="bar b-mkt"></span></td><td><span class="bar b-mkt"></span></td><td><span class="bar b-mkt"></span></td><td><span class="bar b-mkt"></span></td></tr>
       <tr><td>어드민 구축</td><td><span class="bar b-adm"></span></td><td><span class="bar b-adm" style="width:60%"></span></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td>정식 QA 1차</td><td><span class="bar b-qa" style="width:30%;margin-left:70%"></span></td><td><span class="bar b-qa"></span></td><td><span class="bar b-qa"></span></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>실원·사내 검증</td><td></td><td></td><td><span class="bar b-rev" style="width:40%"></span><span class="bar b-adm" style="width:40%;margin-left:40%;margin-top:-18px"></span></td><td></td><td></td><td></td><td></td></tr>
       <tr><td>수정 대응·배포</td><td></td><td><span class="bar b-fix"></span></td><td><span class="bar b-fix"></span></td><td><span class="bar b-fix"></span></td><td></td><td></td><td></td></tr>
       <tr><td>재검증·QA 종료</td><td></td><td></td><td></td><td><span class="bar b-qa"></span></td><td></td><td></td><td></td></tr>
       <tr><td>경영진 보고</td><td></td><td></td><td></td><td><span class="bar b-rev" style="width:20%;margin-left:80%"></span></td><td><span class="bar b-rev" style="width:40%"></span></td><td></td><td></td></tr>
@@ -170,7 +174,7 @@
       <tr><td>추석 연휴</td><td></td><td></td><td></td><td></td><td></td><td><span class="bar b-hol" style="width:40%;margin-left:60%"></span></td><td><span class="bar b-hol" style="width:20%"></span></td></tr>
     </tbody>
   </table>
-  <p class="legend"><span><i class="b-pre"></i>사전검증</span><span><i class="b-adm"></i>어드민 구축</span><span><i class="b-qa"></i>QA 수행</span><span><i class="b-fix"></i>수정 대응</span><span><i class="b-rev"></i>리뷰·보고</span><span><i class="b-mkt"></i>입점 심사</span><span><i class="b-open"></i>오픈</span><span><i class="b-hol"></i>추석</span></p>
+  <p class="legend"><span><i class="b-pre"></i>사전검증</span><span><i class="b-qa"></i>QA 수행</span><span><i class="b-fix"></i>수정 대응</span><span><i class="b-rev"></i>리뷰·보고·실원 검증</span><span><i class="b-adm"></i>어드민·사내 검증</span><span><i class="b-mkt"></i>입점 심사·모니터링</span><span><i class="b-open"></i>오픈</span><span><i class="b-hol"></i>추석</span></p>
 </section>
 
 <section class="card" id="sec3">
@@ -179,7 +183,7 @@
 
   <div class="flow">
     <div class="step"><b>① TC 수행</b><small>화면설계서·플로우 기준 TC를 실행하고 담당자 필드에 상태값(Y/N/NA) 기재</small><div class="who"><span class="chip">이슬기</span></div></div>
-    <div class="step"><b>② 카드 생성</b><small>N(이슈) 건은 K열에 상세 기재 후 Asana 카드 생성, 중요도·유형·담당 지정</small><div class="who"><span class="chip">이슬기</span></div></div>
+    <div class="step"><b>② 카드 생성</b><small>N(이슈) 건은 K열에 상세 기재 후 Asana 카드 생성, 중요도·유형·담당 지정</small><div class="who"><span class="chip">이슬기</span><span class="chip">안지호</span></div></div>
     <div class="step"><b>③ 대응</b><small>기능·API는 개발, UI는 디자인 검수 후 화면 대응. 카드 코멘트로 원인·조치 기록</small><div class="who"><span class="chip">이승재</span><span class="chip">이순우</span></div></div>
     <div class="step"><b>④ 수정 배포</b><small>배포 창에 맞춰 운영서버 반영, 카드 상태를 재검증 요청으로 변경</small><div class="who"><span class="chip">채민우</span><span class="chip">김승래</span></div></div>
     <div class="step"><b>⑤ 재검증</b><small>수정 건 재확인 + 연관 화면 회귀. 통과 시 완료, 실패 시 ③으로 복귀</small><div class="who"><span class="chip">이슬기</span></div></div>
@@ -281,27 +285,33 @@
     <thead><tr><th style="width:18%">역할</th><th style="width:18%">담당</th><th>책임 범위</th></tr></thead>
     <tbody>
       <tr><td>QA 총괄·검증자</td><td><span class="chip">이슬기</span></td><td>QA 계획·TC 설계·TC 수행·결함 카드 생성·재검증·일일/주간 리포트·종료 판정 주관·경영진 보고</td></tr>
+      <tr><td>검증 · 카드 생성</td><td><span class="chip">이슬기</span><span class="chip">안지호</span></td><td>팀원 검증(8/21~8/31) TC 수행 분담, 이슈 건 K열 기재 및 Asana 카드 생성</td></tr>
       <tr><td>디자인 검수자</td><td><span class="chip">이순우</span></td><td>화면설계서·디자인 시안 대비 UI 일치 여부 검수, UI 결함 판정 기준 제공, 디자인 수정안 확정</td></tr>
       <tr><td>개발 대응</td><td><span class="chip">이승재</span></td><td>기능·API·데이터 결함 원인 분석 및 수정, 카드 코멘트로 조치 기록, 수정 불가·보류 사유 제시</td></tr>
       <tr><td>배포 및 화면 대응</td><td><span class="chip">채민우(iOS)</span><span class="chip">김승래(AOS)</span></td><td>플랫폼별 UI 수정 반영, 정기·긴급 배포, 스토어 배포·입점 세팅, 심사 보완 요청 1차 대응, 오픈 빌드 확정</td></tr>
+      <tr><td>실원 검증</td><td><span class="chip">임승용</span><span class="chip">서영우</span><span class="chip">배범진</span><span class="chip">개발자 1(미정)</span></td><td>9/1~9/2 핵심 플로우·P1 TC 교차 검증(4-2)</td></tr>
       <tr><td>어드민 구축</td><td><span class="chip">이다솜</span><span class="chip">이승재</span></td><td>메인·슬라이드 배너, 팝업, 캘린더 등록 기능 구축(~8/26), 어드민 연동 결함 대응</td></tr>
     </tbody>
   </table>
 
-  <h3>4-2. 외부 담당자 영입 여부 검토 필요</h3>
-  <p class="lead">전무님 의견으로, 검증 인력을 확대해 커버리지를 넓히는 방안을 검토한다. 내부 HD 인력과 외부 인원을 합쳐 총 10명 이내로 모집하고, 참여자에게는 커피 쿠폰 리워드를 제공하는 방식이다.</p>
+  <h3>4-2. QA 인력 투입 계획</h3>
+  <p class="lead">검증 인력을 팀원 → 실원 → 사내 자원 순으로 3단계 확대해 검증자 1인 체제의 커버리지 한계를 보완한다. 실원 검증 이후 대표 별도 보고를 진행한다.</p>
   <table>
-    <thead><tr><th style="width:20%">항목</th><th>검토 내용</th></tr></thead>
+    <thead><tr><th style="width:16%">단계</th><th style="width:16%">기간</th><th style="width:24%">투입 인력</th><th>역할과 범위</th></tr></thead>
     <tbody>
-      <tr><td>제안 배경</td><td>전무님 의견 — 검증자 1인 체제의 커버리지 한계 보완</td></tr>
-      <tr><td>모집 규모</td><td>내부 HD 인력 및 외부 인원 총 10명 이내</td></tr>
-      <tr><td>리워드</td><td>참여자 대상 커피 쿠폰 제공</td></tr>
-      <tr><td>담당 범위(안)</td><td>정식 TC 전수가 아닌 자유 탐색 중심. 실사용 시나리오 기반 앱 사용 후 이슈 제보</td></tr>
-      <tr><td>기록 방식(안)</td><td>공용 구글 시트 별도 시트(외부 제보용)에 환경·재현 경로·영상 기재 → 검증자가 중복 제거 후 정식 결함 카드로 전환</td></tr>
-      <tr><td>참여 기간(안)</td><td>1차 QA 2주차(8/31~9/4) 집중 투입 — 핵심 결함이 정리된 이후가 제보 품질이 높음</td></tr>
-      <tr><td>확인 필요</td><td>모집 채널·대상 범위, 운영서버 대상 테스트에 따른 계정·데이터 정책, 외부 인원 대상 비공개 정보 취급 기준, 리워드 예산·집행 주체</td></tr>
+      <tr><td>① 팀원 검증</td><td>8/21(금) ~ 8/31(월)</td><td><span class="chip">이슬기</span><span class="chip">안지호</span><span class="chip">이순우</span><span class="chip">이승재</span><span class="chip">채민우</span><span class="chip">김승래</span></td><td>기존 QA 인원·일정대로 TC 전수 수행. P1은 8/28까지 완료, 8/31 기준 C·H 결함 정리 상태로 실원 검증에 인계</td></tr>
+      <tr><td>② 실원 검증</td><td>9/1(화) ~ 9/2(수)</td><td><span class="chip">임승용</span><span class="chip">서영우</span><span class="chip">배범진</span><span class="chip">개발자 1(미정)</span></td><td>커머스커넥트실 기획자 전원 + 개발자 1인. 핵심 플로우(진입·가입·로그인·대시보드·키워드 분석·플래너) 교차 검증, P1 TC 재수행, 설계 의도 대비 UX 검토. 결과는 공용 시트 담당 열(기획)에 Y/N/NA로 기재</td></tr>
+      <tr><td>③ 사내 이벤트 검증</td><td>9/3(목) ~ 9/4(금)</td><td><span class="chip">회사 내부 자원</span><br><span class="note">리워드: 커피 쿠폰(이벤트성)</span></td><td>자유 탐색 중심. 실사용 시나리오로 앱을 사용하고 이슈 제보. 별도 제보 시트(환경·재현 경로·영상)에 기록 → 검증자가 중복 제거 후 정식 결함 카드로 전환. 기기·OS 다양성 확보가 목적</td></tr>
+      <tr><td>대표 별도 보고</td><td>9/3 이후<br><span class="note">일정 설정 예정</span></td><td><span class="chip">이슬기</span></td><td>실원 검증(②) 결과 기준 중간 보고. 결함 현황·오픈 리스크·입점 심사 상태. 9/15 오픈 승인 보고와 별개</td></tr>
     </tbody>
   </table>
+  <h4 style="font-size:14px;margin:14px 0 6px">운영 준비 사항</h4>
+  <ul>
+    <li>실원 검증용 TC 발췌본(P1 + 핵심 플로우) 8/31까지 준비, 9/1 오전 15분 브리핑 후 착수</li>
+    <li>사내 이벤트 검증: 참여 안내문·제보 시트·테스트 계정 9/2까지 준비, 리워드 예산·집행 주체 확정</li>
+    <li>운영서버 대상이므로 참여자 전원 테스트 전용 계정 사용, 테스트 데이터 접두어 규칙 적용</li>
+    <li>개발자 1인 지정 및 대표 별도 보고 일정은 실장 확인 후 확정</li>
+  </ul>
 
   <h3>4-3. 커뮤니케이션 리듬</h3>
   <ul>
@@ -334,8 +344,9 @@
       <tr><td class="risk-h">추석 연휴(9/24~9/28)</td><td>오픈 직후 대응 공백</td><td>9/21~9/23 오픈은 연휴 직전 대응 공백으로 제외. 2안은 연휴 이후 9/30(수)로 설정. 1안 오픈 시 연휴 전 모니터링 당번 지정</td></tr>
       <tr><td class="risk-h">C·H 결함 다발</td><td>QA 기간 초과</td><td>P1 TC를 첫 주에 집중 수행해 치명 결함을 8월 안에 노출. 9/4 기준 C·H 잔여 5건 초과 시 재검증 기간 조정 여부 즉시 논의</td></tr>
       <tr><td class="risk-h">어드민 구축 지연</td><td>연동 TC 미수행</td><td>8/26 초과 시 어드민 연동 TC를 재검증 주간(9/7~)으로 이월. 9/4까지 미완료면 배너·팝업·캘린더는 오픈 시 고정 콘텐츠로 대체하고 어드민은 오픈 후 반영</td></tr>
-      <tr><td class="risk-h">검증 인력 1인</td><td>커버리지 부족</td><td>P3·L 등급은 자동 도구(Accessibility Scanner·Robo)로 보완. 4-2 외부 담당자 영입안 검토 결과에 따라 인력 보강</td></tr>
-      <tr><td class="risk-h">운영서버 대상 QA</td><td>실데이터 오염</td><td>테스트 전용 계정 사용, 테스트 데이터 식별 규칙(접두어) 적용, 종료 후 일괄 정리. 외부 인원 투입 시 계정·데이터 정책 사전 확정</td></tr>
+      <tr><td class="risk-h">검증 인력 1인(8월)</td><td>커버리지 부족</td><td>P3·L 등급은 자동 도구(Accessibility Scanner·Robo)로 보완. 9/1~9/4 실원·사내 검증으로 인력 확대(4-2). 실원 검증 전 C·H 미정리 시 실원 검증 효율 저하 → 8/31 정리 기준 준수</td></tr>
+      <tr><td class="risk-h">실원·사내 검증 품질</td><td>중복·저품질 제보</td><td>실원은 P1 발췌 TC로 범위 고정, 사내 참여자는 제보 양식(영상 필수) 강제. 검증자가 당일 중복 제거 후 카드 전환</td></tr>
+      <tr><td class="risk-h">운영서버 대상 QA</td><td>실데이터 오염</td><td>테스트 전용 계정 사용, 테스트 데이터 식별 규칙(접두어) 적용, 종료 후 일괄 정리. 실원·사내 참여자 계정은 9/2까지 일괄 발급</td></tr>
       <tr><td class="risk-h">경영진 보고 일정</td><td>오픈일 이동</td><td>보고 3건을 9/11~9/15 연속 배치. 일정 미확보 시 전무·대표 합동 보고로 축약</td></tr>
       <tr><td class="risk-h">기기·OS 커버리지</td><td>특정 환경 결함 미발견</td><td>테스트 기기 최소 3종(최신 OS·2년 전 OS·저사양) 확보. 부족분은 Firebase Test Lab 가상 기기로 대체</td></tr>
     </tbody>
@@ -349,14 +360,14 @@
     <li>테스트 기기 목록(OS 버전·기종)과 테스트 전용 계정 발급</li>
     <li>공용 구글 시트 URL 및 K열(실제결과) 컬럼 구조 확정</li>
     <li>정기 배포 창(화·목) 운영 가능 여부 — 개발·배포 담당 확인</li>
-    <li>Asana 프로젝트 섹션을 상태 흐름 6단계로 재구성해도 되는지</li>
-    <li>4-2 외부 담당자 영입 진행 여부와 모집 채널·리워드 예산</li>
-    <li>대표 현행 리뷰(8/24) 및 경영진 보고(9/11·9/14·9/15) 일정 확보</li>
+    <li>실원 검증 개발자 1인 지정, 사내 이벤트 검증 리워드(커피 쿠폰) 예산·집행 주체</li>
+    <li>대표 별도 보고 일정(9/3 이후) 확정</li>
+    <li>대표 별도 보고(9/3 이후), 경영진 보고(9/11·9/14·9/15) 일정 확보</li>
     <li>화면설계서 최종본 버전 확정(QA 기준 문서 고정)</li>
   </ul>
 </section>
 
-<footer>커머스커넥트실 셀링부스터팀 · 셀링부스터 앱 QA 계획서 v1.2 · 2026-08-20</footer>
+<footer>커머스커넥트실 셀링부스터팀 · 셀링부스터 앱 QA 계획서 v1.3 · 2026-08-20</footer>
 </div>
 
 <div class="fab">
@@ -377,7 +388,7 @@ function downloadDocx(){
     + '.chip{color:#6466FA;font-weight:bold}.tag{font-weight:bold}'
     + '.bar,.legend,.btns{display:none}';
   var html = '<!DOCTYPE html><html><head><meta charset="utf-8"><style>' + css + '</style></head><body>' + content + '</body></html>';
-  var name = '셀링부스터_앱_QA_계획서_v1.2.docx';
+  var name = '셀링부스터_앱_QA_계획서_v1.3.docx';
   try {
     saveBlob(htmlDocx.asBlob(html, {orientation:'portrait'}), name);
   } catch (e) {
