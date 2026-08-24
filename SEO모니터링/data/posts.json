@@ -1,7 +1,62 @@
 [
-  { "date": "2026-08-14", "category": "이용사례", "title": "네이버 스마트스토어 상품명 최적화 및 키워드 난이도 분석법 2026 완벽 가이드", "url": "" },
-  { "date": "2026-08-18", "category": "K트렌드 매거진", "title": "제주 여행룩, 믹스매치로 완성한 감각적인 여자 데일리 코디", "url": "https://sellingbooster.io/community/blog/sellingtrend/136" },
-  { "date": "2026-08-18", "category": "지식", "title": "식음료 트렌드 ① 간편식 프리미엄 HMR, 셀러가 잡아야 할 2026 기회", "url": "https://sellingbooster.io/community/blog/sikeumryo-teurendeu-ganpyeonsik-peurimieom-hmr-selreoga-japaya-hal-2026-gihoe" },
-  { "date": "2026-08-19", "category": "K트렌드 매거진", "title": "남친룩 코디, 카키 셔츠와 와이드 데님으로 만드는 남자 데일리 룩", "url": "https://sellingbooster.io/community/blog/sellingtrend/138" },
-  { "date": "2026-08-19", "category": "지식", "title": "스마트스토어 태그 추출 및 키워드 세팅 가이드, 2026 완벽 전략 리뷰", "url": "https://sellingbooster.io/community/blog/seumateuseutoeo-taegeu-chuchul-mit-kiwodeu-seting-gaideu-2026-wanbyeok-jeonryak-ribyu" }
+ {
+  "date": "2026-08-12",
+  "category": "K트렌드 매거진",
+  "title": "여자 미니멀 룩, 선선해진 늦여름 갤러리 무드 데일리 코디",
+  "url": "https://sellingbooster.io/community/blog/sellingtrend/127"
+ },
+ {
+  "date": "2026-08-12",
+  "category": "지식",
+  "title": "초보 셀러를 위한 이커머스 상품 소싱 전략 3가지, 성공 노하우 및 주의사항 2026 리뷰",
+  "url": "https://sellingbooster.io/community/blog/chobo-selreoreul-wihan-ikeomeoseu-sangpum-sosing-jeonryak-3gaji-seonggong-nohau-mit-juuisahang-2026-ribyu"
+ },
+ {
+  "date": "2026-08-14",
+  "category": "K트렌드 매거진",
+  "title": "감성 캠핑 룩, 자연과 도시를 잇는 아웃도어 데일리 코디",
+  "url": "https://sellingbooster.io/community/blog/sellingtrend/133"
+ },
+ {
+  "date": "2026-08-14",
+  "category": "이용사례",
+  "title": "네이버 스마트스토어 상품명 최적화 및 키워드 난이도 분석법 2026 완벽 가이드",
+  "url": "https://sellingbooster.io/community/blog/neibeo-seumateuseutoeo-sangpummyeong-choejeokhwa-mit-kiwodeu-nanido-bunseokbeop-2026-wanbyeok-gaideu"
+ },
+ {
+  "date": "2026-08-18",
+  "category": "지식",
+  "title": "식음료 트렌드 ① 간편식 프리미엄 HMR, 셀러가 잡아야 할 2026 기회",
+  "url": "https://sellingbooster.io/community/blog/sikeumryo-teurendeu-ganpyeonsik-peurimieom-hmr-selreoga-japaya-hal-2026-gihoe"
+ },
+ {
+  "date": "2026-08-18",
+  "category": "K트렌드 매거진",
+  "title": "제주 여행룩, 믹스매치로 완성한 감각적인 여자 데일리 코디",
+  "url": "https://sellingbooster.io/community/blog/sellingtrend/136"
+ },
+ {
+  "date": "2026-08-19",
+  "category": "K트렌드 매거진",
+  "title": "남친룩 코디, 카키 셔츠와 와이드 데님으로 만드는 남자 데일리 룩",
+  "url": "https://sellingbooster.io/community/blog/sellingtrend/138"
+ },
+ {
+  "date": "2026-08-19",
+  "category": "지식",
+  "title": "스마트스토어 태그 추출 및 키워드 세팅 가이드, 2026 완벽 전략 리뷰",
+  "url": "https://sellingbooster.io/community/blog/seumateuseutoeo-taegeu-chuchul-mit-kiwodeu-seting-gaideu-2026-wanbyeok-jeonryak-ribyu"
+ },
+ {
+  "date": "2026-08-21",
+  "category": "K트렌드 매거진",
+  "title": "로맨틱 데일리 룩, 아일릿 블라우스와 와이드 데님으로 만드는 여자 코디",
+  "url": "https://sellingbooster.io/community/blog/sellingtrend/141"
+ },
+ {
+  "date": "2026-08-21",
+  "category": "지식",
+  "title": "쿠팡 vs 네이버 vs 11번가 3대 채널 입점 및 노출 비교 2026 완벽 가이드",
+  "url": "https://sellingbooster.io/community/blog/kupang-vs-neibeo-vs-11beonga-3dae-chaeneol-ipjeom-mit-nochul-bigyo-2026-wanbyeok-gaideu"
+ }
 ]

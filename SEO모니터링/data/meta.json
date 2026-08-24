@@ -1,11 +1,15 @@
 {
-  "totals": [
-    {
-      "date": "2026-08-19",
-      "total": 94
-    }
-  ],
-  "lastRun": null,
-  "lastStatus": "seed",
-  "notes": "totals: 블로그 페이지 '전체(N)' 표시 이력 / lastStatus: ok:N | parse_failed | fetch_failed | seed"
+ "totals": [
+  {
+   "date": "2026-08-19",
+   "total": 94
+  },
+  {
+   "date": "2026-08-24",
+   "total": 96
+  }
+ ],
+ "lastRun": "2026-08-24T02:00:00Z",
+ "lastStatus": "ok:96 (manual)",
+ "notes": "totals: 블로그 페이지 '전체(N)' 표시 이력 / lastStatus: ok:N | parse_failed | fetch_failed | seed / 2026-08-24 수동 보정: Actions 워크플로 미배치 기간(8/19~8/24) 공백을 블로그 첫 페이지 조회로 소급 반영"
 }
