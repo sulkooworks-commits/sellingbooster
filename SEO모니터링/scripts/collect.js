@@ -74,9 +74,40 @@ async function collectWithBrowser() {
   }
 }
 
+// 네이버 블로그 RSS 수집 (policy.json의 naver 채널 url 사용)
+async function collectNaver(policy) {
+  const ch = (policy.channels || []).find((c) => c.id === 'naver');
+  if (!ch || !ch.url) return null; // 미등록
+  let rssUrl = ch.url;
+  const m = rssUrl.match(/blog\.naver\.com\/([A-Za-z0-9_-]+)/);
+  if (!/rss\.blog\.naver\.com/.test(rssUrl) && m) rssUrl = 'https://rss.blog.naver.com/' + m[1] + '.xml';
+  const res = await fetch(rssUrl, { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; seo-monitor/1.0)' } });
+  if (!res.ok) throw new Error('naver rss HTTP ' + res.status);
+  const xml = await res.text();
+  const items = [];
+  const re = /<item>([\s\S]*?)<\/item>/g;
+  let mm;
+  while ((mm = re.exec(xml)) !== null) {
+    const block = mm[1];
+    const pick = (tag) => {
+      const r = block.match(new RegExp('<' + tag + '>(?:<!\\[CDATA\\[)?([\\s\\S]*?)(?:\\]\\]>)?<\\/' + tag + '>'));
+      return r ? r[1].trim() : '';
+    };
+    const title = pick('title');
+    const link = pick('link');
+    const pub = pick('pubDate');
+    const d = pub ? new Date(pub) : null;
+    const date = d && !isNaN(d) ? new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(d) : null;
+    if (title && date) items.push({ date, category: '네이버 블로그', title, url: link });
+  }
+  return items;
+}
+
 async function main() {
   const meta = JSON.parse(fs.readFileSync(p('data', 'meta.json'), 'utf8'));
   const posts = JSON.parse(fs.readFileSync(p('data', 'posts.json'), 'utf8'));
+  let policy = { channels: [] };
+  try { policy = JSON.parse(fs.readFileSync(p('data', 'policy.json'), 'utf8')); } catch (e) {}
   const today = todayKST();
   meta.lastRun = new Date().toISOString();
 
@@ -99,14 +130,27 @@ async function main() {
 
   console.log('parsed posts:', result.posts.length, result.total !== null ? `(total ${result.total})` : '(total not found)');
 
-  if (result.posts.length === 0) {
-    meta.lastStatus = result.total !== null ? 'parse_failed_total_ok' : 'parse_failed';
+  // 네이버 블로그 RSS 수집 (실패해도 본 수집에는 영향 없음)
+  let naverPosts = [];
+  let naverStatus = '';
+  try {
+    const nv = await collectNaver(policy);
+    if (nv === null) naverStatus = ''; // URL 미등록
+    else { naverPosts = nv; naverStatus = '+nv'; console.log('naver posts parsed:', nv.length); }
+  } catch (e) {
+    console.error('naver collect failed:', e.message);
+    naverStatus = '|naver_failed';
+  }
+
+  const collected = result.posts.concat(naverPosts);
+  if (collected.length === 0) {
+    meta.lastStatus = (result.total !== null ? 'parse_failed_total_ok' : 'parse_failed') + naverStatus;
   } else {
     const known = new Set(posts.map(key));
-    const fresh = result.posts.filter((x) => !known.has(key(x)));
+    const fresh = collected.filter((x) => !known.has(key(x)));
     for (const f of fresh) posts.push(f);
     posts.sort((a, b) => a.date.localeCompare(b.date));
-    meta.lastStatus = 'ok:' + fresh.length;
+    meta.lastStatus = 'ok:' + fresh.length + naverStatus;
     if (fresh.length) console.log('new posts:\n' + fresh.map((f) => `${f.date} [${f.category}] ${f.title}`).join('\n'));
     fs.writeFileSync(p('data', 'posts.json'), JSON.stringify(posts, null, 2));
   }
