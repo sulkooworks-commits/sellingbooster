@@ -1,19 +1,12 @@
 {
   "totals": [
-    {
-      "date": "2026-08-19",
-      "total": 94
-    },
-    {
-      "date": "2026-08-24",
-      "total": 96
-    },
-    {
-      "date": "2026-08-26",
-      "total": 99
-    }
+    { "date": "2026-08-19", "total": 94 },
+    { "date": "2026-08-21", "total": 94 },
+    { "date": "2026-08-22", "total": 96 },
+    { "date": "2026-08-24", "total": 96 },
+    { "date": "2026-08-26", "total": 99 }
   ],
-  "lastRun": "2026-08-26T08:36:39.657Z",
-  "lastStatus": "ok:10",
-  "notes": "totals: 블로그 페이지 '전체(N)' 표시 이력 / lastStatus: ok:N | parse_failed | fetch_failed | seed / 2026-08-24 수동 보정: Actions 워크플로 미배치 기간(8/19~8/24) 공백을 블로그 첫 페이지 조회로 소급 반영"
+  "lastRun": "2026-08-27T02:30:00.000Z",
+  "lastStatus": "ok:cleanup",
+  "notes": "totals: 블로그 페이지 '전체(N)' 표시 이력 / lastStatus: ok:N | parse_failed | fetch_failed | seed. 2026-08-27 정리: 구버전 파서의 비정상 제목 8건 제거, 수집기를 Playwright 렌더링 방식(v2)으로 교체."
 }
