@@ -22,6 +22,29 @@ function normDate(s) {
 }
 const key = (x) => x.date + '|' + String(x.title).slice(0, 40);
 
+// 데이터 정리: 과거 파서가 본문을 제목으로 저장한 항목(150자 초과)과 중복 제거
+function sanitize(posts) {
+  // 1) 같은 url이 여러 개면 제목이 짧은(정상) 항목 유지
+  const byUrl = new Map();
+  const noUrl = [];
+  for (const x of posts) {
+    if (x.url) {
+      const prev = byUrl.get(x.url);
+      if (!prev || String(x.title).length < String(prev.title).length) byUrl.set(x.url, x);
+    } else noUrl.push(x);
+  }
+  let out = [...byUrl.values(), ...noUrl];
+  // 2) 제목 150자 초과 항목: 같은 날짜+카테고리의 정상 항목이 있으면 제거
+  out = out.filter((x) => {
+    if (String(x.title).length <= 150) return true;
+    return !out.some((y) => y !== x && y.date === x.date && y.category === x.category && String(y.title).length <= 150);
+  });
+  // 3) 날짜+제목(40자) 중복 제거
+  const seen = new Set();
+  return out.filter((x) => { const k = key(x); if (seen.has(k)) return false; seen.add(k); return true; })
+    .sort((a, b) => a.date.localeCompare(b.date));
+}
+
 async function collectWithBrowser() {
   const { chromium } = require('playwright');
   const browser = await chromium.launch({ headless: true });
@@ -49,9 +72,9 @@ async function collectWithBrowser() {
         if (!lines.length) return;
         const category = lines.find((l) => CATS.includes(l)) || null;
         const dateLine = lines.find((l) => /\d{4}[.\-\/]\d{1,2}[.\-\/]\d{1,2}/.test(l)) || null;
+        // 제목: 카테고리·날짜 제외, 8~150자 범위의 "첫 번째" 줄 (본문 미리보기는 150자 초과라 제외됨)
         const title = lines
-          .filter((l) => l !== category && l !== dateLine && l.length >= 8 && !/^\d/.test(l))
-          .sort((x, y) => y.length - x.length)[0] || null;
+          .find((l) => l !== category && l !== dateLine && l.length >= 8 && l.length <= 150 && !/^\d/.test(l)) || null;
         if (category && dateLine && title && !seen.has(href)) {
           seen.add(href);
           out.push({ href, category, dateLine, title });
@@ -149,11 +172,14 @@ async function main() {
     const known = new Set(posts.map(key));
     const fresh = collected.filter((x) => !known.has(key(x)));
     for (const f of fresh) posts.push(f);
-    posts.sort((a, b) => a.date.localeCompare(b.date));
     meta.lastStatus = 'ok:' + fresh.length + naverStatus;
     if (fresh.length) console.log('new posts:\n' + fresh.map((f) => `${f.date} [${f.category}] ${f.title}`).join('\n'));
-    fs.writeFileSync(p('data', 'posts.json'), JSON.stringify(posts, null, 2));
   }
+  // 병합 후 정리(오염·중복 제거) — 수집 결과가 없어도 기존 데이터 정리는 수행
+  const before = posts.length;
+  const cleaned = sanitize(posts);
+  if (cleaned.length !== before) console.log('sanitized:', before, '->', cleaned.length);
+  fs.writeFileSync(p('data', 'posts.json'), JSON.stringify(cleaned, null, 2));
   fs.writeFileSync(p('data', 'meta.json'), JSON.stringify(meta, null, 2));
 }
 
