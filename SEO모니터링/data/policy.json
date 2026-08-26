@@ -24,7 +24,7 @@
       "name": "네이버 블로그",
       "external": true,
       "startDate": "2026-08-26",
-      "url": null,
+      "url": "https://rss.blog.naver.com/sellingbooster.xml",
       "note": "월·수·금 본편만 워싱 워크플로(자사 원본 발행→색인 확인→재집필)로 파생, 화·목은 보류"
     }
   ],
