@@ -121,7 +121,7 @@
       <div class="week" id="weekCal"></div>
     </div>
     <div class="card">
-      <h2>최근 7일 일별 발행 건수</h2>
+      <h2>최근 일별 발행 건수</h2>
       <div class="cap" id="chartCap"></div>
       <div class="legend" id="chartLegend"></div>
       <div class="chart" id="chart"></div>
@@ -158,7 +158,7 @@
     <div class="card">
       <h2>주간 달성 이력</h2>
       <div class="cap">주별(월~일) 채널 발행 횟수 vs 목표</div>
-      <table><thead><tr><th>주 (월~일)</th><th>K트렌드 (목표)</th><th>블로그 (목표)</th><th>네이버 (목표)</th><th>판정</th></tr></thead><tbody id="weeklyRows"></tbody></table>
+      <table><thead><tr><th>주 (일~토)</th><th>K트렌드 (목표)</th><th>블로그 (목표)</th><th>네이버 (목표)</th><th>판정</th></tr></thead><tbody id="weeklyRows"></tbody></table>
     </div>
     <div class="card">
       <h2>전체 건수 추이</h2>
@@ -208,12 +208,12 @@ async function loadAndRender(){
   var cssv = function(n){ return css.getPropertyValue(n).trim(); };
   function kstToday(){ return new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Seoul'}).format(new Date()); }
   function addDays(iso, n){ var d = new Date(iso + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate()+n); return d.toISOString().slice(0,10); }
-  function dowMon0(iso){ return (new Date(iso+'T00:00:00Z').getUTCDay()+6)%7; } // 월=0
-  function weekMonday(iso){ return addDays(iso, -dowMon0(iso)); }
+  function dowMon0(iso){ return (new Date(iso+'T00:00:00Z').getUTCDay()+6)%7; } // 월=0 (요일 라벨용)
+  function weekStart(iso){ return addDays(iso, -new Date(iso+'T00:00:00Z').getUTCDay()); } // 주 시작 = 일요일
   function fmtMD(iso){ return iso.slice(5).replace('-','.'); }
   var DOWS = ['월','화','수','목','금','토','일'];
   var today = kstToday();
-  var monday = weekMonday(today);
+  var monday = weekStart(today); // 이번 주 시작일(일요일) — 주간 집계 기준: 일~토
 
   var chMap = {}; // category -> channel
   // 외부 채널(네이버)도 URL이 등록되면 정식 채널로 포함 (초록 시리즈)
@@ -266,7 +266,8 @@ async function loadAndRender(){
     if (plannedThisWeek.length) {
       expected = plannedThisWeek.filter(function(pp){ return pp.date <= today; }).length;
     } else {
-      expected = Math.min(target, Math.ceil(target * (dowMon0(today)+1) / 7));
+      var elapsed = Math.round((new Date(today+'T00:00:00Z') - new Date(monday+'T00:00:00Z'))/86400000) + 1;
+      expected = Math.min(target, Math.ceil(target * elapsed / 7));
     }
     var st, cls, ico;
     if (count >= target) { st='주간 목표 달성'; cls='good'; ico='●'; }
@@ -296,9 +297,16 @@ async function loadAndRender(){
   // ---------- week calendar ----------
   document.getElementById('weekTitle').textContent = '이번 주 발행 캘린더 (' + fmtMD(monday) + '–' + fmtMD(addDays(monday,6)) + ')';
   var cal = '';
+  var calDays = 0;
   for (var i=0;i<7;i++){
     var d = addDays(monday,i);
+    var isWeekend = (dowMon0(d) >= 5); // 토·일
+    var hasData = posts.some(function(p){ return p.date===d && channelOf(p); }) ||
+                  (policy.plannedPosts||[]).some(function(pp){ return pp.date===d; });
+    if (isWeekend && !hasData) continue; // 주말은 데이터 있을 때만 표시
+    calDays++;
     var cls = 'day' + (d===today?' today':'') + (d>today?' future':'');
+    var dowLabel = DOWS[dowMon0(d)];
     var dots = '';
     posts.filter(function(p){ return p.date===d && channelOf(p); }).forEach(function(p){
       var c = channelOf(p);
@@ -310,24 +318,30 @@ async function loadAndRender(){
       if (!published && d>=today) dots += '<span class="dot hollow" style="border-color:' + (pc?slotColor(pc):'var(--text-muted)') + '" title="계획(' + (chShort[pp.channel]||pp.channel) + '): ' + pp.title.replace(/"/g,'&quot;') + '"></span>';
     });
     var skip = (policy.skipDates||[]).indexOf(d)>=0;
-    cal += '<div class="' + cls + '"><div class="dow">' + DOWS[i] + '</div><div class="dt">' + parseInt(d.slice(8),10) + '</div>' +
+    cal += '<div class="' + cls + '"><div class="dow">' + dowLabel + '</div><div class="dt">' + parseInt(d.slice(8),10) + '</div>' +
       (skip ? '<div class="none">연휴</div>' : (dots ? '<div class="dots">'+dots+'</div>' : '<div class="none">–</div>')) + '</div>';
   }
-  document.getElementById('weekCal').innerHTML = cal;
+  var weekCalEl = document.getElementById('weekCal');
+  weekCalEl.innerHTML = cal;
+  weekCalEl.style.gridTemplateColumns = 'repeat(' + Math.max(calDays,1) + ', 1fr)';
 
   // ---------- 7-day chart ----------
-  var start7 = addDays(today,-6);
-  document.getElementById('chartCap').textContent = start7.slice(5).replace('-','/') + ' – ' + today.slice(5).replace('-','/') + ' 수집 데이터 기준';
+  document.getElementById('chartCap').textContent = '최근 발행일 기준 (주말은 발행이 있을 때만 표시)';
   document.getElementById('chartLegend').innerHTML = channels.map(function(c){
     return '<span><span class="swatch" style="background:'+slotColor(c)+'"></span>'+c.name+'</span>';
   }).join('');
   (function(){
+    // 최근 10일 중 주말(토·일)은 발행 데이터가 있을 때만 포함, 최근 7칸 표시
     var days = [];
-    for (var i=0;i<7;i++){ var d = addDays(start7,i);
-      days.push({ d: d, per: channels.map(function(c){ return posts.filter(function(p){ var cc=channelOf(p); return cc&&cc.id===c.id&&p.date===d; }); }) });
+    for (var i=0;i<10;i++){ var d = addDays(today,-9+i);
+      var per = channels.map(function(c){ return posts.filter(function(p){ var cc=channelOf(p); return cc&&cc.id===c.id&&p.date===d; }); });
+      var total = per.reduce(function(s,a){return s+a.length;},0);
+      if (dowMon0(d) >= 5 && total === 0) continue;
+      days.push({ d: d, per: per });
     }
+    days = days.slice(-7);
     var maxV = Math.max(2, Math.max.apply(null, days.map(function(x){ return x.per.reduce(function(s,a){return s+a.length;},0); })));
-    var W=900,H=210,padL=26,padT=12,padB=28, plotW=W-padL-8, plotH=H-padB-padT, band=plotW/7, barW=20, gap=2;
+    var W=900,H=210,padL=26,padT=12,padB=28, plotW=W-padL-8, plotH=H-padB-padT, band=plotW/Math.max(days.length,1), barW=20, gap=2;
     var NS='http://www.w3.org/2000/svg';
     var svg=document.createElementNS(NS,'svg'); svg.setAttribute('viewBox','0 0 '+W+' '+H); svg.setAttribute('width','100%');
     for (var g=0; g<=maxV; g++){
@@ -413,12 +427,12 @@ async function loadAndRender(){
   });
   if (naver) pd += '<li><strong style="color:var(--text-primary)">'+naver.name+'</strong> — ' + fmtMD(naver.startDate) + ' 착수 예정' + (naver.note? ' · '+naver.note : '') + '</li>';
   pd += '</ul><h3>발행 스킵</h3><ul><li>' + (policy.skipDates||[]).join(', ') + ' — ' + (policy.skipNote||'') + '</li></ul>';
-  pd += '<h3>판정 규칙</h3><ul><li>주간 집계: 월~일 (KST)</li><li>계획일 기준 도래분 대비: 충족=정상 · 1건 부족=주의 · 2건 이상=미달 · 주간 목표 도달=달성</li></ul>';
+  pd += '<h3>판정 규칙</h3><ul><li>주간 집계: 일~토 (KST)</li><li>계획일 기준 도래분 대비: 충족=정상 · 1건 부족=주의 · 2건 이상=미달 · 주간 목표 도달=달성</li></ul>';
   document.getElementById('policyDoc').innerHTML = pd;
 
   // ---------- weekly history ----------
   var wr = '';
-  var firstMon = weekMonday('2026-08-17');
+  var firstMon = weekStart('2026-08-17');
   for (var wm = monday; wm >= firstMon; wm = addDays(wm,-7)) {
     var wmm = wm;
     var byId = {};
