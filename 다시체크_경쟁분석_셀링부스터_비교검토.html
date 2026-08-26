@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>다시체크 경쟁 서비스 분석 및 셀링부스터 비교 검토</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root{
+    --bg:#F7F6F1; --card:#FFFFFF; --line:#E6E4DC; --ink:#1E2532; --ink-2:#4A5160; --muted:#7A8090;
+    --teal:#00B1BD; --violet:#6466FA; --red:#C0161D; --amber:#B7791F; --green:#1F8A5A;
+    --teal-soft:rgba(0,177,189,.10); --violet-soft:rgba(100,102,250,.10); --red-soft:rgba(192,22,29,.08); --amber-soft:rgba(183,121,31,.10); --green-soft:rgba(31,138,90,.10);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;word-break:keep-all}
+  a{color:var(--teal);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(247,246,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .topbar-inner{max-width:1080px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .topbar-title{font-weight:700;font-size:15px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .topbar-title small{display:block;font-weight:500;font-size:12px;color:var(--muted);margin-top:1px}
+  .topbar-actions{display:flex;gap:8px;flex-shrink:0}
+  .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--ink);font:inherit;font-weight:600;font-size:13px;padding:8px 14px;border-radius:999px;cursor:pointer;transition:all .15s}
+  .btn:hover{border-color:var(--ink);transform:translateY(-1px)}
+  .btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .btn.primary:hover{background:#2B3446}
+  .btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:36px 24px 80px}
+
+  .doc-head{margin-bottom:28px}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--teal);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+  .eyebrow::before{content:"";width:22px;height:2px;background:var(--teal)}
+  h1{font-size:30px;line-height:1.3;letter-spacing:-.02em;margin:0 0 14px;font-weight:800}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13.5px;color:var(--ink-2)}
+  .meta b{color:var(--ink);font-weight:600}
+  .chip{display:inline-block;background:var(--violet-soft);border:1px solid rgba(100,102,250,.35);color:var(--violet);font-weight:700;font-size:12.5px;padding:3px 11px;border-radius:999px}
+
+  .lead{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--teal);border-radius:22px;padding:22px 26px;margin-bottom:28px}
+  .lead .label{font-size:12px;font-weight:700;color:var(--teal);letter-spacing:.06em;margin-bottom:10px}
+  .lead .one{font-size:18px;font-weight:800;line-height:1.5;margin:0 0 14px;letter-spacing:-.01em}
+  .lead .row{display:grid;grid-template-columns:112px 1fr;gap:6px 12px;font-size:15px;padding:8px 0;border-top:1px dashed var(--line)}
+  .lead .row b{color:var(--teal)}
+  .lead .row span{line-height:1.6}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:26px 28px;margin-bottom:22px}
+  h2{display:flex;align-items:center;gap:12px;font-size:20px;letter-spacing:-.015em;margin:0 0 16px;font-weight:800}
+  h2 .num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--teal);color:#fff;font-size:13px;font-weight:800;flex-shrink:0}
+  h3{font-size:16px;margin:22px 0 10px;padding-left:12px;border-left:4px solid var(--violet);font-weight:700;letter-spacing:-.01em}
+  h3:first-of-type{margin-top:6px}
+  p{margin:0 0 10px}
+  ul,ol{margin:6px 0 12px;padding-left:20px}
+  li{margin:4px 0}
+  .note{font-size:13.5px;color:var(--ink-2);background:rgba(128,128,128,.06);border-radius:12px;padding:12px 16px;margin-top:12px}
+  .note b{color:var(--ink)}
+
+  .tbl-wrap{overflow-x:auto;margin:10px 0 6px;border-radius:14px;border:1px solid var(--line)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th,td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+  th{background:var(--ink);color:#fff;font-weight:700;font-size:12.5px;white-space:nowrap}
+  tr:last-child td{border-bottom:none}
+  td.em{background:var(--violet-soft);font-weight:600}
+  td.hd{font-weight:700;color:var(--ink);white-space:nowrap}
+  td.remark{color:var(--ink-2);font-size:13px}
+  .tag{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:6px;white-space:nowrap}
+  .tag.ok{background:var(--green-soft);color:var(--green)}
+  .tag.no{background:var(--red-soft);color:var(--red)}
+  .tag.part{background:var(--amber-soft);color:var(--amber)}
+  .tag.na{background:rgba(128,128,128,.10);color:var(--muted)}
+  .tag.hi{background:var(--violet-soft);color:var(--violet)}
+  .tag.ext{background:var(--teal-soft);color:var(--teal)}
+
+  /* 강조 행: 빨간 테두리 박스 */
+  tr.hl td{box-shadow:inset 0 2px 0 var(--red),inset 0 -2px 0 var(--red)}
+  tr.hl td:first-child{box-shadow:inset 2px 0 0 var(--red),inset 0 2px 0 var(--red),inset 0 -2px 0 var(--red)}
+  tr.hl td:last-child{box-shadow:inset -2px 0 0 var(--red),inset 0 2px 0 var(--red),inset 0 -2px 0 var(--red)}
+  tr.hl + tr.hl td{box-shadow:inset 0 -2px 0 var(--red)}
+  tr.hl + tr.hl td:first-child{box-shadow:inset 2px 0 0 var(--red),inset 0 -2px 0 var(--red)}
+  tr.hl + tr.hl td:last-child{box-shadow:inset -2px 0 0 var(--red),inset 0 -2px 0 var(--red)}
+  /* 노란 형광펜 */
+  .ul{text-decoration:underline;text-decoration-color:var(--violet);text-decoration-thickness:3px;text-underline-offset:4px}
+  .mark{background:linear-gradient(transparent 38%, rgba(255,214,0,.6) 38%);padding:0 2px}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px}
+  .box{border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+  .box h4{margin:0 0 8px;font-size:14px;font-weight:800;display:flex;align-items:center;gap:8px}
+  .box h4 .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .box ul{margin:0;padding-left:18px;font-size:13.5px}
+  .box li{margin:3px 0}
+  .sb .dot{background:var(--violet)} .dc .dot{background:var(--teal)}
+
+  .src{font-size:12.5px;color:var(--muted)}
+  .src li{margin:2px 0}
+  .foot{margin-top:28px;font-size:12.5px;color:var(--muted);text-align:center}
+
+  @media (max-width:720px){
+    h1{font-size:24px}
+    .grid2{grid-template-columns:1fr}
+    .lead .row{grid-template-columns:1fr}
+    .card{padding:20px 18px;border-radius:18px}
+    .topbar-title small{display:none}
+  }
+  @media print{
+    .topbar{display:none}
+    body{background:#fff}
+    .wrap{max-width:none;padding:0}
+    .card,.lead{break-inside:avoid;border-radius:10px;box-shadow:none}
+    th,td.em,.tag,.chip,.box,.mark,tr.hl td{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-title">다시체크 경쟁 서비스 분석 및 셀링부스터 비교 검토<small>커머스커넥트실 셀링부스터팀 · 2026-08-27</small></div>
+    <div class="topbar-actions">
+      <button class="btn" onclick="exportDoc()">Word(.doc) 저장</button>
+      <button class="btn primary" onclick="window.print()">PDF 저장</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" id="doc">
+
+  <div class="doc-head">
+    <div class="eyebrow">경쟁 서비스 검토</div>
+    <h1>다시체크(dasicheck.com) 경쟁 서비스 분석<br>및 셀링부스터 비교 검토</h1>
+    <div class="meta">
+      <span><b>작성일</b> 2026-08-27</span>
+      <span><b>작성</b> <span class="chip">이슬기</span> 커머스커넥트실 셀링부스터팀</span>
+      <span><b>대상</b> 다시체크 웹·크롬 확장 / 셀링부스터 웹·크롬 확장</span>
+      <span><b>기준</b> 공개 페이지 조사 + 셀링부스터 현재 기능(팀 확인)</span>
+    </div>
+  </div>
+
+  <div class="lead">
+    <div class="label">결론</div>
+    <p class="one">다시체크는 셀링부스터의 '분석' 기능과 정면으로 겹치는 경쟁 서비스입니다.<br>회사 규모는 작지만 <span class="ul">쿠팡 분석과 판매량 추정은 앞서</span> 있어,<br>규모가 아닌 <span class="ul">기능 기준으로 벤치마킹</span>할 대상입니다.</p>
+    <div class="row"><b>서비스 개요</b><span>네이버 검색광고 API와 쿠팡 크롤링으로 키워드·시장을 분석하는 도구. 깊은 데이터는 대부분 크롬 확장이 담당.</span></div>
+    <div class="row"><b>공통점</b><span>키워드 검색량·경쟁강도·연관·트렌드·광고 지표는 양쪽 모두 네이버 검색광고 API에서 가져옴. 데이터 자체는 같음.</span></div>
+    <div class="row"><b>다시체크 강점</b><span><span class="mark">쿠팡 심층 지표(로켓 비중·PB 판별·Wing 페이지뷰), 상품별 판매량·매출 추정.</span></span></div>
+    <div class="row"><b>다시체크 리스크</b><span>확장이 서비스의 절반이라 크롤링 정책이 바뀌면 핵심 기능이 한꺼번에 멈춤. 운영 주체를 공개하지 않음.</span></div>
+    <div class="row"><b>셀링부스터 강점</b><span>11번가 포함 3채널, AI 상품명, 최적가, 판매 실행(셀링스파크), 모바일 앱, 무료, 법인 신뢰도.</span></div>
+    <div class="row"><b>경쟁 포인트</b><span>
+      ① <span class="mark">키워드·광고 지표</span> — 데이터가 같으니 보여주는 방식과 해석(경쟁강도 기준 등)으로 승부<br>
+      ② <span class="mark">판매량·매출 추정</span> — 다시체크만 있음. 인기 랭킹+리뷰로 "비교용" 추정치를 실험해 격차를 좁힘<br>
+      ③ <span class="mark">쿠팡 심층</span>(로켓 비중·PB·Wing PV) — 당장 따라가긴 어려움. 11번가 포함 3채널 폭으로 맞섬<br>
+      ④ <span class="mark">확장프로그램 의존</span> — 다시체크 약점. "확장 없이 모바일·앱에서 되는 분석"을 차별 메시지로<br>
+      ⑤ <span class="mark">출시 시점</span> — 정식 출시·법인·언론 노출은 셀부가 먼저. 신뢰도로 앞섬
+    </span></div>
+    <div class="row"><b>후속 과제</b><span>① 판매량 추정 실험 ② 경쟁강도 기준 콘텐츠 선점 ③ 앱 출시 카피 "확장 없이 모바일에서 3사 분석"</span></div>
+    <div class="row"><b>비고</b><span>아직 확인 안 된 것 —<br>
+      · 다시체크 운영 주체·사업자: 개인정보처리방침엔 "회사"라고만 있고 법인명·사업자번호 없음. 이용약관·멤버십 결제 페이지 하단 확인 필요<br>
+      · 다시체크 유료 금액(멤버십 페이지 로그인 필요), 가입자 수, 상품추적·순위체크 페이지<br>
+      · 셀링부스터 확장이 실제로 모으고 보여주는 항목(내부 스펙 대조), 스크린샷 내용
+    </span></div>
+  </div>
+
+  <!-- 1 -->
+  <div class="card">
+    <h2><span class="num">1</span>기사 요약</h2>
+    <div class="tbl-wrap">
+      <table>
+        <colgroup><col style="width:18%"><col style="width:82%"></colgroup>
+        <thead><tr><th>구분</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td class="hd">기사</td><td><a href="https://m.idsn.co.kr/news/view/1065575447146002" target="_blank" rel="noopener noreferrer">네이버·쿠팡 시장 분석… 온라인 셀러 분석 서비스 다시체크 출시</a> — 매일안전신문 · 2026-08-20 · 이정자 기자</td></tr>
+          <tr><td class="hd">성격</td><td>보도자료를 그대로 실은 출시 기사. 안전 전문지에 실린 점으로 보아 배포형 PR</td></tr>
+          <tr><td class="hd">핵심 메시지</td><td>네이버 스마트스토어와 쿠팡 판매 지표를 한 화면에서 같이 보고 비교</td></tr>
+          <tr><td class="hd">네이버 쪽</td><td>키워드별 검색 흐름, 경쟁 수준, 스마트스토어 예상 판매량</td></tr>
+          <tr><td class="hd">쿠팡 쪽</td><td>상품별 추정 판매량, 로켓배송 비중, 가격대 분포</td></tr>
+          <tr><td class="hd">쓰임새</td><td>두 채널을 같이 운영하는 셀러가 가격·물량·광고 예산을 나눌 때 참고. 멀티채널 운영 지원</td></tr>
+          <tr><td class="hd">평가</td><td>기능 나열 수준. 실제 서비스 깊이는 사이트 가이드·FAQ에서 훨씬 자세히 확인됨</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="card">
+    <h2><span class="num">2</span>다시체크 서비스 분석</h2>
+
+    <h3>기본 정보</h3>
+    <div class="tbl-wrap">
+      <table>
+        <colgroup><col style="width:18%"><col style="width:82%"></colgroup>
+        <thead><tr><th>구분</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td class="hd">상태</td><td>BETA 표기. 조회하려면 로그인 필수(계정별 조회 한도·이력 관리)</td></tr>
+          <tr><td class="hd">요금</td><td>무료 플랜(하루 조회 한도, 카드 등록 없음) → Pro / Enterprise 유료. 카드 결제, 월·연간(연간 할인), 자동 갱신. 해지해도 남은 기간은 쓸 수 있고 환불은 없음. 플랜 차이는 하루 조회 횟수와 쓸 수 있는 기능 범위. 금액은 멤버십 페이지(로그인) 미확인</td></tr>
+          <tr><td class="hd">데이터 원천</td><td>검색량·광고 지표: 네이버 검색광고 API / 상품수·상위 상품: 네이버 쇼핑 검색 결과 / 쿠팡: 검색 결과 크롤링. 원본 값 그대로 보여주는 게 원칙, 판매량처럼 공개 안 된 값만 추정</td></tr>
+          <tr><td class="hd">갱신</td><td>조회할 때마다 실시간. 단 검색량은 월간 집계</td></tr>
+          <tr><td class="hd">경쟁강도</td><td>등록 상품수 ÷ 월 검색량. 기준 공개: 20 미만 여유 / 20~50 전략 필요 / 50~100 차별화 필요 / 100 이상 레드오션</td></tr>
+          <tr><td class="hd">쿠팡 판매량 추정</td><td>리뷰수·가격·배송유형·노출 순위로 회귀 모델 계산. 배송유형별 전환계수 다름. "절대값보다 상품끼리 비교용"이라고 스스로 밝힘</td></tr>
+          <tr><td class="hd">개인정보</td><td>필수: 이메일·비밀번호(암호화)·이름/닉네임 / 자동: IP·이용기록·접속로그. 보관: 회원정보 탈퇴 시 바로 삭제, 이용기록 1년, 접속로그 3개월. 확장 데이터는 브라우저 로컬에만(180일)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>메뉴와 기능</h3>
+    <div class="tbl-wrap">
+      <table>
+        <colgroup><col style="width:16%"><col style="width:64%"><col style="width:20%"></colgroup>
+        <thead><tr><th>구분</th><th>핵심 기능</th><th>확장 필요</th></tr></thead>
+        <tbody>
+          <tr><td class="hd">키워드분석<br>(6탭)</td><td><b>개요</b>: PC/모바일 검색량, 광고 클릭수, CTR, 광고경쟁, 입찰가, 연관 키워드<br><b>상품</b>: 상위 40개 — 7일 예상 판매량·매출, 1주 구매 인원, 3개월 재구매, 리뷰·평점<br><b>연관키워드</b>: 10개 이상, 검색량·트렌드 같이<br><b>쇼핑분석</b>: 판매처(쿠팡·G마켓·옥션·11번가)별 경쟁, 가격 분포<br><b>콘텐츠분석</b>: 블로그·카페·뉴스 노출<br><b>트렌드</b>: 1개월 / 1년 / 3년</td><td><span class="tag ext">상품 탭</span> <span class="tag ext">쇼핑분석 탭</span></td></tr>
+          <tr class="hl"><td class="hd">쿠팡 시장 분석</td><td>수집 범위 선택(상위 10 / 1페이지 36 / 2~5페이지), 월 판매량·매출 추정, 리뷰·평점, 배송유형(로켓·로켓그로스·일반·글로벌) 도넛 차트, PB 자동 판별(탐사·코멧), 가격 분석(평균·최저·최고·할인율), Wing 로그인 시 28일 페이지뷰</td><td><span class="tag ext">수집 전체</span> <span class="tag ext">Wing</span></td></tr>
+          <tr><td class="hd">아이템발굴</td><td>8개 카테고리, 검색수·상품수·경쟁강도 필터, 정렬, "좋음" 등급, 엑셀 다운로드, 클릭하면 키워드분석으로 이동</td><td><span class="tag part">일부</span></td></tr>
+          <tr><td class="hd">상품추적 · 순위체크</td><td>메뉴만 확인. 페이지는 robots 차단으로 못 봄</td><td><span class="tag na">미확인</span></td></tr>
+          <tr class="hl"><td class="hd">확장프로그램</td><td>네이버 쇼핑 상품수 수집, 쇼핑분석 탭, 스마트스토어 재고 추적(재고 변화→판매량 추정), 쿠팡 상품 수집, 쿠팡 Wing 데이터. 무료, 어떤 플랜이든 설치 가능. 권한 3종(storage·activeTab·alarms), 수집 항목은 재고 수량·상품명·URL</td><td>—</td></tr>
+          <tr><td class="hd">가이드 · FAQ</td><td>가이드 8개 섹션, FAQ 37개. 경쟁강도 읽는 법, 검색량은 높은데 안 팔리는 키워드, 롱테일 찾기 등 검색 유입형 Q&amp;A</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note"><b>포인트</b> — 확장을 안 깔면 검색량·경쟁강도·연관·트렌드만 남습니다. 실제 판매에 가까운 데이터(상품 탭·쇼핑분석·쿠팡 수집·재고 추적·Wing)는 전부 확장이 맡아서 모바일에서는 못 쓰고, 네이버·쿠팡 화면이 바뀌면 한꺼번에 멈출 수 있습니다.</div>
+  </div>
+
+  <!-- 3 -->
+  <div class="card">
+    <h2><span class="num">3</span>기능 비교 (셀링부스터 현재 기준)</h2>
+    <p>셀링부스터 쪽은 2026-08-27 팀 확인 기준입니다. 비고에 설명과 확인할 점을 남깁니다.</p>
+    <div class="tbl-wrap">
+      <table>
+        <colgroup><col style="width:17%"><col style="width:22%"><col style="width:22%"><col style="width:9%"><col style="width:30%"></colgroup>
+        <thead><tr><th>구분</th><th>셀링부스터</th><th>다시체크</th><th>유사도</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td class="hd">대상 채널</td><td class="em">스마트스토어 · 쿠팡 · 11번가</td><td>스마트스토어 · 쿠팡</td><td><span class="tag hi">높음</span></td><td class="remark">11번가는 셀부만</td></tr>
+          <tr class="hl"><td class="hd"><span class="mark">키워드 검색량·경쟁강도·<br>연관·트렌드</span></td><td class="em"><span class="tag ok">있음</span></td><td><span class="tag ok">있음</span></td><td><span class="tag hi">매우 높음</span></td><td class="remark">다시체크는 PC/모바일 나눠 보기, 1개월/1년/3년 트렌드. 경쟁강도 계산식과 기준(20/50/100)을 공개</td></tr>
+          <tr class="hl"><td class="hd"><span class="mark">광고 지표</span><br>(입찰가·CTR·광고경쟁)</td><td class="em"><span class="tag ok">있음</span> 네이버 광고 API</td><td><span class="tag ok">있음</span> 네이버 검색광고 API</td><td><span class="tag hi">높음</span></td><td class="remark">같은 원천. 차이는 화면과 가공 방식뿐 → 같은 키워드로 실제 화면 대조 필요</td></tr>
+          <tr><td class="hd">상품 랭킹</td><td class="em"><span class="tag ok">있음</span> 3사 카테고리·키워드별 인기상품 랭킹</td><td>상위 40개 상품 표</td><td><span class="tag part">중간</span></td><td class="remark">셀부는 판매량·매출·재구매는 없음. 인기 랭킹 + 최근 리뷰 수로 추정치 실험 가능(기획 후보)</td></tr>
+          <tr class="hl"><td class="hd"><span class="mark">판매량·매출 추정</span></td><td class="em"><span class="tag no">없음</span></td><td><span class="tag ok">있음</span> 7일 예상 판매량·매출·1주 구매·3개월 재구매</td><td><span class="tag na">낮음</span></td><td class="remark">다시체크도 추정치이고 "비교용"이라고 스스로 한정. 확장 필요</td></tr>
+          <tr class="hl"><td class="hd"><span class="mark">쿠팡 심층</span><br>(로켓 비중·PB 판별·Wing PV)</td><td class="em"><span class="tag no">없음</span></td><td><span class="tag ok">있음</span></td><td><span class="tag na">낮음</span></td><td class="remark">다시체크의 가장 뚜렷한 차별점. 확장 필요</td></tr>
+          <tr><td class="hd">콘텐츠 노출 분석<br>(블로그·카페·뉴스)</td><td class="em"><span class="tag part">조회만</span></td><td><span class="tag ok">있음</span></td><td><span class="tag part">중간</span></td><td class="remark">셀부는 분석 기능으로 넓힐 수 있음</td></tr>
+          <tr><td class="hd">아이템 발굴</td><td class="em">셀링플래너 · 트렌드 키워드</td><td>8개 카테고리 필터 + 등급 + 엑셀</td><td><span class="tag part">중간</span></td><td class="remark">다시체크는 필터와 엑셀 다운로드가 강점</td></tr>
+          <tr><td class="hd">AI 상품명 생성</td><td class="em"><span class="tag ok">있음</span></td><td><span class="tag no">없음</span></td><td>—</td><td class="remark">셀부만</td></tr>
+          <tr><td class="hd">최적가 추천</td><td class="em"><span class="tag ok">있음</span></td><td><span class="tag no">없음</span> (가격대 분포만)</td><td>—</td><td class="remark">셀부만</td></tr>
+          <tr><td class="hd">판매 실행<br>(셀링스파크)</td><td class="em"><span class="tag ok">있음</span> 저수수료·멀티링크·전환 분석</td><td><span class="tag no">없음</span></td><td>—</td><td class="remark">셀부만. 분석에서 판매까지 이어짐</td></tr>
+          <tr><td class="hd">트렌드 콘텐츠</td><td class="em">K트렌드 매거진 · 블로그(99건)</td><td>가이드 · FAQ 37개</td><td><span class="tag na">낮음</span></td><td class="remark">다시체크는 검색 유입형 FAQ 중심</td></tr>
+          <tr><td class="hd">모바일 앱</td><td class="em">iOS · AOS 9월 출시 준비</td><td>웹 + 크롬 확장</td><td>—</td><td class="remark">다시체크 핵심 데이터는 확장 필요 → 모바일 불가</td></tr>
+          <tr><td class="hd">요금</td><td class="em">무료</td><td>무료 플랜(하루 한도) → Pro/Enterprise 유료</td><td>—</td><td class="remark">다시체크 금액 미확인</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>서비스 성격</h3>
+    <div class="tbl-wrap">
+      <table>
+        <colgroup><col style="width:18%"><col style="width:41%"><col style="width:41%"></colgroup>
+        <thead><tr><th>구분</th><th>셀링부스터</th><th>다시체크</th></tr></thead>
+        <tbody>
+          <tr><td class="hd">한 줄</td><td class="em">분석부터 판매까지 잇는 셀러 운영 도구</td><td>팔기 전에 시장을 보는 분석 도구</td></tr>
+          <tr><td class="hd">쓰는 때</td><td class="em">늘(키워드→상품명→가격→판매→콘텐츠)</td><td>소싱·진입 판단할 때</td></tr>
+          <tr><td class="hd">데이터 방식</td><td class="em">가공·추천 중심</td><td>API·크롤링 원본 값 그대로</td></tr>
+          <tr><td class="hd">확장성</td><td class="em">셀픽(판매·재고 통합) 연계, 셀링스파크·블로그페이 통합 예정</td><td>확장프로그램 크롤링 확대</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="card">
+    <h2><span class="num">4</span>크롬 확장프로그램 비교</h2>
+    <p>셀링부스터 확장은 <b>보조 도구</b>, 다시체크 확장은 <b>핵심 데이터 엔진</b>입니다. 역할이 다릅니다. 스토어 신뢰 지표는 셀부가, 배포 속도·설치자 수·권한 최소화는 다시체크가 앞섭니다.</p>
+    <div class="tbl-wrap">
+      <table>
+        <colgroup><col style="width:16%"><col style="width:27%"><col style="width:27%"><col style="width:30%"></colgroup>
+        <thead><tr><th>구분</th><th>셀링부스터 셀러 도구</th><th>다시체크 - 키워드 분석 &amp; 판매량 추적</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td class="hd">버전 · 업데이트</td><td class="em">1.0.4 · 2026-06-22</td><td>2.9.56 · 2026-08-25</td><td class="remark">다시체크는 패치 56번째 — 자주 배포. 셀부는 2개월 멈춤</td></tr>
+          <tr><td class="hd">설치자</td><td class="em">79</td><td>136</td><td class="remark">둘 다 초기. 다시체크가 1.7배</td></tr>
+          <tr><td class="hd">평점</td><td class="em">5.0 (2건)</td><td>없음</td><td class="remark">의미 있는 차이 아님</td></tr>
+          <tr><td class="hd">파일 크기</td><td class="em">773KiB</td><td>121KiB</td><td class="remark">셀부가 6배 — 줄일 여지</td></tr>
+          <tr><td class="hd">스토어 분류</td><td class="em">Functionality &amp; UI</td><td>Tools</td><td class="remark">셀부도 Tools로 바꾸면 검색 노출에 유리할 수 있음</td></tr>
+          <tr><td class="hd">설명 문구</td><td class="em">네이버 쇼핑·쿠팡 상품 정보 수집, 키워드 분석·마켓 트렌드·상품 분석·성과 리포트</td><td>한 가지 목적: 스마트스토어 상품 페이지 재고를 모아 변화를 보고 예상 판매량 계산. 쿠팡 뱃지 교차검증</td><td class="remark">셀부 설명은 서비스 소개에 가까워 확장이 뭘 하는지 안 읽힘</td></tr>
+          <tr><td class="hd">사이트 기준 역할</td><td class="em">웹·앱이 본체, 확장은 보조</td><td>상품수 수집·쇼핑분석·재고 추적·쿠팡 수집·Wing PV — 깊은 기능 전부</td><td class="remark">다시체크는 확장 없으면 기본 지표만 남음</td></tr>
+          <tr><td class="hd">개발자</td><td class="em">헥토데이터(법인, 테헤란로 주소·대표 메일·전화) · EU 트레이더 등록 · D-U-N-S 688491176</td><td>개인 Gmail · 웹사이트만 · Non-trader</td><td class="remark">셀부 신뢰도 우위</td></tr>
+          <tr><td class="hd">개인정보 고지</td><td class="em">개인식별정보 · 웹 기록 · 사용자 활동</td><td>웹사이트 콘텐츠만. 재고 추적 데이터는 브라우저 로컬(chrome.storage.local)에만, 서버 전송 없음, 180일 보관 후 사용자가 삭제</td><td class="remark">셀부 고지 범위가 넓음 — 설치 전 이탈 요인. 꼭 필요한 권한인지 다시 볼 것</td></tr>
+          <tr><td class="hd">권한 · 수집 항목</td><td class="em">미확인(스토어 privacy 상세 못 봄)</td><td>권한 3종: storage(추적 데이터 저장) · activeTab(상품 정보 읽기) · alarms(데이터 정리). 수집: 재고 수량·상품명·URL</td><td class="remark">최소 권한. 단 처리방침은 재고 추적만 적고 쿠팡 수집·Wing PV는 없음 → 고지와 실제 기능이 안 맞을 수 있음</td></tr>
+          <tr><td class="hd">가이드 링크</td><td class="em">sellingbooster.oopy.io</td><td>dasicheck.com/guide</td><td class="remark">셀부는 다른 도메인 — 자사 도메인 안으로 옮기면 SEO에 유리</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid2">
+      <div class="box sb"><h4><span class="dot"></span>셀링부스터 확장</h4><ul><li>장점: 확장 없이 모바일·앱에서 핵심 기능 사용 → 크롤링 정책 리스크 분산</li><li>리스크: 확장만의 가치가 안 보여 설치 동기 약함, 2개월 미갱신</li></ul></div>
+      <div class="box dc"><h4><span class="dot"></span>다시체크 확장</h4><ul><li>장점: 재고 변화·리뷰·PV로 실제 판매에 가까운 데이터 확보 → 분석 깊이</li><li>리스크: 네이버·쿠팡 화면 변경·차단 시 핵심 기능 일괄 중단, 개인 개발자 운영</li></ul></div>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="card">
+    <h2><span class="num">5</span>회사 정보 비교</h2>
+    <p>다시체크는 회사 정보를 공개하지 않아 확인된 범위가 좁습니다.</p>
+    <div class="tbl-wrap">
+      <table>
+        <colgroup><col style="width:14%"><col style="width:30%"><col style="width:26%"><col style="width:30%"></colgroup>
+        <thead><tr><th>구분</th><th>셀링부스터 (헥토데이터)</th><th>다시체크</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td class="hd">운영 주체</td><td class="em">주식회사 헥토데이터 — 헥토파이낸셜 자회사(헥토그룹)</td><td><span class="tag no">공개 안 함</span> 법인명·사업자번호 없음. 크롬 스토어 연락처는 개인 Gmail, Non-trader</td><td class="remark">개인정보처리방침은 "다시체크(이하 회사)"라고 쓰지만 법인명·대표·사업자번호·주소 없음. 개인 개발자 또는 1인 사업 추정. 유료 결제를 받으면서 사업자 표시가 없어 전자상거래법 표시 의무 위반 가능성</td></tr>
+          <tr><td class="hd">설립</td><td class="em">2009년 9월(휴로직 → 희남 → 코드에프 → 2023.1 헥토데이터)</td><td>미확인</td><td class="remark">셀부는 업력 17년, 2022년 5월 M&amp;A로 헥토그룹 편입</td></tr>
+          <tr><td class="hd">소재지</td><td class="em">서울 강남구 테헤란로 223 큰길타워 10층</td><td>공개 안 함</td><td class="remark">—</td></tr>
+          <tr><td class="hd">규모</td><td class="em">임직원 52명(2026-06), 국민연금 기준 48명</td><td>미확인(1인 추정)</td><td class="remark">셀부는 최근 1년 입사 15·퇴사 34명, 2025-10 인원 -22.4%로 변동 큼</td></tr>
+          <tr><td class="hd">재무 · 투자</td><td class="em">비상장, 그룹 자금. 2025년 순손실 31억원, 이커머스를 신사업으로 지정</td><td>미확인 — 외부 투자 없음, 유료 플랜이 유일한 수입 추정</td><td class="remark">셀부는 그룹 지원으로 무료 유지 가능. 다시체크는 유료 전환 압박이 구조적</td></tr>
+          <tr><td class="hd">이커머스 진입</td><td class="em">2025년 신세계아이앤씨 '셀픽' 인수 → 셀링부스터 론칭</td><td>미확인</td><td class="remark">셀픽(판매·재고 통합)과 결합 구조</td></tr>
+          <tr class="hl"><td class="hd">제품 출시 시점</td><td class="em">정식 발표 2026-05-21(전자신문·뉴시스·머니투데이·뉴스핌·벤처스퀘어 등)</td><td>크롬 확장 첫 인덱싱 2026-01 이전, 사이트 BETA, 언론 노출 2026-08-20(매일안전신문 1건)</td><td class="remark">다시체크가 실제로는 먼저 운영 중이었을 가능성. 정식 출시 선언은 셀부가 먼저</td></tr>
+          <tr><td class="hd">홍보</td><td class="em">주요 경제·IT 매체 다수</td><td>안전 전문지 배포형 기사 1건</td><td class="remark">인지도 차이 큼</td></tr>
+          <tr><td class="hd">사업 라인</td><td class="em">코드에프 API·OCR·AI 예제코드 등 데이터 API 주력 + 이커머스(셀픽·셀링부스터)</td><td>키워드 분석 하나</td><td class="remark">셀부는 이커머스가 곁가지, 다시체크는 전부</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="card">
+    <h2><span class="num">6</span>강점 · 약점</h2>
+    <div class="grid2">
+      <div class="box sb">
+        <h4><span class="dot"></span>셀링부스터</h4>
+        <ul>
+          <li><b>강점</b>: 3채널(11번가 포함) · 판매 실행까지 연결 · AI 상품명·최적가 · 앱 · 무료 · 콘텐츠 자산(K트렌드·블로그 99건) · 법인 신뢰도·그룹 자금 · 셀픽 연계 · 언론 인지도</li>
+          <li><b>약점</b>: 상품별 판매량 추정 없음 → "검색량은 높은데 안 팔리는 키워드"를 못 가름 · 쿠팡 심층 지표 없음 · 확장만의 가치 불명확·2개월 미갱신 · 이커머스가 그룹 안 신사업·적자 라인이라 성과 압박 · 인력 변동</li>
+        </ul>
+      </div>
+      <div class="box dc">
+        <h4><span class="dot"></span>다시체크</h4>
+        <ul>
+          <li><b>강점</b>: 쿠팡 분석 깊이(배송유형·PB·Wing PV) · 광고 지표 기본 노출로 마케터·MD까지 확장 · 상품별 판매 추정(7일·재구매·리뷰) · 아이템 발굴 필터/엑셀 · 경쟁강도 기준 공개 등 검색 유입형 콘텐츠 · 빠른 배포 · 낮은 고정비</li>
+          <li><b>약점</b>: 확장 의존(모바일 불가, 크롤링 정책 바뀌면 한꺼번에 멈춤) · BETA · 추정치 신뢰도 · 11번가 없음 · 판매 기능 없음 · 운영 주체 불투명·1인 운영 추정 · 인지도 낮음</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7: 시사점과 할 일 (보류)
+  
+  <div class="card">
+    <h2><span class="num">7</span>시사점과 할 일</h2>
+    <div class="tbl-wrap">
+      <table>
+        <colgroup><col style="width:14%"><col style="width:52%"><col style="width:14%"><col style="width:20%"></colgroup>
+        <thead><tr><th>구분</th><th>내용</th><th>담당(안)</th><th>시점</th></tr></thead>
+        <tbody>
+          <tr><td class="hd">기획</td><td><b>판매량 추정 실험</b> — 셀부 인기상품 랭킹 + 최근 리뷰 증가분으로 다시체크 수준의 "비교용" 추정치 검토. 확장 없이 서버에서 처리할 수 있어 더 안전</td><td><span class="chip">이슬기</span></td><td>앱 출시 후</td></tr>
+          <tr><td class="hd">기획</td><td><b>광고 지표 화면 대조</b> — 같은 키워드로 셀부·다시체크 입찰가·CTR 비교. 원천이 같아 차이가 나면 집계 월·반올림 확인</td><td><span class="chip">이슬기</span></td><td>9월 초</td></tr>
+          <tr><td class="hd">콘텐츠</td><td><b>경쟁강도 기준 선점</b> — 다시체크 FAQ가 "경쟁강도 몇 이하면 진입", "쿠팡 판매량 추정" 검색어를 노림. 8/26 발행 「마진율 계산과 키워드 경쟁 분석」과 겹치니 후속 기사에서 경쟁강도 기준을 셀부 관점으로 다시 정의</td><td><span class="chip">이슬기</span></td><td>9월 캘린더 반영</td></tr>
+          <tr><td class="hd">마케팅</td><td><b>앱 출시 카피</b> — "확장프로그램 없이 모바일에서 3사 키워드 분석". 다시체크 대비 가장 분명한 차별 문구</td><td><span class="chip">안지호</span></td><td>앱 출시 시</td></tr>
+          <tr><td class="hd">확장</td><td><b>스토어 페이지 손보기</b> — ① 확장이 하는 일 3줄로 명시 ② 개인정보 고지 범위 다시 보기(웹 기록·사용자 활동 필요 여부) ③ 분류 Tools로 변경 ④ 스크린샷 4장에 기능별 설명 ⑤ 앱 출시에 맞춰 1.1.0 배포로 '최근 업데이트' 신호 회복</td><td><span class="chip">이슬기</span> <span class="chip">이순우</span></td><td>9월</td></tr>
+          <tr><td class="hd">콘텐츠</td><td><b>출시일 표기 통일</b> — 셀링부스터 "출시"는 정식 발표일 2026-05-21로 통일(2025 소프트 런칭과 구분)</td><td><span class="chip">이슬기</span></td><td>즉시</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  -->
+
+  <!-- 7 -->
+  <div class="card">
+    <h2><span class="num">7</span>확인할 것과 출처</h2>
+    <h3>아직 확인 안 된 것</h3>
+    <ul>
+      <li>다시체크 운영 주체·사업자 — 개인정보처리방침엔 "회사"라고만 있고 법인명·사업자번호 없음. 이용약관·멤버십 결제 페이지 하단 사업자 표시 확인 필요</li>
+      <li>다시체크 유료 금액(멤버십 페이지 로그인 필요), 가입자 수, 상품추적·순위체크 페이지</li>
+      <li>셀링부스터 확장이 실제로 모으고 보여주는 항목(내부 스펙 대조), 스크린샷 내용</li>
+      <li>헥토데이터 2025 매출(유료 DB)</li>
+    </ul>
+    <h3>출처</h3>
+    <ul class="src">
+      <li>매일안전신문, 「네이버·쿠팡 시장 분석… 온라인 셀러 분석 서비스 다시체크 출시」, 2026-08-20 — <a href="https://m.idsn.co.kr/news/view/1065575447146002" target="_blank" rel="noopener noreferrer">m.idsn.co.kr/news/view/1065575447146002</a></li>
+      <li>다시체크 웹사이트 — <a href="https://dasicheck.com/" target="_blank" rel="noopener noreferrer">dasicheck.com</a> (메인 · coupang-analysis · item-discovery · guide · faq), 2026-08-27</li>
+      <li>다시체크 개인정보처리방침·FAQ(요금·결제) 화면 캡처, 2026-08-27</li>
+      <li>Chrome Web Store — <a href="https://chromewebstore.google.com/detail/kmpednpnonpkkjebpbcabcagkjihcohd" target="_blank" rel="noopener noreferrer">셀링부스터 셀러 도구</a>, <a href="https://chromewebstore.google.com/detail/gfkklaaofjpnbiidmbcjbpgbpjcibajm" target="_blank" rel="noopener noreferrer">다시체크 - 키워드 분석 &amp; 판매량 추적</a>, 2026-08-27</li>
+      <li>THE VC 헥토데이터 기업정보 — <a href="https://thevc.kr/hectodata" target="_blank" rel="noopener noreferrer">thevc.kr/hectodata</a> (설립·연혁·임직원·소재지)</li>
+      <li>비즈워치, 「헥토데이터, 올해는 나아질까…"이커머스 공략"」, 2026-03-24 (2025 순손실·셀픽 인수)</li>
+      <li>전자신문·뉴시스·머니투데이·뉴스핌·벤처스퀘어·파이낸스스코프, 셀링부스터 출시 보도, 2026-05-21</li>
+      <li>셀링부스터 현재 기능 — 셀링부스터팀 내부 확인(2026-08-27)</li>
+    </ul>
+  </div>
+
+  <div class="foot">커머스커넥트실 셀링부스터팀 · 내부 검토용 · 2026-08-27</div>
+</div>
+
+<script>
+function exportDoc(){
+  var title = '다시체크 경쟁 서비스 분석 및 셀링부스터 비교 검토';
+  var styles = '';
+  var styleTags = document.querySelectorAll('style');
+  for (var i=0;i<styleTags.length;i++){ styles += styleTags[i].innerHTML; }
+  var body = document.getElementById('doc').innerHTML;
+  var html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">'
+    + '<head><meta charset="utf-8"><title>'+title+'</title>'
+    + '<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]-->'
+    + '<style>'+styles+' body{background:#fff;font-family:"Malgun Gothic","Pretendard",sans-serif} .wrap{max-width:none;padding:0} .card,.lead{border-radius:6px} th{background:#1E2532;color:#fff} td.em{background:#EFEFFE} .tbl-wrap{overflow:visible} tr.hl td{border:2px solid #C0161D} .mark{background:#FFE866} .ul{text-decoration:underline;color:#1E2532}</style>'
+    + '</head><body><div class="wrap">'+body+'</div></body></html>';
+  var blob = new Blob(['\ufeff', html], {type:'application/msword;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = title + '.doc';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+}
+</script>
+</body>
+</html>
