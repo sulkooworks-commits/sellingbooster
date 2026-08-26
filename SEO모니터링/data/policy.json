@@ -1,6 +1,6 @@
 {
   "updatedAt": "2026-08-27",
-  "source": "셀링부스터_블로그_발행계획_8-9월.html (최종 검토 2026-08-07, 8~10월 계획 반영) + 모니터링 대화 합의",
+  "source": "셀링부스터_블로그_발행계획_8-9월.html (8~10월 본편·네이버 파생 계획) + K트렌드_매거진_발행계획_9월.html (기준일 2026-08-24) + 모니터링 대화 합의",
   "channels": [
     {
       "id": "ktrend",
@@ -23,9 +23,12 @@
       "id": "naver",
       "name": "네이버 블로그",
       "external": true,
+      "categories": ["네이버 블로그"],
+      "weeklyTargets": [{ "from": "2026-08-26", "perWeek": 3, "note": "월·수·금 본편 파생" }],
+      "colorSlot": 3,
       "startDate": "2026-08-26",
       "url": "https://rss.blog.naver.com/sellingbooster.xml",
-      "note": "월·수·금 본편만 워싱 워크플로(자사 원본 발행→색인 확인→재집필)로 파생, 화·목은 보류"
+      "note": "월·수·금 본편만 워싱 워크플로(자사 원본 발행→색인 확인→재집필)로 파생, 화·목은 보류. url은 네이버 블로그 RSS 주소"
     }
   ],
   "skipDates": ["2026-09-24", "2026-09-25", "2026-09-28"],
@@ -82,6 +85,43 @@
     { "date": "2026-10-27", "channel": "blog", "title": "겨울 의류 아이템: 패딩·니트 소싱 포인트" },
     { "date": "2026-10-28", "channel": "blog", "title": "분석 방법 ①: 키워드 난이도·경쟁 강도 지표 해석 심화" },
     { "date": "2026-10-29", "channel": "blog", "title": "크리스마스 선물·데코 아이템, 12월 대목 선점" },
-    { "date": "2026-10-30", "channel": "blog", "title": "분석 방법 ②: 최적가 추천으로 가격 경쟁력 잡는 법" }
+    { "date": "2026-10-30", "channel": "blog", "title": "분석 방법 ②: 최적가 추천으로 가격 경쟁력 잡는 법" },
+    { "date": "2026-08-26", "channel": "ktrend", "title": "늦여름 셔츠 원피스 룩" },
+    { "date": "2026-08-28", "channel": "ktrend", "title": "간절기 남자 오버셔츠 레이어드" },
+    { "date": "2026-08-31", "channel": "ktrend", "title": "초가을 니트베스트 레이어드" },
+    { "date": "2026-09-02", "channel": "ktrend", "title": "셔켓 레이어드 데일리" },
+    { "date": "2026-09-04", "channel": "ktrend", "title": "커브드/벌룬 팬츠 캐주얼" },
+    { "date": "2026-09-07", "channel": "ktrend", "title": "체크 셔츠 데일리룩" },
+    { "date": "2026-09-09", "channel": "ktrend", "title": "레드 포인트 니트 룩" },
+    { "date": "2026-09-11", "channel": "ktrend", "title": "커브드 팬츠 오피스·데이트룩" },
+    { "date": "2026-09-14", "channel": "ktrend", "title": "패러독스 드레싱 (셔츠+트랙)" },
+    { "date": "2026-09-16", "channel": "ktrend", "title": "추석 명절 나들이·개량한복" },
+    { "date": "2026-09-18", "channel": "ktrend", "title": "라이트 트렌치코트 가을룩" },
+    { "date": "2026-09-21", "channel": "ktrend", "title": "벌룬 스커트·볼륨 실루엣" },
+    { "date": "2026-09-23", "channel": "ktrend", "title": "남자 니트+슬랙스 오피스룩" },
+    { "date": "2026-09-30", "channel": "ktrend", "title": "체크 블레이저·트위드 자켓룩" },
+    { "date": "2026-08-26", "channel": "naver", "title": "스마트스토어 키워드 분석, 석 달 주문 0건에서 벗어난 방법" },
+    { "date": "2026-08-28", "channel": "naver", "title": "요즘 이너뷰티가 뜨는 이유, 셀러 눈으로 봤어요" },
+    { "date": "2026-08-31", "channel": "naver", "title": "상품 소싱 시행착오 끝에 정리한 3가지 방법" },
+    { "date": "2026-09-02", "channel": "naver", "title": "상품명 하나 바꾸고 노출이 달라진 경험담" },
+    { "date": "2026-09-04", "channel": "naver", "title": "간편식 카테고리, 지금 들어가도 될까요?" },
+    { "date": "2026-09-07", "channel": "naver", "title": "스마트스토어 태그, 뭘 넣을지 막막하다면" },
+    { "date": "2026-09-09", "channel": "naver", "title": "쿠팡·네이버·11번가 첫 입점, 어디부터 할까요?" },
+    { "date": "2026-09-11", "channel": "naver", "title": "숏폼 보고 바로 사는 시대, 셀러의 준비물" },
+    { "date": "2026-09-14", "channel": "naver", "title": "마진 계산 대충 했다가 남는 게 없던 이야기" },
+    { "date": "2026-09-16", "channel": "naver", "title": "쿠팡 아이템위너 뺏겼을 때 해본 것들" },
+    { "date": "2026-09-18", "channel": "naver", "title": "K푸드 역직구, 소규모 셀러도 될까요?" },
+    { "date": "2026-09-21", "channel": "naver", "title": "추석 D-4, 막판 선물세트 수요 잡는 법" },
+    { "date": "2026-09-23", "channel": "naver", "title": "추석 연휴 직전, 셀러 최종 점검 5가지" },
+    { "date": "2026-09-30", "channel": "naver", "title": "추석 끝, 4분기 키워드 지금 세팅해요" },
+    { "date": "2026-10-02", "channel": "naver", "title": "블로그 마켓이 다시 뜨는 이유, 아세요?" },
+    { "date": "2026-10-05", "channel": "naver", "title": "11번가 입점 한 달, 솔직하게 정리해요" },
+    { "date": "2026-10-07", "channel": "naver", "title": "코이페 2026 다녀왔어요, 셀러 눈에 띈 것들" },
+    { "date": "2026-10-09", "channel": "naver", "title": "리뷰 1,000개 읽고 상세페이지 고친 후기" },
+    { "date": "2026-10-12", "channel": "naver", "title": "틱톡샵 한국 오픈, 셀러 입장에서 봤어요" },
+    { "date": "2026-10-14", "channel": "naver", "title": "연령대별로 장보는 곳이 다르다는 사실" },
+    { "date": "2026-10-16", "channel": "naver", "title": "4분기 이커머스 캘린더, 미리 준비해요" },
+    { "date": "2026-10-19", "channel": "naver", "title": "라이브쇼핑 처음 해보고 느낀 것들" },
+    { "date": "2026-10-21", "channel": "naver", "title": "요즘은 가전도 구독하네요, 판매 기회일까?" }
   ]
 }
