@@ -12,6 +12,15 @@
 (function () {
   var ROOT = document.body.getAttribute("data-root") || "";
 
+  /* ---------- 파비콘(🐕) — 모든 페이지 공통 자동 주입 ---------- */
+  (function(){
+    if(document.querySelector('link[rel="icon"]'))return;   /* 페이지에 이미 있으면 유지 */
+    var l=document.createElement("link");
+    l.id="ck-favicon"; l.rel="icon";
+    l.href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐕%3C/text%3E%3C/svg%3E";
+    document.head.appendChild(l);
+  })();
+
   /* ---------- 편집 모드 인증 (SHA-256 해시 대조) ---------- */
   var EDIT_SALT = "ck-edit::";
   var EDIT_HASH = "bb070858f69abe4ffd41223f73fcd304b25adf9ebd34e13eba716aeffa69ec3d";
@@ -21,52 +30,52 @@
     {
       no: "01", title: "콘텐츠 운영",
       items: [
-        { t: "CMS 워싱 표준 워크플로", href: "content-washing.html", kw: "블로그 워싱 하이훅 초안 에디터 형식 키워드 링크 이미지 표 FAQ" },
-        { t: "편집 캘린더 (8–9월)", href: "content-calendar.html", kw: "발행 일정 월수금 주3회 시즌 콘텐츠 선점" },
-        { t: "네이버 블로그 발행 표준", href: "content-naver.html", kw: "스마트에디터 유사문서 2주 시차 ALT 대조표 경어체 해시태그" }
+        { t: "CMS 워싱 표준 워크플로", href: "content/content-washing.html", kw: "블로그 워싱 하이훅 초안 에디터 형식 키워드 링크 이미지 표 FAQ" },
+        { t: "편집 캘린더 (8–9월)", href: "content/content-calendar.html", kw: "발행 일정 월수금 주3회 시즌 콘텐츠 선점" },
+        { t: "네이버 블로그 발행 표준", href: "content/content-naver.html", kw: "스마트에디터 유사문서 2주 시차 ALT 대조표 경어체 해시태그" }
       ]
     },
     {
       no: "02", title: "SEO 모니터링",
       items: [
-        { t: "발행 정책 (기준 문서)", href: "seo-policy.html", kw: "모니터링 기준 채널 목표 판정 규칙 주5회" },
-        { t: "발행 로그 (일일 스냅샷)", href: "seo-log.html", kw: "자동 모니터링 베이스라인 94건 스냅샷 증분" },
-        { t: "주간 달성 리포트", href: "seo-weekly.html", kw: "주간 집계 정상 주의 미달 월요일" },
-        { t: "하이훅 연동 검토", href: "highook-review.html", kw: "highook GEO 가이드 콘텐츠 생성 솔루션 검토의견 8개 제안" }
+        { t: "발행 정책 (기준 문서)", href: "seo/seo-policy.html", kw: "모니터링 기준 채널 목표 판정 규칙 주5회" },
+        { t: "발행 로그 (일일 스냅샷)", href: "seo/seo-log.html", kw: "자동 모니터링 베이스라인 94건 스냅샷 증분" },
+        { t: "주간 달성 리포트", href: "seo/seo-weekly.html", kw: "주간 집계 정상 주의 미달 월요일" },
+        { t: "하이훅 연동 검토", href: "seo/highook-review.html", kw: "highook GEO 가이드 콘텐츠 생성 솔루션 검토의견 8개 제안" }
       ]
     },
     {
       no: "03", title: "기획·어드민",
       items: [
-        { t: "어드민 화면 기능 명세", href: "admin-spec.html", kw: "배너 팝업 셀링플래너 온보딩 와이어프레임 명세서" },
-        { t: "셀링스파크 통합 기획", href: "sellingspark-plan.html", kw: "블로그페이 블로그마켓 틱톡샵 TikTok Shop 10월 통합" }
+        { t: "어드민 화면 기능 명세", href: "admin/admin-spec.html", kw: "배너 팝업 셀링플래너 온보딩 와이어프레임 명세서" },
+        { t: "셀링스파크 통합 기획", href: "admin/sellingspark-plan.html", kw: "블로그페이 블로그마켓 틱톡샵 TikTok Shop 10월 통합" }
       ]
     },
     {
       no: "04", title: "분석·리서치",
       items: [
-        { t: "국내 25종 벤치마킹", href: "research-kr.html", kw: "아이템스카웃 판다랭크 경쟁 서비스 비교 최적가 추천" },
-        { t: "일본 커머스 서비스 조사", href: "research-jp.html", kw: "Nint Keepa Kalodata 일본 리서치" }
+        { t: "국내 25종 벤치마킹", href: "research/research-kr.html", kw: "아이템스카웃 판다랭크 경쟁 서비스 비교 최적가 추천" },
+        { t: "일본 커머스 서비스 조사", href: "research/research-jp.html", kw: "Nint Keepa Kalodata 일본 리서치" }
       ]
     },
     {
       no: "05", title: "도구",
       items: [
-        { t: "해외 광고비 정산 툴", href: "tool-adcost.html", kw: "환율 하나은행 수출입은행 API 메타 구글 엑셀 ExcelJS 정산" }
+        { t: "해외 광고비 정산 툴", href: "tools/tool-adcost.html", kw: "환율 하나은행 수출입은행 API 메타 구글 엑셀 ExcelJS 정산" }
       ]
     },
     {
       no: "06", title: "팀 관리",
       items: [
-        { t: "셀링부스터 팀 업무 정리", href: "셀링부스터_팀업무정리.html", kw: "이슬기 안지호 기획 마케팅 업무 분장" },
-        { t: "협업·커뮤니케이션 기준", href: "team-comms.html", kw: "검토 문서 문체 기술 문의 개발팀 보고" }
+        { t: "셀링부스터 팀 업무 정리", href: "team/셀링부스터_팀업무정리.html", kw: "이슬기 안지호 기획 마케팅 업무 분장" },
+        { t: "협업·커뮤니케이션 기준", href: "team/team-comms.html", kw: "검토 문서 문체 기술 문의 개발팀 보고" }
       ]
     },
     {
       no: "07", title: "운영 계획",
       items: [
-        { t: "하반기 제품 로드맵", href: "plan-roadmap.html", kw: "멀티마켓 쿠팡 11번가 앱 출시 커머스솔루션마켓 cafe24 TTJ 랭킹" },
-        { t: "일정·기한 체크리스트", href: "plan-deadlines.html", kw: "네이버 착수 8월26일 주5회 전환 기한 데드라인" }
+        { t: "하반기 제품 로드맵", href: "plan/plan-roadmap.html", kw: "멀티마켓 쿠팡 11번가 앱 출시 커머스솔루션마켓 cafe24 TTJ 랭킹" },
+        { t: "일정·기한 체크리스트", href: "plan/plan-deadlines.html", kw: "네이버 착수 8월26일 주5회 전환 기한 데드라인" }
       ]
     }
   ];
@@ -362,11 +371,11 @@
   });
 
   /* ---------- 최근 이용한 메뉴 기록 (인덱스 대시보드에서 표시) ---------- */
-  var RKEY = "ckRecentMenu", RMAX = 10;
+  var RKEY = "ckRecentMenu2", RMAX = 10;
   var RLOOKUP = {};
   MENU.forEach(function (g) {
     g.items.forEach(function (it) {
-      RLOOKUP[it.href] = { t: it.t, sec: g.no + " " + g.title };
+      RLOOKUP[it.href.split("/").pop()] = { t: it.t, sec: g.no + " " + g.title, p: it.href };
     });
   });
   document.addEventListener("click", function (e) {
@@ -379,7 +388,7 @@
     if (!meta) return;
     try {
       var list = JSON.parse(localStorage.getItem(RKEY) || "[]").filter(function (it) { return it.f !== f; });
-      list.unshift({ f: f, t: meta.t, sec: meta.sec, ts: Date.now() });
+      list.unshift({ f: f, p: meta.p, t: meta.t, sec: meta.sec, ts: Date.now() });
       localStorage.setItem(RKEY, JSON.stringify(list.slice(0, RMAX)));
     } catch (err) {}
   }, true);
