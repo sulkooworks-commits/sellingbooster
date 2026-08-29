@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>9월 운영 계획 — 사용자 유입·전환 활동</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root{
+    --teal:#00B1BD;
+    --violet:#6466FA;
+    --ink:#1E2532;
+    --sub:#5A6474;
+    --line:#E6E4DC;
+    --bg:#F7F6F1;
+    --card:#FFFFFF;
+    --warn-bg:#FFF7E8;
+    --warn-line:#F0D9A8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.65;
+    font-size:15px;
+    padding:88px 20px 80px;
+  }
+  .wrap{max-width:880px;margin:0 auto;}
+
+  /* ── Top menu bar ── */
+  .topbar{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(255,255,255,.95);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    max-width:880px;margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:12px 20px;
+  }
+  .topbar-title{
+    font-size:14px;font-weight:700;color:var(--ink);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .topbar-title .brand{color:var(--teal);}
+  .topbar-actions{display:flex;gap:8px;flex:none;}
+  .topbar-actions button{
+    font-family:inherit;font-size:13px;font-weight:700;
+    padding:8px 16px;border-radius:20px;cursor:pointer;
+    border:1px solid var(--teal);
+    transition:opacity .15s;
+  }
+  .topbar-actions button:hover{opacity:.85;}
+  .btn-docx{background:var(--teal);color:#fff;}
+  .btn-pdf{background:#fff;color:var(--teal);}
+
+  /* ── Header ── */
+  .doc-head{
+    background:var(--card);
+    border-radius:24px;
+    padding:36px 40px;
+    border:1px solid var(--line);
+    margin-bottom:28px;
+  }
+  .doc-eyebrow{
+    display:inline-block;
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--teal);
+    letter-spacing:.04em;
+    border:1px solid var(--teal);
+    border-radius:20px;
+    padding:3px 12px;
+    margin-bottom:14px;
+  }
+  h1{font-size:26px;font-weight:800;letter-spacing:-.01em;margin-bottom:8px;}
+  .doc-meta{font-size:13.5px;color:var(--sub);}
+  .doc-meta b{color:var(--ink);font-weight:600;}
+
+  /* ── Sections ── */
+  section{
+    background:var(--card);
+    border-radius:22px;
+    border:1px solid var(--line);
+    padding:32px 40px;
+    margin-bottom:24px;
+  }
+  h2{
+    font-size:19px;font-weight:800;
+    display:flex;align-items:center;gap:10px;
+    margin-bottom:18px;letter-spacing:-.01em;
+  }
+  h2 .num{
+    flex:none;width:26px;height:26px;border-radius:8px;
+    background:var(--teal);color:#fff;
+    font-size:13px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+  }
+  h3{font-size:16px;font-weight:700;margin:22px 0 10px;color:var(--ink);}
+  h3 .chip{
+    display:inline-block;font-size:11.5px;font-weight:700;
+    color:var(--violet);background:#F0F0FF;
+    border-radius:12px;padding:2px 10px;margin-left:8px;vertical-align:2px;
+  }
+  p{margin-bottom:10px;}
+  ul{margin:6px 0 12px 20px;}
+  li{margin-bottom:5px;}
+  .lead{
+    border-left:3px solid var(--teal);
+    background:#F2FBFC;
+    padding:14px 18px;border-radius:0 12px 12px 0;
+    margin-bottom:16px;font-size:14.5px;
+  }
+  .lead b{color:var(--teal);}
+
+  /* ── Tables ── */
+  table{width:100%;border-collapse:collapse;margin:14px 0 6px;font-size:14px;}
+  th{
+    background:var(--ink);color:#fff;
+    padding:10px 12px;text-align:center;font-weight:600;font-size:13.5px;
+  }
+  td{
+    padding:10px 12px;border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  tr:last-child td{border-bottom:none;}
+  td.rowlabel{font-weight:700;text-align:center;white-space:nowrap;background:#FAFAF7;}
+  td small{color:var(--sub);font-size:12.5px;display:block;margin-top:3px;}
+
+  .kv{width:100%;border-collapse:collapse;margin:8px 0 4px;font-size:14px;}
+  .kv td{padding:8px 12px;border-bottom:1px solid var(--line);}
+  .kv td:first-child{width:120px;font-weight:700;background:#FAFAF7;white-space:nowrap;}
+  .kv tr:last-child td{border-bottom:none;}
+
+  /* ── Placeholder / note ── */
+  .fill{
+    color:#B8860B;background:var(--warn-bg);
+    border:1px dashed var(--warn-line);
+    border-radius:6px;padding:1px 8px;font-size:13px;font-weight:600;
+    white-space:nowrap;
+  }
+  .note{
+    background:var(--warn-bg);border:1px solid var(--warn-line);
+    border-radius:14px;padding:14px 18px;font-size:13.5px;margin-top:14px;
+  }
+  .note b{color:#9A6B00;}
+
+  .owner{font-size:12.5px;font-weight:700;color:var(--violet);}
+
+  /* ── Appendix ── */
+  .apx table{font-size:12.8px;}
+  .apx th{font-size:12.3px;padding:8px 8px;}
+  .apx td{padding:7px 8px;}
+  .table-scroll{overflow-x:auto;}
+  .table-scroll table{min-width:640px;}
+  td.r{text-align:right;white-space:nowrap;}
+  td.c{text-align:center;}
+  .up{color:#D64545;font-weight:700;white-space:nowrap;}
+  .down{color:#3B6FD4;font-weight:700;white-space:nowrap;}
+  tr.hl td{background:#FDF9E7;}
+  tr.sum td{background:#FAFAF7;font-weight:700;border-top:2px solid var(--ink);}
+  .btn-link{
+    display:inline-block;font-size:12.5px;font-weight:700;
+    color:var(--teal);border:1px solid var(--teal);
+    border-radius:20px;padding:5px 14px;text-decoration:none;
+    background:#fff;transition:background .15s;
+  }
+  .btn-link:hover{background:#F2FBFC;}
+  section,h2,h3{scroll-margin-top:80px;}
+
+  /* ── 플로팅 목차 패널 ── */
+  .toc-panel{
+    display:none;position:absolute;right:0;bottom:52px;
+    background:#fff;border:1px solid var(--line);border-radius:16px;
+    box-shadow:0 8px 24px rgba(15,23,42,.16);
+    padding:10px 8px;min-width:200px;max-height:70vh;overflow-y:auto;
+  }
+  .toc-panel a{
+    display:block;padding:7px 12px;border-radius:8px;
+    font-size:13px;font-weight:600;color:var(--ink);text-decoration:none;white-space:nowrap;
+  }
+  .toc-panel a:hover{background:#F2FBFC;color:var(--teal);}
+  .toc-panel a .tnum{color:var(--teal);font-weight:800;margin-right:7px;}
+
+  /* ── 당월 강조 행 ── */
+  tr.cur td{background:#F2FBFC;border-top:2px solid var(--teal);border-bottom:2px solid var(--teal);}
+  tr.cur td:first-child{border-left:2px solid var(--teal);}
+  tr.cur td:last-child{border-right:2px solid var(--teal);}
+  tr.cur td.rowlabel{background:#E5F7F9;}
+
+  /* ── 플로팅 별첨 바로가기 ── */
+  .fab{position:fixed;right:24px;bottom:28px;z-index:90;}
+  .fab a{
+    display:flex;align-items:center;gap:6px;
+    background:var(--teal);color:#fff;
+    font-size:13px;font-weight:700;text-decoration:none;
+    padding:11px 18px;border-radius:26px;
+    box-shadow:0 4px 14px rgba(0,177,189,.35);
+    transition:transform .15s, box-shadow .15s;
+  }
+  .fab a:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,177,189,.45);}
+
+  /* ── Flow ── */
+  .cycle{
+    display:flex;gap:0;align-items:stretch;flex-wrap:wrap;margin:16px 0 6px;
+  }
+  .cycle .step{
+    flex:1;min-width:140px;
+    background:#FAFAF7;border:1px solid var(--line);
+    border-radius:14px;padding:14px 16px;position:relative;margin-right:26px;
+  }
+  .cycle .step:last-child{margin-right:0;}
+  .cycle .step::after{
+    content:"→";position:absolute;right:-22px;top:50%;transform:translateY(-50%);
+    color:var(--teal);font-weight:800;font-size:16px;
+  }
+  .cycle .step:last-child::after{display:none;}
+  .cycle .step b{display:block;font-size:13.5px;color:var(--teal);margin-bottom:4px;}
+  .cycle .step span{font-size:12.5px;color:var(--sub);line-height:1.5;display:block;}
+
+  @media (max-width:640px){
+    body{padding-top:120px;}
+    .topbar-inner{flex-direction:column;align-items:flex-start;gap:8px;}
+    section,.doc-head{padding:24px 20px;}
+    .cycle{flex-direction:column;}
+    .cycle .step{margin-right:0;margin-bottom:24px;}
+    .cycle .step::after{content:"↓";right:auto;left:50%;top:auto;bottom:-22px;transform:translateX(-50%);}
+    table{font-size:13px;}
+    .fab{right:14px;bottom:16px;}
+    .fab a{font-size:12px;padding:9px 14px;}
+  }
+  @media print{
+    body{background:#fff;padding:0;}
+    .topbar{display:none;}
+    .fab{display:none;}
+    #planEmbedWrap{display:none!important;}
+    section,.doc-head{border:none;border-radius:0;padding:20px 0;margin-bottom:8px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ 탑 메뉴바 ═══ -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-title"><span class="brand">셀링부스터</span> · 9월 운영 계획 — 사용자 유입·전환 활동</span>
+    <div class="topbar-actions">
+      <button class="btn-docx" onclick="downloadDocx()">워드(docx) 다운로드</button>
+      <button class="btn-pdf" onclick="downloadPdf()">PDF 다운로드</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ═══ 문서 헤더 ═══ -->
+  <div class="doc-head">
+    <span class="doc-eyebrow">검토 요청</span>
+    <h1>9월 운영 계획 — 사용자 유입·전환 활동</h1>
+    <p class="doc-meta">
+      작성일 <b>2026. 8. 28.</b> &nbsp;·&nbsp; 작성 <b>이슬기 · 안지호</b> (커머스커넥트실 셀링부스터팀) &nbsp;·&nbsp; 대상 서비스 <b>셀링부스터</b>
+    </p>
+  </div>
+
+  <!-- ═══ 1. 개요 ═══ -->
+  <section>
+    <h2 id="toc-1"><span class="num">1</span>요약</h2>
+    <div class="lead">
+      <b>9월 방침:</b> 8월 기준선(Baseline) 확보 완료 → 9월은 <b>검증·확장 실행의 달</b><br>
+      ① <b>앱 정식 오픈</b> — 1안 9/16 · 2안 9/30<br>
+      ② <b>콘텐츠 주 5회 확대</b> — 9/1부터 화·목 아이템 딥다이브 추가<br>
+      ③ <b>광고 확장</b> — 구글 신규 매체(검색·PMAX) 도입 + 메타 리타겟팅 개시<br>
+      ④ <b>마켓 입점</b> — 네이버 솔루션 마켓 입점 신청 (9월 1주차)
+    </div>
+    <table class="kv">
+      <tr><td>목적</td><td>① 사용자 유입 증대 &nbsp; ② 머신러닝 학습데이터 확보 (유입·행동 데이터 축적)</td></tr>
+      <tr><td>관리 방식</td><td>월 단위 계획 수립 → 실행 → 월말 성과 리뷰 → 익월 계획 갱신 (지속 관리)</td></tr>
+      <tr><td>총 예상 예산</td><td><b>4,008,000원</b> — 9월 광고비 총액 (구글 신규 매체 도입 포함 · 품의 상세 5장)</td></tr>
+      <tr><td>담당</td><td>
+        <b>안지호</b> — 퍼포먼스 마케팅 · 전환율<br>
+        <b>이슬기</b> — 도메인 지수 · 콘텐츠 유입<br>
+        <b>공동</b> — MAU·DAU 증대<br>
+        <b>콘텐츠 발행</b> — 9월부터 이슬기·안지호 반반 분업 예정
+      </td></tr>
+    </table>
+  </section>
+
+  <!-- ═══ 2. 월별 활동 요약 ═══ -->
+  <section>
+    <h2 id="toc-2"><span class="num">2</span>월별 활동 요약</h2>
+    <p style="font-size:13.5px;color:var(--sub);">셀 내용은 활동명 요약 — 상세는 4장 참조. 10월 행은 방향성이며 9월 성과 리뷰 후 확정.</p>
+    <table>
+      <colgroup><col style="width:11%"><col style="width:24%"><col style="width:24%"><col style="width:20%"><col style="width:21%"></colgroup>
+      <thead>
+        <tr><th>월</th><th>도메인 지수</th><th>퍼포먼스 마케팅</th><th>전환율</th><th>MAU/DAU 증대</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="rowlabel">8월<br><small>(완료)</small></td>
+          <td>본편·K트렌드 각 주 3회 + 네이버 개시(8/26)<small>3채널 정시 발행 체계 안착</small></td>
+          <td>2개 채널 2,968,050원 집행<small>채널별 성과 데이터 축적</small></td>
+          <td>기준선 1.3% 확정 · 랜딩 CTA 실험<small>결과 판정 9월 초</small></td>
+          <td>콘텐츠 CTA·안내 접점 정비<small>7월 MAU 3,600 · DAU/MAU 3.2%</small></td>
+        </tr>
+        <tr class="cur">
+          <td class="rowlabel">9월<br><small>(당월)</small></td>
+          <td>본편 주 5회 확대 + K트렌드 11회 + 네이버 14회<small>GEO 가이드 반영 · 추석 스킵(9/24~28)</small></td>
+          <td>예산 4,008,000원 · 구글 신규 도입 + 메타 리타겟팅<small>품의 상세 5장 · 8월 ROAS 기준 재배분</small></td>
+          <td>8월 실험 반영 2차 개선 · GA4·GTM 검증<small>앱 오픈 시 앱 퍼널 측정 추가</small></td>
+          <td>앱 정식 오픈(1안 9/16) 리텐션 활동<small>온보딩 개선 검토 · 리타겟팅 연계</small></td>
+        </tr>
+        <tr>
+          <td class="rowlabel">10월</td>
+          <td>본편 13회 + 딥다이브 9회 + 네이버 9회<small>신규 서비스(블로그 마켓·틱톡샵) 콘텐츠 연계</small></td>
+          <td>4분기 예산 3,845,846원 집행<small>리타겟팅 성과 검증</small></td>
+          <td>앱 퍼널 포함 통합 전환 관리</td>
+          <td>셀링스파크·블로그페이 연동 효과 반영</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </section>
+
+  <!-- ═══ 3. 운영 성과 요약 ═══ -->
+  <section>
+    <h2 id="toc-3"><span class="num">3</span>운영 성과 요약 (7월 vs. 8월)</h2>
+    <div class="lead" style="font-size:13.5px;">
+      요지: <b>유입 확대는 성공, 다음 병목은 전환·리텐션</b> — 9월 활동(4장)은 메타 재배분 · 모바일 랜딩 개선 · 앱 오픈 리텐션에 집중. 상세 데이터는 별첨 1·2 참조.
+    </div>
+    <p style="font-size:13.5px;font-weight:700;margin-top:14px;">항목별 성과 판정</p>
+    <table>
+      <colgroup><col style="width:16%"><col style="width:66%"><col style="width:18%"></colgroup>
+      <thead><tr><th>항목</th><th>핵심 성과</th><th>평가</th></tr></thead>
+      <tbody>
+        <tr><td class="c">유입 규모</td><td>월간 방문 4,343 → 11,653명 (<span class="up">▲168%</span>) · 누적 24,084명 — 광고 확대 + SEO 안착 중첩 효과</td><td class="c"><span class="up">급성장</span></td></tr>
+        <tr><td class="c">오가닉·GEO</td><td>SEO 유입 누적 3,262건 안착 · AI(GEO) 유입 CVR <b>3.2%</b> 전 채널 최고 — 콘텐츠 전략 검증</td><td class="c"><span class="up">검증 완료</span></td></tr>
+        <tr><td class="c">광고 효율</td><td>가입 CPA 네이버 27,440원 vs. 메타 259,135원 (약 9.4배 격차) — 9월 ROAS 기준 재배분 근거</td><td class="c" style="color:#B8860B;font-weight:700;">재배분 필요</td></tr>
+        <tr><td class="c">전환</td><td>가입 전환율 1.06% → 0.31% (<span class="down">▼0.75%p</span>) · 전환의 74%가 Desktop 발생 — 모바일 랜딩 개선 과제 (4-3장)</td><td class="c"><span class="down">개선 과제</span></td></tr>
+        <tr><td class="c">가입·이탈</td><td>주간 가입 46 → 36명 (<span class="down">▼22%</span>) · 누적 192명(순증 +25) — 8월 탈퇴 11명 발생(7월 0명), 리텐션 과제 (4-4장)</td><td class="c"><span class="down">관리 필요</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ═══ 4. 항목별 세부 실행 방안 ═══ -->
+  <section>
+    <h2 id="toc-4"><span class="num">4</span>항목별 세부 실행 방안 (9월)</h2>
+
+    <!-- 3-1 도메인 지수 -->
+    <h3 id="sec-domain">4-1. 도메인 지수 <span class="chip">담당 이슬기 · 발행 분업 안지호</span></h3>
+    <table class="kv">
+      <tr><td>현황<br><small style="font-weight:400;color:var(--sub);">(발행 로그<br>8/28 기준)</small></td><td><b>3채널 누적 101건 · 정시 발행 체계 안착</b> — 8/26 계획분 3채널(본편 「마진율 계산」 · K트렌드 「연노랑 린넨 원피스」 · 네이버 첫 파생) 모두 정시 발행 확정, 전주(8/17~23) 주간 목표 전량 달성(K트렌드 3/3 · 본편 3/3), 금주 K트렌드 3/2 초과 달성. GitHub Actions 일일 자동 수집·판정 가동 중
+        <p style="margin:10px 0 0;"><a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/SEO%EB%AA%A8%EB%8B%88%ED%84%B0%EB%A7%81/seo-monitoring.html" target="_blank" rel="noopener noreferrer">📊 발행 로그 · SEO 모니터링 대시보드</a></p>
+      </td></tr>
+      <tr><td>9월 활동</td><td>
+        <ul style="margin-bottom:0;">
+          <li><b>본편 주 5회 확대(9/1~):</b> 월·수·금 본편 11회 + 화·목 「아이템 딥다이브」 8회 — <b>이슬기·안지호 반반 분업 예정</b></li>
+          <li><b>K트렌드 매거진 11회:</b> FW26 트렌드 4축(레드·체크·볼륨/커브드·패러독스) 기반, 추석룩 9/16 선점 발행 · 트렌드 학습 L1(9/14) 반영</li>
+          <li><b>네이버 블로그 발행 14회:</b> 원본 +18~21일 시차 재집필 — 9~10월 네이버 전용 콘텐츠 가이드 수급 예정</li>
+          <li><b>GEO:</b> 하이훅 GEO 가이드 수령 대기 → 수령 즉시 발행 지침 반영 (AI 유입 누적 93건 · CVR 3.2% 전 채널 최고, 별첨 1)</li>
+          <li>추석(9/24·25·28) 발행 스킵 — 시즌 콘텐츠는 2~3주 선행 배치 완료 · 색인·AI 브리핑 인용 주간 점검 지속</li>
+        </ul>
+        <p style="margin:10px 0 0;"><a class="btn-link" href="#apx-plan">📋 발행 계획 상세보기 →</a> <a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EB%B8%94%EB%A1%9C%EA%B7%B8_%EB%B0%9C%ED%96%89%EA%B3%84%ED%9A%8D_8-9%EC%9B%94.html" target="_blank" rel="noopener noreferrer">🔗 블로그 발행 계획 원문</a> <a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/K%ED%8A%B8%EB%A0%8C%EB%93%9C%EB%A7%A4%EA%B1%B0%EC%A7%84/K%ED%8A%B8%EB%A0%8C%EB%93%9C_%EB%A7%A4%EA%B1%B0%EC%A7%84_%EB%B0%9C%ED%96%89%EA%B3%84%ED%9A%8D_9%EC%9B%94.html" target="_blank" rel="noopener noreferrer">👗 K트렌드 9월 발행 계획</a></p>
+      </td></tr>
+      <tr><td>측정 지표</td><td>색인 등록률 · AI 브리핑 인용수(핵심) · 검색(SEO)·AI(GEO) 유입 세션 · 주간 계획 대비 달성률</td></tr>
+    </table>
+
+    <!-- 3-2 퍼포먼스 마케팅 -->
+    <h3>4-2. 퍼포먼스 마케팅 <span class="chip">담당 안지호</span></h3>
+    <table class="kv">
+      <tr><td>현황</td><td>8월 예산 2,968,050원 집행 완료(결산 집계 중), 2개 채널(네이버 검색광고 · 메타 인스타그램) 운영. 초기 성과 기준 <b>네이버 = 저비용·고전환</b>(가입당 4,164원), <b>메타 = 노출 우위·전환 저조</b>(가입당 65.18 USD)</td></tr>
+      <tr><td>9월 활동</td><td>
+        <ul style="margin-bottom:0;">
+          <li>9월 예산 4,008,000원 집행 — 구글 신규 매체(검색·PMAX) 테스트 도입 (품의 상세 5장)</li>
+          <li><b>메타 리타겟팅 그룹 운영 개시:</b> 전환 이탈자 대상 리타겟팅 광고 집행 — 재방문 트리거 생성 목표</li>
+          <li>8월 채널별 ROAS 기준 예산 재배분 — 네이버(CPA 우수) 키워드 확장 · 메타 소재 개선 지속</li>
+          <li><b>광고 소재 차별 메시지 반영 (다시체크 경쟁 분석 기반):</b> ① "확장프로그램 없이 모바일·앱에서 가능한 분석" (경쟁사 구조적 약점 공략) ② 3채널(스마트스토어·쿠팡·11번가) 지원 ③ AI 상품명·최적가 추천 (당사 단독 기능) — 메타 소재·네이버 광고 문안에 순차 적용</li>
+          <li>GA4·GTM 설정 검증·보완 완료 (9월 팀 목표) — UTM·전환 매핑 정합 확보</li>
+          <li>셀픽·허니콘 캠페인 외부 성과 관리 지속 — 허니콘 재갱신 결정(8/31) 반영</li>
+        </ul>
+        <p style="margin:10px 0 0;"><a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/%EB%B3%B4%EA%B3%A0%EC%84%9C/HD_%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EB%8B%A4%EC%8B%9C%EC%B2%B4%ED%81%AC_%EC%84%9C%EB%B9%84%EC%8A%A4%EB%B6%84%EC%84%9D_260827.html" target="_blank" rel="noopener noreferrer">🔍 다시체크 경쟁 분석 보고서 (소재 메시지 근거)</a></p>
+      </td></tr>
+      <tr><td>측정 지표</td><td>채널별 CPC · CTR · 유입수 · 가입 CPA · ROAS</td></tr>
+    </table>
+
+    <p style="font-size:13.5px;font-weight:700;margin-top:16px;">채널별 집행 현황 (7/15~8/7 누적 — 8월 결산 월초 반영 예정)</p>
+    <table>
+      <colgroup><col style="width:20%"><col style="width:13%"><col style="width:11%"><col style="width:16%"><col style="width:11%"><col style="width:13%"><col style="width:16%"></colgroup>
+      <thead>
+        <tr><th>매체</th><th>노출</th><th>클릭</th><th>비용</th><th>신규 가입</th><th>전환율</th><th>가입당 비용</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>메타 (인스타그램)</td>
+          <td style="text-align:right;">158,729</td>
+          <td style="text-align:right;">3,526</td>
+          <td style="text-align:right;">1,108.14 USD</td>
+          <td style="text-align:right;">17명</td>
+          <td style="text-align:right;">0.48%</td>
+          <td style="text-align:right;">65.18 USD</td>
+        </tr>
+        <tr>
+          <td>네이버 검색광고</td>
+          <td style="text-align:right;">46,391</td>
+          <td style="text-align:right;">76</td>
+          <td style="text-align:right;">45,802 KRW</td>
+          <td style="text-align:right;">11명</td>
+          <td style="text-align:right;">14.47%</td>
+          <td style="text-align:right;">4,164 KRW</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:12.5px;color:var(--sub);">※ 메타 비용은 USD 집행 기준 (현황의 누적액은 원화 환산). 전환율 = 클릭 대비 가입.</p>
+
+    <p style="font-size:13.5px;font-weight:700;margin-top:18px;">월별 광고 예산 계획</p>
+    <table>
+      <colgroup><col style="width:19%"><col style="width:27%"><col style="width:27%"><col style="width:27%"></colgroup>
+      <thead>
+        <tr><th>구분</th><th>7월 (집행)</th><th>8월 (예상 결산)</th><th>9월 (품의)</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="rowlabel">총 예산</td>
+          <td style="text-align:right;">1,346,452원</td>
+          <td style="text-align:right;">2,557,401원</td>
+          <td style="text-align:right;">4,008,000원</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:12.5px;color:var(--sub);">※ 4분기(10~12월)는 3,845,846원 → 4,272,952원 단계 확대 편성 — 8~9월 성과 검증 후 배분 조정 검토 부탁드립니다.</p>
+
+    <!-- 3-3 전환율 -->
+    <h3>4-3. 전환율 <span class="chip">담당 안지호 · 협업 이슬기</span></h3>
+    <table class="kv">
+      <tr><td>현황</td><td>8월 기준선 <b>1.3%</b> 확정 (랜딩 → 가입) · 랜딩 CTA 개선 실험 집행 — 결과 판정 9월 초. 채널 격차(네이버 14.47% vs. 메타 0.48%) 지속 관찰</td></tr>
+      <tr><td>9월 활동</td><td>
+        <ul style="margin-bottom:0;">
+          <li>8월 실험 결과 반영 2차 개선 집행 — 메타 유입 랜딩 우선 (기획 협업)</li>
+          <li>GA4·GTM 검증으로 퍼널 측정 정합 확보 — 랜딩→가입→핵심 기능 사용 단계 확장</li>
+          <li>앱 정식 오픈 시 앱 퍼널(설치→가입→기능 사용) 측정 추가</li>
+          <li>"현재 전 기능 무료" 소구 일관성 유지 (랜딩·광고·스토어 문안 정합) — 경쟁사(다시체크)의 무료 한도제 → 유료 전환 구조와 대비되는 전환 소구점으로 활용</li>
+        </ul>
+      </td></tr>
+      <tr><td>측정 지표</td><td>랜딩→가입 전환율 · 가입→핵심 기능 사용 전환율 · 실험군 대비 개선폭</td></tr>
+    </table>
+
+    <!-- 3-4 MAU/DAU -->
+    <h3>4-4. MAU/DAU 증대 <span class="chip">공동</span></h3>
+    <table class="kv">
+      <tr><td>현황</td><td>7월 MAU <b>3,600명</b> · DAU 약 <b>116명/일</b> · DAU/MAU 약 <b>3.2%</b> (8월 집계 월초 반영 예정). <b>재방문 트리거 확보</b> 과제 지속 — 9월은 앱 정식 오픈이 핵심 변수</td></tr>
+      <tr><td>9월 활동</td><td>
+        <ul style="margin-bottom:0;">
+          <li><b>앱 정식 오픈(1안 9/16 · 2안 9/30):</b> 앱 설치 기반 재방문 채널 확보 — 오픈 직후 리텐션 모니터링</li>
+          <li>기능 사용 리텐션 활동 — 온보딩 개선 검토 (9월 팀 목표)</li>
+          <li>메타 리타겟팅 연계 재방문 유도 (4-2 연계)</li>
+          <li>화·목 아이템 딥다이브 콘텐츠 CTA — 반복 방문 가치 강화</li>
+        </ul>
+      </td></tr>
+      <tr><td>측정 지표</td><td>MAU · DAU · DAU/MAU 비율 · 핵심 기능 재사용률</td></tr>
+    </table>
+
+    <div class="note">
+      <b>데이터 기준:</b> 광고 성과 7/15~8/7 누적(8월 결산은 월초 취합 후 반영 예정), MAU/DAU 7월 전체. 8월 결산 반영 시 채널별 판단·예산 배분 확정 검토 부탁드립니다.
+    </div>
+  </section>
+
+  <!-- ═══ 4. 담당 구분 ═══ -->
+  <!-- ═══ 5. 관리 체계 ═══ -->
+    <!-- ═══ 5. 9월 광고 품의 계획 ═══ -->
+  <section>
+    <h2 id="toc-5"><span class="num">5</span>9월 광고 품의 계획</h2>
+    <div class="lead" style="font-size:13.5px;">
+      9월 광고비 총액 <b>4,008,000원</b> — 구글 신규 매체(검색광고 + PMAX) 테스트 도입에 따른 증액. 이 중 대행사(미래아이엔씨) 지급분 <b>2,398,000원</b>은 인보이스 정산 방식. 검토·승인 요청드립니다.
+    </div>
+    <table class="kv">
+      <tr><td>품의 총액</td><td><b>4,008,000원</b> (VAT 포함)</td></tr>
+      <tr><td>대행사 지급</td><td>미래아이엔씨 <b>2,398,000원</b> = 구글 광고비 1,870,000원 + 광고대행 수수료 528,000원 (VAT 포함)</td></tr>
+      <tr><td>지급 사유</td><td>구글 광고 지면의 영업권(집행 권한) 설정을 위해 당사 직접 결제가 아닌 <b>대행사 인보이스 발행 방식</b> 정산 필요</td></tr>
+    </table>
+
+    <p style="font-size:13.5px;font-weight:700;margin-top:16px;">7~9월 매체별 광고비 비교</p>
+    <div class="table-scroll">
+    <table>
+      <colgroup><col style="width:14%"><col style="width:30%"><col style="width:18%"><col style="width:19%"><col style="width:19%"></colgroup>
+      <thead><tr><th>매체</th><th>광고 종류</th><th>7월</th><th>8월 (예상치)</th><th>9월</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td class="c">Google</td><td>검색광고 + PMAX (신규 도입, VAT 포함)</td><td class="r">0원</td><td class="r">0원</td><td class="r"><b>1,870,000원</b></td></tr>
+        <tr><td class="c">Meta</td><td>배너광고</td><td class="r">1,194,705원</td><td class="r">2,089,351원</td><td class="r">1,500,000원</td></tr>
+        <tr><td class="c">네이버</td><td>검색광고</td><td class="r">26,567원</td><td class="r">110,000원</td><td class="r">110,000원</td></tr>
+        <tr><td class="c">–</td><td>광고대행 수수료 총액 (VAT 포함)</td><td class="r">125,180원</td><td class="r">358,050원</td><td class="r">528,000원</td></tr>
+        <tr class="sum"><td class="c">TOTAL</td><td></td><td class="r">1,346,452원</td><td class="r">2,557,401원</td><td class="r">4,008,000원</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p style="font-size:13.5px;font-weight:700;margin-top:18px;">구글 신규 도입 근거</p>
+    <p style="font-size:14px;">효율이 검증된 검색 영역을 기반으로 PMAX의 신규 유입을 더해 <b>회원가입 전환 규모 극대화 + 신규 매체 효율 검증</b>이 목적. 검색광고는 셀링부스터 관련 키워드를 직접 검색하는 전환 가능성 높은 핵심 고객을 확보하고, PMAX는 YouTube·디스플레이 등 구글 전 지면을 AI가 자동 활용해 신규 타겟을 발굴합니다.</p>
+    <div class="table-scroll">
+    <table>
+      <colgroup><col style="width:16%"><col style="width:42%"><col style="width:42%"></colgroup>
+      <thead><tr><th>구분</th><th>구글 검색광고 (Search)</th><th>구글 실적 최대화 (PMAX)</th></tr></thead>
+      <tbody>
+        <tr><td class="c">노출 지면</td><td>관련 키워드 검색 결과 지면</td><td>검색 · YouTube · 디스플레이 등 구글 전 지면 자동 활용</td></tr>
+        <tr><td class="c">타겟 고객</td><td>서비스를 직접 탐색하는 진성 고객</td><td>서비스를 새롭게 인지할 신규 잠재 고객</td></tr>
+        <tr><td class="c">운영 목적</td><td>전환 가능성 높은 핵심 고객의 확실한 확보</td><td>새로운 유입 경로 확장 · 브랜드 인지도 확대</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:12.5px;color:var(--sub);margin-top:6px;">※ PMAX(Performance Max) = 구글 AI 자동 운용 캠페인. 승인 시 해당 예산·정산 방식으로 광고 집행 신속 준비.</p>
+  </section>
+
+<!-- ═══ 6. 9월 주요 마일스톤 ═══ -->
+  <section>
+    <h2 id="toc-6"><span class="num">6</span>9월 주요 마일스톤 · 필요 일정</h2>
+    <div class="lead" style="font-size:13.5px;">
+      핵심: <b>앱 QA 종료(9/11) → 경영진 보고(9/11·14·15) → 정식 오픈 1안 9/16 · 2안 9/30</b>. QA는 8/21 착수 후 실원 검증(9/1~2) → 사내 이벤트 검증(9/3~4) → 재검증(9/7~10) 순으로 진행 중이며, 앱 스토어 입점 심사(8/21 신청 · ~9/18 승인 예상) 지연 시 추석을 피해 2안 적용.
+    </div>
+    <p style="margin:0 0 14px;">
+      <a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EC%95%B1_QA_%EA%B3%84%ED%9A%8D%EC%84%9C.html" target="_blank" rel="noopener noreferrer">📱 앱 QA 계획서 (v1.3) 바로가기</a>
+    </p>
+    <table>
+      <colgroup><col style="width:15%"><col style="width:70%"><col style="width:15%"></colgroup>
+      <thead><tr><th>시점</th><th>마일스톤</th><th>구분</th></tr></thead>
+      <tbody>
+        <tr><td class="c">매주 수요일</td><td>SEO TF 정기 회의 (SEO/GEO 협의체)</td><td class="c">정기</td></tr>
+        <tr><td class="c">9/1 (화)</td><td>블로그 본편 주 5회 확대 개시 — 화·목 「아이템 딥다이브」 추가 (이슬기·안지호 분업)</td><td class="c">콘텐츠</td></tr>
+        <tr><td class="c">9/1~9/2</td><td>앱 QA 실원 검증 — 커머스커넥트실 기획자 전원 + 개발 1인, P1(핵심 우선순위 TC)·핵심 플로우 교차 검증</td><td class="c">앱</td></tr>
+        <tr class="hl"><td class="c">9월 1주차</td><td><b>네이버 솔루션 마켓 입점 신청 완료 예정</b> · 카페24 입점 준비 병행</td><td class="c">마켓 입점</td></tr>
+        <tr><td class="c">9월 초</td><td>당월 광고 품의 확정 — 9월 품의 4,008,000원 상세 5장 (매월 반복)</td><td class="c">광고</td></tr>
+        <tr><td class="c">9월 초</td><td>셀링부스터 마케팅 소구점 및 기능 고도화 계획 수립</td><td class="c">기획·마케팅</td></tr>
+        <tr><td class="c">9/3~9/4</td><td>앱 사내 이벤트 검증 — 사내 참여자 자유 탐색·이슈 제보 (리워드: 커피 쿠폰) → 이후 대표 중간 보고 (일정 확정 예정)</td><td class="c">앱</td></tr>
+        <tr><td class="c">9/4 (금)</td><td>코이페(한국 이커머스 박람회, 9/17~19 SETEC) 참관 대비 사전 가이드 콘텐츠 발행</td><td class="c">콘텐츠</td></tr>
+        <tr><td class="c">9/11 (금)</td><td>QA 종료 판정 · 실장 보고 → 전무 보고 9/14 · 대표 보고 9/15</td><td class="c">앱·보고</td></tr>
+        <tr><td class="c">9/14 (월)</td><td>K트렌드 트렌드 학습 L1 (무신사 STYLE, 3주 주기) — 9/16~10/3 발행분 반영</td><td class="c">콘텐츠</td></tr>
+        <tr><td class="c">9월 중순</td><td>월간보고서 작성 (격월 주기, 직전 7월 말)</td><td class="c">보고</td></tr>
+        <tr><td class="c">9월 중순</td><td>TTJ 인기 랭킹 서비스 도입 준비 착수</td><td class="c">서비스</td></tr>
+        <tr class="hl"><td class="c">9/16 (수)</td><td><b>앱 정식 오픈 1안</b> — QA 완료 + 대표 승인 + <b>앱 스토어 심사 승인</b> 3조건 충족 시 (미충족 시 2안 9/30)</td><td class="c">앱</td></tr>
+        <tr><td class="c">9/17~9/19</td><td>코이페 참관 (SETEC) → 9/21 사후 방문기 발행</td><td class="c">콘텐츠</td></tr>
+        <tr><td class="c">9월 중</td><td>GA4·GTM 설정 검증·보완 완료 (팀 목표) · 하이훅 GEO 가이드 수령 → 발행 지침 반영</td><td class="c">측정·SEO</td></tr>
+        <tr><td class="c">9/24~9/28</td><td>추석 연휴 — 전 채널 콘텐츠 발행 스킵 (9/24·25·28). 1안(9/16) 오픈 시 연휴가 오픈 직후라 <b>연휴 중 앱 모니터링 당번 지정 운영</b> (대응 공백 방지)</td><td class="c">공통</td></tr>
+        <tr><td class="c">8~9월 계속</td><td>셀링스파크 통합 기획 · 셀픽/허니콘 외부 캠페인 성과 관리 — 허니콘(기프티콘) 8/31 종료에 따른 재갱신 여부 결정 반영</td><td class="c">진행 중</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:12.5px;color:var(--sub);margin-top:8px;">※ 10월 예고: 셀링스파크·블로그페이 연동, 신규 서비스(블로그 마켓·틱톡샵) 콘텐츠 연계, 4분기 예산 확대 집행.</p>
+  </section>
+
+    <!-- ═══ 7. 운영 정책 ═══ -->
+  <section>
+    <h2 id="toc-7"><span class="num">7</span>운영 정책</h2>
+    <h3 style="margin-top:6px;">담당 구분 (R&amp;R)</h3>
+    <table>
+      <colgroup><col style="width:28%"><col style="width:22%"><col style="width:50%"></colgroup>
+      <thead>
+        <tr><th>항목</th><th>주담당</th><th>역할</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>도메인 지수</td><td style="text-align:center;"><span class="owner">이슬기</span> <span style="font-size:12px;color:var(--sub);">(발행 분업 안지호)</span></td><td>발행 총괄·색인·인용 관리 — 9월부터 콘텐츠 발행은 이슬기·안지호 반반 분업 예정</td></tr>
+        <tr><td>퍼포먼스 마케팅</td><td style="text-align:center;"><span class="owner">안지호</span></td><td>채널 집행·예산 운영·성과 측정</td></tr>
+        <tr><td>전환율</td><td style="text-align:center;"><span class="owner">안지호</span> <span style="font-size:12px;color:var(--sub);">(협업 이슬기)</span></td><td>퍼널 측정·실험 집행 / 랜딩 개선안 기획 협업</td></tr>
+        <tr><td>MAU/DAU 증대</td><td style="text-align:center;"><span class="owner">공동</span></td><td>콘텐츠 CTA·안내 접점(이슬기) / 캠페인 연계(안지호)</td></tr>
+      </tbody>
+    </table>
+    <h3 style="margin-top:24px;">지속 관리 체계</h3>
+    <p>월 단위 사이클 운영 — 매월 리뷰 결과를 익월 계획과 요약표(2장)에 누적 반영. 이를 근거로 <b>4분기 장기 집행 계획</b> 수립 방향으로 검토 부탁드립니다.</p>
+    <div class="cycle">
+      <div class="step"><b>월초</b><span>항목별 활동 계획 확정, 요약표 갱신</span></div>
+      <div class="step"><b>월중</b><span>실행 및 주간 지표 점검 (색인·집행·퍼널)</span></div>
+      <div class="step"><b>월말</b><span>성과 리뷰 — 항목별 지표 vs. 기준선 비교</span></div>
+      <div class="step"><b>익월 반영</b><span>예산 재배분·실험 우선순위 조정, 계획 갱신</span></div>
+    </div>
+    <p style="margin-top:14px;font-size:13.5px;color:var(--sub);">※ 8월 기준선 확보 완료 — 9월 월말 리뷰부터 기준선 대비 증감을 병기하는 방식으로 검토 부탁드립니다.</p>
+  </section>
+
+<!-- ═══ 별첨 ═══ -->
+  <section class="apx" id="apx">
+    <h2><span class="num" style="width:auto;padding:0 10px;">별첨</span>유입·가입 현황 상세 데이터</h2>
+
+    <h3 style="margin-top:6px;">별첨 1. 채널별 누적 유입·전환 성과 (8/27 기준 · 자동 집계)</h3>
+    <div class="lead" style="font-size:13.5px;">
+      핵심: <b>AI 유입 CVR 3.2%로 전 채널 최고</b>(GEO 전략 검증) · 검색광고 CPA 격차 뚜렷 — 네이버 27,440원 vs. 메타 259,135원(약 9.4배). SEO 유입(간접+직접) 3,262건으로 오가닉 축 안착, 전환 질은 오가닉(직접검색 0.9%)이 메타(0.1%)를 상회.
+    </div>
+    <p style="font-size:13.5px;font-weight:700;margin-top:14px;">① 채널별 누적 성과 (전체 기간)</p>
+    <div class="table-scroll">
+    <table>
+      <colgroup><col style="width:22%"><col style="width:14%"><col style="width:13%"><col style="width:13%"><col style="width:20%"><col style="width:18%"></colgroup>
+      <thead><tr><th>채널</th><th>유입수</th><th>전환수</th><th>전환율(CVR)</th><th>광고비(원)</th><th>CPA(원)</th></tr></thead>
+      <tbody>
+        <tr><td>메타 광고</td><td class="r">11,277</td><td class="r">11</td><td class="r">0.1%</td><td class="r">2,850,486</td><td class="r">259,135</td></tr>
+        <tr class="hl"><td>간접검색유입 (SEO)</td><td class="r">2,191</td><td class="r">0</td><td class="r">0.0%</td><td class="r">0</td><td class="c">–</td></tr>
+        <tr class="hl"><td>직접검색유입 (SEO)</td><td class="r">1,071</td><td class="r">10</td><td class="r">0.9%</td><td class="r">0</td><td class="c">–</td></tr>
+        <tr><td>직접 방문</td><td class="r">806</td><td class="r">5</td><td class="r">0.6%</td><td class="r">0</td><td class="c">–</td></tr>
+        <tr><td>기타</td><td class="r">442</td><td class="r">0</td><td class="r">0.0%</td><td class="r">0</td><td class="c">–</td></tr>
+        <tr><td>네이버 검색광고</td><td class="r">224</td><td class="r">4</td><td class="r">1.8%</td><td class="r">109,760</td><td class="r">27,440</td></tr>
+        <tr><td>내부 유입</td><td class="r">219</td><td class="r">1</td><td class="r">0.5%</td><td class="r">0</td><td class="c">–</td></tr>
+        <tr><td>기프티팡</td><td class="r">218</td><td class="r">0</td><td class="r">0.0%</td><td class="r">0</td><td class="c">–</td></tr>
+        <tr><td>소셜유입</td><td class="r">132</td><td class="r">0</td><td class="r">0.0%</td><td class="r">0</td><td class="c">–</td></tr>
+        <tr class="hl"><td>AI 유입 (GEO)</td><td class="r">93</td><td class="r">3</td><td class="r"><b>3.2%</b></td><td class="r">0</td><td class="c">–</td></tr>
+        <tr><td>내부 사이트 유입</td><td class="r">91</td><td class="r">0</td><td class="r">0.0%</td><td class="r">0</td><td class="c">–</td></tr>
+        <tr><td>셀픽</td><td class="r">75</td><td class="r">0</td><td class="r">0.0%</td><td class="r">0</td><td class="c">–</td></tr>
+        <tr><td>소셜 로그인</td><td class="r">75</td><td class="r">0</td><td class="r">0.0%</td><td class="r">0</td><td class="c">–</td></tr>
+        <tr><td>검색광고 (기타)</td><td class="r">2</td><td class="r">0</td><td class="r">0.0%</td><td class="r">0</td><td class="c">–</td></tr>
+        <tr><td>구글 검색광고</td><td class="r">0</td><td class="r">0</td><td class="r">0.0%</td><td class="r">0</td><td class="c">–</td></tr>
+        <tr class="sum"><td>TOTAL</td><td class="r">16,916</td><td class="r">34</td><td class="r">0.2%</td><td class="r">2,960,246</td><td class="r">87,066</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:13.5px;font-weight:700;margin-top:16px;">② 디바이스별 누적 성과 (전체 기간)</p>
+    <div class="table-scroll">
+    <table>
+      <colgroup><col style="width:25%"><col style="width:25%"><col style="width:25%"><col style="width:25%"></colgroup>
+      <thead><tr><th>디바이스</th><th>유입수</th><th>전환수</th><th>전환율(CVR)</th></tr></thead>
+      <tbody>
+        <tr><td>Mobile</td><td class="r">13,597</td><td class="r">9</td><td class="r">0.1%</td></tr>
+        <tr class="hl"><td>Desktop</td><td class="r">2,873</td><td class="r">25</td><td class="r"><b>0.9%</b></td></tr>
+        <tr><td>Tablet</td><td class="r">446</td><td class="r">0</td><td class="r">0.0%</td></tr>
+        <tr class="sum"><td>Total</td><td class="r">16,916</td><td class="r">34</td><td class="r">0.2%</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:12.5px;color:var(--sub);margin-top:6px;">※ GA 자동 집계 · 전체 기간 누적(~8/27) 기준. 전환 정의(GA 전환 이벤트)에 따라 주간 리포트의 가입 수·4-3장 기준선(1.3%)과 산정 기준이 다를 수 있음. '–' = 광고비 미집행(오가닉). 전환의 74%(25/34)가 Desktop에서 발생 — 유입의 80%를 차지하는 Mobile 랜딩 전환 최적화가 개선 과제.</p>
+
+    <h3 style="margin-top:26px;">별첨 2. 주간 방문·가입 현황 — 8월 (7월 대비)</h3>
+    <div class="lead" style="font-size:13.5px;">
+      핵심: 8월 방문 <b>7월 대비 2.7배 급성장</b>(월간 11,653명 · 주간 최대 4,571명, 3주차~) — 광고 확대·SEO 안착 효과. 단, 가입 전환율은 <b>1.06% → 0.31%로 하향</b>, 방문 규모 확대를 전환이 따라가지 못하는 구간 — 4-3장 랜딩 개선(모바일 우선, 별첨 1)의 근거.
+    </div>
+
+    <p style="font-size:13.5px;font-weight:700;margin-top:14px;">요약 지표 — 7월 vs. 8월 (8/28 기준)</p>
+    <div class="table-scroll">
+    <table>
+      <colgroup><col style="width:28%"><col style="width:24%"><col style="width:24%"><col style="width:24%"></colgroup>
+      <thead><tr><th>지표</th><th>7월 (4주 합)</th><th>8월 (4주 합, ~8/28)</th><th>증감</th></tr></thead>
+      <tbody>
+        <tr><td>주간 방문 합계</td><td class="r">4,343</td><td class="r">11,653</td><td class="c"><span class="up">▲168%</span></td></tr>
+        <tr><td>신규 방문자 합계</td><td class="r">3,441</td><td class="r">9,159</td><td class="c"><span class="up">▲166%</span></td></tr>
+        <tr><td>주간 가입 합계</td><td class="r">46</td><td class="r">36</td><td class="c"><span class="down">▼22%</span></td></tr>
+        <tr><td>평균 가입 전환율</td><td class="r">1.06%</td><td class="r">0.31%</td><td class="c"><span class="down">▼0.75%p</span></td></tr>
+        <tr><td>누적 방문자 (월말)</td><td class="r">12,431</td><td class="r">24,084</td><td class="c"><span class="up">▲94%</span></td></tr>
+        <tr><td>누적 가입자 (월말)</td><td class="r">167</td><td class="r">192</td><td class="c"><span class="up">+25명</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p style="font-size:13.5px;font-weight:700;margin-top:16px;">8월 주간 상세</p>
+    <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>주차</th><th>주간 방문</th><th>신규</th><th>기존</th><th>누적 방문</th><th>주간 가입</th><th>누적 가입</th><th>가입 전환율</th><th>누적 연동 회원</th><th>누적 마켓 연동율</th><th>크롬 누적 설치</th><th>크롬 사용률</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="c">8월 1주차<br><small style="color:var(--sub);">8.1~8.7</small></td><td class="r">1,694</td><td class="r">1,280</td><td class="r">163</td><td class="r">14,125</td><td class="r">11</td><td class="r">178</td><td class="r">0.65%</td><td class="r">16</td><td class="r">8.99%</td><td class="r">67</td><td class="r">70.0%</td></tr>
+        <tr><td class="c">8월 2주차<br><small style="color:var(--sub);">8.8~8.14</small></td><td class="r">1,303</td><td class="r">1,061</td><td class="r">116</td><td class="r">15,428</td><td class="r">7</td><td class="r">185</td><td class="r">0.54%</td><td class="r">17</td><td class="r">9.19%</td><td class="r">66</td><td class="r">86.5%</td></tr>
+        <tr><td class="c">8월 3주차<br><small style="color:var(--sub);">8.15~8.21</small></td><td class="r">4,571</td><td class="r">3,603</td><td class="r">549</td><td class="r">19,999</td><td class="r">10</td><td class="r">189</td><td class="r">0.22%</td><td class="r">17</td><td class="r">8.99%</td><td class="r">63</td><td class="r">71.9%</td></tr>
+        <tr class="cur"><td class="c">8월 4주차<br><small style="color:var(--sub);">8.22~8.28</small></td><td class="r">4,085</td><td class="r">3,215</td><td class="r">600</td><td class="r">24,084</td><td class="r">8</td><td class="r">192</td><td class="r">0.20%</td><td class="r">16</td><td class="r">8.33%</td><td class="r">57</td><td class="r">55.2%</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:12.5px;color:var(--sub);margin-top:8px;">※ 전환율 = 주간 가입 ÷ 주간 방문. 주간 가입은 신규 가입(총), 누적 가입은 <b>탈퇴 차감 순증 기준</b> — 3~4주차 차이(+4·+3)는 탈퇴 반영분(3주차 6명 · 4주차 5명). 8월 중 탈퇴 누계 11명 발생(7월 0명). 8월 3주차부터 방문 급증(광고 확대·SEO 효과 중첩)과 함께 전환율 0.2%대 진입 — 유입 질·랜딩 전환 관리가 9월 과제. 7월 이전 주차 상세는 원본 주간 리포트 참조.</p>
+
+    <h3 id="apx-plan" style="margin-top:26px;">별첨 3. 블로그 발행 계획 (8~9월) — SEO·GEO 실행 상세 <a class="btn-link" href="#sec-domain" style="margin-left:8px;font-size:11.5px;padding:3px 10px;">↑ 3-1 도메인 지수로</a></h3>
+    <div class="lead" style="font-size:13.5px;">
+      본편 발행 <b>8월 11회 · 9월 11회</b>(주 3회, 월·수·금) + K트렌드 매거진 <b>주 3회(월·수·금) 정기 발행</b> 별도 운영 + 네이버 블로그 발행 <b>14회 + 10월 이월 8회</b>(8/26 개시). 파이프라인: 하이훅 → 워싱 워크플로 → CMS, 8월 하반기부터 GEO 가이드 적용. 9월에 10월 신규 서비스(블로그 마켓·틱톡샵) SEO 선점 콘텐츠 배치. <b>9/1부터 화·목 아이템 딥다이브 8회 추가 — 본편 주 5회 체계.</b>
+    </div>
+
+    <p style="margin:12px 0 4px;">
+      <a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EB%B8%94%EB%A1%9C%EA%B7%B8_%EB%B0%9C%ED%96%89%EA%B3%84%ED%9A%8D_8-9%EC%9B%94.html" target="_blank" rel="noopener noreferrer">🔗 발행 계획 원문 새 탭에서 열기</a>
+      <a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/K%ED%8A%B8%EB%A0%8C%EB%93%9C%EB%A7%A4%EA%B1%B0%EC%A7%84/K%ED%8A%B8%EB%A0%8C%EB%93%9C_%EB%A7%A4%EA%B1%B0%EC%A7%84_%EB%B0%9C%ED%96%89%EA%B3%84%ED%9A%8D_9%EC%9B%94.html" target="_blank" rel="noopener noreferrer">👗 K트렌드 9월 계획 원문</a>
+      <button type="button" class="btn-link" id="planEmbedBtn" onclick="togglePlanEmbed()" style="cursor:pointer;font-family:inherit;">📄 원문 문서 펼쳐보기</button>
+    </p>
+    <div id="planEmbedWrap" style="display:none;margin:10px 0 6px;">
+      <iframe id="planEmbed" title="셀링부스터 블로그 발행 계획 8~9월 원문" loading="lazy" style="width:100%;height:720px;border:1px solid var(--line);border-radius:14px;background:#fff;"></iframe>
+      <p style="font-size:12px;color:var(--sub);margin-top:6px;">※ GitHub Pages 원문 실시간 연동 — 원문 갱신 시 이 화면에도 최신 버전이 표시됩니다.</p>
+    </div>
+
+    <p style="font-size:13.5px;font-weight:700;margin-top:14px;">8월 본편 발행 (11회) — 월 소비자 트렌드 · 수 셀러 지식 · 금 커머스 노하우 로테이션 <span style="font-weight:400;color:var(--sub);">(K트렌드 매거진 주 3회 별도 병행)</span></p>
+    <div class="table-scroll">
+    <table>
+      <colgroup><col style="width:11%"><col style="width:52%"><col style="width:17%"><col style="width:20%"></colgroup>
+      <thead><tr><th>발행일</th><th>콘텐츠 제목(안)</th><th>카테고리</th><th>타깃 키워드</th></tr></thead>
+      <tbody>
+        <tr><td class="c">8/7 금</td><td>셀링부스터로 시작하는 키워드 분석 5분 가이드</td><td class="c">셀러 지식</td><td>스마트스토어 키워드 분석</td></tr>
+        <tr><td class="c">8/10 월</td><td>2026 하반기 소비 트렌드: 이너뷰티와 공간 가전</td><td class="c">소비자 트렌드</td><td>이너뷰티 트렌드</td></tr>
+        <tr><td class="c">8/12 수</td><td>초보 셀러를 위한 이커머스 상품 소싱 전략 3가지</td><td class="c">셀러 지식</td><td>온라인 상품 소싱</td></tr>
+        <tr><td class="c">8/14 금</td><td>네이버 스마트스토어 상품명 최적화 &amp; 키워드 난이도 분석법</td><td class="c">커머스 · 네이버</td><td>스마트스토어 상품명</td></tr>
+        <tr><td class="c">8/17 월</td><td>식음료 트렌드 ①: 간편식·프리미엄 HMR, 식음료 셀러가 잡아야 할 카테고리</td><td class="c">트렌드 · 식음료</td><td>간편식 트렌드</td></tr>
+        <tr><td class="c">8/19 수</td><td>스마트스토어 태그 추출 및 키워드 세팅 가이드</td><td class="c">셀러 지식</td><td>스마트스토어 태그</td></tr>
+        <tr><td class="c">8/21 금</td><td>쿠팡 vs 네이버 vs 11번가: 3대 채널 입점·노출 비교</td><td class="c">커머스 · 3채널</td><td>오픈마켓 입점</td></tr>
+        <tr><td class="c">8/24 월</td><td>크리에이터 콘텐츠가 바꾸는 쇼핑 패턴</td><td class="c">소비자 트렌드</td><td>크리에이터 커머스</td></tr>
+        <tr><td class="c">8/26 수</td><td>데이터 기반 실무: 마진율 계산과 키워드 경쟁 분석</td><td class="c">셀러 지식</td><td>마진율 계산</td></tr>
+        <tr><td class="c">8/28 금</td><td>쿠팡 셀러 실전: 아이템위너·로켓그로스 대응 전략</td><td class="c">커머스 · 쿠팡</td><td>쿠팡 아이템위너</td></tr>
+        <tr><td class="c">8/31 월</td><td>식음료 트렌드 ②: K푸드 수출 역대 최대, 역직구 셀러의 기회</td><td class="c">트렌드 · 식음료</td><td>K푸드 수출</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p style="font-size:13.5px;font-weight:700;margin-top:18px;">9월 본편 발행 (11회) — 추석(9/25·9/28) 연휴 스킵 · 시즌 콘텐츠 2~3주 선행 배치</p>
+    <div class="table-scroll">
+    <table>
+      <colgroup><col style="width:11%"><col style="width:52%"><col style="width:17%"><col style="width:20%"></colgroup>
+      <thead><tr><th>발행일</th><th>콘텐츠 제목(안)</th><th>카테고리</th><th>타깃 키워드</th></tr></thead>
+      <tbody>
+        <tr><td class="c">9/2 수</td><td>추석 선물세트 키워드 공략법: 대목 3주 전 준비 체크리스트</td><td class="c">셀러 지식 · 시즌</td><td>추석 선물세트</td></tr>
+        <tr><td class="c">9/4 금</td><td>11번가 입점·노출 최적화 노하우</td><td class="c">커머스 · 11번가</td><td>11번가 입점</td></tr>
+        <tr><td class="c">9/7 월</td><td>2026 추석 소비 트렌드 &amp; 셀러 준비 체크리스트</td><td class="c">트렌드 · 시즌</td><td>추석 소비 트렌드</td></tr>
+        <tr><td class="c">9/9 수</td><td>추석 이후가 진짜: 4분기 가을·겨울 키워드 미리 세팅</td><td class="c">셀러 지식 · 시즌</td><td>가을 인기 키워드</td></tr>
+        <tr><td class="c">9/11 금</td><td>라이브쇼핑·구매 전환형 광고 실전 노하우</td><td class="c">커머스</td><td>라이브쇼핑</td></tr>
+        <tr class="hl"><td class="c">9/14 월</td><td>블로그 마켓, 다시 뜨는 이유: 네이버 블로그 커머스의 부활</td><td class="c">트렌드 · 흥미</td><td>블로그 마켓</td></tr>
+        <tr><td class="c">9/16 수</td><td>상품 리뷰 분석으로 팔리는 상세페이지 만들기</td><td class="c">셀러 지식</td><td>상품 리뷰 분석</td></tr>
+        <tr class="hl"><td class="c">9/18 금</td><td>틱톡샵 한국 상륙, 셀러에게 기회일까 위협일까</td><td class="c">커머스 · 흥미</td><td>틱톡샵</td></tr>
+        <tr><td class="c">9/21 월</td><td>"소유 대신 경험" 가전·생활용품 구독 트렌드</td><td class="c">소비자 트렌드</td><td>가전 구독</td></tr>
+        <tr><td class="c">9/23 수</td><td>식음료 셀러를 위한 데이터: 연령대별 구매 채널·품목이 다르다</td><td class="c">셀러 지식 · 식음료</td><td>식음료 구매 트렌드</td></tr>
+        <tr class="hl"><td class="c">9/30 수</td><td>4분기 이커머스 캘린더 &amp; 새로운 판매 채널 준비하기</td><td class="c">커머스</td><td>4분기 이커머스</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:12.5px;color:var(--sub);margin-top:6px;">※ 강조 행(9/14 · 9/18 · 9/30) = <b>10월 신규 서비스 SEO 선점 콘텐츠</b> — 런칭 전 검색 수요 선행 확보.</p>
+
+    <p style="font-size:13.5px;font-weight:700;margin-top:18px;">네이버 블로그 발행 운영 요약</p>
+    <table class="kv">
+      <tr><td>발행 규모</td><td>8/26 개시 — 8월 말~9월 14회 + 10월 이월 8회 (원본 +18~21일 시차, 월·수·금 유지, 추석 연휴 스킵)</td></tr>
+      <tr><td>운영 원칙</td><td>원본 색인 확인 후 2주+ 시차 발행 (유사문서 역전 리스크 차단) · 제목 전면 변경 · 경어체 · 경험 선행 재집필 · 외부 링크 1~2개 상한 · 시즌 편은 앵글 전환 (예: "3주 전 준비" → "막판 수요 공략")</td></tr>
+      <tr><td>신규 서비스 연계</td><td>블로그 마켓(10/7)·틱톡샵(10/12) 편이 10월 신규 서비스 출시 시점과 자연 정렬 — 네이버 내부 채널 시너지 활용</td></tr>
+    </table>
+    <p style="font-size:12.5px;color:var(--sub);margin-top:6px;">※ 회차별 네이버 제목·재집필 포인트, 하이훅 키워드 가이드, 시즈널 키워드 등 상세는 원문 문서 <a href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EB%B8%94%EB%A1%9C%EA%B7%B8_%EB%B0%9C%ED%96%89%EA%B3%84%ED%9A%8D_8-9%EC%9B%94.html" target="_blank" rel="noopener noreferrer" style="color:var(--teal);font-weight:700;">「셀링부스터 블로그 발행 계획 8~9월」</a> 참조.</p>
+  </section>
+
+</div>
+
+<!-- ═══ 플로팅 목차 ═══ -->
+<div class="fab" id="tocFab">
+  <div class="toc-panel" id="tocPanel">
+    <a href="#toc-1" onclick="toggleToc()"><span class="tnum">1</span>요약</a>
+    <a href="#toc-2" onclick="toggleToc()"><span class="tnum">2</span>월별 활동 요약</a>
+    <a href="#toc-3" onclick="toggleToc()"><span class="tnum">3</span>운영 성과 요약</a>
+    <a href="#toc-4" onclick="toggleToc()"><span class="tnum">4</span>세부 실행 방안</a>
+    <a href="#toc-5" onclick="toggleToc()"><span class="tnum">5</span>광고 품의 계획</a>
+    <a href="#toc-6" onclick="toggleToc()"><span class="tnum">6</span>마일스톤</a>
+    <a href="#toc-7" onclick="toggleToc()"><span class="tnum">7</span>운영 정책</a>
+    <a href="#apx" onclick="toggleToc()"><span class="tnum">＋</span>별첨 (성과 데이터·발행 계획)</a>
+  </div>
+  <a href="#" onclick="toggleToc();return false;">☰ 목차</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html-docx-js@0.3.1/dist/html-docx.min.js"></script>
+<script>
+  var DOC_NAME = '9월_운영계획';
+
+  function buildExportHtml(){
+    var content = document.querySelector('.wrap').outerHTML;
+    var styles = '';
+    document.querySelectorAll('style').forEach(function(s){ styles += s.innerHTML; });
+    return '<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">' +
+           '<style>' + styles + ' body{padding:0;background:#fff;}<\/style>' +
+           '</head><body>' + content + '</body></html>';
+  }
+
+  function saveBlob(blob, filename){
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){
+      URL.revokeObjectURL(a.href);
+      a.remove();
+    }, 1000);
+  }
+
+  function downloadDocx(){
+    var html = buildExportHtml();
+    try{
+      if (typeof htmlDocx === 'undefined') throw new Error('html-docx-js not loaded');
+      var blob = htmlDocx.asBlob(html, { orientation: 'portrait' });
+      saveBlob(blob, DOC_NAME + '.docx');
+    }catch(e){
+      // 폴백: Word가 열 수 있는 .doc(HTML) 형식으로 저장
+      var fallback = new Blob(['\ufeff', html], { type: 'application/msword' });
+      saveBlob(fallback, DOC_NAME + '.doc');
+    }
+  }
+
+  function downloadPdf(){
+    // 브라우저 인쇄 대화상자에서 "PDF로 저장" 선택
+    window.print();
+  }
+
+  function toggleToc(){
+    var p = document.getElementById('tocPanel');
+    p.style.display = (p.style.display === 'block') ? 'none' : 'block';
+  }
+  document.addEventListener('click', function(e){
+    var fab = document.getElementById('tocFab');
+    if (fab && !fab.contains(e.target)) {
+      document.getElementById('tocPanel').style.display = 'none';
+    }
+  });
+
+  var PLAN_URL = 'https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EB%B8%94%EB%A1%9C%EA%B7%B8_%EB%B0%9C%ED%96%89%EA%B3%84%ED%9A%8D_8-9%EC%9B%94.html';
+  function togglePlanEmbed(){
+    var wrap = document.getElementById('planEmbedWrap');
+    var frame = document.getElementById('planEmbed');
+    var btn = document.getElementById('planEmbedBtn');
+    var isOpen = wrap.style.display !== 'none';
+    if (isOpen) {
+      wrap.style.display = 'none';
+      btn.textContent = '📄 원문 문서 펼쳐보기';
+    } else {
+      if (!frame.src) frame.src = PLAN_URL; // 최초 클릭 시에만 로드
+      wrap.style.display = 'block';
+      btn.textContent = '📄 원문 접기';
+    }
+  }
+</script>
+</body>
+</html>
