@@ -1,13 +1,13 @@
 # .github/workflows/asana-sync.yml
-# Asana → GitHub 태스크 연동 (이슬기 담당분, [SB] 셀링부스터_PJT)
+# Asana → GitHub 태스크 연동 ([SB] 셀링부스터_PJT, 인원별 탭: 기획 이슬기 / 마케팅 안지호)
 #
 # 사전 준비 (1회):
-#   1. Asana PAT 발급: Asana 우측 상단 프로필 → 설정 → 앱 → 개발자 콘솔
-#      → Personal access token 생성
-#   2. GitHub 저장소 Settings → Secrets and variables → Actions
-#      → New repository secret: 이름 ASANA_PAT, 값 = 발급한 토큰
+#   1. Asana PAT 발급: https://app.asana.com/0/developer-console → Personal access token
+#   2. GitHub 저장소 Settings → Secrets and variables → Actions → ASANA_PAT 등록
 #
-# 매일 10:40 KST 실행 (seomonitor 10:35 직후). 수동 실행도 가능 (workflow_dispatch).
+# 수집 방식: 검색 API 사용 — 하위 태스크 포함, 인원별 서버측 필터,
+#            created_at 커서 페이지네이션으로 100건 초과분도 전량 수집.
+# 매일 10:40 KST 실행 (seomonitor 10:35 직후). 수동 실행 가능 (workflow_dispatch).
 
 name: asana-sync
 
@@ -30,52 +30,79 @@ jobs:
           ASANA_PAT: ${{ secrets.ASANA_PAT }}
         run: |
           python3 - << 'EOF'
-          import json, os, datetime, urllib.request
+          import json, os, datetime, urllib.request, urllib.parse
 
-          PROJECT_GID  = "1211763974053621"          # [SB] 셀링부스터_PJT
-          ASSIGNEE_GID = "1202564897923990"          # 이슬기 (sulkoo@codef.io)
+          WORKSPACE   = "1202264448618168"           # 헥토데이터
+          PROJECT_GID = "1211763974053621"           # [SB] 셀링부스터_PJT
+          PEOPLE = [
+              {"gid": "1202564897923990", "name": "이슬기", "role": "기획"},
+              {"gid": "1216177716600774", "name": "안지호", "role": "마케팅"},
+          ]
           TOKEN = os.environ["ASANA_PAT"]
           OUT   = "SEO모니터링/data/asana-tasks.json"
 
-          fields = "name,completed,assignee.gid,due_on,start_on,modified_at,memberships.section.name,memberships.project.gid,permalink_url"
-          base = f"https://app.asana.com/api/1.0/projects/{PROJECT_GID}/tasks?opt_fields={fields}&limit=100"
+          FIELDS = ("name,completed,due_on,start_on,modified_at,created_at,resource_subtype,"
+                    "memberships.section.name,memberships.project.gid,permalink_url,"
+                    "custom_fields.name,custom_fields.display_value,num_subtasks,followers.name,followers.gid")
 
           def get(url):
               req = urllib.request.Request(url, headers={"Authorization": f"Bearer {TOKEN}"})
               with urllib.request.urlopen(req, timeout=30) as r:
                   return json.load(r)
 
-          tasks, url = [], base
-          while url:
-              res = get(url)
-              tasks += res["data"]
-              nxt = res.get("next_page")
-              url = nxt["uri"] if nxt else None
+          def search_all(assignee_gid):
+              """검색 API + created_at 커서로 100건 초과분까지 전량 수집."""
+              base = (f"https://app.asana.com/api/1.0/workspaces/{WORKSPACE}/tasks/search"
+                      f"?projects.any={PROJECT_GID}&assignee.any={assignee_gid}"
+                      f"&completed=false&sort_by=created_at&sort_ascending=true&limit=100"
+                      f"&opt_fields={urllib.parse.quote(FIELDS)}")
+              out, cursor, seen = [], None, set()
+              for _ in range(50):  # 안전 상한 5,000건
+                  url = base + (f"&created_at.after={urllib.parse.quote(cursor)}" if cursor else "")
+                  batch = get(url)["data"]
+                  fresh = [t for t in batch if t["gid"] not in seen]
+                  for t in fresh: seen.add(t["gid"])
+                  out += fresh
+                  if len(batch) < 100 or not fresh: break
+                  cursor = batch[-1]["created_at"]
+              return out
 
           def section_of(t):
               for m in t.get("memberships") or []:
-                  proj = (m.get("project") or {}).get("gid")
-                  if proj == PROJECT_GID and m.get("section"):
+                  if (m.get("project") or {}).get("gid") == PROJECT_GID and m.get("section"):
                       return m["section"]["name"]
               return "기타"
 
-          picked = []
-          for t in tasks:
-              a = t.get("assignee") or {}
-              if t.get("completed"): continue
-              if a.get("gid") != ASSIGNEE_GID: continue
-              picked.append({
+          def shape(t, assignee_gid):
+              fields = {}
+              for cf in t.get("custom_fields") or []:
+                  v = cf.get("display_value")
+                  if v not in (None, ""):
+                      fields[cf["name"]] = v
+              followers = [u["name"] for u in (t.get("followers") or [])
+                           if u.get("gid") != assignee_gid and u.get("name")]
+              sub = t.get("resource_subtype")
+              return {
                   "gid": t["gid"],
                   "name": t.get("name") or "(무제)",
+                  "type": "milestone" if sub == "milestone" else ("approval" if sub == "approval" else "task"),
                   "section": section_of(t),
                   "due_on": t.get("due_on"),
                   "start_on": t.get("start_on"),
                   "modified_at": t.get("modified_at"),
                   "permalink": t.get("permalink_url"),
-              })
+                  "fields": fields,
+                  "subtasks": t.get("num_subtasks") or 0,
+                  "followers": followers,
+              }
 
-          # 정렬: 기한 있는 것 우선(오름차순) → 기한 없음
-          picked.sort(key=lambda x: (x["due_on"] is None, x["due_on"] or "9999", x["name"]))
+          tabs = []
+          for p in PEOPLE:
+              raw = search_all(p["gid"])
+              tasks = [shape(t, p["gid"]) for t in raw]
+              tasks.sort(key=lambda x: (x["due_on"] is None, x["due_on"] or "9999", x["name"]))
+              tabs.append({"gid": p["gid"], "name": p["name"], "role": p["role"], "tasks": tasks})
+              print(f"{p['role']} {p['name']}: {len(tasks)}건")
 
           now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9)))
           out = {
@@ -85,17 +112,15 @@ jobs:
                   "workspace": "헥토데이터",
                   "project": "[SB] 셀링부스터_PJT",
                   "projectGid": PROJECT_GID,
-                  "assignee": "이슬기",
-                  "assigneeGid": ASSIGNEE_GID,
-                  "filter": "completed=false",
+                  "filter": "completed=false, 하위 태스크 포함",
                   "viewUrl": "https://app.asana.com/1/1202264448618168/project/1211763974053621/list/1217214395642369",
               },
-              "tasks": picked,
+              "tabs": tabs,
           }
           os.makedirs(os.path.dirname(OUT), exist_ok=True)
           with open(OUT, "w", encoding="utf-8") as f:
               json.dump(out, f, ensure_ascii=False, indent=2)
-          print(f"synced {len(picked)} tasks -> {OUT}")
+          print("saved ->", OUT)
           EOF
 
       - name: Commit if changed
