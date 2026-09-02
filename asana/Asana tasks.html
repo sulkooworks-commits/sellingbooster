@@ -19,9 +19,12 @@
   .head h1{font-size:24px; font-weight:800; letter-spacing:-.01em;}
   .head .sub{margin-top:8px; font-size:13.5px; opacity:.92;}
   .head .meta{margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; font-size:12.5px;}
-  .head .meta a{color:#fff; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.4);
-    border-radius:20px; padding:5px 14px; text-decoration:none; font-weight:700;}
-  .head .meta a:hover, .head .meta a:focus-visible{background:rgba(255,255,255,.3);}
+  .head .meta a, .head .meta button{color:#fff; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.4);
+    border-radius:20px; padding:5px 14px; text-decoration:none; font-weight:700;
+    font-family:inherit; font-size:12.5px; cursor:pointer;}
+  .head .meta a:hover, .head .meta a:focus-visible,
+  .head .meta button:hover, .head .meta button:focus-visible{background:rgba(255,255,255,.3);}
+  .head .meta button:disabled{opacity:.55; cursor:default;}
   .head .stamp{opacity:.85;}
 
   .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin-bottom:22px;}
@@ -69,6 +72,14 @@
     background:rgba(100,102,250,.12); border:1px solid rgba(100,102,250,.35);}
   .range{font-size:11.5px; color:#8A919E; display:block; line-height:1.3;}
 
+  .tabs{display:flex; gap:8px; margin-bottom:18px;}
+  .tab{flex:none; border:1px solid var(--line); background:var(--card); color:var(--sub);
+    border-radius:12px; padding:10px 22px; font-family:inherit; font-size:14px; font-weight:800; cursor:pointer;}
+  .tab .role{font-size:11.5px; font-weight:700; display:block; color:#9AA1AD;}
+  .tab.on{border-color:var(--violet); color:var(--violet); background:rgba(100,102,250,.06);}
+  .tab.on .role{color:var(--violet); opacity:.75;}
+  .tab:focus-visible{outline:2px solid var(--violet); outline-offset:2px;}
+
   .note{background:var(--card); border:1px dashed #C6CBD6; border-radius:14px; padding:18px 22px; font-size:13px; color:var(--sub);}
   .note b{color:var(--ink);}
   .err{background:var(--card); border-radius:16px; padding:26px 28px; font-size:14px;}
@@ -83,13 +94,16 @@
 <div class="wrap">
   <div class="head">
     <h1>Asana 태스크 연동</h1>
-    <div class="sub">[SB] 셀링부스터_PJT · 담당 이슬기 · 미완료 기준 · 매일 10:40 자동 갱신</div>
+    <div class="sub">[SB] 셀링부스터_PJT · 인원별 미완료 현황 (하위 태스크 포함) · 매일 10:40 자동 갱신</div>
     <div class="meta">
+      <button id="btn-run" type="button">▶ 지금 수집 실행</button>
+      <button id="btn-refresh" type="button">↻ 데이터 새로고침</button>
       <a id="asana-link" href="#" target="_blank" rel="noopener noreferrer">Asana에서 열기</a>
       <span class="stamp" id="stamp">데이터 불러오는 중…</span>
     </div>
   </div>
 
+  <div class="tabs" id="tabs" role="tablist"></div>
   <div class="stats" id="stats"></div>
   <div id="sections"></div>
 
@@ -106,12 +120,103 @@
   const SEC_CLASS = {"🚨지연":"delay","진행":"doing"};
   const $ = id => document.getElementById(id);
 
-  let data;
-  try{
-    const res = await fetch("data/asana-tasks.json", {cache:"no-store"});
-    if(!res.ok) throw new Error(res.status);
-    data = await res.json();
-  }catch(e){
+  const REPO = "sulkooworks-commits/sellingbooster";
+  const WORKFLOW = "asana-sync.yml";
+  const RAW_JSON = `https://raw.githubusercontent.com/${REPO}/main/` +
+                   encodeURIComponent("SEO모니터링") + "/data/asana-tasks.json";
+  const TOKEN_KEY = "sb_gh_token";   // seo-monitoring과 동일 토큰 사용 가능 (fine-grained, Actions:write / Contents:read)
+
+  let data = null;
+  let tabsData = [];
+  let active = 0;
+
+  async function loadData(fresh){
+    // fresh=true면 raw.githubusercontent 우선 (Pages 재배포 전에도 최신 커밋 반영)
+    const urls = fresh ? [RAW_JSON + "?t=" + Date.now(), "data/asana-tasks.json?t=" + Date.now()]
+                       : ["data/asana-tasks.json?t=" + Date.now(), RAW_JSON + "?t=" + Date.now()];
+    for(const u of urls){
+      try{
+        const res = await fetch(u, {cache:"no-store"});
+        if(res.ok) return await res.json();
+      }catch(e){ /* 다음 후보 */ }
+    }
+    return null;
+  }
+
+  function applyData(d){
+    data = d;
+    $("asana-link").href = data.source.viewUrl;
+    const gen = new Date(data.generatedAt);
+    $("stamp").textContent = "마지막 수집: " +
+      gen.toLocaleString("ko-KR",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"}) +
+      " · " + (data.generatedBy || "");
+    tabsData = data.tabs || [{name:"", role:"", tasks:(data.tasks||[])}];
+    if(active >= tabsData.length) active = 0;
+    renderTabs();
+    render();
+  }
+
+  function getToken(){
+    let tk = localStorage.getItem(TOKEN_KEY);
+    if(!tk){
+      tk = prompt("GitHub fine-grained 토큰을 입력하세요 (Actions: Read and write 권한 필요).\n브라우저에만 저장되며 저장소에는 올라가지 않습니다.");
+      if(tk) localStorage.setItem(TOKEN_KEY, tk.trim());
+    }
+    return tk ? tk.trim() : null;
+  }
+
+  async function runNow(){
+    const btn = $("btn-run");
+    const tk = getToken();
+    if(!tk) return;
+    btn.disabled = true; btn.textContent = "▶ 실행 요청 중…";
+    try{
+      const res = await fetch(`https://api.github.com/repos/${REPO}/actions/workflows/${WORKFLOW}/dispatches`, {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + tk,
+          "Accept": "application/vnd.github+json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ref: "main"}),
+      });
+      if(res.status === 401 || res.status === 403){
+        localStorage.removeItem(TOKEN_KEY);
+        alert("토큰이 거부되었습니다 (권한: Actions Read and write 확인). 다시 실행하면 재입력할 수 있습니다.");
+        btn.disabled = false; btn.textContent = "▶ 지금 수집 실행"; return;
+      }
+      if(res.status !== 204) throw new Error("HTTP " + res.status);
+      // 수집(약 30초) + 커밋 대기 후 raw 기준으로 자동 새로고침
+      let left = 75;
+      const timer = setInterval(async ()=>{
+        left -= 15;
+        if(left > 0){ btn.textContent = `▶ 수집 중… ${left}초 후 갱신`; return; }
+        clearInterval(timer);
+        const d = await loadData(true);
+        if(d) applyData(d);
+        btn.disabled = false; btn.textContent = "▶ 지금 수집 실행";
+      }, 15000);
+      btn.textContent = "▶ 수집 중… 75초 후 갱신";
+    }catch(e){
+      alert("실행 요청 실패: " + e.message);
+      btn.disabled = false; btn.textContent = "▶ 지금 수집 실행";
+    }
+  }
+
+  async function refresh(){
+    const btn = $("btn-refresh");
+    btn.disabled = true; btn.textContent = "↻ 불러오는 중…";
+    const d = await loadData(true);
+    if(d) applyData(d);
+    else alert("데이터를 불러오지 못했습니다.");
+    btn.disabled = false; btn.textContent = "↻ 데이터 새로고침";
+  }
+
+  $("btn-run").addEventListener("click", runNow);
+  $("btn-refresh").addEventListener("click", refresh);
+
+  const first = await loadData(false);
+  if(!first){
     $("stamp").textContent = "";
     $("sections").innerHTML =
       '<div class="err"><b>data/asana-tasks.json을 불러오지 못했습니다.</b><br>' +
@@ -119,32 +224,9 @@
     return;
   }
 
-  $("asana-link").href = data.source.viewUrl;
-  const gen = new Date(data.generatedAt);
-  $("stamp").textContent = "마지막 수집: " +
-    gen.toLocaleString("ko-KR",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"}) +
-    " · " + (data.generatedBy || "");
-
   const today = new Date(); today.setHours(0,0,0,0);
   const in7 = new Date(today); in7.setDate(in7.getDate()+7);
   const D = s => { const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); };
-
-  const tasks = data.tasks || [];
-  const overdue = tasks.filter(t=>t.due_on && D(t.due_on) < today);
-  const thisWeek = tasks.filter(t=>t.due_on && D(t.due_on) >= today && D(t.due_on) <= in7);
-  const delayed = tasks.filter(t=>t.section==="🚨지연");
-  const noDue = tasks.filter(t=>!t.due_on);
-  const milestones = tasks.filter(t=>t.type==="milestone");
-
-  $("stats").innerHTML = [
-    ["전체 미완료", tasks.length, ""],
-    ["작업", tasks.length - milestones.length, ""],
-    ["마일스톤", milestones.length, "violet"],
-    ["기한초과", overdue.length, "red"],
-    ["지연 섹션", delayed.length, "red"],
-    ["7일 내 마감", thisWeek.length, "violet"],
-    ["기한 미지정", noDue.length, "teal"],
-  ].map(([k,v,c])=>`<div class="stat ${c}"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("");
 
   const fmt = s => s ? s.slice(5).replace("-","/") : "";
   const badge = t => {
@@ -180,35 +262,69 @@
     return parts.length ? `<div class="detail">${parts.join(" · ")}</div>` : "";
   };
 
-  const groups = {};
-  tasks.forEach(t=>{ (groups[t.section] ||= []).push(t); });
-  const keys = [...SEC_ORDER.filter(s=>groups[s]), ...Object.keys(groups).filter(s=>!SEC_ORDER.includes(s))];
+  // 탭: 팀 업무 종류 기준 (기획 이슬기 / 마케팅 안지호) — Asana 파트 필드와 무관
+  // tabsData / active 는 applyData()가 채움
 
-  $("sections").innerHTML = keys.map(sec=>{
-    const rows = groups[sec]
-      .slice()
-      .sort((a,b)=>
-        (a.type==="milestone" ? 0 : 1) - (b.type==="milestone" ? 0 : 1) ||
-        (a.due_on===null)-(b.due_on===null) ||
-        String(a.due_on).localeCompare(String(b.due_on)))
-      .map(t=>`<tr${t.type==="milestone" ? ' class="ms"' : ''}>
-        <td class="name">${t.type==="milestone" ? '<span class="msmark">◆ 마일스톤</span>' : ''}<a href="${t.permalink}" target="_blank" rel="noopener noreferrer">${t.name}</a>${detailLine(t)}</td>
-        <td class="part">${F(t,"담당 파트*") ? `<span class="chip">${F(t,"담당 파트*")}</span>` : "－"}</td>
-        <td class="cat">${F(t,"분류") || "－"}</td>
-        <td class="phase">${phaseChip(F(t,"우선순위(차수)")) || "－"}</td>
-        <td class="due">${schedule(t)}</td>
-        <td class="sub">${t.subtasks ? `<span class="subcnt">${t.subtasks}</span>` : "－"}</td>
-        <td class="mod">${t.modified_at ? t.modified_at.slice(5,10).replace("-","/") : "－"}</td>
-      </tr>`).join("");
-    return `<div class="card ${SEC_CLASS[sec]||""}">
-      <h2>${sec}</h2><div class="cnt">${groups[sec].length}건</div>
-      <table>
-        <colgroup><col style="width:37%"><col style="width:9%"><col style="width:12%"><col style="width:11%"><col style="width:13%"><col style="width:7%"><col style="width:11%"></colgroup>
-        <thead><tr><th>태스크</th><th>파트</th><th>분류</th><th>차수</th><th>일정 (시작·마감)</th><th>하위</th><th class="mod">최근 수정</th></tr></thead>
-        <tbody>${rows}</tbody>
-      </table>
-    </div>`;
-  }).join("");
+  function renderTabs(){
+    $("tabs").innerHTML = tabsData.map((tb,i)=>
+      `<button class="tab ${i===active?"on":""}" role="tab" aria-selected="${i===active}" data-i="${i}">
+        <span class="role">${tb.role}</span>${tb.name} <small>(${tb.tasks.length})</small>
+      </button>`).join("");
+    $("tabs").querySelectorAll(".tab").forEach(btn=>{
+      btn.addEventListener("click", ()=>{ active = +btn.dataset.i; renderTabs(); render(); });
+    });
+  }
+
+  function render(){
+    const tasks = tabsData[active].tasks || [];
+    const overdue = tasks.filter(t=>t.due_on && D(t.due_on) < today);
+    const thisWeek = tasks.filter(t=>t.due_on && D(t.due_on) >= today && D(t.due_on) <= in7);
+    const delayed = tasks.filter(t=>t.section==="🚨지연");
+    const noDue = tasks.filter(t=>!t.due_on);
+    const milestones = tasks.filter(t=>t.type==="milestone");
+
+    $("stats").innerHTML = [
+      ["전체 미완료", tasks.length, ""],
+      ["작업", tasks.length - milestones.length, ""],
+      ["마일스톤", milestones.length, "violet"],
+      ["기한초과", overdue.length, "red"],
+      ["지연 섹션", delayed.length, "red"],
+      ["7일 내 마감", thisWeek.length, "violet"],
+      ["기한 미지정", noDue.length, "teal"],
+    ].map(([k,v,c])=>`<div class="stat ${c}"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("");
+
+    const groups = {};
+    tasks.forEach(t=>{ (groups[t.section] ||= []).push(t); });
+    const keys = [...SEC_ORDER.filter(s=>groups[s]), ...Object.keys(groups).filter(s=>!SEC_ORDER.includes(s))];
+
+    $("sections").innerHTML = keys.map(sec=>{
+      const rows = groups[sec]
+        .slice()
+        .sort((a,b)=>
+          (a.type==="milestone" ? 0 : 1) - (b.type==="milestone" ? 0 : 1) ||
+          (a.due_on===null)-(b.due_on===null) ||
+          String(a.due_on).localeCompare(String(b.due_on)))
+        .map(t=>`<tr${t.type==="milestone" ? ' class="ms"' : ''}>
+          <td class="name">${t.type==="milestone" ? '<span class="msmark">◆ 마일스톤</span>' : ''}<a href="${t.permalink}" target="_blank" rel="noopener noreferrer">${t.name}</a>${detailLine(t)}</td>
+          <td class="part">${F(t,"담당 파트*") ? `<span class="chip">${F(t,"담당 파트*")}</span>` : "－"}</td>
+          <td class="cat">${F(t,"분류") || "－"}</td>
+          <td class="phase">${phaseChip(F(t,"우선순위(차수)")) || "－"}</td>
+          <td class="due">${schedule(t)}</td>
+          <td class="sub">${t.subtasks ? `<span class="subcnt">${t.subtasks}</span>` : "－"}</td>
+          <td class="mod">${t.modified_at ? t.modified_at.slice(5,10).replace("-","/") : "－"}</td>
+        </tr>`).join("");
+      return `<div class="card ${SEC_CLASS[sec]||""}">
+        <h2>${sec}</h2><div class="cnt">${groups[sec].length}건</div>
+        <table>
+          <colgroup><col style="width:37%"><col style="width:9%"><col style="width:12%"><col style="width:11%"><col style="width:13%"><col style="width:7%"><col style="width:11%"></colgroup>
+          <thead><tr><th>태스크</th><th>파트</th><th>분류</th><th>차수</th><th>일정 (시작·마감)</th><th>하위</th><th class="mod">최근 수정</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+    }).join("");
+  }
+
+  applyData(first);
 })();
 </script>
 </body>
