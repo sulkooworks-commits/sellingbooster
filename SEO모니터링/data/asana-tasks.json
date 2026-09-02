@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-02T21:20:23+09:00",
+  "generatedAt": "2026-09-02T21:36:43+09:00",
   "generatedBy": "github-actions/asana-sync",
   "source": {
     "workspace": "헥토데이터",
@@ -14,22 +14,6 @@
       "name": "이슬기",
       "role": "기획",
       "tasks": [
-        {
-          "gid": "1217181265073926",
-          "name": "프록시 서버 계정 생성 품의 -> 스크래핑팀",
-          "type": "task",
-          "section": "기타",
-          "due_on": "2026-08-06",
-          "start_on": null,
-          "modified_at": "2026-08-06T15:50:09.454Z",
-          "owner": "이슬기",
-          "completed": false,
-          "completed_at": null,
-          "permalink": "https://app.asana.com/1/1202264448618168/task/1217181265073926",
-          "fields": {},
-          "subtasks": 0,
-          "followers": []
-        },
         {
           "gid": "1217181525376571",
           "name": "우피 SEO 지표 리포트",
@@ -258,6 +242,25 @@
           "followers": []
         },
         {
+          "gid": "1217181265073926",
+          "name": "프록시 서버 계정 생성 품의 ",
+          "type": "task",
+          "section": "기타",
+          "due_on": "2026-09-04",
+          "start_on": null,
+          "modified_at": "2026-09-02T12:26:30.523Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1217181265073926",
+          "fields": {
+            "담당 파트*": "기획",
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": []
+        },
+        {
           "gid": "1218083070026517",
           "name": "[SB] 사업팀 주간 회의 (8:30)",
           "type": "milestone",
@@ -463,6 +466,72 @@
           "followers": []
         },
         {
+          "gid": "1218083749653985",
+          "name": "[SB] 미래아이엔씨 선지급(가품의) ",
+          "type": "task",
+          "section": "진행",
+          "due_on": "2026-09-30",
+          "start_on": null,
+          "modified_at": "2026-09-02T12:01:01.709Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218083749653985",
+          "fields": {
+            "담당 파트*": "공통",
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": [
+            "안지호"
+          ],
+          "parent_name": "지출 품의 필요"
+        },
+        {
+          "gid": "1218071296359472",
+          "name": "메타 지출 내역 상세 추출",
+          "type": "task",
+          "section": "진행",
+          "due_on": "2026-09-30",
+          "start_on": null,
+          "modified_at": "2026-09-02T00:07:14.229Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1218071296359472",
+          "fields": {
+            "담당 파트*": "마케팅",
+            "분류": "마케팅/광고"
+          },
+          "subtasks": 0,
+          "followers": [
+            "안지호"
+          ],
+          "parent_name": "지출 품의 필요"
+        },
+        {
+          "gid": "1218071391389620",
+          "name": "광고 예산 월별 업데이트",
+          "type": "task",
+          "section": "진행",
+          "due_on": "2026-10-01",
+          "start_on": null,
+          "modified_at": "2026-09-02T00:07:07.069Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1218071391389620",
+          "fields": {
+            "담당 파트*": "마케팅",
+            "분류": "마케팅/광고"
+          },
+          "subtasks": 0,
+          "followers": [
+            "안지호"
+          ],
+          "parent_name": "지출 품의 필요"
+        },
+        {
           "gid": "1218092950876374",
           "name": "메타 소진 품의 (수기) - 기타증빙",
           "type": "task",
@@ -613,6 +682,158 @@
           },
           "subtasks": 5,
           "followers": []
+        },
+        {
+          "gid": "1218083412921992",
+          "name": "[대행료] 에버런스 - 메타 집행(말일)",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-09-02T10:54:57.857Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1218083412921992",
+          "fields": {
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": [],
+          "parent_name": "솔루션 결제 내역 정리"
+        },
+        {
+          "gid": "1218083412922010",
+          "name": "[법카] 우피 (11일)",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-09-02T10:54:57.960Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1218083412922010",
+          "fields": {
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": [],
+          "parent_name": "솔루션 결제 내역 정리"
+        },
+        {
+          "gid": "1216337963052122",
+          "name": "[법카] 우피 (11일)",
+          "type": "task",
+          "section": "완료",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-07-22T02:02:57.387Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1216337963052122",
+          "fields": {
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": [],
+          "parent_name": "솔루션 결제 내역 정리"
+        },
+        {
+          "gid": "1218083412922001",
+          "name": "[법카] 젠스파크 AI (5일)",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-09-02T10:54:57.907Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1218083412922001",
+          "fields": {
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": [],
+          "parent_name": "솔루션 결제 내역 정리"
+        },
+        {
+          "gid": "1216337963052121",
+          "name": "[법카] 젠스파크 AI (5일)",
+          "type": "task",
+          "section": "완료",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-07-22T02:02:52.340Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1216337963052121",
+          "fields": {
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": [],
+          "parent_name": "솔루션 결제 내역 정리"
+        },
+        {
+          "gid": "1218098668491584",
+          "name": "[선결제] 구글 클라우드 유한회사 - AI 스튜디오 (비정기)",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-09-02T10:54:57.693Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1218098668491584",
+          "fields": {
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": [],
+          "parent_name": "솔루션 결제 내역 정리"
+        },
+        {
+          "gid": "1218092951124734",
+          "name": "[선결제] 네이버 주식회사 - 키워드 검색 광고(말일)",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-09-02T10:54:58.016Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1218092951124734",
+          "fields": {
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": [],
+          "parent_name": "솔루션 결제 내역 정리"
+        },
+        {
+          "gid": "1218083412921983",
+          "name": "[이용료] 구글 클라우드 유한회사 - AI 스튜디오(비정기)",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-09-02T10:54:57.805Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1218083412921983",
+          "fields": {
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": [],
+          "parent_name": "솔루션 결제 내역 정리"
         },
         {
           "gid": "1214794543285725",
@@ -853,13 +1074,14 @@
           "section": "진행",
           "due_on": null,
           "start_on": null,
-          "modified_at": "2026-09-02T12:15:35.243Z",
+          "modified_at": "2026-09-02T12:30:44.803Z",
           "owner": "이슬기",
           "completed": false,
           "completed_at": null,
           "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1217437232950442",
           "fields": {
             "담당 파트*": "기획",
+            "분류": "행정지원",
             "우선순위(차수)": "운영"
           },
           "subtasks": 11,
@@ -951,7 +1173,7 @@
           "section": "대기/요청",
           "due_on": null,
           "start_on": null,
-          "modified_at": "2026-09-02T11:14:39.997Z",
+          "modified_at": "2026-09-02T12:26:30.547Z",
           "owner": "이슬기",
           "completed": false,
           "completed_at": null,
@@ -3240,6 +3462,29 @@
           "followers": []
         },
         {
+          "gid": "1217109823747213",
+          "name": "디자인 작업",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": "2026-08-28",
+          "start_on": "2026-08-19",
+          "modified_at": "2026-08-27T01:32:22.255Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-08-27T01:32:20.284Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1217109823747213",
+          "fields": {
+            "담당 파트*": "디자인",
+            "분류": "콘텐츠",
+            "우선순위(차수)": "4차"
+          },
+          "subtasks": 0,
+          "followers": [
+            "이순우"
+          ],
+          "parent_name": "카페24: 솔루션 서비스 (셀링부스터 웹)"
+        },
+        {
           "gid": "1218083413564995",
           "name": "셀링부스터) 월수금 - K트렌드 매거진 발행",
           "type": "task",
@@ -3278,6 +3523,28 @@
           },
           "subtasks": 0,
           "followers": []
+        },
+        {
+          "gid": "1217386328969672",
+          "name": "[SB] 미래아이엔씨 선지급(가품의) ",
+          "type": "task",
+          "section": "진행",
+          "due_on": "2026-08-31",
+          "start_on": null,
+          "modified_at": "2026-09-02T11:17:47.191Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-09-02T11:17:45.915Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1217386328969672",
+          "fields": {
+            "담당 파트*": "공통",
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": [
+            "안지호"
+          ],
+          "parent_name": "지출 품의 필요"
         },
         {
           "gid": "1218100802539696",
@@ -3324,6 +3591,27 @@
           "followers": []
         },
         {
+          "gid": "1217437232950452",
+          "name": "메타 지출 내역 상세 추출",
+          "type": "task",
+          "section": "진행",
+          "due_on": "2026-08-31",
+          "start_on": null,
+          "modified_at": "2026-09-01T23:27:26.438Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-09-01T23:27:26.162Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1217437232950452",
+          "fields": {
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": [
+            "안지호"
+          ],
+          "parent_name": "지출 품의 필요"
+        },
+        {
           "gid": "1218092949835648",
           "name": "[SB] 개발 점검 회의 (13:30 or 15:30)",
           "type": "milestone",
@@ -3346,6 +3634,27 @@
             "이승재",
             "김승래"
           ]
+        },
+        {
+          "gid": "1217437232950451",
+          "name": "광고 예산 월별 업데이트",
+          "type": "task",
+          "section": "진행",
+          "due_on": "2026-09-01",
+          "start_on": null,
+          "modified_at": "2026-09-01T23:41:54.092Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-09-01T23:41:53.919Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1217437232950451",
+          "fields": {
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": [
+            "안지호"
+          ],
+          "parent_name": "지출 품의 필요"
         },
         {
           "gid": "1218098666885991",
@@ -3604,6 +3913,139 @@
           },
           "subtasks": 4,
           "followers": []
+        },
+        {
+          "gid": "1217181341760723",
+          "name": "[대행료] 에버런스 - 메타 집행(말일)",
+          "type": "task",
+          "section": "완료",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-09-02T10:54:52.633Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-09-02T10:54:52.490Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1217181341760723",
+          "fields": {
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": [],
+          "parent_name": "솔루션 결제 내역 정리"
+        },
+        {
+          "gid": "1217181341760741",
+          "name": "[법카] 우피 (11일)",
+          "type": "task",
+          "section": "완료",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-09-02T10:54:54.358Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-09-02T10:54:54.141Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1217181341760741",
+          "fields": {
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": [],
+          "parent_name": "솔루션 결제 내역 정리"
+        },
+        {
+          "gid": "1217181341760732",
+          "name": "[법카] 젠스파크 AI (5일)",
+          "type": "task",
+          "section": "완료",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-09-02T10:54:53.812Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-09-02T10:54:53.585Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1217181341760732",
+          "fields": {
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": [],
+          "parent_name": "솔루션 결제 내역 정리"
+        },
+        {
+          "gid": "1217181318239128",
+          "name": "[선결제] 구글 클라우드 유한회사 - AI 스튜디오 (비정기)",
+          "type": "task",
+          "section": "완료",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-09-02T10:54:49.158Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-09-02T10:54:48.973Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1217181318239128",
+          "fields": {
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": [],
+          "parent_name": "솔루션 결제 내역 정리"
+        },
+        {
+          "gid": "1216337963052124",
+          "name": "[선결제] 네이버 주식회사 - 키워드 검색 광고(말일)",
+          "type": "task",
+          "section": "완료",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-08-05T08:59:24.351Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-08-05T08:59:24.226Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1216337963052124",
+          "fields": {
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": [],
+          "parent_name": "솔루션 결제 내역 정리"
+        },
+        {
+          "gid": "1217181525858795",
+          "name": "[선결제] 네이버 주식회사 - 키워드 검색 광고(말일)",
+          "type": "task",
+          "section": "완료",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-09-02T10:54:54.861Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-09-02T10:54:54.678Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1217181525858795",
+          "fields": {
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": [],
+          "parent_name": "솔루션 결제 내역 정리"
+        },
+        {
+          "gid": "1217181318239140",
+          "name": "[이용료] 구글 클라우드 유한회사 - AI 스튜디오(비정기)",
+          "type": "task",
+          "section": "완료",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-09-02T10:54:52.988Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-09-02T10:54:52.841Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1217181318239140",
+          "fields": {
+            "분류": "행정지원"
+          },
+          "subtasks": 0,
+          "followers": [],
+          "parent_name": "솔루션 결제 내역 정리"
         },
         {
           "gid": "1215518521869611",
@@ -4966,31 +5408,33 @@
           "gid": "1218083749653985",
           "name": "[SB] 미래아이엔씨 선지급(가품의) ",
           "type": "task",
-          "section": "대기/요청",
+          "section": "진행",
           "due_on": "2026-09-30",
           "start_on": null,
           "modified_at": "2026-09-02T12:01:01.709Z",
-          "owner": "안지호",
+          "owner": "이슬기",
           "completed": false,
           "completed_at": null,
           "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218083749653985",
           "fields": {
-            "담당 파트*": "공통"
+            "담당 파트*": "공통",
+            "분류": "행정지원"
           },
           "subtasks": 0,
           "followers": [
-            "이슬기"
-          ]
+            "안지호"
+          ],
+          "parent_name": "지출 품의 필요"
         },
         {
           "gid": "1218071296359472",
           "name": "메타 지출 내역 상세 추출",
           "type": "task",
-          "section": "기타",
+          "section": "진행",
           "due_on": "2026-09-30",
           "start_on": null,
           "modified_at": "2026-09-02T00:07:14.229Z",
-          "owner": "안지호",
+          "owner": "이슬기",
           "completed": false,
           "completed_at": null,
           "permalink": "https://app.asana.com/1/1202264448618168/task/1218071296359472",
@@ -5000,18 +5444,19 @@
           },
           "subtasks": 0,
           "followers": [
-            "이슬기"
-          ]
+            "안지호"
+          ],
+          "parent_name": "지출 품의 필요"
         },
         {
           "gid": "1218071391389620",
           "name": "광고 예산 월별 업데이트",
           "type": "task",
-          "section": "기타",
+          "section": "진행",
           "due_on": "2026-10-01",
           "start_on": null,
           "modified_at": "2026-09-02T00:07:07.069Z",
-          "owner": "안지호",
+          "owner": "이슬기",
           "completed": false,
           "completed_at": null,
           "permalink": "https://app.asana.com/1/1202264448618168/task/1218071391389620",
@@ -5021,8 +5466,9 @@
           },
           "subtasks": 0,
           "followers": [
-            "이슬기"
-          ]
+            "안지호"
+          ],
+          "parent_name": "지출 품의 필요"
         },
         {
           "gid": "1217181317873636",
@@ -5093,13 +5539,14 @@
           "section": "진행",
           "due_on": null,
           "start_on": null,
-          "modified_at": "2026-09-02T12:15:35.243Z",
+          "modified_at": "2026-09-02T12:30:44.803Z",
           "owner": "이슬기",
           "completed": false,
           "completed_at": null,
           "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1217437232950442",
           "fields": {
             "담당 파트*": "기획",
+            "분류": "행정지원",
             "우선순위(차수)": "운영"
           },
           "subtasks": 11,
@@ -5780,21 +6227,23 @@
           "gid": "1217386328969672",
           "name": "[SB] 미래아이엔씨 선지급(가품의) ",
           "type": "task",
-          "section": "완료",
+          "section": "진행",
           "due_on": "2026-08-31",
           "start_on": null,
           "modified_at": "2026-09-02T11:17:47.191Z",
-          "owner": "안지호",
+          "owner": "이슬기",
           "completed": true,
           "completed_at": "2026-09-02T11:17:45.915Z",
           "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1217386328969672",
           "fields": {
-            "담당 파트*": "공통"
+            "담당 파트*": "공통",
+            "분류": "행정지원"
           },
           "subtasks": 0,
           "followers": [
-            "이슬기"
-          ]
+            "안지호"
+          ],
+          "parent_name": "지출 품의 필요"
         },
         {
           "gid": "1218100802539696",
@@ -5946,19 +6395,22 @@
           "gid": "1217437232950452",
           "name": "메타 지출 내역 상세 추출",
           "type": "task",
-          "section": "기타",
+          "section": "진행",
           "due_on": "2026-08-31",
           "start_on": null,
           "modified_at": "2026-09-01T23:27:26.438Z",
-          "owner": "안지호",
+          "owner": "이슬기",
           "completed": true,
           "completed_at": "2026-09-01T23:27:26.162Z",
           "permalink": "https://app.asana.com/1/1202264448618168/task/1217437232950452",
-          "fields": {},
+          "fields": {
+            "분류": "행정지원"
+          },
           "subtasks": 0,
           "followers": [
-            "이슬기"
-          ]
+            "안지호"
+          ],
+          "parent_name": "지출 품의 필요"
         },
         {
           "gid": "1218104457106310",
@@ -6008,19 +6460,22 @@
           "gid": "1217437232950451",
           "name": "광고 예산 월별 업데이트",
           "type": "task",
-          "section": "기타",
+          "section": "진행",
           "due_on": "2026-09-01",
           "start_on": null,
           "modified_at": "2026-09-01T23:41:54.092Z",
-          "owner": "안지호",
+          "owner": "이슬기",
           "completed": true,
           "completed_at": "2026-09-01T23:41:53.919Z",
           "permalink": "https://app.asana.com/1/1202264448618168/task/1217437232950451",
-          "fields": {},
+          "fields": {
+            "분류": "행정지원"
+          },
           "subtasks": 0,
           "followers": [
-            "이슬기"
-          ]
+            "안지호"
+          ],
+          "parent_name": "지출 품의 필요"
         },
         {
           "gid": "1218104462221281",
