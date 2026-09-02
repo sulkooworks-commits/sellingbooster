@@ -90,6 +90,7 @@ jobs:
                   "due_on": t.get("due_on"),
                   "start_on": t.get("start_on"),
                   "modified_at": t.get("modified_at"),
+                  "created_at": t.get("created_at"),
                   "owner": owner_name,
                   "completed": bool(t.get("completed")),
                   "completed_at": t.get("completed_at"),
