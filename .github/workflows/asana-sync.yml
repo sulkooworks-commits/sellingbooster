@@ -41,7 +41,7 @@ jobs:
           TOKEN = os.environ["ASANA_PAT"]
           OUT   = "SEO모니터링/data/asana-tasks.json"
 
-          FIELDS = ("name,completed,due_on,start_on,modified_at,created_at,resource_subtype,"
+          FIELDS = ("name,completed,completed_at,due_on,start_on,modified_at,created_at,resource_subtype,"
                     "memberships.section.name,memberships.project.gid,permalink_url,"
                     "custom_fields.name,custom_fields.display_value,num_subtasks,followers.name,followers.gid")
 
@@ -50,11 +50,11 @@ jobs:
               with urllib.request.urlopen(req, timeout=30) as r:
                   return json.load(r)
 
-          def search_all(assignee_gid):
+          def search_all(assignee_gid, extra):
               """검색 API + created_at 커서로 100건 초과분까지 전량 수집."""
               base = (f"https://app.asana.com/api/1.0/workspaces/{WORKSPACE}/tasks/search"
                       f"?projects.any={PROJECT_GID}&assignee.any={assignee_gid}"
-                      f"&completed=false&sort_by=created_at&sort_ascending=true&limit=100"
+                      f"&{extra}&sort_by=created_at&sort_ascending=true&limit=100"
                       f"&opt_fields={urllib.parse.quote(FIELDS)}")
               out, cursor, seen = [], None, set()
               for _ in range(50):  # 안전 상한 5,000건
@@ -73,7 +73,7 @@ jobs:
                       return m["section"]["name"]
               return "기타"
 
-          def shape(t, assignee_gid):
+          def shape(t, assignee_gid, owner_name):
               fields = {}
               for cf in t.get("custom_fields") or []:
                   v = cf.get("display_value")
@@ -90,19 +90,37 @@ jobs:
                   "due_on": t.get("due_on"),
                   "start_on": t.get("start_on"),
                   "modified_at": t.get("modified_at"),
+                  "owner": owner_name,
+                  "completed": bool(t.get("completed")),
+                  "completed_at": t.get("completed_at"),
                   "permalink": t.get("permalink_url"),
                   "fields": fields,
                   "subtasks": t.get("num_subtasks") or 0,
                   "followers": followers,
               }
 
+          since = (datetime.date.today() - datetime.timedelta(days=30)).isoformat()
           tabs = []
           for p in PEOPLE:
-              raw = search_all(p["gid"])
-              tasks = [shape(t, p["gid"]) for t in raw]
-              tasks.sort(key=lambda x: (x["due_on"] is None, x["due_on"] or "9999", x["name"]))
+              inc  = search_all(p["gid"], "completed=false")
+              done = search_all(p["gid"], f"completed=true&completed_on.after={since}")
+              tasks = [shape(t, p["gid"], p["name"]) for t in inc] + [shape(t, p["gid"], p["name"]) for t in done]
+              tasks.sort(key=lambda x: (x["completed"], x["due_on"] is None, x["due_on"] or "9999", x["name"]))
               tabs.append({"gid": p["gid"], "name": p["name"], "role": p["role"], "tasks": tasks})
-              print(f"{p['role']} {p['name']}: {len(tasks)}건")
+              print(f"{p['role']} {p['name']}: 미완료 {len(inc)} + 완료30일 {len(done)}건")
+
+          # 공통 탭: 담당+협업(팔로워)에 두 사람이 함께 묶인 태스크 (맨 마지막 탭)
+          all_names = {p["name"] for p in PEOPLE}
+          common, seen = [], set()
+          for tab in tabs:
+              other = all_names - {tab["name"]}
+              for t in tab["tasks"]:
+                  if t["gid"] in seen: continue
+                  if any(o in (t.get("followers") or []) for o in other):
+                      common.append(dict(t)); seen.add(t["gid"])
+          common.sort(key=lambda x: (x["completed"], x["due_on"] is None, x["due_on"] or "9999", x["name"]))
+          tabs.append({"gid": "common", "name": "·".join(p["name"] for p in PEOPLE), "role": "공통", "tasks": common})
+          print(f"공통: {len(common)}건")
 
           now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9)))
           out = {
@@ -112,7 +130,7 @@ jobs:
                   "workspace": "헥토데이터",
                   "project": "[SB] 셀링부스터_PJT",
                   "projectGid": PROJECT_GID,
-                  "filter": "completed=false, 하위 태스크 포함",
+                  "filter": "미완료 전체 + 완료 30일, 하위 태스크 포함",
                   "viewUrl": "https://app.asana.com/1/1202264448618168/project/1211763974053621/list/1217214395642369",
               },
               "tabs": tabs,
