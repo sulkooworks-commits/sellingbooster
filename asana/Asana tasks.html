@@ -42,7 +42,7 @@
   th{background:#0F172A; color:#fff; font-weight:700; padding:9px 12px; text-align:center; font-size:12.5px;}
   th:first-child{border-radius:10px 0 0 0;} th:last-child{border-radius:0 10px 0 0;}
   td{padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:middle;}
-  td.name{text-align:left;} td.due,td.start,td.mod{text-align:center; white-space:nowrap; color:var(--sub);}
+  td.name{text-align:left;} td.due,td.start,td.mod,td.part,td.cat,td.phase,td.sub{text-align:center; white-space:nowrap; color:var(--sub);}
   tr:last-child td{border-bottom:none;}
   td.name a{color:var(--ink); text-decoration:none; font-weight:700;}
   td.name a:hover, td.name a:focus-visible{color:var(--violet); text-decoration:underline;}
@@ -53,13 +53,29 @@
   .badge.week{background:rgba(0,177,189,.1); color:#00838C;}
   .badge.none{color:#9AA1AD;}
 
+  .chip{display:inline-block; border-radius:5px; padding:1px 8px; font-weight:700; font-size:11.5px;
+    background:rgba(128,128,128,.09); color:#3E4552;}
+  .chip.ops{background:rgba(0,177,189,.1); color:#00838C;}
+  .chip.check{background:rgba(100,102,250,.12); color:var(--violet);}
+  .chip.hold{background:rgba(128,128,128,.12); color:#8A919E;}
+  .chip.phase{background:rgba(15,23,42,.07); color:var(--ink);}
+  .detail{margin-top:3px; font-size:11.5px; color:#8A919E; font-weight:400;}
+  .detail b{color:var(--sub); font-weight:700;}
+  .subcnt{color:var(--sub); font-weight:700;}
+
+  tr.ms td{background:rgba(100,102,250,.05);}
+  .msmark{display:inline-block; margin-right:6px; border-radius:5px; padding:1px 7px;
+    font-size:11px; font-weight:800; color:var(--violet);
+    background:rgba(100,102,250,.12); border:1px solid rgba(100,102,250,.35);}
+  .range{font-size:11.5px; color:#8A919E; display:block; line-height:1.3;}
+
   .note{background:var(--card); border:1px dashed #C6CBD6; border-radius:14px; padding:18px 22px; font-size:13px; color:var(--sub);}
   .note b{color:var(--ink);}
   .err{background:var(--card); border-radius:16px; padding:26px 28px; font-size:14px;}
   .err b{color:var(--red);}
   @media (max-width:640px){
     .head{padding:24px 22px;} .card{padding:18px 16px;}
-    td.start,th.start,td.mod,th.mod{display:none;}
+    td.start,th.start,td.mod,th.mod,td.cat,th:nth-child(3),td.sub,th:nth-child(6){display:none;}
   }
 </style>
 </head>
@@ -118,22 +134,50 @@
   const thisWeek = tasks.filter(t=>t.due_on && D(t.due_on) >= today && D(t.due_on) <= in7);
   const delayed = tasks.filter(t=>t.section==="🚨지연");
   const noDue = tasks.filter(t=>!t.due_on);
+  const milestones = tasks.filter(t=>t.type==="milestone");
 
   $("stats").innerHTML = [
     ["전체 미완료", tasks.length, ""],
+    ["작업", tasks.length - milestones.length, ""],
+    ["마일스톤", milestones.length, "violet"],
     ["기한초과", overdue.length, "red"],
     ["지연 섹션", delayed.length, "red"],
     ["7일 내 마감", thisWeek.length, "violet"],
     ["기한 미지정", noDue.length, "teal"],
   ].map(([k,v,c])=>`<div class="stat ${c}"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("");
 
+  const fmt = s => s ? s.slice(5).replace("-","/") : "";
   const badge = t => {
     if(!t.due_on) return '<span class="badge none">－</span>';
-    const d = D(t.due_on), label = t.due_on.slice(5).replace("-","/");
+    const d = D(t.due_on), label = fmt(t.due_on);
     if(d < today)   return `<span class="badge over">${label} 초과</span>`;
     if(+d === +today) return `<span class="badge today">오늘</span>`;
     if(d <= in7)    return `<span class="badge week">${label}</span>`;
     return label;
+  };
+  const schedule = t => {
+    const b = badge(t);
+    if(t.start_on) return `<span class="range">${fmt(t.start_on)} 시작</span>${b}`;
+    return b;
+  };
+
+  const F = (t,k)=> (t.fields||{})[k] || "";
+  const phaseChip = v => {
+    if(!v) return "";
+    const cls = v==="운영" ? "ops" : v==="내부점검" ? "check" : v==="보류" ? "hold" : "phase";
+    return `<span class="chip ${cls}">${v}</span>`;
+  };
+  const detailLine = t => {
+    const parts = [];
+    const env = F(t,"사용환경"), eff = F(t,"공수"), pid = F(t,"P ID"),
+          reason = F(t,"사유"), kind = F(t,"구분*");
+    if(env) parts.push(`<b>환경</b> ${env}`);
+    if(kind) parts.push(`<b>구분</b> ${kind}`);
+    if(eff) parts.push(`<b>공수</b> ${eff}`);
+    if(pid) parts.push(`<b>P ID</b> ${pid}`);
+    if(t.followers && t.followers.length) parts.push(`<b>협업</b> ${t.followers.join(", ")}`);
+    if(reason) parts.push(`<b>사유</b> ${reason}`);
+    return parts.length ? `<div class="detail">${parts.join(" · ")}</div>` : "";
   };
 
   const groups = {};
@@ -143,18 +187,24 @@
   $("sections").innerHTML = keys.map(sec=>{
     const rows = groups[sec]
       .slice()
-      .sort((a,b)=>(a.due_on===null)-(b.due_on===null) || String(a.due_on).localeCompare(String(b.due_on)))
-      .map(t=>`<tr>
-        <td class="name"><a href="${t.permalink}" target="_blank" rel="noopener noreferrer">${t.name}</a></td>
-        <td class="due">${badge(t)}</td>
-        <td class="start">${t.start_on ? t.start_on.slice(5).replace("-","/") : "－"}</td>
+      .sort((a,b)=>
+        (a.type==="milestone" ? 0 : 1) - (b.type==="milestone" ? 0 : 1) ||
+        (a.due_on===null)-(b.due_on===null) ||
+        String(a.due_on).localeCompare(String(b.due_on)))
+      .map(t=>`<tr${t.type==="milestone" ? ' class="ms"' : ''}>
+        <td class="name">${t.type==="milestone" ? '<span class="msmark">◆ 마일스톤</span>' : ''}<a href="${t.permalink}" target="_blank" rel="noopener noreferrer">${t.name}</a>${detailLine(t)}</td>
+        <td class="part">${F(t,"담당 파트*") ? `<span class="chip">${F(t,"담당 파트*")}</span>` : "－"}</td>
+        <td class="cat">${F(t,"분류") || "－"}</td>
+        <td class="phase">${phaseChip(F(t,"우선순위(차수)")) || "－"}</td>
+        <td class="due">${schedule(t)}</td>
+        <td class="sub">${t.subtasks ? `<span class="subcnt">${t.subtasks}</span>` : "－"}</td>
         <td class="mod">${t.modified_at ? t.modified_at.slice(5,10).replace("-","/") : "－"}</td>
       </tr>`).join("");
     return `<div class="card ${SEC_CLASS[sec]||""}">
       <h2>${sec}</h2><div class="cnt">${groups[sec].length}건</div>
       <table>
-        <colgroup><col style="width:56%"><col style="width:16%"><col style="width:14%"><col style="width:14%"></colgroup>
-        <thead><tr><th>태스크</th><th>기한</th><th class="start">시작</th><th class="mod">최근 수정</th></tr></thead>
+        <colgroup><col style="width:37%"><col style="width:9%"><col style="width:12%"><col style="width:11%"><col style="width:13%"><col style="width:7%"><col style="width:11%"></colgroup>
+        <thead><tr><th>태스크</th><th>파트</th><th>분류</th><th>차수</th><th>일정 (시작·마감)</th><th>하위</th><th class="mod">최근 수정</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </div>`;
