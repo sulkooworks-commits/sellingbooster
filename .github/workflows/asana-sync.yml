@@ -105,6 +105,22 @@ jobs:
               inc  = search_all(p["gid"], "completed=false")
               done = search_all(p["gid"], f"completed=true&completed_on.after={since}")
               tasks = [shape(t, p["gid"], p["name"]) for t in inc] + [shape(t, p["gid"], p["name"]) for t in done]
+
+              # 분류=행정지원 태스크의 하위 작업을 동일 레벨로 주입 (1단계, 중복 gid 제외)
+              have = {t["gid"] for t in tasks}
+              admin_parents = [t for t in tasks if t["fields"].get("분류") == "행정지원" and t["subtasks"]]
+              for parent in admin_parents:
+                  sub_url = (f"https://app.asana.com/api/1.0/tasks/{parent['gid']}/subtasks"
+                             f"?limit=100&opt_fields={urllib.parse.quote(FIELDS)}")
+                  for st in get(sub_url)["data"]:
+                      if st["gid"] in have: continue
+                      s = shape(st, p["gid"], p["name"])
+                      if s["completed"] and (s["completed_at"] or "")[:10] < since:
+                          continue  # 30일 지난 완료 하위는 제외
+                      s["section"] = parent["section"]          # 상위와 같은 섹션으로 묶음
+                      s["fields"].setdefault("분류", "행정지원") # 필터 일관성 유지
+                      s["parent_name"] = parent["name"]
+                      tasks.append(s); have.add(s["gid"])
               tasks.sort(key=lambda x: (x["completed"], x["due_on"] is None, x["due_on"] or "9999", x["name"]))
               tabs.append({"gid": p["gid"], "name": p["name"], "role": p["role"], "tasks": tasks})
               print(f"{p['role']} {p['name']}: 미완료 {len(inc)} + 완료30일 {len(done)}건")
