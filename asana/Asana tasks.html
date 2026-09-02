@@ -45,6 +45,25 @@
   .stat.click{cursor:pointer; border:1px solid transparent;}
   .stat.click:hover, .stat.click:focus-visible{border-color:var(--violet);}
 
+  /* 요약 지표 카드 */
+  .metrics{background:var(--card); border-radius:16px; padding:18px 22px; margin-bottom:18px;}
+  .mgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:12px;}
+  .mbox{background:#F3F4F7; border-radius:12px; padding:12px 15px;}
+  .mbox .mk{font-size:11.5px; color:var(--sub); font-weight:700;}
+  .mbox .mv{font-size:20px; font-weight:800; margin-top:2px;}
+  .mbox .mv small{font-size:12px; font-weight:700; color:#9AA1AD; margin-left:4px;}
+  .mbox.rate .mv{color:var(--violet);}
+  .mbox.rate .bar{height:6px; border-radius:4px; background:rgba(100,102,250,.14); margin-top:8px; overflow:hidden;}
+  .mbox.rate .bar i{display:block; height:100%; background:var(--violet); border-radius:4px;}
+  .mrow{display:flex; align-items:flex-start; gap:10px; padding-top:10px; border-top:1px dashed #EDEFF3; flex-wrap:wrap;}
+  .mrow + .mrow{margin-top:8px; }
+  .mlabel{flex:none; width:74px; font-size:12px; font-weight:800; color:var(--sub); padding-top:3px;}
+  .mchips{display:flex; gap:6px; flex-wrap:wrap; flex:1;}
+  .mchip{border-radius:14px; padding:2px 11px; font-size:12px; font-weight:700;
+    background:rgba(128,128,128,.08); color:#3E4552;}
+  .mchip b{color:var(--violet); margin-left:3px;}
+  .mnote{font-size:11px; color:#9AA1AD; margin-top:8px;}
+
   /* 필터 */
   .filter{background:var(--card); border-radius:16px; padding:18px 22px; margin-bottom:14px;}
   .frow{display:flex; align-items:flex-start; gap:12px; padding:6px 0; flex-wrap:wrap;}
@@ -146,6 +165,7 @@
 
   <div class="tabs" id="tabs" role="tablist"></div>
   <div class="stats" id="stats"></div>
+  <div class="metrics" id="metrics"></div>
 
   <div class="filter" id="filter"></div>
   <nav class="secnav" id="secnav"></nav>
@@ -363,8 +383,54 @@
       </button>`;
     }).join("");
     $("tabs").querySelectorAll(".tab").forEach(btn=>{
-      btn.addEventListener("click", ()=>{ active = +btn.dataset.i; renderTabs(); buildFilterUI(); renderStats(); renderBody(); });
+      btn.addEventListener("click", ()=>{ active = +btn.dataset.i; renderTabs(); buildFilterUI(); renderStats(); renderMetrics(); renderBody(); });
     });
+  }
+
+  function renderMetrics(){
+    const tasks = tabsData[active].tasks || [];
+    const inc = tasks.filter(t=>!t.completed);
+    const done = tasks.filter(t=>t.completed);
+
+    // 주간: 일~토 (KST 발행 정책과 동일 기준)
+    const weekStart = new Date(today); weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+    const d30 = new Date(today); d30.setDate(d30.getDate() - 30);
+    const inRange = (iso, from) => {
+      if(!iso) return false;
+      const d = D(iso.slice(0,10));
+      return d >= from && d <= today;
+    };
+
+    const doneW = done.filter(t=>inRange(t.completed_at, weekStart)).length;
+    const doneM = done.length; // 데이터 자체가 최근 30일 완료분
+    const hasCreated = tasks.some(t=>t.created_at);
+    const newW = hasCreated ? tasks.filter(t=>inRange(t.created_at, weekStart)).length : null;
+    const newM = hasCreated ? tasks.filter(t=>inRange(t.created_at, d30)).length : null;
+    const total = inc.length + done.length;
+    const rate = total ? Math.round(done.length / total * 100) : 0;
+
+    const breakdown = key => {
+      const map = {};
+      inc.forEach(t=>{ const v = F(t,key) || NONE; map[v]=(map[v]||0)+1; });
+      return Object.entries(map).sort((a,b)=> b[1]-a[1] || a[0].localeCompare(b[0],"ko"))
+        .map(([v,n])=>`<span class="mchip">${esc(v)}<b>${n}</b></span>`).join("");
+    };
+
+    $("metrics").innerHTML = `
+      <div class="mgrid">
+        <div class="mbox"><div class="mk">업무 완료 — 주간 (일~토)</div><div class="mv">${doneW}<small>건</small></div></div>
+        <div class="mbox"><div class="mk">업무 완료 — 월간 (30일)</div><div class="mv">${doneM}<small>건</small></div></div>
+        <div class="mbox"><div class="mk">업무 발생 — 주간 (일~토)</div><div class="mv">${newW===null?"–":newW}<small>건</small></div></div>
+        <div class="mbox"><div class="mk">업무 발생 — 월간 (30일)</div><div class="mv">${newM===null?"–":newM}<small>건</small></div></div>
+        <div class="mbox rate">
+          <div class="mk">전체 완료율 (달성률)</div>
+          <div class="mv">${rate}<small>% · ${done.length}/${total}</small></div>
+          <div class="bar"><i style="width:${rate}%"></i></div>
+        </div>
+      </div>
+      <div class="mrow"><div class="mlabel">분류별</div><div class="mchips">${breakdown("분류") || '<span class="mchip">데이터 없음</span>'}</div></div>
+      <div class="mrow"><div class="mlabel">차수별</div><div class="mchips">${breakdown("우선순위(차수)") || '<span class="mchip">데이터 없음</span>'}</div></div>
+      <div class="mnote">완료율 = 최근 30일 완료 ÷ (미완료 전체 + 최근 30일 완료) · 분류/차수 분포는 미완료 기준${hasCreated ? "" : " · 발생 지표는 첫 수집 실행 후 표시"}</div>`;
   }
 
   function renderStats(){
@@ -492,16 +558,29 @@
   }
 
   /* ---------- 데이터 로드 / 버튼 ---------- */
-  async function loadData(fresh){
-    const urls = fresh ? [RAW_JSON + "?t=" + Date.now(), "data/asana-tasks.json?t=" + Date.now()]
-                       : ["data/asana-tasks.json?t=" + Date.now(), RAW_JSON + "?t=" + Date.now()];
-    for(const u of urls){
-      try{
-        const res = await fetch(u, {cache:"no-store"});
-        if(res.ok) return await res.json();
-      }catch(e){}
+  const CACHE_KEY = "sb_asana_cache";
+  const newer = (a,b) => {   // generatedAt 기준 더 최신인 쪽
+    if(!a) return b; if(!b) return a;
+    return String(a.generatedAt||"") >= String(b.generatedAt||"") ? a : b;
+  };
+
+  async function loadData(){
+    // Pages 배포본 + raw 최신 커밋을 동시에 조회해 더 최신인 쪽 채택,
+    // 브라우저 캐시(localStorage)와도 비교해 페이지 재방문 시 원복 방지
+    const urls = ["data/asana-tasks.json?t=" + Date.now(), RAW_JSON + "?t=" + Date.now()];
+    const results = await Promise.all(urls.map(u =>
+      fetch(u, {cache:"no-store"}).then(r => r.ok ? r.json() : null).catch(()=>null)
+    ));
+    let best = results.reduce((a,b)=>newer(a,b), null);
+
+    let cached = null;
+    try{ cached = JSON.parse(localStorage.getItem(CACHE_KEY) || "null"); }catch(e){}
+    best = newer(best, cached);
+
+    if(best){
+      try{ localStorage.setItem(CACHE_KEY, JSON.stringify(best)); }catch(e){}
     }
-    return null;
+    return best;
   }
 
   function applyData(d){
@@ -513,7 +592,7 @@
       " · " + (data.generatedBy || "");
     tabsData = data.tabs || [{name:"", role:"", tasks:(data.tasks||[])}];
     if(active >= tabsData.length) active = 0;
-    renderTabs(); buildFilterUI(); renderStats(); renderBody();
+    renderTabs(); buildFilterUI(); renderStats(); renderMetrics(); renderBody();
   }
 
   function getToken(){
@@ -547,7 +626,7 @@
         left -= 15;
         if(left > 0){ btn.textContent = `▶ 수집 중… ${left}초 후 갱신`; return; }
         clearInterval(timer);
-        const d = await loadData(true);
+        const d = await loadData();
         if(d) applyData(d);
         btn.disabled = false; btn.textContent = "▶ 지금 수집 실행";
       }, 15000);
@@ -561,7 +640,7 @@
   async function refresh(){
     const btn = $("btn-refresh");
     btn.disabled = true; btn.textContent = "↻ 불러오는 중…";
-    const d = await loadData(true);
+    const d = await loadData();
     if(d) applyData(d);
     else alert("데이터를 불러오지 못했습니다.");
     btn.disabled = false; btn.textContent = "↻ 데이터 새로고침";
@@ -570,7 +649,7 @@
   $("btn-run").addEventListener("click", runNow);
   $("btn-refresh").addEventListener("click", refresh);
 
-  const first = await loadData(false);
+  const first = await loadData();
   if(!first){
     $("stamp").textContent = "";
     $("sections").innerHTML =
