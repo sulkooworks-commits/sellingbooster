@@ -116,6 +116,7 @@
   .detail{margin-top:3px; font-size:11.5px; color:#8A919E; font-weight:400;}
   .detail b{color:var(--sub); font-weight:700;}
   .subcnt{color:var(--sub); font-weight:700;}
+  .subglyph{color:#9AA1AD; font-weight:800;}
   .range{font-size:11.5px; color:#8A919E; display:block; line-height:1.3;}
 
   .note{background:var(--card); border:1px dashed #C6CBD6; border-radius:14px; padding:18px 22px; font-size:13px; color:var(--sub);}
@@ -324,6 +325,7 @@
           reason = F(t,"사유"), kind = F(t,"구분*");
     if(tabsData[active] && tabsData[active].role === "공통" && t.owner)
       parts.push(`<b>담당</b> ${esc(t.owner)}`);
+    if(t.parent_name) parts.push(`<b>상위</b> ${esc(t.parent_name)}`);
     if(t.type==="milestone") parts.push(`<b>섹션</b> ${esc(normSection(t))}`);
     if(env) parts.push(`<b>환경</b> ${esc(env)}`);
     if(kind) parts.push(`<b>구분</b> ${esc(kind)}`);
@@ -344,7 +346,7 @@
   };
 
   const row = t => `<tr class="${t.type==="milestone"?"ms":""}${t.completed?" done":""}${isUrgent(t)?" urgent":""}">
-    <td class="name"><a href="${t.permalink}" target="_blank" rel="noopener noreferrer">${esc(t.name)}</a>${detailLine(t)}</td>
+    <td class="name">${t.parent_name ? '<span class="subglyph">└</span> ' : ''}<a href="${t.permalink}" target="_blank" rel="noopener noreferrer">${esc(t.name)}</a>${detailLine(t)}</td>
     <td class="part">${F(t,"담당 파트*") ? `<span class="chip">${esc(F(t,"담당 파트*"))}</span>` : "－"}</td>
     <td class="cat">${esc(F(t,"분류")) || "－"}</td>
     <td class="phase">${phaseChip(F(t,"우선순위(차수)")) || "－"}</td>
