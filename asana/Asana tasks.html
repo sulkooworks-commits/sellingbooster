@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Asana 태스크 연동 — [SB] 셀링부스터_PJT · 이슬기</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css">
+<style>
+  :root{
+    --bg:#F3F4F7; --card:#fff; --ink:#0F172A; --sub:#5B6473;
+    --violet:#6466FA; --teal:#00B1BD; --red:#D6232B; --line:#E1E4EA;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:'NanumSquare',-apple-system,sans-serif; background:var(--bg); color:var(--ink); line-height:1.6;}
+  .wrap{max-width:1080px; margin:0 auto; padding:34px 20px 60px;}
+
+  .head{background:linear-gradient(115deg,#6466FA,#5B7BF7,#00B1BD); border-radius:16px; padding:30px 34px; color:#fff; margin-bottom:22px;}
+  .head h1{font-size:24px; font-weight:800; letter-spacing:-.01em;}
+  .head .sub{margin-top:8px; font-size:13.5px; opacity:.92;}
+  .head .meta{margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; font-size:12.5px;}
+  .head .meta a{color:#fff; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.4);
+    border-radius:20px; padding:5px 14px; text-decoration:none; font-weight:700;}
+  .head .meta a:hover, .head .meta a:focus-visible{background:rgba(255,255,255,.3);}
+  .head .stamp{opacity:.85;}
+
+  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin-bottom:22px;}
+  .stat{background:var(--card); border-radius:14px; padding:16px 18px;}
+  .stat .k{font-size:12px; color:var(--sub); font-weight:700;}
+  .stat .v{font-size:26px; font-weight:800; margin-top:2px;}
+  .stat.red .v{color:var(--red);}
+  .stat.violet .v{color:var(--violet);}
+  .stat.teal .v{color:var(--teal);}
+
+  .card{background:var(--card); border-radius:16px; padding:24px 28px; margin-bottom:18px;}
+  .card h2{font-size:16.5px; font-weight:800; padding-left:12px; border-left:5px solid var(--violet); margin-bottom:6px;}
+  .card.delay h2{border-left-color:var(--red);}
+  .card.doing h2{border-left-color:var(--teal);}
+  .card .cnt{font-size:12.5px; color:var(--sub); margin-bottom:12px; padding-left:17px;}
+
+  table{width:100%; border-collapse:collapse; font-size:13.5px;}
+  th{background:#0F172A; color:#fff; font-weight:700; padding:9px 12px; text-align:center; font-size:12.5px;}
+  th:first-child{border-radius:10px 0 0 0;} th:last-child{border-radius:0 10px 0 0;}
+  td{padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:middle;}
+  td.name{text-align:left;} td.due,td.start,td.mod{text-align:center; white-space:nowrap; color:var(--sub);}
+  tr:last-child td{border-bottom:none;}
+  td.name a{color:var(--ink); text-decoration:none; font-weight:700;}
+  td.name a:hover, td.name a:focus-visible{color:var(--violet); text-decoration:underline;}
+
+  .badge{display:inline-block; border-radius:5px; padding:1px 8px; font-weight:700; font-size:12px;}
+  .badge.over{background:rgba(214,35,43,.1); color:var(--red); border:1px solid rgba(214,35,43,.35);}
+  .badge.today{background:rgba(100,102,250,.12); color:var(--violet);}
+  .badge.week{background:rgba(0,177,189,.1); color:#00838C;}
+  .badge.none{color:#9AA1AD;}
+
+  .note{background:var(--card); border:1px dashed #C6CBD6; border-radius:14px; padding:18px 22px; font-size:13px; color:var(--sub);}
+  .note b{color:var(--ink);}
+  .err{background:var(--card); border-radius:16px; padding:26px 28px; font-size:14px;}
+  .err b{color:var(--red);}
+  @media (max-width:640px){
+    .head{padding:24px 22px;} .card{padding:18px 16px;}
+    td.start,th.start,td.mod,th.mod{display:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Asana 태스크 연동</h1>
+    <div class="sub">[SB] 셀링부스터_PJT · 담당 이슬기 · 미완료 기준 · 매일 10:40 자동 갱신</div>
+    <div class="meta">
+      <a id="asana-link" href="#" target="_blank" rel="noopener noreferrer">Asana에서 열기</a>
+      <span class="stamp" id="stamp">데이터 불러오는 중…</span>
+    </div>
+  </div>
+
+  <div class="stats" id="stats"></div>
+  <div id="sections"></div>
+
+  <div class="note">
+    <b>수집 방식</b> — GitHub Actions(asana-sync.yml)가 매일 10:40 KST에 Asana API로 미완료 태스크를 수집해
+    <code>data/asana-tasks.json</code>을 갱신. 완료 처리된 태스크는 다음 수집부터 목록에서 제외.
+    기한초과 판정은 페이지 열람 시점(브라우저 날짜) 기준.
+  </div>
+</div>
+
+<script>
+(async function(){
+  const SEC_ORDER = ["🚨지연","진행","대기/요청","완료(섹션)","기타"];
+  const SEC_CLASS = {"🚨지연":"delay","진행":"doing"};
+  const $ = id => document.getElementById(id);
+
+  let data;
+  try{
+    const res = await fetch("data/asana-tasks.json", {cache:"no-store"});
+    if(!res.ok) throw new Error(res.status);
+    data = await res.json();
+  }catch(e){
+    $("stamp").textContent = "";
+    $("sections").innerHTML =
+      '<div class="err"><b>data/asana-tasks.json을 불러오지 못했습니다.</b><br>' +
+      '스냅샷 파일이 커밋되었는지, asana-sync 워크플로가 1회 이상 실행되었는지 확인해 주세요.</div>';
+    return;
+  }
+
+  $("asana-link").href = data.source.viewUrl;
+  const gen = new Date(data.generatedAt);
+  $("stamp").textContent = "마지막 수집: " +
+    gen.toLocaleString("ko-KR",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"}) +
+    " · " + (data.generatedBy || "");
+
+  const today = new Date(); today.setHours(0,0,0,0);
+  const in7 = new Date(today); in7.setDate(in7.getDate()+7);
+  const D = s => { const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); };
+
+  const tasks = data.tasks || [];
+  const overdue = tasks.filter(t=>t.due_on && D(t.due_on) < today);
+  const thisWeek = tasks.filter(t=>t.due_on && D(t.due_on) >= today && D(t.due_on) <= in7);
+  const delayed = tasks.filter(t=>t.section==="🚨지연");
+  const noDue = tasks.filter(t=>!t.due_on);
+
+  $("stats").innerHTML = [
+    ["전체 미완료", tasks.length, ""],
+    ["기한초과", overdue.length, "red"],
+    ["지연 섹션", delayed.length, "red"],
+    ["7일 내 마감", thisWeek.length, "violet"],
+    ["기한 미지정", noDue.length, "teal"],
+  ].map(([k,v,c])=>`<div class="stat ${c}"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("");
+
+  const badge = t => {
+    if(!t.due_on) return '<span class="badge none">－</span>';
+    const d = D(t.due_on), label = t.due_on.slice(5).replace("-","/");
+    if(d < today)   return `<span class="badge over">${label} 초과</span>`;
+    if(+d === +today) return `<span class="badge today">오늘</span>`;
+    if(d <= in7)    return `<span class="badge week">${label}</span>`;
+    return label;
+  };
+
+  const groups = {};
+  tasks.forEach(t=>{ (groups[t.section] ||= []).push(t); });
+  const keys = [...SEC_ORDER.filter(s=>groups[s]), ...Object.keys(groups).filter(s=>!SEC_ORDER.includes(s))];
+
+  $("sections").innerHTML = keys.map(sec=>{
+    const rows = groups[sec]
+      .slice()
+      .sort((a,b)=>(a.due_on===null)-(b.due_on===null) || String(a.due_on).localeCompare(String(b.due_on)))
+      .map(t=>`<tr>
+        <td class="name"><a href="${t.permalink}" target="_blank" rel="noopener noreferrer">${t.name}</a></td>
+        <td class="due">${badge(t)}</td>
+        <td class="start">${t.start_on ? t.start_on.slice(5).replace("-","/") : "－"}</td>
+        <td class="mod">${t.modified_at ? t.modified_at.slice(5,10).replace("-","/") : "－"}</td>
+      </tr>`).join("");
+    return `<div class="card ${SEC_CLASS[sec]||""}">
+      <h2>${sec}</h2><div class="cnt">${groups[sec].length}건</div>
+      <table>
+        <colgroup><col style="width:56%"><col style="width:16%"><col style="width:14%"><col style="width:14%"></colgroup>
+        <thead><tr><th>태스크</th><th>기한</th><th class="start">시작</th><th class="mod">최근 수정</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+  }).join("");
+})();
+</script>
+</body>
+</html>
