@@ -1,0 +1,348 @@
+{
+  "generatedAt": "2026-09-02T20:46:34+09:00",
+  "generatedBy": "github-actions/asana-sync",
+  "source": {
+    "workspace": "헥토데이터",
+    "project": "[SB] 셀링부스터_PJT",
+    "projectGid": "1211763974053621",
+    "assignee": "이슬기",
+    "assigneeGid": "1202564897923990",
+    "filter": "completed=false",
+    "viewUrl": "https://app.asana.com/1/1202264448618168/project/1211763974053621/list/1217214395642369"
+  },
+  "tasks": [
+    {
+      "gid": "1217181525376571",
+      "name": "우피 SEO 지표 리포트",
+      "section": "대기/요청",
+      "due_on": "2026-08-07",
+      "start_on": null,
+      "modified_at": "2026-08-07T15:50:36.182Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1217181525376571"
+    },
+    {
+      "gid": "1218098674891083",
+      "name": "SEO 지표 리포트",
+      "section": "대기/요청",
+      "due_on": "2026-08-14",
+      "start_on": null,
+      "modified_at": "2026-09-02T11:23:23.785Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218098674891083"
+    },
+    {
+      "gid": "1217181584104129",
+      "name": "익스텐션 활성 현황 지표 리포트",
+      "section": "🚨지연",
+      "due_on": "2026-08-15",
+      "start_on": null,
+      "modified_at": "2026-08-15T15:14:05.492Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1217181584104129"
+    },
+    {
+      "gid": "1216739316200412",
+      "name": "신규회원 유입 경로 확인 문항 추가 요청",
+      "section": "🚨지연",
+      "due_on": "2026-08-18",
+      "start_on": null,
+      "modified_at": "2026-09-02T11:00:56.897Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1216739316200412"
+    },
+    {
+      "gid": "1218092958189591",
+      "name": "주간 성과 공유(기록으로 대체)",
+      "section": "🚨지연",
+      "due_on": "2026-08-21",
+      "start_on": null,
+      "modified_at": "2026-09-02T11:23:31.410Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218092958189591"
+    },
+    {
+      "gid": "1218083751201076",
+      "name": "외부업체 광고배너 주간 리포트",
+      "section": "🚨지연",
+      "due_on": "2026-08-26",
+      "start_on": null,
+      "modified_at": "2026-09-02T11:23:34.820Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218083751201076"
+    },
+    {
+      "gid": "1218100803540900",
+      "name": "[SB] 주간업무 현황",
+      "section": "대기/요청",
+      "due_on": "2026-08-27",
+      "start_on": "2026-08-23",
+      "modified_at": "2026-09-02T10:54:40.513Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218100803540900"
+    },
+    {
+      "gid": "1218104462221281",
+      "name": "[SB] SEO/GEO TF 회의 (일정 미정)",
+      "section": "대기/요청",
+      "due_on": "2026-09-02",
+      "start_on": null,
+      "modified_at": "2026-09-02T11:19:21.722Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218104462221281"
+    },
+    {
+      "gid": "1218100802432179",
+      "name": "[SB] 사업실 주간 회의 (08:30)",
+      "section": "대기/요청",
+      "due_on": "2026-09-03",
+      "start_on": null,
+      "modified_at": "2026-09-02T10:53:12.187Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218100802432179"
+    },
+    {
+      "gid": "1218104455156712",
+      "name": "[SB][APP] QA 진행",
+      "section": "대기/요청",
+      "due_on": "2026-09-04",
+      "start_on": "2026-08-21",
+      "modified_at": "2026-09-02T11:28:49.135Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218104455156712"
+    },
+    {
+      "gid": "1218083070026517",
+      "name": "[SB] 사업팀 주간 회의 (8:30)",
+      "section": "대기/요청",
+      "due_on": "2026-09-07",
+      "start_on": null,
+      "modified_at": "2026-09-02T10:53:23.026Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218083070026517"
+    },
+    {
+      "gid": "1218083070121335",
+      "name": "[SB] 개발 점검 회의 (13:30 or 15:30)",
+      "section": "대기/요청",
+      "due_on": "2026-09-08",
+      "start_on": null,
+      "modified_at": "2026-09-02T10:53:22.974Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218083070121335"
+    },
+    {
+      "gid": "1218098667304197",
+      "name": "[SB] 기획/마케팅 주간 회의 (15:00)",
+      "section": "대기/요청",
+      "due_on": "2026-09-11",
+      "start_on": null,
+      "modified_at": "2026-09-02T10:53:22.915Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218098667304197"
+    },
+    {
+      "gid": "1218104456440618",
+      "name": "솔루션 결제 내역 정리",
+      "section": "대기/요청",
+      "due_on": "2026-09-14",
+      "start_on": null,
+      "modified_at": "2026-09-02T10:55:16.820Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218104456440618"
+    },
+    {
+      "gid": "1215180600005620",
+      "name": "카페24: 솔루션 서비스 (셀링부스터 웹)",
+      "section": "대기/요청",
+      "due_on": "2026-09-25",
+      "start_on": null,
+      "modified_at": "2026-09-02T11:22:16.081Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1215180600005620"
+    },
+    {
+      "gid": "1215943925606576",
+      "name": "01_메인 상단 슬라이드",
+      "section": "완료",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-09-02T11:20:32.270Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1215943925606576"
+    },
+    {
+      "gid": "1215943925606577",
+      "name": "02_광고 배너",
+      "section": "완료",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-09-02T11:20:43.694Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1215943925606577"
+    },
+    {
+      "gid": "1217317882825712",
+      "name": "5차 고도화: TTJ 상품 랭킹",
+      "section": "대기/요청",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-08-10T08:54:09.725Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1217317882825712"
+    },
+    {
+      "gid": "1217317882825709",
+      "name": "5차 고도화: 다국어",
+      "section": "대기/요청",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-08-10T08:54:09.756Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1217317882825709"
+    },
+    {
+      "gid": "1217317882825715",
+      "name": "5차 고도화: 셀링스파크 통합 ui 개선",
+      "section": "대기/요청",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-08-10T08:54:09.783Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1217317882825715"
+    },
+    {
+      "gid": "1218104455156672",
+      "name": "[SB][ADM] 현황관리 ",
+      "section": "대기/요청",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-09-02T11:15:53.836Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218104455156672"
+    },
+    {
+      "gid": "1214275972502265",
+      "name": "[SB][APP] 푸터nav > 프로필 > 구독 관리",
+      "section": "대기/요청",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-06-24T03:38:10.333Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1214275972502265"
+    },
+    {
+      "gid": "1214275972502263",
+      "name": "[SB][APP] 푸터nav > 프로필 > 팀 관리",
+      "section": "대기/요청",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-06-24T04:51:52.497Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1214275972502263"
+    },
+    {
+      "gid": "1215480943213825",
+      "name": "[SB][공통] 회원가입 개정(보류)",
+      "section": "대기/요청",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-06-24T00:55:14.062Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1215480943213825"
+    },
+    {
+      "gid": "1214794543285725",
+      "name": "개선포인트 도출",
+      "section": "🚨지연",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-09-02T11:22:00.826Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1214794543285725"
+    },
+    {
+      "gid": "1215180600005613",
+      "name": "고도화: 회원가입 정책 개선",
+      "section": "🚨지연",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-06-24T00:42:44.935Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1215180600005613"
+    },
+    {
+      "gid": "1211765421188115",
+      "name": "기획",
+      "section": "🚨지연",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-04-14T23:33:07.913Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1211765421188115"
+    },
+    {
+      "gid": "1215480943213832",
+      "name": "기획 (반응형, APP)",
+      "section": "대기/요청",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-06-24T00:42:50.404Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1215480943213832"
+    },
+    {
+      "gid": "1218100803857053",
+      "name": "블로그 콘텐츠 발행",
+      "section": "대기/요청",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-09-02T10:59:55.794Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218100803857053"
+    },
+    {
+      "gid": "1217214395642342",
+      "name": "세금 계산서 백업",
+      "section": "대기/요청",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-09-02T11:21:21.720Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1217214395642342"
+    },
+    {
+      "gid": "1215180600005616",
+      "name": "스토어 입점 준비",
+      "section": "진행",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-09-02T11:21:12.389Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1215180600005616"
+    },
+    {
+      "gid": "1217214395642339",
+      "name": "지출 내역 정리 6~8월",
+      "section": "대기/요청",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-09-02T11:20:56.812Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1217214395642339"
+    },
+    {
+      "gid": "1217437232950442",
+      "name": "지출 품의 필요",
+      "section": "진행",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-09-02T11:19:24.984Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1217437232950442"
+    },
+    {
+      "gid": "1217317882825703",
+      "name": "커머스 캘린더 하반기 자료조사 (키워드, 커머스 일정)",
+      "section": "대기/요청",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-09-02T11:21:35.147Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1217317882825703"
+    },
+    {
+      "gid": "1214683519131651",
+      "name": "커뮤니티 가상글 발행",
+      "section": "진행",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-09-02T10:52:28.024Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1214683519131651"
+    },
+    {
+      "gid": "1215762048221747",
+      "name": "📌 커머스 확장: 스크래핑 내역(상품 정보)",
+      "section": "대기/요청",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-09-02T11:14:39.997Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1215762048221747"
+    },
+    {
+      "gid": "1215762048221741",
+      "name": "📌 커머스 확장: 스토어 연동 내역 (셀러 정보)",
+      "section": "대기/요청",
+      "due_on": null,
+      "start_on": null,
+      "modified_at": "2026-09-02T11:14:59.025Z",
+      "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1215762048221741"
+    }
+  ]
+}
