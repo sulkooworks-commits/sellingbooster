@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-09-02T14:30:00+09:00",
-  "generatedBy": "manual-snapshot v4 (탭 구조)",
+  "generatedBy": "manual-snapshot v6 (공통 탭)",
   "source": {
     "workspace": "헥토데이터",
     "project": "[SB] 셀링부스터_PJT",
@@ -24,7 +24,10 @@
           "fields": {},
           "subtasks": 4,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1218083751201076",
@@ -41,7 +44,10 @@
           },
           "subtasks": 2,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1218092958189591",
@@ -58,7 +64,10 @@
           },
           "subtasks": 0,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1218098674891083",
@@ -74,7 +83,10 @@
           },
           "subtasks": 2,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1215180600005620",
@@ -90,7 +102,10 @@
           },
           "subtasks": 1,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1214794543285725",
@@ -105,7 +120,10 @@
           },
           "subtasks": 2,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1217317882825703",
@@ -121,7 +139,10 @@
           },
           "subtasks": 0,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1217214395642342",
@@ -137,7 +158,10 @@
           },
           "subtasks": 0,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1215180600005616",
@@ -154,7 +178,10 @@
           },
           "subtasks": 5,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1217214395642339",
@@ -170,7 +197,10 @@
           },
           "subtasks": 0,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1215943925606577",
@@ -187,7 +217,10 @@
           },
           "subtasks": 4,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1215943925606576",
@@ -204,7 +237,10 @@
           },
           "subtasks": 4,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1217437232950442",
@@ -221,7 +257,10 @@
           "followers": [
             "안지호"
           ],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1218104462221281",
@@ -238,7 +277,10 @@
           "followers": [
             "안지호"
           ],
-          "type": "milestone"
+          "type": "milestone",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1218104455156672",
@@ -252,7 +294,10 @@
           },
           "subtasks": 3,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1215762048221741",
@@ -270,7 +315,10 @@
             "이승재",
             "이다솜"
           ],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1215762048221747",
@@ -288,7 +336,10 @@
             "이승재",
             "이다솜"
           ],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1216739316200412",
@@ -306,7 +357,10 @@
           "followers": [
             "안지호"
           ],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1218100803857053",
@@ -324,7 +378,10 @@
           "followers": [
             "안지호"
           ],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1218100803540900",
@@ -346,7 +403,10 @@
             "안지호",
             "채민우"
           ],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1218104456440618",
@@ -363,7 +423,10 @@
           },
           "subtasks": 6,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1218083070026517",
@@ -385,7 +448,10 @@
             "안지호",
             "김헌경"
           ],
-          "type": "milestone"
+          "type": "milestone",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1218083070121335",
@@ -405,7 +471,10 @@
             "이승재",
             "김승래"
           ],
-          "type": "milestone"
+          "type": "milestone",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1218098667304197",
@@ -423,7 +492,10 @@
             "안지호",
             "김헌경"
           ],
-          "type": "milestone"
+          "type": "milestone",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1218100802432179",
@@ -443,7 +515,10 @@
             "이다솜",
             "안지호"
           ],
-          "type": "milestone"
+          "type": "milestone",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1214683519131651",
@@ -460,7 +535,10 @@
           },
           "subtasks": 4,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1217181584104129",
@@ -477,7 +555,10 @@
           },
           "subtasks": 0,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1217317882825712",
@@ -492,7 +573,10 @@
           },
           "subtasks": 0,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1217317882825715",
@@ -507,7 +591,10 @@
           },
           "subtasks": 0,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1217317882825709",
@@ -522,7 +609,10 @@
           },
           "subtasks": 0,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1217181525376571",
@@ -540,7 +630,10 @@
           },
           "subtasks": 0,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1214275972502263",
@@ -557,7 +650,10 @@
           },
           "subtasks": 5,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1214275972502265",
@@ -573,7 +669,10 @@
           },
           "subtasks": 2,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1215480943213825",
@@ -589,7 +688,10 @@
           },
           "subtasks": 5,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1215480943213832",
@@ -605,7 +707,10 @@
           },
           "subtasks": 0,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1215180600005613",
@@ -622,7 +727,10 @@
           },
           "subtasks": 1,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         },
         {
           "gid": "1211765421188115",
@@ -639,7 +747,10 @@
           },
           "subtasks": 0,
           "followers": [],
-          "type": "task"
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         }
       ]
     },
@@ -663,7 +774,10 @@
           "subtasks": 0,
           "followers": [
             "이슬기"
-          ]
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
         },
         {
           "gid": "1218098669475455",
@@ -680,7 +794,10 @@
           "subtasks": 0,
           "followers": [
             "이슬기"
-          ]
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
         },
         {
           "gid": "1218100804702532",
@@ -697,7 +814,10 @@
           "subtasks": 0,
           "followers": [
             "이슬기"
-          ]
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
         },
         {
           "gid": "1218092951348288",
@@ -718,7 +838,10 @@
           "subtasks": 0,
           "followers": [
             "이슬기"
-          ]
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
         },
         {
           "gid": "1218098668432836",
@@ -735,7 +858,10 @@
           "subtasks": 0,
           "followers": [
             "이슬기"
-          ]
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
         },
         {
           "gid": "1218091787078692",
@@ -751,7 +877,10 @@
             "분류": "마케팅/광고"
           },
           "subtasks": 0,
-          "followers": []
+          "followers": [],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
         },
         {
           "gid": "1218030139241448",
@@ -769,7 +898,10 @@
           "subtasks": 0,
           "followers": [
             "이슬기"
-          ]
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
         },
         {
           "gid": "1218030139241443",
@@ -787,7 +919,10 @@
           "subtasks": 0,
           "followers": [
             "이슬기"
-          ]
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
         },
         {
           "gid": "1218030598382375",
@@ -805,7 +940,10 @@
           "subtasks": 0,
           "followers": [
             "이슬기"
-          ]
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
         },
         {
           "gid": "1218030598382379",
@@ -823,7 +961,10 @@
           "subtasks": 0,
           "followers": [
             "이슬기"
-          ]
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
         },
         {
           "gid": "1218030598382371",
@@ -841,7 +982,10 @@
           "subtasks": 0,
           "followers": [
             "이슬기"
-          ]
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
         },
         {
           "gid": "1218071296359472",
@@ -859,7 +1003,10 @@
           "subtasks": 0,
           "followers": [
             "이슬기"
-          ]
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
         },
         {
           "gid": "1218071391389620",
@@ -877,7 +1024,10 @@
           "subtasks": 0,
           "followers": [
             "이슬기"
-          ]
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
         },
         {
           "gid": "1218030139241428",
@@ -895,7 +1045,10 @@
           "subtasks": 0,
           "followers": [
             "이슬기"
-          ]
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
         },
         {
           "gid": "1217181317873636",
@@ -912,7 +1065,10 @@
           "subtasks": 0,
           "followers": [
             "이슬기"
-          ]
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
         },
         {
           "gid": "1216807137532296",
@@ -929,7 +1085,505 @@
           "subtasks": 0,
           "followers": [
             "이슬기"
-          ]
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
+        }
+      ]
+    },
+    {
+      "gid": "common",
+      "name": "이슬기·안지호",
+      "role": "공통",
+      "tasks": [
+        {
+          "gid": "1216807137532296",
+          "name": "SEO 하이훅 개선 요청사항",
+          "type": "task",
+          "section": "🚨지연",
+          "due_on": "2026-07-28",
+          "start_on": null,
+          "modified_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1216807137532296",
+          "fields": {
+            "담당 파트*": "마케팅"
+          },
+          "subtasks": 0,
+          "followers": [
+            "이슬기"
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
+        },
+        {
+          "gid": "1216739316200412",
+          "name": "신규회원 유입 경로 확인 문항 추가 요청",
+          "section": "🚨지연",
+          "due_on": "2026-08-18",
+          "start_on": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1216739316200412",
+          "fields": {
+            "담당 파트*": "기획",
+            "분류": "마케팅/광고",
+            "우선순위(차수)": "내부점검"
+          },
+          "subtasks": 0,
+          "followers": [
+            "안지호"
+          ],
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
+        },
+        {
+          "gid": "1218100803540900",
+          "name": "[SB] 주간업무 현황",
+          "section": "대기/요청",
+          "due_on": "2026-08-27",
+          "start_on": "2026-08-23",
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218100803540900",
+          "fields": {
+            "담당 파트*": "공통",
+            "우선순위(차수)": "내부점검",
+            "구분*": "작업"
+          },
+          "subtasks": 4,
+          "followers": [
+            "이승재",
+            "이다솜",
+            "김승래",
+            "안지호",
+            "채민우"
+          ],
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
+        },
+        {
+          "gid": "1218104462221281",
+          "name": "[SB] SEO/GEO TF 회의 (일정 미정)",
+          "section": "대기/요청",
+          "due_on": "2026-09-02",
+          "start_on": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218104462221281",
+          "fields": {
+            "담당 파트*": "공통",
+            "우선순위(차수)": "운영"
+          },
+          "subtasks": 0,
+          "followers": [
+            "안지호"
+          ],
+          "type": "milestone",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
+        },
+        {
+          "gid": "1218098669475455",
+          "name": "네이버블로그) 월수금 - 본편 후속",
+          "type": "task",
+          "section": "기타",
+          "due_on": "2026-09-02",
+          "start_on": null,
+          "modified_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1218098669475455",
+          "fields": {
+            "담당 파트*": "기획"
+          },
+          "subtasks": 0,
+          "followers": [
+            "이슬기"
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
+        },
+        {
+          "gid": "1218100804702532",
+          "name": "셀링부스터) 월수금 - 커머스 공략",
+          "type": "task",
+          "section": "기타",
+          "due_on": "2026-09-02",
+          "start_on": null,
+          "modified_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1218100804702532",
+          "fields": {
+            "담당 파트*": "기획"
+          },
+          "subtasks": 0,
+          "followers": [
+            "이슬기"
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
+        },
+        {
+          "gid": "1218100802432179",
+          "name": "[SB] 사업실 주간 회의 (08:30)",
+          "section": "대기/요청",
+          "due_on": "2026-09-03",
+          "start_on": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218100802432179",
+          "fields": {
+            "담당 파트*": "공통",
+            "우선순위(차수)": "내부점검"
+          },
+          "subtasks": 0,
+          "followers": [
+            "채민우",
+            "김승래",
+            "이다솜",
+            "안지호"
+          ],
+          "type": "milestone",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
+        },
+        {
+          "gid": "1218030598382379",
+          "name": "GTM 및 GA4 사이트 사용자 집계 기준 구축",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": "2026-09-04",
+          "start_on": null,
+          "modified_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218030598382379",
+          "fields": {
+            "담당 파트*": "마케팅",
+            "분류": "마케팅/광고"
+          },
+          "subtasks": 0,
+          "followers": [
+            "이슬기"
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
+        },
+        {
+          "gid": "1218092951348288",
+          "name": "셀링부스터) 월수금 - K트렌드 매거진 발행",
+          "type": "task",
+          "section": "기타",
+          "due_on": "2026-09-04",
+          "start_on": null,
+          "modified_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1218092951348288",
+          "fields": {
+            "담당 파트*": "기획",
+            "사용환경": "PC(반응형)",
+            "분류": "콘텐츠",
+            "우선순위(차수)": "운영",
+            "구분*": "작업"
+          },
+          "subtasks": 0,
+          "followers": [
+            "이슬기"
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
+        },
+        {
+          "gid": "1218083070026517",
+          "name": "[SB] 사업팀 주간 회의 (8:30)",
+          "section": "대기/요청",
+          "due_on": "2026-09-07",
+          "start_on": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218083070026517",
+          "fields": {
+            "담당 파트*": "공통",
+            "우선순위(차수)": "내부점검"
+          },
+          "subtasks": 0,
+          "followers": [
+            "채민우",
+            "김승래",
+            "이다솜",
+            "이승재",
+            "안지호",
+            "김헌경"
+          ],
+          "type": "milestone",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
+        },
+        {
+          "gid": "1218030139241443",
+          "name": "8월 집행분 예산 소진 및 마크업 차액 확인",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": "2026-09-11",
+          "start_on": null,
+          "modified_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218030139241443",
+          "fields": {
+            "담당 파트*": "마케팅",
+            "분류": "마케팅/광고"
+          },
+          "subtasks": 0,
+          "followers": [
+            "이슬기"
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
+        },
+        {
+          "gid": "1218030139241448",
+          "name": "9월 견적서 수정 요청",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": "2026-09-11",
+          "start_on": null,
+          "modified_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218030139241448",
+          "fields": {
+            "담당 파트*": "마케팅",
+            "분류": "마케팅/광고"
+          },
+          "subtasks": 0,
+          "followers": [
+            "이슬기"
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
+        },
+        {
+          "gid": "1218030139241428",
+          "name": "9월 예산 변경에 따른 광고매체 캠페인 변경",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": "2026-09-11",
+          "start_on": null,
+          "modified_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218030139241428",
+          "fields": {
+            "담당 파트*": "마케팅",
+            "분류": "마케팅/광고"
+          },
+          "subtasks": 0,
+          "followers": [
+            "이슬기"
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
+        },
+        {
+          "gid": "1218098667304197",
+          "name": "[SB] 기획/마케팅 주간 회의 (15:00)",
+          "section": "대기/요청",
+          "due_on": "2026-09-11",
+          "start_on": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218098667304197",
+          "fields": {
+            "담당 파트*": "공통",
+            "우선순위(차수)": "내부점검"
+          },
+          "subtasks": 0,
+          "followers": [
+            "안지호",
+            "김헌경"
+          ],
+          "type": "milestone",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
+        },
+        {
+          "gid": "1218030598382375",
+          "name": "메타 신규 소재 세팅 및 성과 모니터링",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": "2026-09-11",
+          "start_on": null,
+          "modified_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218030598382375",
+          "fields": {
+            "담당 파트*": "마케팅",
+            "분류": "마케팅/광고"
+          },
+          "subtasks": 0,
+          "followers": [
+            "이슬기"
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
+        },
+        {
+          "gid": "1218030598382371",
+          "name": "신규매체 초기 성과 모니터링 : 구글",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": "2026-09-11",
+          "start_on": null,
+          "modified_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218030598382371",
+          "fields": {
+            "담당 파트*": "마케팅",
+            "분류": "마케팅/광고"
+          },
+          "subtasks": 0,
+          "followers": [
+            "이슬기"
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
+        },
+        {
+          "gid": "1218083749653985",
+          "name": "[SB] 미래아이엔씨 선지급(가품의)",
+          "type": "task",
+          "section": "🚨지연",
+          "due_on": "2026-09-30",
+          "start_on": null,
+          "modified_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218083749653985",
+          "fields": {
+            "담당 파트*": "공통"
+          },
+          "subtasks": 0,
+          "followers": [
+            "이슬기"
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
+        },
+        {
+          "gid": "1218071296359472",
+          "name": "메타 지출 내역 상세 추출",
+          "type": "task",
+          "section": "기타",
+          "due_on": "2026-09-30",
+          "start_on": null,
+          "modified_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1218071296359472",
+          "fields": {
+            "담당 파트*": "마케팅",
+            "분류": "마케팅/광고"
+          },
+          "subtasks": 0,
+          "followers": [
+            "이슬기"
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
+        },
+        {
+          "gid": "1218071391389620",
+          "name": "광고 예산 월별 업데이트",
+          "type": "task",
+          "section": "기타",
+          "due_on": "2026-10-01",
+          "start_on": null,
+          "modified_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1218071391389620",
+          "fields": {
+            "담당 파트*": "마케팅",
+            "분류": "마케팅/광고"
+          },
+          "subtasks": 0,
+          "followers": [
+            "이슬기"
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
+        },
+        {
+          "gid": "1218098668432836",
+          "name": "광고 지표 기재",
+          "type": "task",
+          "section": "기타",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1218098668432836",
+          "fields": {
+            "담당 파트*": "마케팅"
+          },
+          "subtasks": 0,
+          "followers": [
+            "이슬기"
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
+        },
+        {
+          "gid": "1217181317873636",
+          "name": "광고 지표 기재",
+          "type": "task",
+          "section": "기타",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1217181317873636",
+          "fields": {
+            "담당 파트*": "마케팅"
+          },
+          "subtasks": 0,
+          "followers": [
+            "이슬기"
+          ],
+          "completed": false,
+          "completed_at": null,
+          "owner": "안지호"
+        },
+        {
+          "gid": "1218100803857053",
+          "name": "블로그 콘텐츠 발행",
+          "section": "대기/요청",
+          "due_on": null,
+          "start_on": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218100803857053",
+          "fields": {
+            "담당 파트*": "기획",
+            "분류": "프론트",
+            "우선순위(차수)": "운영"
+          },
+          "subtasks": 19,
+          "followers": [
+            "안지호"
+          ],
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
+        },
+        {
+          "gid": "1217437232950442",
+          "name": "지출 품의 필요",
+          "section": "진행",
+          "due_on": null,
+          "start_on": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1217437232950442",
+          "fields": {
+            "담당 파트*": "기획",
+            "우선순위(차수)": "운영"
+          },
+          "subtasks": 12,
+          "followers": [
+            "안지호"
+          ],
+          "type": "task",
+          "completed": false,
+          "completed_at": null,
+          "owner": "이슬기"
         }
       ]
     }
