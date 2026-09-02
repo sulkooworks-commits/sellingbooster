@@ -1,0 +1,111 @@
+# .github/workflows/asana-sync.yml
+# Asana → GitHub 태스크 연동 (이슬기 담당분, [SB] 셀링부스터_PJT)
+#
+# 사전 준비 (1회):
+#   1. Asana PAT 발급: Asana 우측 상단 프로필 → 설정 → 앱 → 개발자 콘솔
+#      → Personal access token 생성
+#   2. GitHub 저장소 Settings → Secrets and variables → Actions
+#      → New repository secret: 이름 ASANA_PAT, 값 = 발급한 토큰
+#
+# 매일 10:40 KST 실행 (seomonitor 10:35 직후). 수동 실행도 가능 (workflow_dispatch).
+
+name: asana-sync
+
+on:
+  schedule:
+    - cron: "40 1 * * *"   # 01:40 UTC = 10:40 KST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch Asana tasks
+        env:
+          ASANA_PAT: ${{ secrets.ASANA_PAT }}
+        run: |
+          python3 - << 'EOF'
+          import json, os, datetime, urllib.request
+
+          PROJECT_GID  = "1211763974053621"          # [SB] 셀링부스터_PJT
+          ASSIGNEE_GID = "1202564897923990"          # 이슬기 (sulkoo@codef.io)
+          TOKEN = os.environ["ASANA_PAT"]
+          OUT   = "SEO모니터링/data/asana-tasks.json"
+
+          fields = "name,completed,assignee.gid,due_on,start_on,modified_at,memberships.section.name,memberships.project.gid,permalink_url"
+          base = f"https://app.asana.com/api/1.0/projects/{PROJECT_GID}/tasks?opt_fields={fields}&limit=100"
+
+          def get(url):
+              req = urllib.request.Request(url, headers={"Authorization": f"Bearer {TOKEN}"})
+              with urllib.request.urlopen(req, timeout=30) as r:
+                  return json.load(r)
+
+          tasks, url = [], base
+          while url:
+              res = get(url)
+              tasks += res["data"]
+              nxt = res.get("next_page")
+              url = nxt["uri"] if nxt else None
+
+          def section_of(t):
+              for m in t.get("memberships") or []:
+                  proj = (m.get("project") or {}).get("gid")
+                  if proj == PROJECT_GID and m.get("section"):
+                      return m["section"]["name"]
+              return "기타"
+
+          picked = []
+          for t in tasks:
+              a = t.get("assignee") or {}
+              if t.get("completed"): continue
+              if a.get("gid") != ASSIGNEE_GID: continue
+              picked.append({
+                  "gid": t["gid"],
+                  "name": t.get("name") or "(무제)",
+                  "section": section_of(t),
+                  "due_on": t.get("due_on"),
+                  "start_on": t.get("start_on"),
+                  "modified_at": t.get("modified_at"),
+                  "permalink": t.get("permalink_url"),
+              })
+
+          # 정렬: 기한 있는 것 우선(오름차순) → 기한 없음
+          picked.sort(key=lambda x: (x["due_on"] is None, x["due_on"] or "9999", x["name"]))
+
+          now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9)))
+          out = {
+              "generatedAt": now.isoformat(timespec="seconds"),
+              "generatedBy": "github-actions/asana-sync",
+              "source": {
+                  "workspace": "헥토데이터",
+                  "project": "[SB] 셀링부스터_PJT",
+                  "projectGid": PROJECT_GID,
+                  "assignee": "이슬기",
+                  "assigneeGid": ASSIGNEE_GID,
+                  "filter": "completed=false",
+                  "viewUrl": "https://app.asana.com/1/1202264448618168/project/1211763974053621/list/1217214395642369",
+              },
+              "tasks": picked,
+          }
+          os.makedirs(os.path.dirname(OUT), exist_ok=True)
+          with open(OUT, "w", encoding="utf-8") as f:
+              json.dump(out, f, ensure_ascii=False, indent=2)
+          print(f"synced {len(picked)} tasks -> {OUT}")
+          EOF
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "asana-sync-bot"
+          git config user.email "actions@github.com"
+          git add "SEO모니터링/data/asana-tasks.json"
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "chore: asana-tasks.json 갱신 ($(date +'%Y-%m-%d %H:%M KST' -d '+9 hours'))"
+            git push
+          fi
