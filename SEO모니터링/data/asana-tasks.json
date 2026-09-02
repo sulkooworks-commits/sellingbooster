@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-02T21:01:36+09:00",
+  "generatedAt": "2026-09-02T21:12:17+09:00",
   "generatedBy": "github-actions/asana-sync",
   "source": {
     "workspace": "헥토데이터",
@@ -31,10 +31,10 @@
           "gid": "1217181525376571",
           "name": "우피 SEO 지표 리포트",
           "type": "task",
-          "section": "대기/요청",
+          "section": "🚨지연",
           "due_on": "2026-08-07",
           "start_on": null,
-          "modified_at": "2026-08-07T15:50:36.182Z",
+          "modified_at": "2026-09-02T12:11:23.389Z",
           "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1217181525376571",
           "fields": {
             "담당 파트*": "기획",
@@ -50,10 +50,10 @@
           "gid": "1218098674891083",
           "name": "SEO 지표 리포트",
           "type": "task",
-          "section": "대기/요청",
+          "section": "🚨지연",
           "due_on": "2026-08-14",
           "start_on": null,
-          "modified_at": "2026-09-02T11:23:23.785Z",
+          "modified_at": "2026-09-02T12:11:22.137Z",
           "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218098674891083",
           "fields": {
             "담당 파트*": "기획",
@@ -140,10 +140,10 @@
           "gid": "1218100803540900",
           "name": "[SB] 주간업무 현황",
           "type": "task",
-          "section": "대기/요청",
+          "section": "🚨지연",
           "due_on": "2026-08-27",
           "start_on": "2026-08-23",
-          "modified_at": "2026-09-02T10:54:40.513Z",
+          "modified_at": "2026-09-02T12:11:12.703Z",
           "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218100803540900",
           "fields": {
             "담당 파트*": "공통",
@@ -404,42 +404,6 @@
           "permalink": "https://app.asana.com/1/1202264448618168/task/1218092950876374",
           "fields": {},
           "subtasks": 0,
-          "followers": []
-        },
-        {
-          "gid": "1215943925606576",
-          "name": "01_메인 상단 슬라이드",
-          "type": "task",
-          "section": "완료",
-          "due_on": null,
-          "start_on": null,
-          "modified_at": "2026-09-02T11:20:32.270Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1215943925606576",
-          "fields": {
-            "담당 파트*": "기획",
-            "사용환경": "ADMIN",
-            "분류": "어드민(내부)",
-            "우선순위(차수)": "3차"
-          },
-          "subtasks": 4,
-          "followers": []
-        },
-        {
-          "gid": "1215943925606577",
-          "name": "02_광고 배너",
-          "type": "task",
-          "section": "완료",
-          "due_on": null,
-          "start_on": null,
-          "modified_at": "2026-09-02T11:20:43.694Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1215943925606577",
-          "fields": {
-            "담당 파트*": "기획",
-            "사용환경": "APP, ADMIN",
-            "분류": "어드민(내부)",
-            "우선순위(차수)": "3차"
-          },
-          "subtasks": 4,
           "followers": []
         },
         {
