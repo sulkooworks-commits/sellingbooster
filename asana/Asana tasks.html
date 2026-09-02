@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Asana 태스크 연동 — [SB] 셀링부스터_PJT · 이슬기</title>
+<title>Asana 태스크 연동 — [SB] 셀링부스터_PJT</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css">
 <style>
   :root{
@@ -27,33 +27,84 @@
   .head .meta button:disabled{opacity:.55; cursor:default;}
   .head .stamp{opacity:.85;}
 
-  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin-bottom:22px;}
-  .stat{background:var(--card); border-radius:14px; padding:16px 18px;}
+  .tabs{display:flex; gap:8px; margin-bottom:18px;}
+  .tab{flex:none; border:1px solid var(--line); background:var(--card); color:var(--sub);
+    border-radius:12px; padding:10px 22px; font-family:inherit; font-size:14px; font-weight:800; cursor:pointer;}
+  .tab .role{font-size:11.5px; font-weight:700; display:block; color:#9AA1AD;}
+  .tab.on{border-color:var(--violet); color:var(--violet); background:rgba(100,102,250,.06);}
+  .tab.on .role{color:var(--violet); opacity:.75;}
+  .tab:focus-visible{outline:2px solid var(--violet); outline-offset:2px;}
+
+  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:12px; margin-bottom:18px;}
+  .stat{background:var(--card); border-radius:14px; padding:14px 18px;}
   .stat .k{font-size:12px; color:var(--sub); font-weight:700;}
-  .stat .v{font-size:26px; font-weight:800; margin-top:2px;}
+  .stat .v{font-size:24px; font-weight:800; margin-top:2px;}
   .stat.red .v{color:var(--red);}
   .stat.violet .v{color:var(--violet);}
   .stat.teal .v{color:var(--teal);}
+  .stat.click{cursor:pointer; border:1px solid transparent;}
+  .stat.click:hover, .stat.click:focus-visible{border-color:var(--violet);}
 
-  .card{background:var(--card); border-radius:16px; padding:24px 28px; margin-bottom:18px;}
+  /* 필터 */
+  .filter{background:var(--card); border-radius:16px; padding:18px 22px; margin-bottom:14px;}
+  .frow{display:flex; align-items:flex-start; gap:12px; padding:6px 0; flex-wrap:wrap;}
+  .frow + .frow{border-top:1px dashed #EDEFF3;}
+  .flabel{flex:none; width:74px; font-size:12.5px; font-weight:800; color:var(--sub); padding-top:4px;}
+  .fchips{display:flex; gap:6px; flex-wrap:wrap; flex:1;}
+  .fchip{border:1px solid var(--line); background:#fff; color:var(--sub); border-radius:16px;
+    padding:3px 12px; font-family:inherit; font-size:12px; font-weight:700; cursor:pointer;}
+  .fchip.on{border-color:var(--violet); color:var(--violet); background:rgba(100,102,250,.08);}
+  .fchip:focus-visible{outline:2px solid var(--violet); outline-offset:1px;}
+  .fdates{display:flex; gap:6px; align-items:center; flex-wrap:wrap; font-size:12px; color:var(--sub);}
+  .fdates input[type=date]{border:1px solid var(--line); border-radius:8px; padding:3px 8px;
+    font-family:inherit; font-size:12px; color:var(--ink); background:#fff;}
+  .freset{margin-left:auto; border:1px solid var(--line); background:#fff; color:var(--sub);
+    border-radius:16px; padding:3px 14px; font-family:inherit; font-size:12px; font-weight:700; cursor:pointer;}
+  .freset:hover{border-color:var(--red); color:var(--red);}
+  .fcount{font-size:12px; color:#9AA1AD; padding-top:5px;}
+
+  /* 섹션 스티키 내비 */
+  .secnav{position:sticky; top:0; z-index:50; background:var(--bg);
+    display:flex; gap:8px; overflow-x:auto; padding:10px 0 12px; margin-bottom:6px;}
+  .snav{flex:none; border:1px solid var(--line); background:var(--card); color:var(--sub);
+    border-radius:18px; padding:6px 16px; font-family:inherit; font-size:12.5px; font-weight:800; cursor:pointer; white-space:nowrap;}
+  .snav small{font-weight:700; color:#9AA1AD;}
+  .snav.on{border-color:var(--violet); color:var(--violet); background:rgba(100,102,250,.08);}
+  .snav.on small{color:var(--violet);}
+  .snav:focus-visible{outline:2px solid var(--violet); outline-offset:1px;}
+
+  .card{background:var(--card); border-radius:16px; padding:24px 28px; margin-bottom:18px; scroll-margin-top:64px;}
   .card h2{font-size:16.5px; font-weight:800; padding-left:12px; border-left:5px solid var(--violet); margin-bottom:6px;}
   .card.delay h2{border-left-color:var(--red);}
   .card.doing h2{border-left-color:var(--teal);}
+  .card.msblock h2{border-left-color:var(--violet);}
+  .card.donelist h2{border-left-color:#9AA1AD;}
   .card .cnt{font-size:12.5px; color:var(--sub); margin-bottom:12px; padding-left:17px;}
 
   table{width:100%; border-collapse:collapse; font-size:13.5px;}
   th{background:#0F172A; color:#fff; font-weight:700; padding:9px 12px; text-align:center; font-size:12.5px;}
   th:first-child{border-radius:10px 0 0 0;} th:last-child{border-radius:0 10px 0 0;}
+  th.sortable{cursor:pointer; user-select:none;}
+  th.sortable:hover{background:#1E2939;}
+  th .arw{font-size:10px; opacity:.55; margin-left:3px;}
+  th.sorted .arw{opacity:1; color:#FFD600;}
   td{padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:middle;}
-  td.name{text-align:left;} td.due,td.start,td.mod,td.part,td.cat,td.phase,td.sub{text-align:center; white-space:nowrap; color:var(--sub);}
+  td.name{text-align:left;}
+  td.due,td.mod,td.part,td.cat,td.phase,td.sub{text-align:center; white-space:nowrap; color:var(--sub);}
   tr:last-child td{border-bottom:none;}
   td.name a{color:var(--ink); text-decoration:none; font-weight:700;}
   td.name a:hover, td.name a:focus-visible{color:var(--violet); text-decoration:underline;}
+  tr.ms td{background:rgba(100,102,250,.05);}
+  tr.done td{background:rgba(128,128,128,.03);}
+  tr.done td.name a{color:#8A919E;}
+  tr.urgent td{background:rgba(255,214,0,.16);}
+  tr.urgent td.due .badge{border:1px solid rgba(200,160,0,.45);}
 
   .badge{display:inline-block; border-radius:5px; padding:1px 8px; font-weight:700; font-size:12px;}
   .badge.over{background:rgba(214,35,43,.1); color:var(--red); border:1px solid rgba(214,35,43,.35);}
   .badge.today{background:rgba(100,102,250,.12); color:var(--violet);}
   .badge.week{background:rgba(0,177,189,.1); color:#00838C;}
+  .badge.fin{background:rgba(0,177,189,.1); color:#00838C;}
   .badge.none{color:#9AA1AD;}
 
   .chip{display:inline-block; border-radius:5px; padding:1px 8px; font-weight:700; font-size:11.5px;
@@ -65,28 +116,17 @@
   .detail{margin-top:3px; font-size:11.5px; color:#8A919E; font-weight:400;}
   .detail b{color:var(--sub); font-weight:700;}
   .subcnt{color:var(--sub); font-weight:700;}
-
-  tr.ms td{background:rgba(100,102,250,.05);}
-  .msmark{display:inline-block; margin-right:6px; border-radius:5px; padding:1px 7px;
-    font-size:11px; font-weight:800; color:var(--violet);
-    background:rgba(100,102,250,.12); border:1px solid rgba(100,102,250,.35);}
   .range{font-size:11.5px; color:#8A919E; display:block; line-height:1.3;}
-
-  .tabs{display:flex; gap:8px; margin-bottom:18px;}
-  .tab{flex:none; border:1px solid var(--line); background:var(--card); color:var(--sub);
-    border-radius:12px; padding:10px 22px; font-family:inherit; font-size:14px; font-weight:800; cursor:pointer;}
-  .tab .role{font-size:11.5px; font-weight:700; display:block; color:#9AA1AD;}
-  .tab.on{border-color:var(--violet); color:var(--violet); background:rgba(100,102,250,.06);}
-  .tab.on .role{color:var(--violet); opacity:.75;}
-  .tab:focus-visible{outline:2px solid var(--violet); outline-offset:2px;}
 
   .note{background:var(--card); border:1px dashed #C6CBD6; border-radius:14px; padding:18px 22px; font-size:13px; color:var(--sub);}
   .note b{color:var(--ink);}
   .err{background:var(--card); border-radius:16px; padding:26px 28px; font-size:14px;}
   .err b{color:var(--red);}
+  .empty{background:var(--card); border-radius:16px; padding:22px 28px; font-size:13.5px; color:var(--sub);}
   @media (max-width:640px){
     .head{padding:24px 22px;} .card{padding:18px 16px;}
-    td.start,th.start,td.mod,th.mod,td.cat,th:nth-child(3),td.sub,th:nth-child(6){display:none;}
+    td.mod,th.mod,td.cat,th.cat,td.sub,th.sub{display:none;}
+    .flabel{width:100%;}
   }
 </style>
 </head>
@@ -94,7 +134,7 @@
 <div class="wrap">
   <div class="head">
     <h1>Asana 태스크 연동</h1>
-    <div class="sub">[SB] 셀링부스터_PJT · 인원별 미완료 현황 (하위 태스크 포함) · 매일 10:40 자동 갱신</div>
+    <div class="sub">[SB] 셀링부스터_PJT · 미완료 전체 + 완료 30일 · 하위 태스크 포함 · 매일 10:40 자동 갱신</div>
     <div class="meta">
       <button id="btn-run" type="button">▶ 지금 수집 실행</button>
       <button id="btn-refresh" type="button">↻ 데이터 새로고침</button>
@@ -105,40 +145,359 @@
 
   <div class="tabs" id="tabs" role="tablist"></div>
   <div class="stats" id="stats"></div>
+
+  <div class="filter" id="filter"></div>
+  <nav class="secnav" id="secnav"></nav>
   <div id="sections"></div>
 
   <div class="note">
-    <b>수집 방식</b> — GitHub Actions(asana-sync.yml)가 매일 10:40 KST에 Asana API로 미완료 태스크를 수집해
-    <code>data/asana-tasks.json</code>을 갱신. 완료 처리된 태스크는 다음 수집부터 목록에서 제외.
-    기한초과 판정은 페이지 열람 시점(브라우저 날짜) 기준.
+    <b>수집 방식</b> — GitHub Actions(asana-sync.yml)가 매일 10:40 KST에 검색 API로
+    미완료 전체 + 최근 30일 완료분을 수집해 <code>data/asana-tasks.json</code>을 갱신.
+    30일이 지난 완료 태스크는 다음 수집부터 목록에서 제외. 기한초과 판정은 열람 시점(브라우저 날짜) 기준.
   </div>
 </div>
 
 <script>
 (async function(){
-  const SEC_ORDER = ["🚨지연","진행","대기/요청","완료(섹션)","기타"];
-  const SEC_CLASS = {"🚨지연":"delay","진행":"doing"};
   const $ = id => document.getElementById(id);
-
   const REPO = "sulkooworks-commits/sellingbooster";
   const WORKFLOW = "asana-sync.yml";
   const RAW_JSON = `https://raw.githubusercontent.com/${REPO}/main/` +
                    encodeURIComponent("SEO모니터링") + "/data/asana-tasks.json";
-  const TOKEN_KEY = "sb_gh_token";   // seo-monitoring과 동일 토큰 사용 가능 (fine-grained, Actions:write / Contents:read)
+  const TOKEN_KEY = "sb_gh_token";
 
-  let data = null;
-  let tabsData = [];
-  let active = 0;
+  const GROUPS = [
+    {id:"sec-delay",   label:"🚨지연",        cls:"delay"},
+    {id:"sec-ms",      label:"◆ 마일스톤",    cls:"msblock"},
+    {id:"sec-doing",   label:"진행",          cls:"doing"},
+    {id:"sec-wait",    label:"대기/요청",     cls:""},
+    {id:"sec-donesec", label:"완료(섹션)",    cls:""},
+    {id:"sec-etc",     label:"기타",          cls:""},
+    {id:"sec-completed",label:"✅ 완료 (30일)",cls:"donelist"},
+  ];
+  const FIELD_CATS = [
+    {key:"담당 파트*",     label:"파트",  fkey:"part"},
+    {key:"분류",           label:"분류",  fkey:"cat"},
+    {key:"우선순위(차수)", label:"차수",  fkey:"phase"},
+  ];
+  const NONE = "(미지정)";
 
+  let data = null, tabsData = [], active = 0;
+  const filters = {type:new Set(), part:new Set(), cat:new Set(), phase:new Set(),
+                   dueFrom:"", dueTo:"", modFrom:"", modTo:""};
+
+  const today = new Date(); today.setHours(0,0,0,0);
+  const in7 = new Date(today); in7.setDate(in7.getDate()+7);
+  const D = s => { const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); };
+  const fmt = s => s ? s.slice(5).replace("-","/") : "";
+  const F = (t,k)=> (t.fields||{})[k] || "";
+  const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+
+  const normSection = t => {
+    let s = t.section || "기타";
+    if(s === "완료") s = "완료(섹션)";
+    return s;
+  };
+  const groupOf = t => {
+    if(t.completed) return "sec-completed";
+    if(t.type === "milestone") return "sec-ms";
+    const s = normSection(t);
+    if(s === "🚨지연") return "sec-delay";
+    if(s === "진행") return "sec-doing";
+    if(s === "대기/요청") return "sec-wait";
+    if(s === "완료(섹션)") return "sec-donesec";
+    return "sec-etc";
+  };
+
+  /* ---------- 필터 ---------- */
+  function chipVal(t, catKey){ return F(t, catKey) || NONE; }
+
+  function passFilters(t){
+    if(filters.type.size){
+      const ty = t.type === "milestone" ? "마일스톤" : "작업";
+      if(!filters.type.has(ty)) return false;
+    }
+    for(const fc of FIELD_CATS){
+      const sel = filters[fc.fkey];
+      if(sel.size && !sel.has(chipVal(t, fc.key))) return false;
+    }
+    if(filters.dueFrom || filters.dueTo){
+      if(!t.due_on) return false;
+      if(filters.dueFrom && t.due_on < filters.dueFrom) return false;
+      if(filters.dueTo   && t.due_on > filters.dueTo)   return false;
+    }
+    if(filters.modFrom || filters.modTo){
+      const m = (t.modified_at || "").slice(0,10);
+      if(!m) return false;
+      if(filters.modFrom && m < filters.modFrom) return false;
+      if(filters.modTo   && m > filters.modTo)   return false;
+    }
+    return true;
+  }
+
+  function buildFilterUI(){
+    const tasks = tabsData[active].tasks || [];
+    const opts = {};
+    for(const fc of FIELD_CATS){
+      const set = new Set();
+      tasks.forEach(t=> set.add(chipVal(t, fc.key)));
+      opts[fc.fkey] = [...set].sort((a,b)=> (a===NONE)-(b===NONE) || a.localeCompare(b,"ko"));
+      // 사라진 옵션의 선택값 정리
+      [...filters[fc.fkey]].forEach(v=>{ if(!set.has(v)) filters[fc.fkey].delete(v); });
+    }
+    const chipHtml = (fkey, vals) => vals.map(v=>
+      `<button type="button" class="fchip ${filters[fkey].has(v)?"on":""}" data-f="${fkey}" data-v="${esc(v)}">${esc(v)}</button>`).join("");
+
+    $("filter").innerHTML = `
+      <div class="frow">
+        <div class="flabel">유형</div>
+        <div class="fchips">${chipHtml("type", ["작업","마일스톤"])}</div>
+        <button type="button" class="freset" id="f-reset">필터 초기화</button>
+      </div>
+      ${FIELD_CATS.map(fc=>`
+      <div class="frow">
+        <div class="flabel">${fc.label}</div>
+        <div class="fchips">${chipHtml(fc.fkey, opts[fc.fkey])}</div>
+      </div>`).join("")}
+      <div class="frow">
+        <div class="flabel">일정</div>
+        <div class="fdates">
+          <input type="date" id="f-due-from" value="${filters.dueFrom}"> ~
+          <input type="date" id="f-due-to" value="${filters.dueTo}">
+          <span>(마감일 기준 · 기한 미지정 태스크는 제외)</span>
+        </div>
+      </div>
+      <div class="frow">
+        <div class="flabel">최근 수정</div>
+        <div class="fdates">
+          <input type="date" id="f-mod-from" value="${filters.modFrom}"> ~
+          <input type="date" id="f-mod-to" value="${filters.modTo}">
+        </div>
+        <div class="fcount" id="f-count"></div>
+      </div>`;
+
+    $("filter").querySelectorAll(".fchip").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const set = filters[btn.dataset.f], v = btn.dataset.v;
+        set.has(v) ? set.delete(v) : set.add(v);
+        buildFilterUI(); renderBody();
+      });
+    });
+    const bindDate = (id, key)=> $(id).addEventListener("change", e=>{ filters[key]=e.target.value; renderBody(); });
+    bindDate("f-due-from","dueFrom"); bindDate("f-due-to","dueTo");
+    bindDate("f-mod-from","modFrom"); bindDate("f-mod-to","modTo");
+    $("f-reset").addEventListener("click", ()=>{
+      filters.type.clear(); FIELD_CATS.forEach(fc=>filters[fc.fkey].clear());
+      filters.dueFrom=filters.dueTo=filters.modFrom=filters.modTo="";
+      buildFilterUI(); renderBody();
+    });
+  }
+
+  /* ---------- 렌더 ---------- */
+  const badge = t => {
+    if(t.completed){
+      const c = (t.completed_at||"").slice(0,10);
+      return `<span class="badge fin">✔ ${c?fmt(c):""} 완료</span>`;
+    }
+    if(!t.due_on) return '<span class="badge none">－</span>';
+    const d = D(t.due_on), label = fmt(t.due_on);
+    if(d < today)   return `<span class="badge over">${label} 초과</span>`;
+    if(+d === +today) return `<span class="badge today">오늘</span>`;
+    if(d <= in7)    return `<span class="badge week">${label}</span>`;
+    return label;
+  };
+  const schedule = t => {
+    let out = "";
+    if(t.start_on) out += `<span class="range">${fmt(t.start_on)} 시작</span>`;
+    out += badge(t);
+    if(t.completed && t.due_on) out += `<span class="range">마감 ${fmt(t.due_on)}</span>`;
+    return out;
+  };
+  const phaseChip = v => {
+    if(!v) return "";
+    const cls = v==="운영" ? "ops" : v==="내부점검" ? "check" : v==="보류" ? "hold" : "phase";
+    return `<span class="chip ${cls}">${esc(v)}</span>`;
+  };
+  const detailLine = t => {
+    const parts = [];
+    const env = F(t,"사용환경"), eff = F(t,"공수"), pid = F(t,"P ID"),
+          reason = F(t,"사유"), kind = F(t,"구분*");
+    if(tabsData[active] && tabsData[active].role === "공통" && t.owner)
+      parts.push(`<b>담당</b> ${esc(t.owner)}`);
+    if(t.type==="milestone") parts.push(`<b>섹션</b> ${esc(normSection(t))}`);
+    if(env) parts.push(`<b>환경</b> ${esc(env)}`);
+    if(kind) parts.push(`<b>구분</b> ${esc(kind)}`);
+    if(eff) parts.push(`<b>공수</b> ${esc(eff)}`);
+    if(pid) parts.push(`<b>P ID</b> ${esc(pid)}`);
+    if(t.followers && t.followers.length) parts.push(`<b>협업</b> ${esc(t.followers.join(", "))}`);
+    if(reason) parts.push(`<b>사유</b> ${esc(reason)}`);
+    return parts.length ? `<div class="detail">${parts.join(" · ")}</div>` : "";
+  };
+
+  const yesterday = new Date(today); yesterday.setDate(yesterday.getDate()-1);
+  const isUrgent = t => {
+    // 지연 섹션 제외, 미완료 태스크의 마감이 전일 또는 당일이면 강조
+    if(t.completed || !t.due_on) return false;
+    if(groupOf(t) === "sec-delay") return false;
+    const d = D(t.due_on);
+    return +d === +today || +d === +yesterday;
+  };
+
+  const row = t => `<tr class="${t.type==="milestone"?"ms":""}${t.completed?" done":""}${isUrgent(t)?" urgent":""}">
+    <td class="name"><a href="${t.permalink}" target="_blank" rel="noopener noreferrer">${esc(t.name)}</a>${detailLine(t)}</td>
+    <td class="part">${F(t,"담당 파트*") ? `<span class="chip">${esc(F(t,"담당 파트*"))}</span>` : "－"}</td>
+    <td class="cat">${esc(F(t,"분류")) || "－"}</td>
+    <td class="phase">${phaseChip(F(t,"우선순위(차수)")) || "－"}</td>
+    <td class="due">${schedule(t)}</td>
+    <td class="sub">${t.subtasks ? `<span class="subcnt">${t.subtasks}</span>` : "－"}</td>
+    <td class="mod">${t.modified_at ? t.modified_at.slice(5,10).replace("-","/") : "－"}</td>
+  </tr>`;
+
+  function renderTabs(){
+    $("tabs").innerHTML = tabsData.map((tb,i)=>{
+      const inc = (tb.tasks||[]).filter(t=>!t.completed).length;
+      return `<button class="tab ${i===active?"on":""}" role="tab" aria-selected="${i===active}" data-i="${i}">
+        <span class="role">${esc(tb.role)}</span>${esc(tb.name)} <small>(${inc})</small>
+      </button>`;
+    }).join("");
+    $("tabs").querySelectorAll(".tab").forEach(btn=>{
+      btn.addEventListener("click", ()=>{ active = +btn.dataset.i; renderTabs(); buildFilterUI(); renderStats(); renderBody(); });
+    });
+  }
+
+  function renderStats(){
+    const tasks = tabsData[active].tasks || [];
+    const inc = tasks.filter(t=>!t.completed);
+    const overdue = inc.filter(t=>t.due_on && D(t.due_on) < today);
+    const thisWeek = inc.filter(t=>t.due_on && D(t.due_on) >= today && D(t.due_on) <= in7);
+    const noDue = inc.filter(t=>!t.due_on);
+    const ms = inc.filter(t=>t.type==="milestone");
+    const done30 = tasks.filter(t=>t.completed);
+
+    $("stats").innerHTML = [
+      ["전체 미완료", inc.length, "", null],
+      ["작업", inc.length - ms.length, "", null],
+      ["마일스톤", ms.length, "violet", "sec-ms"],
+      ["기한초과", overdue.length, "red", null],
+      ["7일 내 마감", thisWeek.length, "violet", null],
+      ["기한 미지정", noDue.length, "teal", null],
+      ["완료 (30일)", done30.length, "teal", "sec-completed"],
+    ].map(([k,v,c,go])=>
+      `<div class="stat ${c} ${go?"click":""}" ${go?`data-go="${go}" tabindex="0" role="button"`:""}>
+        <div class="k">${k}</div><div class="v">${v}</div>
+      </div>`).join("");
+    $("stats").querySelectorAll(".stat.click").forEach(el=>{
+      const go = ()=>{ const s=$(el.dataset.go); if(s) s.scrollIntoView({behavior:"smooth"}); };
+      el.addEventListener("click", go);
+      el.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" ") { e.preventDefault(); go(); } });
+    });
+  }
+
+  let spyHandler = null;
+  let sortKey = null, sortDir = 1;   // null = 기본 정렬 (마감 오름차순 / 완료 단락은 완료일 내림차순)
+
+  const SORT_COLS = [
+    {key:"name",  label:"태스크",           cls:"name-h"},
+    {key:"part",  label:"파트",             cls:""},
+    {key:"cat",   label:"분류",             cls:"cat"},
+    {key:"phase", label:"차수",             cls:""},
+    {key:"due",   label:"일정 (시작·마감)", cls:""},
+    {key:"sub",   label:"하위",             cls:"sub"},
+    {key:"mod",   label:"최근 수정",        cls:"mod"},
+  ];
+  const sortVal = (t, key) => {
+    switch(key){
+      case "name":  return t.name || "";
+      case "part":  return F(t,"담당 파트*") || "\uFFFF";      // 미지정 뒤로
+      case "cat":   return F(t,"분류") || "\uFFFF";
+      case "phase": return F(t,"우선순위(차수)") || "\uFFFF";
+      case "due":   return t.completed ? (t.completed_at || "") : (t.due_on || "9999-99-99");
+      case "sub":   return t.subtasks || 0;
+      case "mod":   return t.modified_at || "";
+      default:      return "";
+    }
+  };
+  const userSort = (a,b) => {
+    const va = sortVal(a, sortKey), vb = sortVal(b, sortKey);
+    let c;
+    if(typeof va === "number" && typeof vb === "number") c = va - vb;
+    else c = String(va).localeCompare(String(vb), "ko");
+    return c * sortDir || a.name.localeCompare(b.name, "ko");
+  };
+
+  function renderBody(){
+    const all = tabsData[active].tasks || [];
+    const shown = all.filter(passFilters);
+    const cnt = $("f-count");
+    if(cnt) cnt.textContent = `필터 결과 ${shown.length} / ${all.length}건`;
+
+    const buckets = {};
+    GROUPS.forEach(g=> buckets[g.id]=[]);
+    shown.forEach(t=> buckets[groupOf(t)].push(t));
+
+    const sortInc = (a,b)=> (a.due_on===null)-(b.due_on===null) || String(a.due_on).localeCompare(String(b.due_on)) || a.name.localeCompare(b.name,"ko");
+    const sortDone = (a,b)=> String(b.completed_at||"").localeCompare(String(a.completed_at||""));
+
+    const arw = k => sortKey===k ? (sortDir===1 ? "▲" : "▼") : "↕";
+    const thead = `<thead><tr>${SORT_COLS.map(c=>
+      `<th class="sortable ${c.cls} ${sortKey===c.key?"sorted":""}" data-key="${c.key}">${c.label}<span class="arw">${arw(c.key)}</span></th>`
+    ).join("")}</tr></thead>`;
+
+    const visible = GROUPS.filter(g=> buckets[g.id].length);
+    $("secnav").innerHTML = visible.map(g=>
+      `<button type="button" class="snav" data-go="${g.id}">${g.label} <small>${buckets[g.id].length}</small></button>`).join("");
+    $("secnav").querySelectorAll(".snav").forEach(btn=>{
+      btn.addEventListener("click", ()=>{ const s=$(btn.dataset.go); if(s) s.scrollIntoView({behavior:"smooth"}); });
+    });
+
+    $("sections").innerHTML = visible.length ? visible.map(g=>{
+      const defSort = g.id==="sec-completed" ? sortDone : sortInc;
+      const list = buckets[g.id].slice().sort(sortKey ? userSort : defSort);
+      return `<div class="card ${g.cls}" id="${g.id}">
+        <h2>${g.label}</h2><div class="cnt">${list.length}건</div>
+        <table>
+          <colgroup><col style="width:37%"><col style="width:9%"><col style="width:12%"><col style="width:11%"><col style="width:13%"><col style="width:7%"><col style="width:11%"></colgroup>
+          ${thead}
+          <tbody>${list.map(row).join("")}</tbody>
+        </table>
+      </div>`;
+    }).join("") : '<div class="empty">필터 조건에 해당하는 태스크가 없습니다. 조건을 조정하거나 「필터 초기화」를 눌러주세요.</div>';
+
+    // 정렬 헤더: 클릭 시 오름차순 → 내림차순 → 기본 정렬 순환 (전 섹션 공통 적용)
+    $("sections").querySelectorAll("th.sortable").forEach(th=>{
+      th.addEventListener("click", ()=>{
+        const k = th.dataset.key;
+        if(sortKey !== k){ sortKey = k; sortDir = 1; }
+        else if(sortDir === 1){ sortDir = -1; }
+        else { sortKey = null; sortDir = 1; }
+        renderBody();
+      });
+    });
+
+    // 스크롤 스파이
+    if(spyHandler) window.removeEventListener("scroll", spyHandler);
+    const navBtns = [...$("secnav").querySelectorAll(".snav")];
+    spyHandler = ()=>{
+      let cur = null;
+      for(const g of visible){
+        const el = $(g.id);
+        if(el && el.getBoundingClientRect().top <= 90) cur = g.id;
+      }
+      navBtns.forEach(b=> b.classList.toggle("on", b.dataset.go === cur));
+    };
+    window.addEventListener("scroll", spyHandler, {passive:true});
+    spyHandler();
+  }
+
+  /* ---------- 데이터 로드 / 버튼 ---------- */
   async function loadData(fresh){
-    // fresh=true면 raw.githubusercontent 우선 (Pages 재배포 전에도 최신 커밋 반영)
     const urls = fresh ? [RAW_JSON + "?t=" + Date.now(), "data/asana-tasks.json?t=" + Date.now()]
                        : ["data/asana-tasks.json?t=" + Date.now(), RAW_JSON + "?t=" + Date.now()];
     for(const u of urls){
       try{
         const res = await fetch(u, {cache:"no-store"});
         if(res.ok) return await res.json();
-      }catch(e){ /* 다음 후보 */ }
+      }catch(e){}
     }
     return null;
   }
@@ -152,8 +511,7 @@
       " · " + (data.generatedBy || "");
     tabsData = data.tabs || [{name:"", role:"", tasks:(data.tasks||[])}];
     if(active >= tabsData.length) active = 0;
-    renderTabs();
-    render();
+    renderTabs(); buildFilterUI(); renderStats(); renderBody();
   }
 
   function getToken(){
@@ -173,11 +531,7 @@
     try{
       const res = await fetch(`https://api.github.com/repos/${REPO}/actions/workflows/${WORKFLOW}/dispatches`, {
         method: "POST",
-        headers: {
-          "Authorization": "Bearer " + tk,
-          "Accept": "application/vnd.github+json",
-          "Content-Type": "application/json",
-        },
+        headers: {"Authorization": "Bearer " + tk, "Accept": "application/vnd.github+json", "Content-Type": "application/json"},
         body: JSON.stringify({ref: "main"}),
       });
       if(res.status === 401 || res.status === 403){
@@ -186,7 +540,6 @@
         btn.disabled = false; btn.textContent = "▶ 지금 수집 실행"; return;
       }
       if(res.status !== 204) throw new Error("HTTP " + res.status);
-      // 수집(약 30초) + 커밋 대기 후 raw 기준으로 자동 새로고침
       let left = 75;
       const timer = setInterval(async ()=>{
         left -= 15;
@@ -223,107 +576,6 @@
       '스냅샷 파일이 커밋되었는지, asana-sync 워크플로가 1회 이상 실행되었는지 확인해 주세요.</div>';
     return;
   }
-
-  const today = new Date(); today.setHours(0,0,0,0);
-  const in7 = new Date(today); in7.setDate(in7.getDate()+7);
-  const D = s => { const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); };
-
-  const fmt = s => s ? s.slice(5).replace("-","/") : "";
-  const badge = t => {
-    if(!t.due_on) return '<span class="badge none">－</span>';
-    const d = D(t.due_on), label = fmt(t.due_on);
-    if(d < today)   return `<span class="badge over">${label} 초과</span>`;
-    if(+d === +today) return `<span class="badge today">오늘</span>`;
-    if(d <= in7)    return `<span class="badge week">${label}</span>`;
-    return label;
-  };
-  const schedule = t => {
-    const b = badge(t);
-    if(t.start_on) return `<span class="range">${fmt(t.start_on)} 시작</span>${b}`;
-    return b;
-  };
-
-  const F = (t,k)=> (t.fields||{})[k] || "";
-  const phaseChip = v => {
-    if(!v) return "";
-    const cls = v==="운영" ? "ops" : v==="내부점검" ? "check" : v==="보류" ? "hold" : "phase";
-    return `<span class="chip ${cls}">${v}</span>`;
-  };
-  const detailLine = t => {
-    const parts = [];
-    const env = F(t,"사용환경"), eff = F(t,"공수"), pid = F(t,"P ID"),
-          reason = F(t,"사유"), kind = F(t,"구분*");
-    if(env) parts.push(`<b>환경</b> ${env}`);
-    if(kind) parts.push(`<b>구분</b> ${kind}`);
-    if(eff) parts.push(`<b>공수</b> ${eff}`);
-    if(pid) parts.push(`<b>P ID</b> ${pid}`);
-    if(t.followers && t.followers.length) parts.push(`<b>협업</b> ${t.followers.join(", ")}`);
-    if(reason) parts.push(`<b>사유</b> ${reason}`);
-    return parts.length ? `<div class="detail">${parts.join(" · ")}</div>` : "";
-  };
-
-  // 탭: 팀 업무 종류 기준 (기획 이슬기 / 마케팅 안지호) — Asana 파트 필드와 무관
-  // tabsData / active 는 applyData()가 채움
-
-  function renderTabs(){
-    $("tabs").innerHTML = tabsData.map((tb,i)=>
-      `<button class="tab ${i===active?"on":""}" role="tab" aria-selected="${i===active}" data-i="${i}">
-        <span class="role">${tb.role}</span>${tb.name} <small>(${tb.tasks.length})</small>
-      </button>`).join("");
-    $("tabs").querySelectorAll(".tab").forEach(btn=>{
-      btn.addEventListener("click", ()=>{ active = +btn.dataset.i; renderTabs(); render(); });
-    });
-  }
-
-  function render(){
-    const tasks = tabsData[active].tasks || [];
-    const overdue = tasks.filter(t=>t.due_on && D(t.due_on) < today);
-    const thisWeek = tasks.filter(t=>t.due_on && D(t.due_on) >= today && D(t.due_on) <= in7);
-    const delayed = tasks.filter(t=>t.section==="🚨지연");
-    const noDue = tasks.filter(t=>!t.due_on);
-    const milestones = tasks.filter(t=>t.type==="milestone");
-
-    $("stats").innerHTML = [
-      ["전체 미완료", tasks.length, ""],
-      ["작업", tasks.length - milestones.length, ""],
-      ["마일스톤", milestones.length, "violet"],
-      ["기한초과", overdue.length, "red"],
-      ["지연 섹션", delayed.length, "red"],
-      ["7일 내 마감", thisWeek.length, "violet"],
-      ["기한 미지정", noDue.length, "teal"],
-    ].map(([k,v,c])=>`<div class="stat ${c}"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("");
-
-    const groups = {};
-    tasks.forEach(t=>{ (groups[t.section] ||= []).push(t); });
-    const keys = [...SEC_ORDER.filter(s=>groups[s]), ...Object.keys(groups).filter(s=>!SEC_ORDER.includes(s))];
-
-    $("sections").innerHTML = keys.map(sec=>{
-      const rows = groups[sec]
-        .slice()
-        .sort((a,b)=>
-          (a.type==="milestone" ? 0 : 1) - (b.type==="milestone" ? 0 : 1) ||
-          (a.due_on===null)-(b.due_on===null) ||
-          String(a.due_on).localeCompare(String(b.due_on)))
-        .map(t=>`<tr${t.type==="milestone" ? ' class="ms"' : ''}>
-          <td class="name">${t.type==="milestone" ? '<span class="msmark">◆ 마일스톤</span>' : ''}<a href="${t.permalink}" target="_blank" rel="noopener noreferrer">${t.name}</a>${detailLine(t)}</td>
-          <td class="part">${F(t,"담당 파트*") ? `<span class="chip">${F(t,"담당 파트*")}</span>` : "－"}</td>
-          <td class="cat">${F(t,"분류") || "－"}</td>
-          <td class="phase">${phaseChip(F(t,"우선순위(차수)")) || "－"}</td>
-          <td class="due">${schedule(t)}</td>
-          <td class="sub">${t.subtasks ? `<span class="subcnt">${t.subtasks}</span>` : "－"}</td>
-          <td class="mod">${t.modified_at ? t.modified_at.slice(5,10).replace("-","/") : "－"}</td>
-        </tr>`).join("");
-      return `<div class="card ${SEC_CLASS[sec]||""}">
-        <h2>${sec}</h2><div class="cnt">${groups[sec].length}건</div>
-        <table>
-          <colgroup><col style="width:37%"><col style="width:9%"><col style="width:12%"><col style="width:11%"><col style="width:13%"><col style="width:7%"><col style="width:11%"></colgroup>
-          <thead><tr><th>태스크</th><th>파트</th><th>분류</th><th>차수</th><th>일정 (시작·마감)</th><th>하위</th><th class="mod">최근 수정</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>`;
-    }).join("");
-  }
-
   applyData(first);
 })();
 </script>
