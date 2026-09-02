@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-02T21:00:30+09:00",
+  "generatedAt": "2026-09-02T21:01:36+09:00",
   "generatedBy": "github-actions/asana-sync",
   "source": {
     "workspace": "헥토데이터",
@@ -1081,10 +1081,10 @@
           "gid": "1218083749653985",
           "name": "[SB] 미래아이엔씨 선지급(가품의) ",
           "type": "task",
-          "section": "🚨지연",
+          "section": "대기/요청",
           "due_on": "2026-09-30",
           "start_on": null,
-          "modified_at": "2026-09-02T11:17:46.901Z",
+          "modified_at": "2026-09-02T12:01:01.709Z",
           "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218083749653985",
           "fields": {
             "담당 파트*": "공통"
