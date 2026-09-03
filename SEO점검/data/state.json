@@ -1,0 +1,41 @@
+{
+  "history": [],
+  "tools": [
+    {
+      "id": "hihook",
+      "label": "하이훅 솔루션",
+      "url": ""
+    }
+  ],
+  "guides": [
+    {
+      "id": "g1",
+      "label": "SEO 기본 가이드",
+      "url": ""
+    },
+    {
+      "id": "g2",
+      "label": "pSEO 설정 가이드",
+      "url": ""
+    }
+  ],
+  "channels": [
+    {
+      "id": "naver",
+      "label": "네이버 블로그",
+      "url": "https://blog.naver.com/sellingbooster"
+    },
+    {
+      "id": "sb",
+      "label": "셀링부스터 블로그",
+      "url": "https://sellingbooster.io/community/blog"
+    },
+    {
+      "id": "ktrend",
+      "label": "K트렌드 매거진",
+      "url": "https://sellingbooster.io/community/blog?category=SELLING_TREND"
+    }
+  ],
+  "docLinks": [],
+  "updatedAt": null
+}
