@@ -15,7 +15,7 @@ body{font-family:'NanumSquare',sans-serif;background:#F3F4F7;color:#0F172A;font-
 #topbar button{border:1px solid #D8DBE2;background:#fff;border-radius:8px;padding:7px 14px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;color:#0F172A}
 #topbar button:hover{border-color:#6466FA;color:#6466FA}
 #doc{max-width:1080px;margin:0 auto;padding:26px 20px 60px}
-.card{background:#fff;border-radius:16px;padding:30px 34px;margin-bottom:22px}
+.card{scroll-margin-top:64px;background:#fff;border-radius:16px;padding:30px 34px;margin-bottom:22px}
 .head{background:linear-gradient(115deg,#6466FA,#5B7BF7,#00B1BD);border-radius:16px;padding:38px 40px;color:#fff;margin-bottom:22px}
 .head h1{font-size:28px;font-weight:800;letter-spacing:-.3px}
 .head p{margin-top:10px;font-size:13.5px;opacity:.92}
@@ -89,6 +89,17 @@ body.pdf-mode .head h1{font-size:23px}
 body.pdf-mode .mark{background:rgba(255,214,0,.45);box-decoration-break:clone}
 body.pdf-mode .ul{box-shadow:none;border-bottom:3px solid rgba(100,102,250,.55)}
 body.pdf-mode .viz,body.pdf-mode .trend,body.pdf-mode .hbars,body.pdf-mode .stack{break-inside:avoid}
+
+/* 플로팅 목차 */
+#tocBtn{position:fixed;right:22px;bottom:22px;z-index:60;width:52px;height:52px;border-radius:50%;border:none;background:linear-gradient(135deg,#6466FA,#00B1BD);color:#fff;font-size:19px;font-weight:800;cursor:pointer;box-shadow:0 6px 18px rgba(15,23,42,.22)}
+#tocBtn:hover{transform:translateY(-2px)}
+#tocPanel{position:fixed;right:22px;bottom:84px;z-index:60;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(15,23,42,.18);padding:14px 8px;width:230px;display:none;max-height:70vh;overflow:auto}
+#tocPanel.open{display:block}
+#tocPanel a{display:block;padding:8px 14px;border-radius:9px;font-size:12.5px;font-weight:700;color:#334155;text-decoration:none}
+#tocPanel a:hover{background:rgba(100,102,250,.09);color:#6466FA}
+#tocPanel a small{color:#94A3B8;font-weight:800;margin-right:7px}
+@media print{#tocBtn,#tocPanel{display:none!important}}
+body.pdf-mode #tocBtn,body.pdf-mode #tocPanel{display:none!important}
 </style>
 </head>
 <body>
@@ -109,7 +120,7 @@ body.pdf-mode .viz,body.pdf-mode .trend,body.pdf-mode .hbars,body.pdf-mode .stac
   <p>2026-09-04 (금) | 커머스커넥트실 셀링부스터팀 이슬기 · 기준 문서: <a href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EC%95%B1_QA_%EA%B3%84%ED%9A%8D%EC%84%9C.html" target="_blank" rel="noopener noreferrer" style="color:#fff;text-decoration:underline">앱 QA 계획서 v1.3</a></p>
 </div>
 
-<div class="card">
+<div class="card" id="sec-sum">
   <div class="cap">summary</div>
   <h2>요약</h2>
   <div class="sumbox">
@@ -139,7 +150,7 @@ body.pdf-mode .viz,body.pdf-mode .trend,body.pdf-mode .hbars,body.pdf-mode .stac
   </div>
 </div>
 
-<div class="card">
+<div class="card" id="sec-01">
   <div class="cap">01 · overview</div>
   <h2>전체 프로젝트 현황</h2>
   <p style="margin-bottom:6px">아사나 [SB] 셀링부스터_QA 프로젝트 기준 (<a href="https://app.asana.com/1/1202264448618168/project/1212334968261160/dashboard/1212287900218722" target="_blank" rel="noopener noreferrer">대시보드</a> · <a href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EC%95%B1_QA_%EA%B3%84%ED%9A%8D%EC%84%9C.html" target="_blank" rel="noopener noreferrer">QA 계획서 v1.3</a> · <a href="https://works.do/Gp9VfWh" target="_blank" rel="noopener noreferrer">테스트 시나리오 v1.0</a>)</p>
@@ -170,7 +181,7 @@ body.pdf-mode .viz,body.pdf-mode .trend,body.pdf-mode .hbars,body.pdf-mode .stac
   <p style="margin-top:2px"><small class="src">3차(앱 QA) 카드 기준 · 처리 진행률 = (완료 6 + 검수 대기 20)/73 · 도넛: <span style="color:#14A05A;font-weight:800">완료</span> · <span style="color:#6466FA;font-weight:800">작업 완료(검수 대기)</span> · 집계 2026-09-04 아사나 API</small></p>
 </div>
 
-<div class="card">
+<div class="card" id="sec-02">
   <div class="cap">02 · plan vs actual</div>
   <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px">
     <h2 style="margin-bottom:0">계획 대비 진행 (QA 계획서 v1.3 기준)</h2>
@@ -202,7 +213,7 @@ body.pdf-mode .viz,body.pdf-mode .trend,body.pdf-mode .hbars,body.pdf-mode .stac
   <p><small class="src">릴리즈 판정(계획서 §3-4): 통과율 85~100% 릴리즈 가능 · 66~84% 조건부(실장 승인 시 제한 오픈) · 65% 이하 2안(9/30) 이동. 통과율 무관 C·H 미해결 시 릴리즈 불가</small></p>
 </div>
 
-<div class="card">
+<div class="card" id="sec-03">
   <div class="cap">03 · staffing</div>
   <h2>투입 인원 명단</h2>
   <div class="tbox"><table>
@@ -219,7 +230,7 @@ body.pdf-mode .viz,body.pdf-mode .trend,body.pdf-mode .hbars,body.pdf-mode .stac
   <p><small class="src">QA 계획서 v1.3 §4 역할 분담 기준 · TC 1.5/2.0 투입 구간은 개편 로드맵 반영</small></p>
 </div>
 
-<div class="card">
+<div class="card" id="sec-04">
   <div class="cap">04 · app qa pipeline</div>
   <h2>앱 3차 QA 카드 자동 작성 현황 (70장)</h2>
   <h3>섹션(단계)별 분포</h3>
@@ -285,7 +296,7 @@ body.pdf-mode .viz,body.pdf-mode .trend,body.pdf-mode .hbars,body.pdf-mode .stac
   </table></div>
 </div>
 
-<div class="card">
+<div class="card" id="sec-05">
   <div class="cap">05 · unresolved errors</div>
   <h2 id="errTitle">미해결 오류 12건</h2>
   <div class="tbox"><table id="errTable">
@@ -307,7 +318,7 @@ body.pdf-mode .viz,body.pdf-mode .trend,body.pdf-mode .hbars,body.pdf-mode .stac
   <p><small class="src">빨간 테두리 3건 = QA 라인 대기 중인 인증·연동 오류(우선 할당 권고) · 작업 완료 단계 건은 차기 빌드 검수 시 해소 여부 확정</small></p>
 </div>
 
-<div class="card">
+<div class="card" id="sec-06">
   <div class="cap">06 · build coverage</div>
   <h2>배포 버전 커버리지</h2>
   <div class="grid2">
@@ -324,7 +335,7 @@ body.pdf-mode .viz,body.pdf-mode .trend,body.pdf-mode .hbars,body.pdf-mode .stac
   </div>
 </div>
 
-<div class="card">
+<div class="card" id="sec-07">
   <div class="cap">07 · tc roadmap</div>
   <h2>TC 버전 로드맵</h2>
   <div class="tbox"><table>
@@ -338,7 +349,7 @@ body.pdf-mode .viz,body.pdf-mode .trend,body.pdf-mode .hbars,body.pdf-mode .stac
   <p><small class="src">1.0과 1.5는 9/7~9/9 병행 구간 — 1.0 검수 회전과 1.5 T·U열 기입이 동일 워크북에서 동시 운용</small></p>
 </div>
 
-<div class="card">
+<div class="card" id="sec-08">
   <div class="cap">08 · next steps</div>
   <h2>다음 단계</h2>
   <div class="tbox"><table>
@@ -353,7 +364,7 @@ body.pdf-mode .viz,body.pdf-mode .trend,body.pdf-mode .hbars,body.pdf-mode .stac
 </div>
 
 <div class="apdx"><span class="tag">Appendix</span><span class="ln"></span></div>
-<div class="card">
+<div class="card" id="sec-apx">
   <div class="cap">appendix 01 · tc consolidation</div>
   <h2>붙임. TC 검증 내역 취합 (예정)</h2>
   <div class="note">TC 1.0 워크북(442행) 시트별 수행 결과·Pass/Fail 집계는 차기 보고 시 본 문서에 통합 예정. 현재 카드 발행 기준 데이터만 반영된 상태이며, 워크북 O/P열 판정 전수 집계는 검증 회전 종료 후 취합.</div>
@@ -381,13 +392,14 @@ function savePdf(){
 
 <script>
 /* ═══ 아사나 동기화 레이어 ═══ */
-const DATA_URL='data/qa_report.enc.json';
+const DATA_URL='data/qa_report.json';  /* 평문 모드 — 암호화 복원 시 qa_report.enc.json */
 const PROJECT='1212334968261160';
 const CF={type:'1212351705198327',dev:'1212345665719510',pos:'1212345665719522',rnd:'1208108980900826',ver:'1215706549201611'};
 const SECMAP={'1212334968261161':'qa_line','1212287900218727':'assigned','1212287900218729':'in_progress','1212287900218731':'work_done','1212287900218733':'reviewed','1212287900222037':'hold','1212287900222039':'enhance'};
 const SECLABEL={qa_line:'QA 라인 (할당 대기)',assigned:'업무 할당',in_progress:'진행 중',work_done:'작업 완료 (검수 대기)',reviewed:'검수 완료',hold:'보류·중복',enhance:'고도화 예정',completed:'완료 처리',etc:'기타'};
 const SECCOLOR={qa_line:'#D6232B',work_done:'#6466FA',enhance:'#8B8DFB',assigned:'#00B1BD',completed:'#14A05A',in_progress:'#FF9614',reviewed:'#0E7A45',hold:'#94A3B8',etc:'#CBD5E1'};
 const TYPECOLOR={'오류':'#D6232B','개선':'#6466FA','확인':'#00B1BD','미적용':'#64748B','수정':'#FF9614','운영':'#8B5CF6','미지정':'#CBD5E1'};
+/* 암호화 복원 시 사용
 const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 
 async function decrypt(pkg,pass){
@@ -401,18 +413,13 @@ function getPass(force){
   if(!p||force){p=prompt('보고서 열람 비밀번호를 입력하세요');if(p)sessionStorage.setItem('qa_pass',p);}
   return p;
 }
+*/
 async function loadData(manual){
   const info=document.getElementById('syncInfo');
   try{
     const r=await fetch(DATA_URL+'?ts='+Date.now(),{cache:'no-store'});
     if(!r.ok)throw new Error('데이터 파일 없음('+r.status+')');
-    const pkg=await r.json();
-    let pass=getPass(false),data=null;
-    for(let i=0;i<3&&pass;i++){
-      try{data=await decrypt(pkg,pass);break}
-      catch(e){sessionStorage.removeItem('qa_pass');pass=getPass(true)}
-    }
-    if(!data){info.textContent='잠김(비밀번호 필요)';return}
+    const data=await r.json();
     render(data);
     info.innerHTML='● 동기화: <b>'+data.generated_at+'</b>';info.style.color='#0E7A45';
   }catch(e){
@@ -502,6 +509,25 @@ function render(d){
 function set(id,v){const e=document.getElementById(id);if(e)e.textContent=v}
 function setHTML(id,v){const e=document.getElementById(id);if(e)e.innerHTML=v}
 document.addEventListener('DOMContentLoaded',()=>loadData(false));
+</script>
+
+<button id="tocBtn" onclick="document.getElementById('tocPanel').classList.toggle('open')" title="목차">☰</button>
+<nav id="tocPanel">
+  <a href="#sec-sum"><small>—</small>요약</a>
+  <a href="#sec-01"><small>01</small>전체 프로젝트 현황</a>
+  <a href="#sec-02"><small>02</small>계획 대비 진행</a>
+  <a href="#sec-03"><small>03</small>투입 인원</a>
+  <a href="#sec-04"><small>04</small>카드 자동 작성 현황</a>
+  <a href="#sec-05"><small>05</small>미해결 오류</a>
+  <a href="#sec-06"><small>06</small>배포 버전 커버리지</a>
+  <a href="#sec-07"><small>07</small>TC 로드맵</a>
+  <a href="#sec-08"><small>08</small>다음 단계</a>
+  <a href="#sec-apx"><small>붙임</small>TC 취합 (예정)</a>
+</nav>
+<script>
+document.documentElement.style.scrollBehavior='smooth';
+document.getElementById('tocPanel').addEventListener('click',e=>{if(e.target.closest('a'))document.getElementById('tocPanel').classList.remove('open')});
+document.addEventListener('click',e=>{if(!e.target.closest('#tocPanel')&&!e.target.closest('#tocBtn'))document.getElementById('tocPanel').classList.remove('open')});
 </script>
 </body>
 </html>
