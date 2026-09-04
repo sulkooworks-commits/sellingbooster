@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
 셀링부스터 QA 진행 보고 — 아사나 집계 → 암호화 데이터 생성
-GitHub Actions에서 6시간 간격 실행. 산출물: QA/APP/data/qa_report.enc.json (AES-256-GCM)
-필요 환경변수: ASANA_TOKEN, REPORT_PASS
+GitHub Actions에서 6시간 간격 실행. 산출물: QA/APP/data/qa_report.json (평문 — 암호화 비활성)
+필요 환경변수: ASANA_TOKEN
 """
 import os, json, base64, hashlib, urllib.request, datetime
 
-TOKEN = os.environ["ASANA_TOKEN"]
-PASS  = os.environ["REPORT_PASS"]
+TOKEN = os.environ["ASANA_TOKEN"].strip().removeprefix("Bearer ").strip()
+# PASS  = os.environ["REPORT_PASS"].strip()  # 암호화 비활성(사용자 결정)
 PROJECT = "1212334968261160"
 API = "https://app.asana.com/api/1.0"
 
@@ -96,23 +96,17 @@ def main():
         "errors": errors,
     }
 
-    raw = json.dumps(data, ensure_ascii=False).encode()
-    salt, iv = os.urandom(16), os.urandom(12)
-    key = hashlib.pbkdf2_hmac("sha256", PASS.encode(), salt, 200000, 32)
-    try:
-        from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-        ct = AESGCM(key).encrypt(iv, raw, None)
-    except ImportError:
-        import subprocess, sys
-        subprocess.run([sys.executable, "-m", "pip", "install", "-q", "cryptography"], check=True)
-        from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-        ct = AESGCM(key).encrypt(iv, raw, None)
-
     os.makedirs("QA/APP/data", exist_ok=True)
-    with open("QA/APP/data/qa_report.enc.json", "w") as f:
-        json.dump({"v": 1, "salt": base64.b64encode(salt).decode(),
-                   "iv": base64.b64encode(iv).decode(),
-                   "ct": base64.b64encode(ct).decode()}, f)
+    with open("QA/APP/data/qa_report.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False)
+    # ── 암호화 배포로 되돌리려면: 아래 주석 해제 + REPORT_PASS 복원 + HTML의 복호화 경로 사용
+    # raw = json.dumps(data, ensure_ascii=False).encode()
+    # salt, iv = os.urandom(16), os.urandom(12)
+    # key = hashlib.pbkdf2_hmac("sha256", PASS.encode(), salt, 200000, 32)
+    # from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+    # ct = AESGCM(key).encrypt(iv, raw, None)
+    # with open("QA/APP/data/qa_report.enc.json", "w") as f:
+    #     json.dump({"v":1,"salt":base64.b64encode(salt).decode(),"iv":base64.b64encode(iv).decode(),"ct":base64.b64encode(ct).decode()}, f)
     print("built:", data["generated_at"], "| total", total, "| app", len(app), "| errors", len(errors))
 
 if __name__ == "__main__":
