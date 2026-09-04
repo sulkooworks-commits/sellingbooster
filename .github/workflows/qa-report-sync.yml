@@ -22,19 +22,15 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install deps
-        run: pip install -q cryptography
-
       - name: Build encrypted report data
         env:
           ASANA_TOKEN: ${{ secrets.ASANA_PAT }}
-          REPORT_PASS: ${{ secrets.REPORT_PASS }}
         run: python scripts/build_qa_report_data.py
 
       - name: Commit & push
         run: |
           git config user.name  "qa-report-bot"
           git config user.email "actions@github.com"
-          git add QA/APP/data/qa_report.enc.json
+          git add QA/APP/data/qa_report.json
           git diff --cached --quiet && echo "no changes" || \
             (git commit -m "chore: qa report data sync $(date -u +'%Y-%m-%dT%H:%MZ')" && git push)
