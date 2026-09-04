@@ -363,7 +363,22 @@ body.pdf-mode .viz,body.pdf-mode .trend,body.pdf-mode .hbars,body.pdf-mode .stac
 </div>
 <script>
 function saveDoc(){
-  var h='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"></head><body>'+document.getElementById('doc').innerHTML+'
+  var h='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"></head><body>'+document.getElementById('doc').innerHTML+'</body></html>';
+  var b=new Blob(['\ufeff'+h],{type:'application/msword'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='HD_셀링부스터_앱_QA진행보고.doc';a.click();
+}
+function savePdf(){
+  var s=document.createElement('script');
+  s.src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+  s.onload=function(){
+    document.body.classList.add('pdf-mode');
+    html2pdf().set({margin:0,filename:'HD_셀링부스터_앱_QA진행보고.pdf',image:{type:'jpeg',quality:.95},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'px',format:[794,1123],orientation:'portrait'},pagebreak:{mode:['css'],avoid:['.lb','.tbox','tr','h2','h3']}}).from(document.getElementById('doc')).save().then(function(){document.body.classList.remove('pdf-mode')});
+  };
+  s.onerror=function(){window.print()};
+  document.head.appendChild(s);
+}
+</script>
+
 <script>
 /* ═══ 아사나 동기화 레이어 ═══ */
 const DATA_URL='data/qa_report.enc.json';
@@ -487,21 +502,6 @@ function render(d){
 function set(id,v){const e=document.getElementById(id);if(e)e.textContent=v}
 function setHTML(id,v){const e=document.getElementById(id);if(e)e.innerHTML=v}
 document.addEventListener('DOMContentLoaded',()=>loadData(false));
-</script>
-</body></html>';
-  var b=new Blob(['\ufeff'+h],{type:'application/msword'});
-  var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='HD_셀링부스터_앱_QA진행보고.doc';a.click();
-}
-function savePdf(){
-  var s=document.createElement('script');
-  s.src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-  s.onload=function(){
-    document.body.classList.add('pdf-mode');
-    html2pdf().set({margin:0,filename:'HD_셀링부스터_앱_QA진행보고.pdf',image:{type:'jpeg',quality:.95},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'px',format:[794,1123],orientation:'portrait'},pagebreak:{mode:['css'],avoid:['.lb','.tbox','tr','h2','h3']}}).from(document.getElementById('doc')).save().then(function(){document.body.classList.remove('pdf-mode')});
-  };
-  s.onerror=function(){window.print()};
-  document.head.appendChild(s);
-}
 </script>
 </body>
 </html>
