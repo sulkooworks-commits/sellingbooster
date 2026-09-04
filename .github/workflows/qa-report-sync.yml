@@ -27,7 +27,7 @@ jobs:
 
       - name: Build encrypted report data
         env:
-          ASANA_TOKEN: ${{ secrets.ASANA_TOKEN }}
+          ASANA_TOKEN: ${{ secrets.ASANA_PAT }}
           REPORT_PASS: ${{ secrets.REPORT_PASS }}
         run: python scripts/build_qa_report_data.py
 
