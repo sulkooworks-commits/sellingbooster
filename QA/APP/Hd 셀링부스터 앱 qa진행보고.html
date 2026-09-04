@@ -455,7 +455,9 @@ async function loadData(manual){
     info.style.color='#B26A00';
   }
 }
-/* ── Asana API 실시간 집계 (개인 토큰, 브라우저 → Asana 직접 호출) ── */
+/* ── Asana API 실시간 집계 (개인 토큰) + 저장소 반영 ── */
+const GH_API='https://api.github.com/repos/sulkooworks-commits/sellingbooster/contents/QA/APP/data/qa_report.json';
+function kstNow(){const d=new Date(Date.now()+9*3600e3);return d.toISOString().slice(0,16).replace('T',' ')+' KST'}
 async function liveSync(){
   let tok=sessionStorage.getItem('asana_pat');
   if(!tok){tok=prompt('Asana 개인 액세스 토큰(PAT)을 입력하세요\n(브라우저 세션에만 저장, 저장소 미기록)');if(!tok)return;sessionStorage.setItem('asana_pat',tok);}
@@ -489,13 +491,36 @@ async function liveSync(){
         errors.push({tid:cf(t,CF.pos)||'-',title:t.name.replace('[SB]','').trim(),sec:SECLABEL[SECMAP[(g||{}).gid]||'etc'],ver:cf(t,CF.ver)||'-'})}});
     errors.sort((a,b)=>a.tid<b.tid?-1:1);
     const proc=((bySec.completed||0)+(bySec.work_done||0));
-    render({generated_at:new Date().toLocaleString('ko-KR',{hour12:false})+' (실시간)',
+    const data={generated_at:kstNow()+' (실시간 반영)',
       total:{n:total,done:done,open:total-done},
       app:{n:app.length,auto:auto.length,manual:manualC,open:appOpen.length,auto_open:autoOpen.length,
-        by_sec:bySec,by_type:byType,by_part:byPart,by_sheet:bySheet,proc_rate:Math.round(proc/Math.max(app.length,1)*1000)/10},
-      web_open:(total-done)-appOpen.length,errors:errors});
-    info.innerHTML='● 실시간 집계 완료 <b>'+new Date().toLocaleTimeString('ko-KR',{hour12:false})+'</b>';info.style.color='#0E7A45';
+        by_sec:bySec,by_type:byType,by_part:byPart,by_sheet:bySheet,
+        proc_rate:Math.round(proc/Math.max(app.length,1)*1000)/10},
+      web_open:(total-done)-appOpen.length,errors:errors};
+    render(data);
+    info.innerHTML='● 실시간 집계 완료 — 저장소 반영 중…';
+    await pushToRepo(data,info);
   }catch(e){info.textContent='실시간 동기화 실패: '+e.message;info.style.color='#D6232B'}
+}
+/* 집계 결과를 저장소(qa_report.json)에 커밋 — 모든 환경에서 동일 결과 조회 */
+async function pushToRepo(data,info){
+  let gt=sessionStorage.getItem('gh_pat');
+  if(!gt){gt=prompt('저장소 반영용 GitHub 토큰을 입력하세요\n(sellingbooster 저장소 Contents: Read and write 권한 — SEO 대시보드 수집 실행에 쓰는 fine-grained 토큰 재사용 가능)\n취소 시 이 브라우저에서만 표시됩니다');
+    if(!gt){info.innerHTML='● 실시간 집계 완료 <b>'+kstNow()+'</b> (브라우저 표시만 — 저장소 미반영)';info.style.color='#B26A00';return}
+    sessionStorage.setItem('gh_pat',gt);}
+  const hd={Authorization:'Bearer '+gt,Accept:'application/vnd.github+json'};
+  try{
+    let sha=null;
+    const g=await fetch(GH_API+'?ref=main&ts='+Date.now(),{headers:hd,cache:'no-store'});
+    if(g.ok){sha=(await g.json()).sha}
+    else if(g.status===401||g.status===403){sessionStorage.removeItem('gh_pat');throw new Error('GitHub 토큰 인증/권한 오류('+g.status+')')}
+    const body={message:'chore: qa report live sync '+data.generated_at,branch:'main',
+      content:btoa(unescape(encodeURIComponent(JSON.stringify(data))))};
+    if(sha)body.sha=sha;
+    const put=await fetch(GH_API,{method:'PUT',headers:hd,body:JSON.stringify(body)});
+    if(!put.ok){if(put.status===401||put.status===403)sessionStorage.removeItem('gh_pat');throw new Error('커밋 실패('+put.status+')')}
+    info.innerHTML='● 실시간 집계 + <b>저장소 반영 완료</b> '+kstNow();info.style.color='#0E7A45';
+  }catch(e){info.innerHTML='● 집계 완료 (저장소 반영 실패: '+e.message+')';info.style.color='#B26A00'}
 }
 /* ── 렌더링 ── */
 function render(d){
