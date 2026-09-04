@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-04T19:38:15+09:00",
+  "generatedAt": "2026-09-04T21:59:58+09:00",
   "generatedBy": "github-actions/asana-sync",
   "source": {
     "workspace": "헥토데이터",
@@ -577,6 +577,31 @@
             "안지호"
           ],
           "parent_name": "지출 품의 필요"
+        },
+        {
+          "gid": "1218165091077152",
+          "name": "[SB][All] 다국어 > (고도화 예정)",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": "2026-09-30",
+          "start_on": null,
+          "modified_at": "2026-09-04T12:40:25.919Z",
+          "created_at": "2026-09-04T02:14:48.508Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218165091077152",
+          "fields": {
+            "담당 파트*": "기획",
+            "우선순위(차수)": "상시진행",
+            "QA 유형(필수)": "확인",
+            "디바이스(필수)": "APP",
+            "상세위치(필수)": "A-2073",
+            "QA 대상 링크(필수)": "-",
+            "배포 버전": "sb_260824 / 1.0.0(11)"
+          },
+          "subtasks": 0,
+          "followers": []
         },
         {
           "gid": "1218071296359472",
