@@ -124,8 +124,8 @@ body.pdf-mode #tocBtn,body.pdf-mode #tocPanel{display:none!important}
   <div class="cap">summary</div>
   <h2>요약</h2>
   <div class="sumbox">
-    <div class="sumrow"><b>앱 QA</b><span id="sumApp">발행 카드 누적 <span class="ul">73장</span>(자동 작성 70 · 수기 3) — 완료 6 · 검수 대기 20 · <span class="ul">할당 대기 29</span> · 진행/할당 7 · 고도화 예정 8</span></div>
-    <div class="sumrow"><b>웹 운영</b><span id="sumWeb">미완료 <span class="ul">26건</span> 병행 대응 — 앱구축 대응 지원 및 웹운영 병행 사항 (서버오픈·운영 차수 이월 포함)</span></div>
+    <div class="sumrow"><b>앱 QA</b><span id="sumApp">발행 카드 누적 <span class="ul">78장</span>(자동 작성 75 · 수기 3) — 완료 6 · 검수 대기 20 · <span class="ul">할당 대기 34</span> · 진행/할당 7 · 고도화 예정 8</span></div>
+    <div class="sumrow"><b>웹 운영</b><span id="sumWeb">미완료 <span class="ul">28건</span> 병행 대응 — 앱구축 대응 지원 및 웹운영 병행 사항 (서버오픈·운영 차수 이월 포함)</span></div>
     <div class="sumrow"><b>대응 방향</b><span>
       · 미할당 29장 — 개발 할당 촉진<br>
       · 작업 완료 20장 — 검수 회전<br>
@@ -157,26 +157,35 @@ body.pdf-mode #tocBtn,body.pdf-mode #tocPanel{display:none!important}
   <div class="tbox"><table>
     <colgroup><col style="width:22%"><col style="width:16%"><col style="width:16%"><col style="width:16%"><col style="width:30%"></colgroup>
     <tr><th>구분</th><th>전체</th><th>완료</th><th>미완료</th><th>비고</th></tr>
-    <tr><td class="l">앱 3차 QA (TC 자동 작성)</td><td id="tAutoN">70</td><td id="tAutoD">6</td><td class="em" id="tAutoO">64</td><td class="l">TC 1.0 기반 자동 발행 카드</td></tr>
+    <tr><td class="l">앱 3차 QA (TC 자동 작성)</td><td id="tAutoN">75</td><td id="tAutoD">6</td><td class="em" id="tAutoO">69</td><td class="l">TC 1.0 기반 자동 발행 카드</td></tr>
     <tr><td class="l">앱 3차 QA (수기 발행)</td><td id="tManN">3</td><td id="tManD">0</td><td id="tManO">3</td><td class="l">디자인 요청·디자인 추가 적용</td></tr>
-    <tr><td class="l">웹·운영·기타 잔여</td><td>—</td><td>—</td><td id="tWebO">26</td><td class="l">앱구축 대응 지원 및 웹운영 병행 사항</td></tr>
+    <tr><td class="l">웹·운영·기타 잔여</td><td>—</td><td>—</td><td id="tWebO">28</td><td class="l">앱구축 대응 지원 및 웹운영 병행 사항</td></tr>
   </table></div>
   <div class="viz">
     <div class="donutwrap">
       <svg viewBox="0 0 42 42" width="150" height="150">
         <circle cx="21" cy="21" r="15.9155" fill="none" stroke="#E1E4EA" stroke-width="6"/>
         <circle cx="21" cy="21" r="15.9155" fill="none" stroke="#6466FA" stroke-width="6"
-          id="arcWait" stroke-dasharray="27.4 72.6" stroke-dashoffset="16.8" stroke-linecap="butt"/>
+          id="arcWait" stroke-dasharray="25.6 74.4" stroke-dashoffset="17.3" stroke-linecap="butt"/>
         <circle cx="21" cy="21" r="15.9155" fill="none" stroke="#14A05A" stroke-width="6"
-          id="arcDone" stroke-dasharray="8.2 91.8" stroke-dashoffset="25" stroke-linecap="butt"/>
+          id="arcDone" stroke-dasharray="7.7 92.3" stroke-dashoffset="25" stroke-linecap="butt"/>
       </svg>
-      <div class="cnum"><b id="procRate">35.6%</b><span>처리 진행률</span></div>
+      <div class="cnum"><b id="procRate">33.3%</b><span>처리 진행률</span></div>
     </div>
     <div class="stats">
-      <div class="stat"><b id="stN">73</b><span id="stNsub">3차 카드 (자동 작성 70 · 수기 3)</span></div>
+      <div class="stat"><b id="stN">78</b><span id="stNsub">3차 카드 (자동 작성 75 · 수기 3)</span></div>
       <div class="stat"><b style="color:#14A05A" id="stDone">6</b><span>완료 <small style="color:#6466FA;font-weight:800" id="stWaitSub">+ 검수 대기 20</small></span></div>
-      <div class="stat"><b style="color:#6466FA" id="stOpen">47</b><span id="stOpenSub">대응 대기 (할당 대기 29 포함)</span></div>
+      <div class="stat"><b style="color:#6466FA" id="stOpen">52</b><span id="stOpenSub">대응 대기 (할당 대기 34 포함)</span></div>
     </div>
+  </div>
+  <div id="partLine" style="display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;margin:2px 2px 4px;font-size:12px;font-weight:700;color:#334155">
+    <span><i style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#0EA5E9;margin-right:6px;vertical-align:-1px"></i>APP 41</span>
+    <span><i style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#FF9614;margin-right:6px;vertical-align:-1px"></i>FE 13</span>
+    <span><i style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#D97706;margin-right:6px;vertical-align:-1px"></i>BE 6</span>
+    <span><i style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#14A05A;margin-right:6px;vertical-align:-1px"></i>디자인 5</span>
+    <span><i style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#D6232B;margin-right:6px;vertical-align:-1px"></i>기획 4</span>
+    <span><i style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#EAB308;margin-right:6px;vertical-align:-1px"></i>파트 확인 필요 3</span>
+  </div>
   </div>
   <p style="margin-top:2px"><small class="src">3차(앱 QA) 카드 기준 · 처리 진행률 = (완료 6 + 검수 대기 20)/73 · 도넛: <span style="color:#14A05A;font-weight:800">완료</span> · <span style="color:#6466FA;font-weight:800">작업 완료(검수 대기)</span> · 집계 2026-09-04 아사나 API</small></p>
 </div>
@@ -232,10 +241,10 @@ body.pdf-mode #tocBtn,body.pdf-mode #tocPanel{display:none!important}
 
 <div class="card" id="sec-04">
   <div class="cap">04 · app qa pipeline</div>
-  <h2>앱 3차 QA 카드 자동 작성 현황 (70장)</h2>
+  <h2 id="pipeTitle">앱 3차 QA 카드 자동 작성 현황 (75장)</h2>
   <h3>섹션(단계)별 분포</h3>
   <div class="hbars" id="hbars">
-    <div class="hrow"><span class="hl">QA 라인 (할당 대기)</span><span class="ht"><span class="hf" style="width:100%;background:#D6232B">29</span></span></div>
+    <div class="hrow"><span class="hl">QA 라인 (할당 대기)</span><span class="ht"><span class="hf" style="width:100%;background:#D6232B">34</span></span></div>
     <div class="hrow"><span class="hl">작업 완료 (검수 대기)</span><span class="ht"><span class="hf" style="width:69%;background:#6466FA">20</span></span></div>
     <div class="hrow"><span class="hl">고도화 예정</span><span class="ht"><span class="hf" style="width:27.6%;background:#8B8DFB">8</span></span></div>
     <div class="hrow"><span class="hl">업무 할당</span><span class="ht"><span class="hf" style="width:20.7%;background:#00B1BD">6</span></span></div>
@@ -245,36 +254,36 @@ body.pdf-mode #tocBtn,body.pdf-mode #tocPanel{display:none!important}
   <div class="tbox"><table>
     <colgroup><col style="width:26%"><col style="width:12%"><col style="width:62%"></colgroup>
     <tr><th>단계</th><th>건수</th><th>해석</th></tr>
-    <tr class="crit"><td class="l">QA (카드 최초 생성 라인)</td><td class="em">29</td><td class="l"><span class="mark">개발 할당 대기</span> — 병목 구간, 할당 촉진 필요</td></tr>
-    <tr><td class="l">업무 할당</td><td>6</td><td class="l">개발자 배정 완료, 착수 대기</td></tr>
-    <tr><td class="l">진행 중</td><td>1</td><td class="l">메뉴 펼침 default 변경 작업 중</td></tr>
-    <tr><td class="l">작업 완료 (검수 대기)</td><td class="em">20</td><td class="l">수정 반영본 검수 필요 — 차기 빌드 재검 대상</td></tr>
-    <tr><td class="l">고도화 예정</td><td>8</td><td class="l">추후·고도화 분류 (읽음 처리, 다국어, 에러 403/404/500 등)</td></tr>
-    <tr><td class="l">완료 처리</td><td>6</td><td class="l">A-1058 · A-7036 · A-7009(AOS) · A-2040 · A-2078 · A-2079</td></tr>
+    <tr class="crit"><td class="l">QA (카드 최초 생성 라인)</td><td class="em" id="it_qa_line">34</td><td class="l"><span class="mark">개발 할당 대기</span> — 병목 구간, 할당 촉진 필요</td></tr>
+    <tr><td class="l">업무 할당</td><td id="it_assigned">6</td><td class="l">개발자 배정 완료, 착수 대기</td></tr>
+    <tr><td class="l">진행 중</td><td id="it_in_progress">1</td><td class="l">메뉴 펼침 default 변경 작업 중</td></tr>
+    <tr><td class="l">작업 완료 (검수 대기)</td><td class="em" id="it_work_done">20</td><td class="l">수정 반영본 검수 필요 — 차기 빌드 재검 대상</td></tr>
+    <tr><td class="l">고도화 예정</td><td id="it_enhance">8</td><td class="l">추후·고도화 분류 (읽음 처리, 다국어, 에러 403/404/500 등)</td></tr>
+    <tr><td class="l">완료 처리</td><td id="it_completed">6</td><td class="l">A-1058 · A-7036 · A-7009(AOS) · A-2040 · A-2078 · A-2079</td></tr>
   </table></div>
-  <h3 id="typeTitle">QA 유형별 분포 (미완료 64장)</h3>
+  <h3 id="typeTitle">QA 유형별 분포 (미완료 69장)</h3>
   <div class="legend" id="typeLegend">
     <span><i class="dot" style="background:#D6232B"></i>오류 12</span>
-    <span><i class="dot" style="background:#6466FA"></i>개선 26</span>
-    <span><i class="dot" style="background:#00B1BD"></i>확인 20</span>
+    <span><i class="dot" style="background:#6466FA"></i>개선 30</span>
+    <span><i class="dot" style="background:#00B1BD"></i>확인 21</span>
     <span><i class="dot" style="background:#64748B"></i>미적용 4</span>
     <span><i class="dot" style="background:#FF9614"></i>수정 2</span>
   </div>
   <div class="stack" id="typeStack">
     <i style="width:18.75%;background:#D6232B">12</i>
-    <i style="width:40.6%;background:#6466FA">26</i>
-    <i style="width:31.25%;background:#00B1BD">20</i>
+    <i style="width:40.6%;background:#6466FA">30</i>
+    <i style="width:31.25%;background:#00B1BD">21</i>
     <i style="width:6.25%;background:#64748B">4</i>
     <i style="width:3.1%;background:#FF9614">2</i>
   </div>
   <div class="tbox"><table>
     <colgroup><col style="width:18%"><col style="width:12%"><col style="width:70%"></colgroup>
     <tr><th>유형</th><th>건수</th><th>주요 영역</th></tr>
-    <tr><td><span class="pill p-err">오류</span></td><td class="em">12</td><td class="l">회원가입 휴대번호 기등록, 탈퇴 코드 인증, 셀픽 연동 섹션, Null 케이스, 앱푸시 수신, 플로팅 가림 등</td></tr>
-    <tr><td><span class="pill p-imp">개선</span></td><td>26</td><td class="l">로그인 UI, 검색(진입·입력·자동완성·퀵메뉴), 알림 저장, 팝업 확인·24시간, 온보딩 인증 등</td></tr>
-    <tr><td><span class="pill p-chk">확인</span></td><td>20</td><td class="l">푸시 알림 재확인 5건, 에러 403·404·500, 인기 검색어 갱신 주기, 오픈 이후 재확인 2건 등</td></tr>
-    <tr><td><span class="pill p-na">미적용</span></td><td>4</td><td class="l">다이렉트 링크 3건(방식 미확정), 푸터 노출</td></tr>
-    <tr><td><span class="pill p-fix">수정</span></td><td>2</td><td class="l">빈 검색 비활성, 알림 설정 선택(WEB 동시 수정)</td></tr>
+    <tr><td><span class="pill p-err">오류</span></td><td class="em" id="mt_err">12</td><td class="l">회원가입 휴대번호 기등록, 탈퇴 코드 인증, 셀픽 연동 섹션, Null 케이스, 앱푸시 수신, 플로팅 가림 등</td></tr>
+    <tr><td><span class="pill p-imp">개선</span></td><td id="mt_imp">30</td><td class="l">로그인 UI, 검색(진입·입력·자동완성·퀵메뉴), 알림 저장, 팝업 확인·24시간, 메인 배너·매출 현황(A3) 등</td></tr>
+    <tr><td><span class="pill p-chk">확인</span></td><td id="mt_chk">21</td><td class="l">푸시 알림 재확인 5건, 에러 403·404·500, 키워드 TOP10 미조회(웹 동일), 오픈 이후 재확인 등</td></tr>
+    <tr><td><span class="pill p-na">미적용</span></td><td id="mt_na">4</td><td class="l">다이렉트 링크 3건(방식 미확정), 푸터 노출</td></tr>
+    <tr><td><span class="pill p-fix">수정</span></td><td id="mt_fix">2</td><td class="l">빈 검색 비활성, 알림 설정 선택(WEB 동시 수정)</td></tr>
   </table></div>
   <h3>카드 발행 추이 — 처리 배치별 누적</h3>
   <div class="trend">
@@ -282,17 +291,19 @@ body.pdf-mode #tocBtn,body.pdf-mode #tocPanel{display:none!important}
     <div class="tcol"><div class="tv">31</div><div class="tb" style="height:52px"></div><div class="tl">배치 2<br>+26 (보류 포함)</div></div>
     <div class="tcol"><div class="tv">42</div><div class="tb" style="height:70px"></div><div class="tl">배치 3<br>+11 (공통 영역)</div></div>
     <div class="tcol"><div class="tv">64</div><div class="tb" style="height:104px"></div><div class="tl">배치 4<br>+22 (공통 재검)</div></div>
-    <div class="tcol"><div class="tv">70</div><div class="tb" style="height:114px;background:linear-gradient(180deg,#00B1BD,#4ECDD6)"></div><div class="tl">배치 5<br>+6 (전 시트)</div></div>
+    <div class="tcol"><div class="tv">70</div><div class="tb" style="height:114px"></div><div class="tl">배치 5<br>+6 (전 시트)</div></div>
+    <div class="tcol"><div class="tv">75</div><div class="tb" style="height:122px;background:linear-gradient(180deg,#00B1BD,#4ECDD6)"></div><div class="tl">배치 6<br>+5 (메인·대시보드)</div></div>
   </div>
   <p style="margin:-4px 0 10px"><small class="src">배치 = TC 워크북 업로드 → 카드 발행 처리 회차 (아사나 우선순위 필드의 '3차'와 무관 — 앱 QA 카드는 전건 3차)</small></p>
   <h3>시트별 발행 이력</h3>
   <div class="tbox"><table>
     <colgroup><col style="width:24%"><col style="width:12%"><col style="width:64%"></colgroup>
     <tr><th>영역</th><th>카드</th><th>발행 차수</th></tr>
-    <tr><td class="l">A0 앱 실행·진입</td><td>4</td><td class="l">3차 — 강제 업데이트, 다이렉트 링크 3건</td></tr>
-    <tr><td class="l">A1 로그인·회원가입</td><td>6</td><td class="l">3차 5건 + 5차 로그인 UI</td></tr>
-    <tr><td class="l">A2 공통</td><td class="em">37</td><td class="l">3차 11 + 4차 22 + 5차 4 — 최다 영역, 6차 점검 시 변동 0 (동기화 완료)</td></tr>
-    <tr><td class="l">A7 프로필·환경설정</td><td>23</td><td class="l">1~2차 22건 + 5차 메뉴 펼침</td></tr>
+    <tr><td class="l">A0 앱 실행·진입</td><td id="sh_A0">4</td><td class="l">3차 — 강제 업데이트, 다이렉트 링크 3건</td></tr>
+    <tr><td class="l">A1 로그인·회원가입</td><td id="sh_A1">6</td><td class="l">3차 5건 + 5차 로그인 UI</td></tr>
+    <tr><td class="l">A2 공통</td><td class="em" id="sh_A2">37</td><td class="l">3차 11 + 4차 22 + 5차 4 — 최다 영역, 6차 점검 시 변동 0 (동기화 완료)</td></tr>
+    <tr><td class="l">A3 메인·대시보드</td><td id="sh_A3">5</td><td class="l">7차 — 콘텐츠·AI 배너, 매출 현황, 키워드 TOP10(확인), K트렌드 스크롤</td></tr>
+    <tr><td class="l">A7 프로필·환경설정</td><td id="sh_A7">23</td><td class="l">1~2차 22건 + 5차 메뉴 펼침</td></tr>
   </table></div>
 </div>
 
@@ -366,9 +377,26 @@ body.pdf-mode #tocBtn,body.pdf-mode #tocPanel{display:none!important}
 <div class="apdx"><span class="tag">Appendix</span><span class="ln"></span></div>
 <div class="card" id="sec-apx">
   <div class="cap">appendix 01 · tc consolidation</div>
-  <h2>붙임. TC 검증 내역 취합 (예정)</h2>
-  <div class="note">TC 1.0 워크북(442행) 시트별 수행 결과·Pass/Fail 집계는 차기 보고 시 본 문서에 통합 예정. 현재 카드 발행 기준 데이터만 반영된 상태이며, 워크북 O/P열 판정 전수 집계는 검증 회전 종료 후 취합.</div>
-  <p style="margin-top:12px"><small class="src">데이터 출처: Asana [SB] 셀링부스터_QA 프로젝트 API 집계(2026-09-04) · TC 1.0 워크북 6차 처리본 · 카드 대장 70장 · 셀링부스터 앱 QA 계획서 v1.3(2026-08-20)</small></p>
+  <h2>붙임. TC 검증 내역 취합</h2>
+  <h3>TC 시트별 건수 (워크북 7차 · 총 440행)</h3>
+  <div class="tbox"><table>
+    <colgroup><col style="width:19%"><col style="width:7%"><col style="width:7%"><col style="width:9%"><col style="width:7%"><col style="width:7%"><col style="width:7%"><col style="width:8%"><col style="width:10%"><col style="width:10%"><col style="width:9%"></colgroup>
+    <tr><th>시트</th><th>건수</th><th>P1</th><th>확인 필요</th><th>Y</th><th>N</th><th>NA</th><th>미수행</th><th>수행률</th><th>통과율</th><th>C·H 미해결</th></tr>
+    <tr><td class="l">A0 앱실행·진입</td><td>30</td><td>25</td><td>3</td><td>20</td><td>0</td><td>10</td><td>0</td><td>100.0%</td><td>100.0%</td><td>0</td></tr>
+    <tr><td class="l">A1 로그인·회원가입</td><td>52</td><td>43</td><td>6</td><td>46</td><td>2</td><td>3</td><td>1</td><td>98.1%</td><td>95.8%</td><td>0</td></tr>
+    <tr><td class="l">A2 공통</td><td>88</td><td>49</td><td>9</td><td>51</td><td>5</td><td>32</td><td>0</td><td>100.0%</td><td>91.1%</td><td>0</td></tr>
+    <tr><td class="l">A3 메인·대시보드</td><td>30</td><td>19</td><td>2</td><td>25</td><td>1</td><td>4</td><td>0</td><td>100.0%</td><td>96.2%</td><td>0</td></tr>
+    <tr><td class="l">A4 마켓트렌드</td><td>67</td><td>48</td><td>7</td><td>0</td><td>0</td><td>0</td><td>67</td><td>0.0%</td><td>0.0%</td><td>0</td></tr>
+    <tr><td class="l">A5 셀링플래너</td><td>26</td><td>21</td><td>2</td><td>0</td><td>0</td><td>0</td><td>26</td><td>0.0%</td><td>0.0%</td><td>0</td></tr>
+    <tr><td class="l">A6 커뮤니티</td><td>60</td><td>42</td><td>4</td><td>0</td><td>0</td><td>0</td><td>60</td><td>0.0%</td><td>0.0%</td><td>0</td></tr>
+    <tr><td class="l">A7 프로필·환경설정</td><td>43</td><td>28</td><td>3</td><td>20</td><td>12</td><td>11</td><td>0</td><td>100.0%</td><td class="em">62.5%</td><td class="em">1</td></tr>
+    <tr><td class="l">A8 어드민연동</td><td>25</td><td>17</td><td>1</td><td>0</td><td>0</td><td>0</td><td>25</td><td>0.0%</td><td>0.0%</td><td>0</td></tr>
+    <tr><td class="l">A9 비기능</td><td>19</td><td>9</td><td>1</td><td>0</td><td>0</td><td>0</td><td>19</td><td>0.0%</td><td>0.0%</td><td>0</td></tr>
+    <tr style="font-weight:800;background:rgba(100,102,250,.06)"><td class="l">TOTAL</td><td>440</td><td>301</td><td>38</td><td>162</td><td>20</td><td>60</td><td>198</td><td>55.0%</td><td>89.0%</td><td class="em">1</td></tr>
+    <tr><td class="l" style="border:2px solid #D6232B;border-right:none;font-weight:800">릴리즈 판정</td><td colspan="10" class="l" style="border:2px solid #D6232B;border-left:none"><span class="mark">불가 (C·H 미해결 1건)</span> — A7 앱푸시 수신 오류 해소 시 재판정</td></tr>
+  </table></div>
+  <p style="margin:6px 0 10px"><small class="src">※ 통과율 = Y ÷ (Y+N), NA·미수행 제외. C·H 미해결 1건 이상이면 통과율과 무관하게 불가. 수행 완료 5개 시트(A0~A3·A7) 기준 진행 중이며 A4~A6·A8·A9 미수행 198행은 ~9/9 순차 수행.</small></p>
+  <p style="margin-top:6px"><small class="src">데이터 출처: Asana [SB] 셀링부스터_QA 프로젝트 API 집계 · TC 1.0 워크북 7차 처리본(케이스 목록 시트) · 카드 대장 75장 · 셀링부스터 앱 QA 계획서 v1.3(2026-08-20)</small></p>
 </div>
 
 </div>
@@ -398,6 +426,7 @@ const CF={type:'1212351705198327',dev:'1212345665719510',pos:'1212345665719522',
 const SECMAP={'1212334968261161':'qa_line','1212287900218727':'assigned','1212287900218729':'in_progress','1212287900218731':'work_done','1212287900218733':'reviewed','1212287900222037':'hold','1212287900222039':'enhance'};
 const SECLABEL={qa_line:'QA 라인 (할당 대기)',assigned:'업무 할당',in_progress:'진행 중',work_done:'작업 완료 (검수 대기)',reviewed:'검수 완료',hold:'보류·중복',enhance:'고도화 예정',completed:'완료 처리',etc:'기타'};
 const SECCOLOR={qa_line:'#D6232B',work_done:'#6466FA',enhance:'#8B8DFB',assigned:'#00B1BD',completed:'#14A05A',in_progress:'#FF9614',reviewed:'#0E7A45',hold:'#94A3B8',etc:'#CBD5E1'};
+const PARTCOLOR={'APP':'#0EA5E9','FE':'#FF9614','BE':'#D97706','디자인':'#14A05A','기획':'#D6232B','파트 확인 필요':'#EAB308','사업':'#84CC16','마케팅':'#00B1BD','미지정':'#CBD5E1'};
 const TYPECOLOR={'오류':'#D6232B','개선':'#6466FA','확인':'#00B1BD','미적용':'#64748B','수정':'#FF9614','운영':'#8B5CF6','미지정':'#CBD5E1'};
 /* 암호화 복원 시 사용
 const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
@@ -448,8 +477,10 @@ async function liveSync(){
     const auto=app.filter(t=>((cf(t,CF.pos)||'').indexOf('A-')===0));
     const manualC=app.length-auto.length;
     const appOpen=app.filter(t=>!t.completed),autoOpen=auto.filter(t=>!t.completed);
-    const bySec={},byType={},errors=[];
+    const bySec={},byType={},byPart={},bySheet={},errors=[];
+    appOpen.forEach(t=>{const pp=cf(t,'1212287900218612')||'미지정';byPart[pp]=(byPart[pp]||0)+1});
     auto.forEach(t=>{
+      const pos=cf(t,CF.pos)||'';if(pos.length>2)bySheet['A'+pos[2]]=(bySheet['A'+pos[2]]||0)+1;
       if(t.completed){bySec.completed=(bySec.completed||0)+1;return}
       const g=((t.memberships||[])[0]||{}).section;const k=SECMAP[(g||{}).gid]||'etc';
       bySec[k]=(bySec[k]||0)+1;
@@ -462,7 +493,7 @@ async function liveSync(){
     render({generated_at:new Date().toLocaleString('ko-KR',{hour12:false})+' (실시간)',
       total:{n:total,done:done,open:total-done},
       app:{n:app.length,auto:auto.length,manual:manualC,open:appOpen.length,auto_open:autoOpen.length,
-        by_sec:bySec,by_type:byType,proc_rate:Math.round(proc/Math.max(app.length,1)*1000)/10},
+        by_sec:bySec,by_type:byType,by_part:byPart,by_sheet:bySheet,proc_rate:Math.round(proc/Math.max(app.length,1)*1000)/10},
       web_open:(total-done)-appOpen.length,errors:errors});
     info.innerHTML='● 실시간 집계 완료 <b>'+new Date().toLocaleTimeString('ko-KR',{hour12:false})+'</b>';info.style.color='#0E7A45';
   }catch(e){info.textContent='실시간 동기화 실패: '+e.message;info.style.color='#D6232B'}
@@ -479,7 +510,7 @@ function render(d){
   if(aW){aW.setAttribute('stroke-dasharray',wp+' '+(100-wp));aW.setAttribute('stroke-dashoffset',25-dp)}
   set('stN',a.n);set('stNsub','3차 카드 (자동 작성 '+a.auto+' · 수기 '+a.manual+')');
   set('stDone',doneC);set('stWaitSub','+ 검수 대기 '+waitC);
-  const opRest=a.auto_open-waitC;
+  const opRest=a.open-waitC;
   set('stOpen',opRest);set('stOpenSub','대응 대기 (할당 대기 '+(s.qa_line||0)+' 포함)');
   const prog=(s.in_progress||0)+(s.assigned||0);
   setHTML('sumApp','발행 카드 누적 <span class="ul">'+a.n+'장</span>(자동 작성 '+a.auto+' · 수기 '+a.manual+') — 완료 '+doneC+' · 검수 대기 '+waitC+' · <span class="ul">할당 대기 '+(s.qa_line||0)+'</span> · 진행/할당 '+prog+' · 고도화 예정 '+(s.enhance||0));
@@ -505,6 +536,15 @@ function render(d){
       d.errors.forEach(e=>{const mm=e.title.match(/^\[(iOS|AOS|All)\]/);const os=mm?mm[1]:'-';
         const r=tb.insertRow(-1);
         r.innerHTML='<td>'+e.tid+'</td><td>'+os+'</td><td class="l">'+e.title.replace(/^\[(iOS|AOS|All)\]\s*/,'')+'</td><td>'+e.sec+'</td><td>'+e.ver+'</td>'})}}
+  /* 04 자동 작성 현황 */
+  set('pipeTitle','앱 3차 QA 카드 자동 작성 현황 ('+a.auto+'장)');
+  [['it_qa_line','qa_line'],['it_assigned','assigned'],['it_in_progress','in_progress'],['it_work_done','work_done'],['it_enhance','enhance'],['it_completed','completed']].forEach(([i,k])=>set(i,s[k]||0));
+  [['mt_err','오류'],['mt_imp','개선'],['mt_chk','확인'],['mt_na','미적용'],['mt_fix','수정']].forEach(([i,k])=>set(i,ty[k]||0));
+  if(a.by_sheet){for(const k in a.by_sheet)set('sh_'+k,a.by_sheet[k]);}
+  /* 파트별 작업 현황 — 컬러 도트 1열 나열 */
+  if(a.by_part){const pl=document.getElementById('partLine');
+    const ord=Object.entries(a.by_part).sort((x,y)=>y[1]-x[1]);
+    if(pl)pl.innerHTML=ord.map(([k,v])=>'<span><i style="display:inline-block;width:10px;height:10px;border-radius:2px;background:'+(PARTCOLOR[k]||'#CBD5E1')+';margin-right:6px;vertical-align:-1px"></i>'+k+' '+v+'</span>').join('');}
 }
 function set(id,v){const e=document.getElementById(id);if(e)e.textContent=v}
 function setHTML(id,v){const e=document.getElementById(id);if(e)e.innerHTML=v}
@@ -522,7 +562,7 @@ document.addEventListener('DOMContentLoaded',()=>loadData(false));
   <a href="#sec-06"><small>06</small>배포 버전 커버리지</a>
   <a href="#sec-07"><small>07</small>TC 로드맵</a>
   <a href="#sec-08"><small>08</small>다음 단계</a>
-  <a href="#sec-apx"><small>붙임</small>TC 취합 (예정)</a>
+  <a href="#sec-apx"><small>붙임</small>TC 취합</a>
 </nav>
 <script>
 document.documentElement.style.scrollBehavior='smooth';
