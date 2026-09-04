@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-04T21:59:58+09:00",
+  "generatedAt": "2026-09-04T22:11:43+09:00",
   "generatedBy": "github-actions/asana-sync",
   "source": {
     "workspace": "헥토데이터",
@@ -604,6 +604,89 @@
           "followers": []
         },
         {
+          "gid": "1218130046167974",
+          "name": "[SB][All] 사용자 온보딩 > 판매자 정보 > 인증 중복 체크",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": "2026-09-30",
+          "start_on": null,
+          "modified_at": "2026-09-04T13:06:44.890Z",
+          "created_at": "2026-09-03T12:28:16.409Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218130046167974",
+          "fields": {
+            "담당 파트*": "기획",
+            "우선순위(차수)": "3차",
+            "QA 유형(필수)": "확인",
+            "디바이스(필수)": "APP",
+            "상세위치(필수)": "A-1055",
+            "QA 대상 링크(필수)": "온보딩-②1'",
+            "작업 파트": "기획",
+            "배포 버전": "sb_260824 / 1.0.0(5)"
+          },
+          "subtasks": 0,
+          "followers": [
+            "채민우",
+            "김승래"
+          ]
+        },
+        {
+          "gid": "1218130167683185",
+          "name": "[SB][All] 사용자 온보딩 > 판매자 정보 > 전화번호 인증",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": "2026-09-30",
+          "start_on": null,
+          "modified_at": "2026-09-04T13:06:50.542Z",
+          "created_at": "2026-09-03T12:28:16.436Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218130167683185",
+          "fields": {
+            "담당 파트*": "기획",
+            "우선순위(차수)": "3차",
+            "QA 유형(필수)": "개선",
+            "디바이스(필수)": "APP",
+            "상세위치(필수)": "A-1054",
+            "QA 대상 링크(필수)": "온보딩-②1'",
+            "작업 파트": "기획",
+            "배포 버전": "sb_260824 / 1.0.0(5)"
+          },
+          "subtasks": 0,
+          "followers": [
+            "채민우"
+          ]
+        },
+        {
+          "gid": "1218164993183345",
+          "name": "[SB][All] 알림함 > 읽음 처리 > 추후 고도화 필요  (WEB/APP 공통)",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": "2026-09-30",
+          "start_on": null,
+          "modified_at": "2026-09-04T13:06:56.509Z",
+          "created_at": "2026-09-04T02:11:21.082Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218164993183345",
+          "fields": {
+            "담당 파트*": "기획",
+            "우선순위(차수)": "3차",
+            "QA 유형(필수)": "확인",
+            "디바이스(필수)": "APP",
+            "상세위치(필수)": "A-2060",
+            "QA 대상 링크(필수)": "헤더메뉴-알림함③",
+            "작업 파트": "기획",
+            "배포 버전": "sb_260824 / 1.0.0(11)"
+          },
+          "subtasks": 0,
+          "followers": []
+        },
+        {
           "gid": "1218071296359472",
           "name": "메타 지출 내역 상세 추출",
           "type": "task",
@@ -786,6 +869,84 @@
             "P ID": "10.3"
           },
           "subtasks": 5,
+          "followers": []
+        },
+        {
+          "gid": "1218175719926627",
+          "name": "[SB][All] Q&A > 목록/구성 > (추후 고도화 필요)",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-09-04T13:06:09.095Z",
+          "created_at": "2026-09-04T12:43:53.480Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218175719926627",
+          "fields": {
+            "담당 파트*": "기획",
+            "우선순위(차수)": "3차",
+            "QA 유형(필수)": "확인",
+            "디바이스(필수)": "APP",
+            "상세위치(필수)": "A-6001",
+            "QA 대상 링크(필수)": "-",
+            "작업 파트": "기획",
+            "배포 버전": "sb_260904.apk / 1.0.0(12)"
+          },
+          "subtasks": 0,
+          "followers": []
+        },
+        {
+          "gid": "1218176055733067",
+          "name": "[SB][All] 블로그 > 구독 배너 > 구독 전  (추후 고도화 필요)",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-09-04T13:06:16.656Z",
+          "created_at": "2026-09-04T12:47:16.538Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218176055733067",
+          "fields": {
+            "담당 파트*": "기획",
+            "우선순위(차수)": "3차",
+            "QA 유형(필수)": "확인",
+            "디바이스(필수)": "APP",
+            "상세위치(필수)": "A-6030",
+            "QA 대상 링크(필수)": "블로그-목록",
+            "작업 파트": "기획",
+            "배포 버전": "sb_260904.apk / 1.0.0(12)"
+          },
+          "subtasks": 0,
+          "followers": []
+        },
+        {
+          "gid": "1218176016381273",
+          "name": "[SB][All] 블로그 > 구독 배너 > 구독 후  (추후 고도화 필요)",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-09-04T13:06:27.733Z",
+          "created_at": "2026-09-04T12:47:16.220Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218176016381273",
+          "fields": {
+            "담당 파트*": "기획",
+            "우선순위(차수)": "3차",
+            "QA 유형(필수)": "확인",
+            "디바이스(필수)": "APP",
+            "상세위치(필수)": "A-6031",
+            "QA 대상 링크(필수)": "블로그-목록",
+            "작업 파트": "기획",
+            "배포 버전": "sb_260904.apk / 1.0.0(12)"
+          },
+          "subtasks": 0,
           "followers": []
         },
         {
