@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HD_셀링부스터_앱_QA진행보고</title>
+<link href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'NanumSquare',sans-serif;background:#F3F4F7;color:#0F172A;font-size:14.5px;line-height:1.6}
+#topbar{position:sticky;top:0;z-index:50;background:rgba(243,244,247,.92);backdrop-filter:blur(6px);border-bottom:1px solid #E1E4EA;padding:10px 20px;display:flex;align-items:center;gap:12px}
+#topbar .fn{font-weight:800;font-size:13px}
+#topbar small{color:#64748B;font-size:11.5px}
+#topbar .sp{flex:1}
+#topbar button{border:1px solid #D8DBE2;background:#fff;border-radius:8px;padding:7px 14px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;color:#0F172A}
+#topbar button:hover{border-color:#6466FA;color:#6466FA}
+#doc{max-width:1080px;margin:0 auto;padding:26px 20px 60px}
+.card{background:#fff;border-radius:16px;padding:30px 34px;margin-bottom:22px}
+.head{background:linear-gradient(115deg,#6466FA,#5B7BF7,#00B1BD);border-radius:16px;padding:38px 40px;color:#fff;margin-bottom:22px}
+.head h1{font-size:28px;font-weight:800;letter-spacing:-.3px}
+.head p{margin-top:10px;font-size:13.5px;opacity:.92}
+.cap{font-size:11px;font-weight:800;color:#6466FA;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px}
+h2{font-size:21px;font-weight:800;margin-bottom:16px;letter-spacing:-.2px}
+h3{font-size:15.5px;font-weight:800;margin:22px 0 10px}
+.ul{box-shadow:inset 0 -3px 0 rgba(100,102,250,.55);padding-bottom:1px}
+.sumbox{background:#F3F4F7;border-radius:14px;padding:6px 22px;margin-bottom:18px}
+.sumrow{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid #E1E4EA;align-items:baseline}
+.sumrow:last-child{border-bottom:none}
+.sumrow b{flex:0 0 96px;font-size:13.5px}
+.sumrow span{flex:1}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.lb{background:#F3F4F7;border-radius:14px;padding:18px 20px}
+.lb .t{font-weight:800;margin-bottom:9px;font-size:13.5px}
+.lb ul{list-style:none}
+.lb li{position:relative;padding-left:11px;margin-bottom:6px;line-height:1.55;font-size:13.5px}
+.lb li:before{content:"•";position:absolute;left:0;color:#6466FA}
+.tbox{background:#F3F4F7;border-radius:12px;overflow:hidden;margin:12px 0}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{background:#0F172A;color:#fff;padding:10px 12px;font-weight:700;text-align:center}
+td{padding:10px 12px;text-align:center;border-bottom:1px solid #E1E4EA}
+tr:last-child td{border-bottom:none}
+td.l{text-align:left}
+td.em{background:rgba(100,102,250,.10);border-bottom:1px solid rgba(100,102,250,.28);font-weight:700}
+.mark{background:linear-gradient(transparent 38%,rgba(255,214,0,.6) 38%);font-weight:700}
+.pill{display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:700}
+.p-err{background:rgba(214,35,43,.12);color:#D6232B}
+.p-fix{background:rgba(255,150,20,.15);color:#B26A00}
+.p-imp{background:rgba(100,102,250,.12);color:#5B5DE0}
+.p-chk{background:rgba(0,177,189,.13);color:#00838D}
+.p-na{background:rgba(100,116,139,.14);color:#475569}
+.p-done{background:rgba(20,160,90,.13);color:#0E7A45}
+.crit td{border-top:2px solid #D6232B;border-bottom:2px solid #D6232B}
+.crit td:first-child{border-left:2px solid #D6232B}
+.crit td:last-child{border-right:2px solid #D6232B}
+.bar{height:14px;border-radius:8px;background:#E1E4EA;overflow:hidden;display:flex}
+.bar i{display:block;height:100%}
+.note{border:1.5px dashed #C6CAD4;border-radius:14px;padding:16px 20px;font-size:13.5px;color:#475569;margin-top:14px}
+.apdx{display:flex;align-items:center;gap:10px;margin:30px 0 16px}
+.apdx .tag{border:1.5px solid #6466FA;color:#6466FA;font-weight:800;font-size:12px;border-radius:20px;padding:4px 14px}
+.apdx .ln{flex:1;height:1px;background:#D8DBE2}
+small.src{color:#94A3B8;font-size:11.5px}
+.viz{display:flex;gap:26px;align-items:center;background:#F3F4F7;border-radius:14px;padding:20px 24px;margin:14px 0}
+.donutwrap{position:relative;flex:0 0 150px;height:150px}
+.donutwrap .cnum{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.donutwrap .cnum b{font-size:26px;font-weight:800;letter-spacing:-.5px}
+.donutwrap .cnum span{font-size:11px;color:#64748B;font-weight:700}
+.stats{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat{background:#fff;border-radius:12px;padding:14px 16px;text-align:center}
+.stat b{display:block;font-size:22px;font-weight:800;letter-spacing:-.5px}
+.stat span{font-size:11.5px;color:#64748B;font-weight:700}
+.hbars{margin:14px 0 6px}
+.hrow{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.hrow .hl{flex:0 0 172px;font-size:12.5px;font-weight:700;text-align:right;color:#334155}
+.hrow .ht{flex:1;background:#EBEDF2;border-radius:7px;height:22px;overflow:hidden}
+.hrow .hf{height:100%;border-radius:7px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;color:#fff;font-size:11.5px;font-weight:800;min-width:26px}
+.stack{display:flex;height:26px;border-radius:8px;overflow:hidden;margin:12px 0 8px}
+.stack i{display:flex;align-items:center;justify-content:center;color:#fff;font-size:11.5px;font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;font-weight:700;color:#475569;margin-bottom:6px}
+.legend .dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.trend{display:flex;align-items:flex-end;gap:18px;background:#F3F4F7;border-radius:14px;padding:18px 22px 12px;margin:14px 0}
+.tcol{flex:1;text-align:center}
+.tcol .tb{margin:0 auto;width:70%;max-width:64px;border-radius:8px 8px 0 0;background:linear-gradient(180deg,#6466FA,#8B8DFB)}
+.tcol .tv{font-size:13px;font-weight:800;margin-bottom:4px}
+.tcol .tl{font-size:11px;color:#64748B;font-weight:700;margin-top:6px;line-height:1.35}
+a{color:#00B1BD;text-decoration:none;font-weight:700}
+@media print{.card,.tbox,tr,h2,h3,.lb{break-inside:avoid}#topbar{display:none}}
+body.pdf-mode #doc{max-width:794px;font-size:12.5px}
+body.pdf-mode .head h1{font-size:23px}
+body.pdf-mode .mark{background:rgba(255,214,0,.45);box-decoration-break:clone}
+body.pdf-mode .ul{box-shadow:none;border-bottom:3px solid rgba(100,102,250,.55)}
+body.pdf-mode .viz,body.pdf-mode .trend,body.pdf-mode .hbars,body.pdf-mode .stack{break-inside:avoid}
+</style>
+</head>
+<body>
+<div id="topbar">
+  <span class="fn">HD_셀링부스터_앱_QA진행보고</span>
+  <small>커머스커넥트실 셀링부스터팀</small>
+  <span class="sp"></span>
+  <span id="syncInfo" style="font-size:11.5px;color:#64748B;font-weight:700">동기화 대기</span>
+  <button onclick="loadData(true)" title="암호화 데이터 다시 불러오기">↻ 새로고침</button>
+  <button onclick="liveSync()" title="Asana API 실시간 집계(개인 토큰)">⟳ 실시간 동기화</button>
+  <button onclick="saveDoc()">Word(.doc) 저장</button>
+  <button onclick="savePdf()">PDF 저장</button>
+</div>
+<div id="doc">
+
+<div class="head">
+  <h1>셀링부스터 앱 출시 QA 진행 보고</h1>
+  <p>2026-09-04 (금) | 커머스커넥트실 셀링부스터팀 이슬기 · 기준 문서: <a href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EC%95%B1_QA_%EA%B3%84%ED%9A%8D%EC%84%9C.html" target="_blank" rel="noopener noreferrer" style="color:#fff;text-decoration:underline">앱 QA 계획서 v1.3</a></p>
+</div>
+
+<div class="card">
+  <div class="cap">summary</div>
+  <h2>요약</h2>
+  <div class="sumbox">
+    <div class="sumrow"><b>앱 QA</b><span id="sumApp">발행 카드 누적 <span class="ul">73장</span>(자동 작성 70 · 수기 3) — 완료 6 · 검수 대기 20 · <span class="ul">할당 대기 29</span> · 진행/할당 7 · 고도화 예정 8</span></div>
+    <div class="sumrow"><b>웹 운영</b><span id="sumWeb">미완료 <span class="ul">26건</span> 병행 대응 — 앱구축 대응 지원 및 웹운영 병행 사항 (서버오픈·운영 차수 이월 포함)</span></div>
+    <div class="sumrow"><b>대응 방향</b><span>
+      · 미할당 29장 — 개발 할당 촉진<br>
+      · 작업 완료 20장 — 검수 회전<br>
+      · 재확인 대기 9건 — 차기 빌드(1.0.0(12) / sb_260904.apk) 일괄 재검<br>
+      · <span class="ul">9/11(금) QA 종료 → 오픈 1안 9/16(수) · 2안 9/30(수)</span></span></div>
+    <div class="sumrow"><b>현재 빌드<br><small style="font-weight:700;color:#64748B">(9/4 기준)</small></b><span>
+      · iOS — 운영서버 <b>1.0.0 (11)</b> · 개발서버 <b>1.0.0 (12)</b><br>
+      · AOS — 운영서버 <b>sb_260904.apk</b> · 개발서버 <b>sb_dev_260904.apk</b><br>
+      · 비고: 아사나 최종 표기된 기준으로 이슈카드 현행 상태 표기</span></div>
+  </div>
+  <div class="grid2">
+    <div class="lb"><div class="t">진척 포인트</div><ul>
+      <li>TC 전체 442행 1회전 완료 — 결함·요청 전건 카드화</li>
+      <li>iOS 4개 빌드 순환 검증, 공통 영역 2회 재검 완료</li>
+      <li>검색·알림·팝업·에러 처리 신규 영역 검증 완료</li>
+    </ul></div>
+    <div class="lb"><div class="t">리스크</div><ul>
+      <li>오류 12건 미해결 — 가입·탈퇴 인증 플로우 집중</li>
+      <li>푸시 알림 5건 — 설정 확인 후 재검 대기</li>
+      <li>다이렉트 링크 방식 미확정 3건 — 내부 재검토 필요</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="cap">01 · overview</div>
+  <h2>전체 프로젝트 현황</h2>
+  <p style="margin-bottom:6px">아사나 [SB] 셀링부스터_QA 프로젝트 기준 (<a href="https://app.asana.com/1/1202264448618168/project/1212334968261160/dashboard/1212287900218722" target="_blank" rel="noopener noreferrer">대시보드</a> · <a href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EC%95%B1_QA_%EA%B3%84%ED%9A%8D%EC%84%9C.html" target="_blank" rel="noopener noreferrer">QA 계획서 v1.3</a> · <a href="https://works.do/Gp9VfWh" target="_blank" rel="noopener noreferrer">테스트 시나리오 v1.0</a>)</p>
+  <div class="tbox"><table>
+    <colgroup><col style="width:22%"><col style="width:16%"><col style="width:16%"><col style="width:16%"><col style="width:30%"></colgroup>
+    <tr><th>구분</th><th>전체</th><th>완료</th><th>미완료</th><th>비고</th></tr>
+    <tr><td class="l">앱 3차 QA (TC 자동 작성)</td><td id="tAutoN">70</td><td id="tAutoD">6</td><td class="em" id="tAutoO">64</td><td class="l">TC 1.0 기반 자동 발행 카드</td></tr>
+    <tr><td class="l">앱 3차 QA (수기 발행)</td><td id="tManN">3</td><td id="tManD">0</td><td id="tManO">3</td><td class="l">디자인 요청·디자인 추가 적용</td></tr>
+    <tr><td class="l">웹·운영·기타 잔여</td><td>—</td><td>—</td><td id="tWebO">26</td><td class="l">앱구축 대응 지원 및 웹운영 병행 사항</td></tr>
+  </table></div>
+  <div class="viz">
+    <div class="donutwrap">
+      <svg viewBox="0 0 42 42" width="150" height="150">
+        <circle cx="21" cy="21" r="15.9155" fill="none" stroke="#E1E4EA" stroke-width="6"/>
+        <circle cx="21" cy="21" r="15.9155" fill="none" stroke="#6466FA" stroke-width="6"
+          id="arcWait" stroke-dasharray="27.4 72.6" stroke-dashoffset="16.8" stroke-linecap="butt"/>
+        <circle cx="21" cy="21" r="15.9155" fill="none" stroke="#14A05A" stroke-width="6"
+          id="arcDone" stroke-dasharray="8.2 91.8" stroke-dashoffset="25" stroke-linecap="butt"/>
+      </svg>
+      <div class="cnum"><b id="procRate">35.6%</b><span>처리 진행률</span></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="stN">73</b><span id="stNsub">3차 카드 (자동 작성 70 · 수기 3)</span></div>
+      <div class="stat"><b style="color:#14A05A" id="stDone">6</b><span>완료 <small style="color:#6466FA;font-weight:800" id="stWaitSub">+ 검수 대기 20</small></span></div>
+      <div class="stat"><b style="color:#6466FA" id="stOpen">47</b><span id="stOpenSub">대응 대기 (할당 대기 29 포함)</span></div>
+    </div>
+  </div>
+  <p style="margin-top:2px"><small class="src">3차(앱 QA) 카드 기준 · 처리 진행률 = (완료 6 + 검수 대기 20)/73 · 도넛: <span style="color:#14A05A;font-weight:800">완료</span> · <span style="color:#6466FA;font-weight:800">작업 완료(검수 대기)</span> · 집계 2026-09-04 아사나 API</small></p>
+</div>
+
+<div class="card">
+  <div class="cap">02 · plan vs actual</div>
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px">
+    <h2 style="margin-bottom:0">계획 대비 진행 (QA 계획서 v1.3 기준)</h2>
+    <a href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EC%95%B1_QA_%EA%B3%84%ED%9A%8D%EC%84%9C.html" target="_blank" rel="noopener noreferrer" style="flex-shrink:0;display:inline-block;background:#6466FA;color:#fff;font-size:12px;font-weight:800;padding:8px 16px;border-radius:20px;text-decoration:none">QA 계획서 바로가기 →</a>
+  </div>
+  <div class="tbox"><table>
+    <colgroup><col style="width:24%"><col style="width:19%"><col style="width:13%"><col style="width:44%"></colgroup>
+    <tr><th>단계</th><th>일정</th><th>상태</th><th>진행 내용</th></tr>
+    <tr><td class="l">사전검증 (스모크·TC 설계·보안 스캔)</td><td>~8/20 (목)</td><td><span class="pill p-done">완료</span></td><td class="l">TC 1.0 설계 착수, MobSF·Robo 1회 수행</td></tr>
+    <tr><td class="l">입점 심사 승인</td><td>iOS ~8/31 · AOS ~9/2</td><td><span class="pill p-done">완료</span></td><td class="l">양 스토어 심사 승인 완료 — 오픈 선행 조건 충족</td></tr>
+    <tr class="crit"><td class="l">TC 1.0 — 개발 QA</td><td><span class="mark">진행 중 ~9/9 (수)</span></td><td><span class="pill p-imp">진행 중</span></td><td class="l">현행 442행 · 발행 카드 70장, 신규 빌드 재검 회전</td></tr>
+    <tr><td class="l">TC 1.5 — 재검증(회귀) · 팀원 검증</td><td>9/7 (월) ~ 9/9 (수)</td><td><span class="pill p-chk">예정</span></td><td class="l">체크 기입: T열(디자인)·U열(마케터) 활용 · 상세 내용은 별도 열 없이 K열 추가 기재 · 1.0 종료 후 단계적 요청 예정</td></tr>
+    <tr><td class="l">TC 2.0 — 외부 인력 · 실원 검증</td><td>9/10 (목) ~ 9/11 (금)</td><td><span class="pill p-chk">예정</span></td><td class="l">축약본 — 기본 동작·중요 기능·이전 QA 이슈 위주, 쉬운 가이드로 재작성</td></tr>
+    <tr><td class="l">사내 이벤트 검증 · 대표 보고</td><td>일정 재설정</td><td><span class="pill p-na">연기</span></td><td class="l">일정 연기 필요 — 재검증 진행 상황 기준 재조율</td></tr>
+    <tr><td class="l">QA 종료 · 실장 보고</td><td>9/11 (금)</td><td><span class="pill p-chk">예정</span></td><td class="l">통과율 기준 릴리즈 판정, 잔여 M·L 오픈 후 처리 합의</td></tr>
+    <tr><td class="l">정식 오픈</td><td>1안 9/16 (수) · 2안 9/30 (수)</td><td><span class="pill p-na">대기</span></td><td class="l">앱스토어 오픈 — 별도 홍보 없이 진행 (입점 심사 승인 완료, QA 종료·대표 승인 시 오픈)</td></tr>
+    <tr><td class="l">향후 진행 — 2차 구축</td><td>10월 ~ 11월</td><td><span class="pill p-chk">예정</span></td><td class="l">운영 고도화 및 셀링스파크 통합을 위한 2차 구축 진행</td></tr>
+  </table></div>
+  <h3>QA 종료 기준 충족 현황 (계획서 §5)</h3>
+  <div class="tbox"><table>
+    <colgroup><col style="width:52%"><col style="width:14%"><col style="width:34%"></colgroup>
+    <tr><th>종료 조건</th><th>상태</th><th>현황</th></tr>
+    <tr><td class="l">① TC 수행률 100% (전 행 상태값 기재)</td><td><span class="pill p-done">충족</span></td><td class="l">442행 1회전 완료</td></tr>
+    <tr class="crit"><td class="l">② C·H 결함 0건 + 통과율 85% 이상</td><td><span class="pill p-err">미충족</span></td><td class="l"><span class="mark">오류 12건 미해결</span> — 재검증 주간 해소 목표</td></tr>
+    <tr><td class="l">③ M·L 잔여 건 목록화·오픈 후 처리 합의</td><td><span class="pill p-imp">진행 중</span></td><td class="l">개선 26건 카드화 완료, 처리 일정 합의 필요</td></tr>
+    <tr><td class="l">④ 핵심 플로우 회귀 테스트 통과 (수동+Maestro)</td><td><span class="pill p-chk">예정</span></td><td class="l">9/7~9/10 재검증 주간 수행</td></tr>
+    <tr><td class="l">⑤ 최종 빌드 Robo 크래시 0건 · MobSF 고위험 0건</td><td><span class="pill p-chk">예정</span></td><td class="l">최종 빌드 확정 후 수행</td></tr>
+  </table></div>
+  <p><small class="src">릴리즈 판정(계획서 §3-4): 통과율 85~100% 릴리즈 가능 · 66~84% 조건부(실장 승인 시 제한 오픈) · 65% 이하 2안(9/30) 이동. 통과율 무관 C·H 미해결 시 릴리즈 불가</small></p>
+</div>
+
+<div class="card">
+  <div class="cap">03 · staffing</div>
+  <h2>투입 인원 명단</h2>
+  <div class="tbox"><table>
+    <colgroup><col style="width:19%"><col style="width:19%"><col style="width:22%"><col style="width:40%"></colgroup>
+    <tr><th>역할</th><th>담당</th><th>투입 구간</th><th>책임 범위</th></tr>
+    <tr><td class="l">QA 총괄 · 검증</td><td class="em">이슬기</td><td>전 구간</td><td class="l">QA 계획·TC 설계·수행, 결함 카드 생성, 재검증, 진행 보고</td></tr>
+    <tr><td class="l">검증 · 카드 생성</td><td>안지호</td><td>팀원 검증 · TC 1.5 (U열 마케터)</td><td class="l">TC 수행 분담, 이슈 기재 및 카드 생성</td></tr>
+    <tr><td class="l">디자인 검수</td><td>이순우</td><td>팀원 검증 · TC 1.5 (T열 디자인)</td><td class="l">설계서·시안 대비 UI 일치 검수, 디자인 수정안 확정</td></tr>
+    <tr><td class="l">개발 대응</td><td>이승재</td><td>전 구간</td><td class="l">기능·API·데이터 결함 원인 분석 및 수정</td></tr>
+    <tr><td class="l">배포 · 화면 대응</td><td>채민우 (iOS)<br>김승래 (AOS)</td><td>전 구간</td><td class="l">플랫폼별 수정 반영, 정기(화·목)·긴급 배포, 스토어 배포·입점 세팅</td></tr>
+    <tr><td class="l">실원 검증</td><td>임승용 · 서영우 · 배범진<br><small style="color:#64748B">+ 개발 1인 (미정)</small></td><td>TC 2.0 (9/10~9/11)</td><td class="l">핵심 플로우·주요 기능 교차 검증 (축약 TC 기반)</td></tr>
+    <tr><td class="l">어드민 구축 · 대응</td><td>이다솜 · 이승재</td><td>구축 완료 · 연동 대응</td><td class="l">배너·팝업·캘린더 등록 기능, 어드민 연동 결함 대응</td></tr>
+  </table></div>
+  <p><small class="src">QA 계획서 v1.3 §4 역할 분담 기준 · TC 1.5/2.0 투입 구간은 개편 로드맵 반영</small></p>
+</div>
+
+<div class="card">
+  <div class="cap">04 · app qa pipeline</div>
+  <h2>앱 3차 QA 카드 자동 작성 현황 (70장)</h2>
+  <h3>섹션(단계)별 분포</h3>
+  <div class="hbars" id="hbars">
+    <div class="hrow"><span class="hl">QA 라인 (할당 대기)</span><span class="ht"><span class="hf" style="width:100%;background:#D6232B">29</span></span></div>
+    <div class="hrow"><span class="hl">작업 완료 (검수 대기)</span><span class="ht"><span class="hf" style="width:69%;background:#6466FA">20</span></span></div>
+    <div class="hrow"><span class="hl">고도화 예정</span><span class="ht"><span class="hf" style="width:27.6%;background:#8B8DFB">8</span></span></div>
+    <div class="hrow"><span class="hl">업무 할당</span><span class="ht"><span class="hf" style="width:20.7%;background:#00B1BD">6</span></span></div>
+    <div class="hrow"><span class="hl">완료 처리</span><span class="ht"><span class="hf" style="width:20.7%;background:#14A05A">6</span></span></div>
+    <div class="hrow"><span class="hl">진행 중</span><span class="ht"><span class="hf" style="width:5%;background:#FF9614">1</span></span></div>
+  </div>
+  <div class="tbox"><table>
+    <colgroup><col style="width:26%"><col style="width:12%"><col style="width:62%"></colgroup>
+    <tr><th>단계</th><th>건수</th><th>해석</th></tr>
+    <tr class="crit"><td class="l">QA (카드 최초 생성 라인)</td><td class="em">29</td><td class="l"><span class="mark">개발 할당 대기</span> — 병목 구간, 할당 촉진 필요</td></tr>
+    <tr><td class="l">업무 할당</td><td>6</td><td class="l">개발자 배정 완료, 착수 대기</td></tr>
+    <tr><td class="l">진행 중</td><td>1</td><td class="l">메뉴 펼침 default 변경 작업 중</td></tr>
+    <tr><td class="l">작업 완료 (검수 대기)</td><td class="em">20</td><td class="l">수정 반영본 검수 필요 — 차기 빌드 재검 대상</td></tr>
+    <tr><td class="l">고도화 예정</td><td>8</td><td class="l">추후·고도화 분류 (읽음 처리, 다국어, 에러 403/404/500 등)</td></tr>
+    <tr><td class="l">완료 처리</td><td>6</td><td class="l">A-1058 · A-7036 · A-7009(AOS) · A-2040 · A-2078 · A-2079</td></tr>
+  </table></div>
+  <h3 id="typeTitle">QA 유형별 분포 (미완료 64장)</h3>
+  <div class="legend" id="typeLegend">
+    <span><i class="dot" style="background:#D6232B"></i>오류 12</span>
+    <span><i class="dot" style="background:#6466FA"></i>개선 26</span>
+    <span><i class="dot" style="background:#00B1BD"></i>확인 20</span>
+    <span><i class="dot" style="background:#64748B"></i>미적용 4</span>
+    <span><i class="dot" style="background:#FF9614"></i>수정 2</span>
+  </div>
+  <div class="stack" id="typeStack">
+    <i style="width:18.75%;background:#D6232B">12</i>
+    <i style="width:40.6%;background:#6466FA">26</i>
+    <i style="width:31.25%;background:#00B1BD">20</i>
+    <i style="width:6.25%;background:#64748B">4</i>
+    <i style="width:3.1%;background:#FF9614">2</i>
+  </div>
+  <div class="tbox"><table>
+    <colgroup><col style="width:18%"><col style="width:12%"><col style="width:70%"></colgroup>
+    <tr><th>유형</th><th>건수</th><th>주요 영역</th></tr>
+    <tr><td><span class="pill p-err">오류</span></td><td class="em">12</td><td class="l">회원가입 휴대번호 기등록, 탈퇴 코드 인증, 셀픽 연동 섹션, Null 케이스, 앱푸시 수신, 플로팅 가림 등</td></tr>
+    <tr><td><span class="pill p-imp">개선</span></td><td>26</td><td class="l">로그인 UI, 검색(진입·입력·자동완성·퀵메뉴), 알림 저장, 팝업 확인·24시간, 온보딩 인증 등</td></tr>
+    <tr><td><span class="pill p-chk">확인</span></td><td>20</td><td class="l">푸시 알림 재확인 5건, 에러 403·404·500, 인기 검색어 갱신 주기, 오픈 이후 재확인 2건 등</td></tr>
+    <tr><td><span class="pill p-na">미적용</span></td><td>4</td><td class="l">다이렉트 링크 3건(방식 미확정), 푸터 노출</td></tr>
+    <tr><td><span class="pill p-fix">수정</span></td><td>2</td><td class="l">빈 검색 비활성, 알림 설정 선택(WEB 동시 수정)</td></tr>
+  </table></div>
+  <h3>카드 발행 추이 — 처리 배치별 누적</h3>
+  <div class="trend">
+    <div class="tcol"><div class="tv">5</div><div class="tb" style="height:14px"></div><div class="tl">배치 1<br>iOS 선행</div></div>
+    <div class="tcol"><div class="tv">31</div><div class="tb" style="height:52px"></div><div class="tl">배치 2<br>+26 (보류 포함)</div></div>
+    <div class="tcol"><div class="tv">42</div><div class="tb" style="height:70px"></div><div class="tl">배치 3<br>+11 (공통 영역)</div></div>
+    <div class="tcol"><div class="tv">64</div><div class="tb" style="height:104px"></div><div class="tl">배치 4<br>+22 (공통 재검)</div></div>
+    <div class="tcol"><div class="tv">70</div><div class="tb" style="height:114px;background:linear-gradient(180deg,#00B1BD,#4ECDD6)"></div><div class="tl">배치 5<br>+6 (전 시트)</div></div>
+  </div>
+  <p style="margin:-4px 0 10px"><small class="src">배치 = TC 워크북 업로드 → 카드 발행 처리 회차 (아사나 우선순위 필드의 '3차'와 무관 — 앱 QA 카드는 전건 3차)</small></p>
+  <h3>시트별 발행 이력</h3>
+  <div class="tbox"><table>
+    <colgroup><col style="width:24%"><col style="width:12%"><col style="width:64%"></colgroup>
+    <tr><th>영역</th><th>카드</th><th>발행 차수</th></tr>
+    <tr><td class="l">A0 앱 실행·진입</td><td>4</td><td class="l">3차 — 강제 업데이트, 다이렉트 링크 3건</td></tr>
+    <tr><td class="l">A1 로그인·회원가입</td><td>6</td><td class="l">3차 5건 + 5차 로그인 UI</td></tr>
+    <tr><td class="l">A2 공통</td><td class="em">37</td><td class="l">3차 11 + 4차 22 + 5차 4 — 최다 영역, 6차 점검 시 변동 0 (동기화 완료)</td></tr>
+    <tr><td class="l">A7 프로필·환경설정</td><td>23</td><td class="l">1~2차 22건 + 5차 메뉴 펼침</td></tr>
+  </table></div>
+</div>
+
+<div class="card">
+  <div class="cap">05 · unresolved errors</div>
+  <h2 id="errTitle">미해결 오류 12건</h2>
+  <div class="tbox"><table id="errTable">
+    <colgroup><col style="width:12%"><col style="width:9%"><col style="width:45%"><col style="width:18%"><col style="width:16%"></colgroup>
+    <tr><th>TestID</th><th>OS</th><th>내용</th><th>단계</th><th>배포 버전</th></tr>
+    <tr class="crit"><td>A-1028</td><td>iOS</td><td class="l">간편 가입 — 기등록 번호로 재가입 허용됨</td><td>QA 라인</td><td>1.0.0(5)</td></tr>
+    <tr class="crit"><td>A-7031</td><td>iOS</td><td class="l">회원탈퇴 이메일 인증 — 코드 입력 후 완료 미처리</td><td>QA 라인</td><td>1.0.0(5)</td></tr>
+    <tr class="crit"><td>A-7023</td><td>All</td><td class="l">개인정보 관리 — 셀픽 연동 섹션 미반영</td><td>QA 라인</td><td>병기(5)</td></tr>
+    <tr><td>A-7028</td><td>All</td><td class="l">개인정보 관리 — Null 케이스</td><td>업무 할당</td><td>병기(5)</td></tr>
+    <tr><td>A-2065</td><td>All</td><td class="l">앱푸시 연동 — 수신 동작 미확인</td><td>QA 라인</td><td>병기(11)</td></tr>
+    <tr><td>A-2015</td><td>iOS</td><td class="l">플로팅 고정 위치 — 닉네임 수정 가림</td><td>작업 완료</td><td>1.0.0(12)</td></tr>
+    <tr><td>A-7009</td><td>iOS</td><td class="l">나의 커뮤니티 글 — 수정 시 기존값 미표시</td><td>작업 완료</td><td>1.0.0(5)</td></tr>
+    <tr><td>A-7013</td><td>iOS</td><td class="l">다크 모드 — 로그아웃 알럿 화이트 표시</td><td>작업 완료</td><td>1.0.0(5)</td></tr>
+    <tr><td>A-7016</td><td>iOS</td><td class="l">메뉴 라벨 — 성공/성장스토리 명칭 상이</td><td>작업 완료</td><td>1.0.0(5)</td></tr>
+    <tr><td>A-7026</td><td>iOS</td><td class="l">알림 이메일 변경 — 동작 안 됨</td><td>작업 완료</td><td>1.0.0(5)</td></tr>
+    <tr><td>A-7027</td><td>iOS</td><td class="l">닉네임 — 플로팅 버튼 가림 클릭 불가</td><td>작업 완료</td><td>1.0.0(5)</td></tr>
+    <tr><td>A-7014</td><td>AOS</td><td class="l">피드백(앱 전반) — 타이틀 문구 수정</td><td>작업 완료</td><td>sb_260824</td></tr>
+  </table></div>
+  <p><small class="src">빨간 테두리 3건 = QA 라인 대기 중인 인증·연동 오류(우선 할당 권고) · 작업 완료 단계 건은 차기 빌드 검수 시 해소 여부 확정</small></p>
+</div>
+
+<div class="card">
+  <div class="cap">06 · build coverage</div>
+  <h2>배포 버전 커버리지</h2>
+  <div class="grid2">
+    <div class="lb"><div class="t">검증 이력</div><ul>
+      <li>iOS: 1.0.0(5) → (10) → (11) → (12) 4개 빌드 순환</li>
+      <li>AOS: sb_260824 단일 빌드 검증, sb_260904.apk 전환 예정</li>
+      <li>A2 공통 영역은 (11)·(12) 재검 완료, 6차 점검 변동 0</li>
+    </ul></div>
+    <div class="lb"><div class="t">차기 라운드 기준</div><ul>
+      <li>iOS 1.0.0(12) · AOS sb_260904.apk 병행 검증</li>
+      <li>A0·A1·A7 잔여 카드 (5) 빌드분 — 신규 빌드 재현 확인 필요</li>
+      <li>푸시 5건·에러 3건은 설정 확인 후 일괄 재검</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="cap">07 · tc roadmap</div>
+  <h2>TC 버전 로드맵</h2>
+  <div class="tbox"><table>
+    <colgroup><col style="width:14%"><col style="width:16%"><col style="width:20%"><col style="width:50%"></colgroup>
+    <tr><th>버전</th><th>대상</th><th>일정</th><th>내용</th></tr>
+    <tr class="crit"><td class="em">TC 1.0</td><td>개발 QA</td><td><span class="mark">진행 중 ~9/9 (수)</span></td><td class="l">현행 442행 · 발행 카드 70장 — 전 시트 1회전 완료, 신규 빌드 (12)/sb_260904.apk 재검 회전</td></tr>
+    <tr><td class="em">TC 1.5</td><td>마케터 · 디자이너<br><small style="color:#64748B">재검증(회귀) · 팀원 검증</small></td><td>9/7 (월) ~ 9/9 (수)</td><td class="l">체크 기입 T열(디자인)·U열(마케터) 활용, 상세 내용은 별도 열 없이 K열 추가 기재 — 1.0 종료 후 단계적 요청 예정</td></tr>
+    <tr><td class="em">TC 2.0</td><td>외부 인력<br><small style="color:#64748B">실원 검증</small></td><td>9/10 (목) ~ 9/11 (금)</td><td class="l">축약본 — 기본 동작·중요 기능·이전 QA 이슈 위주 선별, 비전문가용 쉬운 가이드로 재작성</td></tr>
+    <tr><td class="em">2차 구축</td><td>운영 · 통합</td><td>10월 ~ 11월</td><td class="l">운영 고도화 및 셀링스파크 통합을 위한 2차 구축 진행</td></tr>
+  </table></div>
+  <p><small class="src">1.0과 1.5는 9/7~9/9 병행 구간 — 1.0 검수 회전과 1.5 T·U열 기입이 동일 워크북에서 동시 운용</small></p>
+</div>
+
+<div class="card">
+  <div class="cap">08 · next steps</div>
+  <h2>다음 단계</h2>
+  <div class="tbox"><table>
+    <colgroup><col style="width:8%"><col style="width:40%"><col style="width:22%"><col style="width:30%"></colgroup>
+    <tr><th>순번</th><th>액션</th><th>담당</th><th>목표</th></tr>
+    <tr><td>1</td><td class="l">QA 라인 대기 29장 개발 할당 — 인증 오류 3건 우선</td><td>기획 → 앱 개발</td><td class="l">이번 주 내 할당 완료</td></tr>
+    <tr><td>2</td><td class="l">작업 완료 20장 신규 빌드 검수 (12) / sb_260904.apk</td><td>기획(QA)</td><td class="l">차기 TC 업로드 시 반영</td></tr>
+    <tr><td>3</td><td class="l">다이렉트 링크 방식 확정 (미적용 3건 해소)</td><td>내부 협의</td><td class="l">출시 전 방식 결정</td></tr>
+    <tr><td>4</td><td class="l">푸시 알림 설정 확인 후 재확인 5건 일괄 재검</td><td>기획 + 앱 개발</td><td class="l">푸시 인프라 확정 후 즉시</td></tr>
+    <tr><td>5</td><td class="l">TC 1.5(마케터·디자이너) → 2.0(외부 인력) 전환</td><td>기획</td><td class="l">1.5: 9/7~9/9 · 2.0: 9/10~9/11</td></tr>
+  </table></div>
+</div>
+
+<div class="apdx"><span class="tag">Appendix</span><span class="ln"></span></div>
+<div class="card">
+  <div class="cap">appendix 01 · tc consolidation</div>
+  <h2>붙임. TC 검증 내역 취합 (예정)</h2>
+  <div class="note">TC 1.0 워크북(442행) 시트별 수행 결과·Pass/Fail 집계는 차기 보고 시 본 문서에 통합 예정. 현재 카드 발행 기준 데이터만 반영된 상태이며, 워크북 O/P열 판정 전수 집계는 검증 회전 종료 후 취합.</div>
+  <p style="margin-top:12px"><small class="src">데이터 출처: Asana [SB] 셀링부스터_QA 프로젝트 API 집계(2026-09-04) · TC 1.0 워크북 6차 처리본 · 카드 대장 70장 · 셀링부스터 앱 QA 계획서 v1.3(2026-08-20)</small></p>
+</div>
+
+</div>
+<script>
+function saveDoc(){
+  var h='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"></head><body>'+document.getElementById('doc').innerHTML+'
+<script>
+/* ═══ 아사나 동기화 레이어 ═══ */
+const DATA_URL='data/qa_report.enc.json';
+const PROJECT='1212334968261160';
+const CF={type:'1212351705198327',dev:'1212345665719510',pos:'1212345665719522',rnd:'1208108980900826',ver:'1215706549201611'};
+const SECMAP={'1212334968261161':'qa_line','1212287900218727':'assigned','1212287900218729':'in_progress','1212287900218731':'work_done','1212287900218733':'reviewed','1212287900222037':'hold','1212287900222039':'enhance'};
+const SECLABEL={qa_line:'QA 라인 (할당 대기)',assigned:'업무 할당',in_progress:'진행 중',work_done:'작업 완료 (검수 대기)',reviewed:'검수 완료',hold:'보류·중복',enhance:'고도화 예정',completed:'완료 처리',etc:'기타'};
+const SECCOLOR={qa_line:'#D6232B',work_done:'#6466FA',enhance:'#8B8DFB',assigned:'#00B1BD',completed:'#14A05A',in_progress:'#FF9614',reviewed:'#0E7A45',hold:'#94A3B8',etc:'#CBD5E1'};
+const TYPECOLOR={'오류':'#D6232B','개선':'#6466FA','확인':'#00B1BD','미적용':'#64748B','수정':'#FF9614','운영':'#8B5CF6','미지정':'#CBD5E1'};
+const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+
+async function decrypt(pkg,pass){
+  const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pass),'PBKDF2',false,['deriveKey']);
+  const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(pkg.salt),iterations:200000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
+  const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(pkg.iv)},key,b64(pkg.ct));
+  return JSON.parse(new TextDecoder().decode(pt));
+}
+function getPass(force){
+  let p=sessionStorage.getItem('qa_pass');
+  if(!p||force){p=prompt('보고서 열람 비밀번호를 입력하세요');if(p)sessionStorage.setItem('qa_pass',p);}
+  return p;
+}
+async function loadData(manual){
+  const info=document.getElementById('syncInfo');
+  try{
+    const r=await fetch(DATA_URL+'?ts='+Date.now(),{cache:'no-store'});
+    if(!r.ok)throw new Error('데이터 파일 없음('+r.status+')');
+    const pkg=await r.json();
+    let pass=getPass(false),data=null;
+    for(let i=0;i<3&&pass;i++){
+      try{data=await decrypt(pkg,pass);break}
+      catch(e){sessionStorage.removeItem('qa_pass');pass=getPass(true)}
+    }
+    if(!data){info.textContent='잠김(비밀번호 필요)';return}
+    render(data);
+    info.innerHTML='● 동기화: <b>'+data.generated_at+'</b>';info.style.color='#0E7A45';
+  }catch(e){
+    info.textContent=manual?('불러오기 실패: '+e.message):'정적 스냅샷 표시 중 (9/4 집계)';
+    info.style.color='#B26A00';
+  }
+}
+/* ── Asana API 실시간 집계 (개인 토큰, 브라우저 → Asana 직접 호출) ── */
+async function liveSync(){
+  let tok=sessionStorage.getItem('asana_pat');
+  if(!tok){tok=prompt('Asana 개인 액세스 토큰(PAT)을 입력하세요\n(브라우저 세션에만 저장, 저장소 미기록)');if(!tok)return;sessionStorage.setItem('asana_pat',tok);}
+  const info=document.getElementById('syncInfo');info.textContent='실시간 집계 중…';info.style.color='#6466FA';
+  try{
+    const fields='completed,name,memberships.section.gid,custom_fields.gid,custom_fields.display_value';
+    let tasks=[],offset='';
+    while(true){
+      const u='https://app.asana.com/api/1.0/projects/'+PROJECT+'/tasks?limit=100&opt_fields='+fields+(offset?'&offset='+offset:'');
+      const r=await fetch(u,{headers:{Authorization:'Bearer '+tok}});
+      if(r.status===401){sessionStorage.removeItem('asana_pat');throw new Error('토큰 인증 실패')}
+      const j=await r.json();tasks=tasks.concat(j.data);
+      offset=(j.next_page||{}).offset;if(!offset)break;
+    }
+    const cf=(t,g)=>{const c=(t.custom_fields||[]).find(x=>x.gid===g);return c?c.display_value:null};
+    const total=tasks.length,done=tasks.filter(t=>t.completed).length;
+    const app=tasks.filter(t=>cf(t,CF.rnd)==='3차'&&((cf(t,CF.dev)||'').includes('APP')));
+    const auto=app.filter(t=>((cf(t,CF.pos)||'').indexOf('A-')===0));
+    const manualC=app.length-auto.length;
+    const appOpen=app.filter(t=>!t.completed),autoOpen=auto.filter(t=>!t.completed);
+    const bySec={},byType={},errors=[];
+    auto.forEach(t=>{
+      if(t.completed){bySec.completed=(bySec.completed||0)+1;return}
+      const g=((t.memberships||[])[0]||{}).section;const k=SECMAP[(g||{}).gid]||'etc';
+      bySec[k]=(bySec[k]||0)+1;
+    });
+    autoOpen.forEach(t=>{const ty=cf(t,CF.type)||'미지정';byType[ty]=(byType[ty]||0)+1;
+      if(ty==='오류'){const g=((t.memberships||[])[0]||{}).section;
+        errors.push({tid:cf(t,CF.pos)||'-',title:t.name.replace('[SB]','').trim(),sec:SECLABEL[SECMAP[(g||{}).gid]||'etc'],ver:cf(t,CF.ver)||'-'})}});
+    errors.sort((a,b)=>a.tid<b.tid?-1:1);
+    const proc=((bySec.completed||0)+(bySec.work_done||0));
+    render({generated_at:new Date().toLocaleString('ko-KR',{hour12:false})+' (실시간)',
+      total:{n:total,done:done,open:total-done},
+      app:{n:app.length,auto:auto.length,manual:manualC,open:appOpen.length,auto_open:autoOpen.length,
+        by_sec:bySec,by_type:byType,proc_rate:Math.round(proc/Math.max(app.length,1)*1000)/10},
+      web_open:(total-done)-appOpen.length,errors:errors});
+    info.innerHTML='● 실시간 집계 완료 <b>'+new Date().toLocaleTimeString('ko-KR',{hour12:false})+'</b>';info.style.color='#0E7A45';
+  }catch(e){info.textContent='실시간 동기화 실패: '+e.message;info.style.color='#D6232B'}
+}
+/* ── 렌더링 ── */
+function render(d){
+  const a=d.app,s=a.by_sec||{},ty=a.by_type||{};
+  const doneC=s.completed||0,waitC=s.work_done||0;
+  const pr=a.proc_rate!=null?a.proc_rate:Math.round((doneC+waitC)/Math.max(a.n,1)*1000)/10;
+  set('procRate',pr+'%');
+  const dp=Math.round(doneC/Math.max(a.n,1)*1000)/10, wp=Math.round(waitC/Math.max(a.n,1)*1000)/10;
+  const aD=document.getElementById('arcDone'),aW=document.getElementById('arcWait');
+  if(aD){aD.setAttribute('stroke-dasharray',dp+' '+(100-dp));aD.setAttribute('stroke-dashoffset',25)}
+  if(aW){aW.setAttribute('stroke-dasharray',wp+' '+(100-wp));aW.setAttribute('stroke-dashoffset',25-dp)}
+  set('stN',a.n);set('stNsub','3차 카드 (자동 작성 '+a.auto+' · 수기 '+a.manual+')');
+  set('stDone',doneC);set('stWaitSub','+ 검수 대기 '+waitC);
+  const opRest=a.auto_open-waitC;
+  set('stOpen',opRest);set('stOpenSub','대응 대기 (할당 대기 '+(s.qa_line||0)+' 포함)');
+  const prog=(s.in_progress||0)+(s.assigned||0);
+  setHTML('sumApp','발행 카드 누적 <span class="ul">'+a.n+'장</span>(자동 작성 '+a.auto+' · 수기 '+a.manual+') — 완료 '+doneC+' · 검수 대기 '+waitC+' · <span class="ul">할당 대기 '+(s.qa_line||0)+'</span> · 진행/할당 '+prog+' · 고도화 예정 '+(s.enhance||0));
+  setHTML('sumWeb','미완료 <span class="ul">'+d.web_open+'건</span> 병행 대응 — 앱구축 대응 지원 및 웹운영 병행 사항 (서버오픈·운영 차수 이월 포함)');
+  set('tAutoN',a.auto);set('tAutoD',a.auto-a.auto_open);set('tAutoO',a.auto_open);
+  set('tManN',a.manual);set('tManD',a.manual-(a.open-a.auto_open));set('tManO',a.open-a.auto_open);
+  set('tWebO',d.web_open);
+  /* 단계별 바 */
+  const hb=document.getElementById('hbars');
+  if(hb){const order=Object.entries(s).sort((x,y)=>y[1]-x[1]);const mx=Math.max(...order.map(o=>o[1]),1);
+    hb.innerHTML=order.map(([k,v])=>'<div class="hrow"><span class="hl">'+(SECLABEL[k]||k)+'</span><span class="ht"><span class="hf" style="width:'+Math.max(v/mx*100,5)+'%;background:'+(SECCOLOR[k]||'#CBD5E1')+'">'+v+'</span></span></div>').join('')}
+  /* 유형 스택 */
+  const tl=document.getElementById('typeLegend'),ts=document.getElementById('typeStack');
+  if(tl&&ts){const ord=['오류','개선','확인','미적용','수정'].filter(k=>ty[k]).concat(Object.keys(ty).filter(k=>!['오류','개선','확인','미적용','수정'].includes(k)));
+    const tot=ord.reduce((p,k)=>p+ty[k],0)||1;
+    tl.innerHTML=ord.map(k=>'<span><i class="dot" style="background:'+(TYPECOLOR[k]||'#CBD5E1')+'"></i>'+k+' '+ty[k]+'</span>').join('');
+    ts.innerHTML=ord.map(k=>'<i style="width:'+(ty[k]/tot*100)+'%;background:'+(TYPECOLOR[k]||'#CBD5E1')+'">'+ty[k]+'</i>').join('');
+    set('typeTitle','QA 유형별 분포 (미완료 '+a.auto_open+'장)')}
+  /* 오류 표 */
+  if(d.errors){set('errTitle','미해결 오류 '+d.errors.length+'건');
+    const tb=document.getElementById('errTable');
+    if(tb){while(tb.rows.length>1)tb.deleteRow(1);
+      d.errors.forEach(e=>{const mm=e.title.match(/^\[(iOS|AOS|All)\]/);const os=mm?mm[1]:'-';
+        const r=tb.insertRow(-1);
+        r.innerHTML='<td>'+e.tid+'</td><td>'+os+'</td><td class="l">'+e.title.replace(/^\[(iOS|AOS|All)\]\s*/,'')+'</td><td>'+e.sec+'</td><td>'+e.ver+'</td>'})}}
+}
+function set(id,v){const e=document.getElementById(id);if(e)e.textContent=v}
+function setHTML(id,v){const e=document.getElementById(id);if(e)e.innerHTML=v}
+document.addEventListener('DOMContentLoaded',()=>loadData(false));
+</script>
+</body></html>';
+  var b=new Blob(['\ufeff'+h],{type:'application/msword'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='HD_셀링부스터_앱_QA진행보고.doc';a.click();
+}
+function savePdf(){
+  var s=document.createElement('script');
+  s.src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+  s.onload=function(){
+    document.body.classList.add('pdf-mode');
+    html2pdf().set({margin:0,filename:'HD_셀링부스터_앱_QA진행보고.pdf',image:{type:'jpeg',quality:.95},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'px',format:[794,1123],orientation:'portrait'},pagebreak:{mode:['css'],avoid:['.lb','.tbox','tr','h2','h3']}}).from(document.getElementById('doc')).save().then(function(){document.body.classList.remove('pdf-mode')});
+  };
+  s.onerror=function(){window.print()};
+  document.head.appendChild(s);
+}
+</script>
+</body>
+</html>
