@@ -73,11 +73,20 @@ async function collectWithBrowser() {
         const category = lines.find((l) => CATS.includes(l)) || null;
         const dateLine = lines.find((l) => /\d{4}[.\-\/]\d{1,2}[.\-\/]\d{1,2}/.test(l)) || null;
         // 제목: 카테고리·날짜 제외, 8~150자 범위의 "첫 번째" 줄 (본문 미리보기는 150자 초과라 제외됨)
+        // 주의: "2026 코리아 이커머스 페어…"처럼 숫자로 시작하는 제목이 있으므로
+        //       숫자 시작 전체 제외가 아니라 날짜 형식·순수 숫자 줄만 제외한다
         const title = lines
-          .find((l) => l !== category && l !== dateLine && l.length >= 8 && l.length <= 150 && !/^\d/.test(l)) || null;
+          .find((l) => l !== category && l !== dateLine && l.length >= 8 && l.length <= 150
+            && !/^\d{4}[.\-\/]\d{1,2}[.\-\/]\d{1,2}/.test(l) && !/^[\d,.\s]+$/.test(l)) || null;
+        // 조회수: 카드 하단의 독립된 숫자 줄 (예: "6", "1,024")
+        let views = null;
+        for (let i = lines.length - 1; i >= 0; i--) {
+          const m2 = lines[i].match(/^([\d,]{1,9})$/);
+          if (m2) { views = parseInt(m2[1].replace(/,/g, ''), 10); break; }
+        }
         if (category && dateLine && title && !seen.has(href)) {
           seen.add(href);
-          out.push({ href, category, dateLine, title });
+          out.push({ href, category, dateLine, title, views });
         }
       });
       return out;
@@ -90,6 +99,7 @@ async function collectWithBrowser() {
         category: it.category,
         title: it.title,
         url: it.href,
+        views: it.views,
       })).filter((x) => x.date && x.title),
     };
   } finally {
@@ -172,6 +182,25 @@ async function main() {
     const known = new Set(posts.map(key));
     const fresh = collected.filter((x) => !known.has(key(x)));
     for (const f of fresh) posts.push(f);
+    // 기존 글의 조회수 최신화 (효과 검증용)
+    const byKey = new Map(posts.map((x) => [key(x), x]));
+    for (const c of collected) {
+      if (c.views == null) continue;
+      const ex = byKey.get(key(c));
+      if (ex) ex.views = c.views;
+    }
+    // 조회수 일별 스냅샷 누적 (data/views.json, 최근 120일)
+    try {
+      let vh = [];
+      try { vh = JSON.parse(fs.readFileSync(p('data', 'views.json'), 'utf8')); } catch (e) {}
+      const entries = {};
+      for (const c of collected) if (c.views != null) entries[key(c)] = c.views;
+      if (Object.keys(entries).length) {
+        vh = vh.filter((r) => r.date !== today);
+        vh.push({ date: today, entries });
+        fs.writeFileSync(p('data', 'views.json'), JSON.stringify(vh.slice(-120), null, 1));
+      }
+    } catch (e) { console.error('views history failed:', e.message); }
     meta.lastStatus = 'ok:' + fresh.length + naverStatus;
     if (fresh.length) console.log('new posts:\n' + fresh.map((f) => `${f.date} [${f.category}] ${f.title}`).join('\n'));
   }
