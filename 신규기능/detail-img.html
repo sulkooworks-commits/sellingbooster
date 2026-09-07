@@ -107,8 +107,8 @@ header p{font-size:13px;opacity:.85;margin-top:6px;}
     <button class="btn btn-file" style="border-style:solid" onclick="toggleVault()">☁ 키 저장/불러오기</button>
   </div>
   <div class="keyrow" id="vaultRow" style="display:none">
-    <input type="password" id="vaultpw" class="model" style="flex:0 0 240px" placeholder="볼트 암호 (복호화용, 길게)">
-    <input type="password" id="ghtoken" placeholder="GitHub 토큰 — 저장할 때만 필요 (contents:write)">
+    <input type="password" id="vaultpw" class="model" style="flex:0 0 240px" placeholder="볼트 암호 (Enter=불러오기)">
+    <input type="password" id="ghtoken" placeholder="GitHub 토큰 — 최초 저장 1회만 입력 (contents:write)">
     <button class="btn btn-t" onclick="vaultLoad()">불러오기</button>
     <button class="btn btn-v" onclick="vaultSave()">저장</button>
   </div>
@@ -191,16 +191,17 @@ async function deriveKey(pw,salt){
 }
 async function vaultSave(){
   const st=document.getElementById('status');
-  const pw=document.getElementById('vaultpw').value, gt=document.getElementById('ghtoken').value.trim();
+  const pw=document.getElementById('vaultpw').value;
+  const gt=document.getElementById('ghtoken').value.trim()||window._ghtoken||'';
   if(!key()){ st.textContent='저장할 API 키를 먼저 입력하세요'; return; }
   if(pw.length<8){ st.textContent='볼트 암호는 8자 이상으로 설정하세요'; return; }
-  if(!gt){ st.textContent='저장에는 GitHub 토큰(contents:write)이 필요합니다'; return; }
+  if(!gt){ st.textContent='최초 저장 1회는 GitHub 토큰(contents:write)이 필요합니다 — 이후엔 자동 사용'; return; }
   st.textContent='암호화·커밋 중…';
   try{
     const salt=crypto.getRandomValues(new Uint8Array(16)), iv=crypto.getRandomValues(new Uint8Array(12));
     const k=await deriveKey(pw,salt);
     const payload=new TextEncoder().encode(JSON.stringify({
-      apikey:key(), model:document.getElementById('model').value.trim(),
+      apikey:key(), ghtoken:gt, model:document.getElementById('model').value.trim(),
       imodel:document.getElementById('imodel').value.trim(), saved:new Date().toISOString()
     }));
     const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},k,payload);
@@ -213,8 +214,10 @@ async function vaultSave(){
       headers:{Authorization:'Bearer '+gt,'Content-Type':'application/json'},
       body:JSON.stringify({message:'chore: gemini vault update',branch:VAULT_BRANCH,content:btoa(doc),...(sha?{sha}:{})})});
     if(!res.ok){ const e=await res.json().catch(()=>({})); throw new Error(res.status+' '+(e.message||'커밋 실패')); }
+    window._ghtoken=gt;
     document.getElementById('ghtoken').value='';
-    st.textContent='☁ 키 저장 완료 — '+VAULT_PATH+' 커밋됨';
+    document.getElementById('ghtoken').placeholder='GitHub 토큰 — 볼트에 저장됨 (재입력 불필요)';
+    st.textContent='☁ 키 저장 완료 — 다음부터는 볼트 암호만 입력하면 됩니다';
   }catch(e){ st.textContent='키 저장 실패: '+e.message; }
 }
 async function vaultLoad(){
@@ -235,10 +238,12 @@ async function vaultLoad(){
     document.getElementById('apikey').value=o.apikey||'';
     if(o.model) document.getElementById('model').value=o.model;
     if(o.imodel) document.getElementById('imodel').value=o.imodel;
-    st.textContent='☁ 키 불러오기 완료 (저장 시각: '+(o.saved||'').slice(0,16).replace('T',' ')+')';
+    if(o.ghtoken){ window._ghtoken=o.ghtoken; document.getElementById('ghtoken').placeholder='GitHub 토큰 — 볼트에서 복원됨 (재입력 불필요)'; }
+    st.textContent='☁ 불러오기 완료 — 바로 사용 가능'+(o.saved?' (저장: '+o.saved.slice(0,16).replace('T',' ')+')':'');
   }catch(e){ st.textContent='불러오기 실패: '+e.message; }
 }
 // 시작 시 볼트 존재 여부만 조용히 확인
+document.getElementById('vaultpw').addEventListener('keydown',e=>{ if(e.key==='Enter') vaultLoad(); });
 (async()=>{
   try{
     const r=await fetch(VAULT_API+'?ref='+VAULT_BRANCH,{method:'HEAD',cache:'no-store'});
