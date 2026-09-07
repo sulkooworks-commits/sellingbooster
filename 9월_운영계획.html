@@ -172,7 +172,7 @@
 
   /* ── 플로팅 목차 패널 ── */
   .toc-panel{
-    display:none;position:absolute;right:0;bottom:52px;
+    display:block;position:absolute;right:0;bottom:52px;
     background:#fff;border:1px solid var(--line);border-radius:14px;
     box-shadow:0 8px 24px rgba(15,23,42,.16);
     padding:6px 0 4px;min-width:230px;max-height:70vh;overflow-y:auto;
@@ -1011,14 +1011,9 @@
   }
   function toggleToc(){
     var p = document.getElementById('tocPanel');
-    p.style.display = (p.style.display === 'block') ? 'none' : 'block';
+    var visible = window.getComputedStyle(p).display !== 'none';
+    p.style.display = visible ? 'none' : 'block';
   }
-  document.addEventListener('click', function(e){
-    var fab = document.getElementById('tocFab');
-    if (fab && !fab.contains(e.target)) {
-      document.getElementById('tocPanel').style.display = 'none';
-    }
-  });
 
   var PLAN_URL = 'https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EB%B8%94%EB%A1%9C%EA%B7%B8_%EB%B0%9C%ED%96%89%EA%B3%84%ED%9A%8D_8-9%EC%9B%94.html';
   function togglePlanEmbed(){
