@@ -180,6 +180,25 @@ const VAULT_REPO='sulkooworks-commits/sellingbooster';
 const VAULT_PATH='신규기능/data/gemini-vault.json';
 const VAULT_BRANCH='main';
 const VAULT_API='https://api.github.com/repos/'+VAULT_REPO+'/contents/'+encodeURI(VAULT_PATH);
+// 조회 폴백 체인: ①API(토큰 있으면 인증 — 무인증은 60회/시 제한으로 403 가능) ②raw ③GitHub Pages
+async function fetchVaultDoc(){
+  const tries=[
+    {u:VAULT_API+'?ref='+VAULT_BRANCH,h:{Accept:'application/vnd.github.raw+json',...(window._ghtoken?{Authorization:'Bearer '+window._ghtoken}:{})}},
+    {u:'https://raw.githubusercontent.com/'+VAULT_REPO+'/'+VAULT_BRANCH+'/'+encodeURI(VAULT_PATH)+'?t='+Date.now()},
+    {u:'https://sulkooworks-commits.github.io/sellingbooster/'+encodeURI(VAULT_PATH)+'?t='+Date.now()}
+  ];
+  const errs=[];
+  for(const t of tries){
+    try{
+      const res=await fetch(t.u,{headers:t.h||{},cache:'no-store'});
+      if(res.ok){ const d=JSON.parse(await res.text()); window._vaultDoc=d; return d; }
+      errs.push(res.status);
+    }catch(e){ errs.push(e.message); }
+  }
+  if(window._vaultDoc) return window._vaultDoc; // 시작 시 성공분 재사용
+  if(errs.every(x=>x===404)) throw new Error('저장된 볼트가 없습니다');
+  throw new Error('조회 실패 ('+errs.join(' / ')+')');
+}
 function toggleVault(){
   const r=document.getElementById('vaultRow');
   r.style.display=r.style.display==='none'?'flex':'none';
@@ -215,7 +234,7 @@ async function vaultSave(){
       headers:{Authorization:'Bearer '+gt,'Content-Type':'application/json'},
       body:JSON.stringify({message:'chore: gemini vault update',branch:VAULT_BRANCH,content:btoa(doc),...(sha?{sha}:{})})});
     if(!res.ok){ const e=await res.json().catch(()=>({})); throw new Error(res.status+' '+(e.message||'커밋 실패')); }
-    window._ghtoken=gt; window._vaultpw=pw;
+    window._ghtoken=gt; window._vaultpw=pw; window._vaultDoc=JSON.parse(doc);
     document.getElementById('ghtoken').value='';
     document.getElementById('ghtoken').placeholder='GitHub 토큰 — 볼트에 저장됨 (재입력 불필요)';
     st.textContent='☁ 키 저장 완료 — 다음부터는 볼트 암호만 입력하면 됩니다';
@@ -227,10 +246,7 @@ async function vaultLoad(){
   if(!pw){ st.textContent='볼트 암호를 입력하세요'; return; }
   st.textContent='볼트 불러오는 중…';
   try{
-    const res=await fetch(VAULT_API+'?ref='+VAULT_BRANCH,{headers:{Accept:'application/vnd.github.raw+json'},cache:'no-store'});
-    if(res.status===404) throw new Error('저장된 볼트가 없습니다');
-    if(!res.ok) throw new Error('조회 실패 ('+res.status+')');
-    const d=JSON.parse(await res.text());
+    const d=await fetchVaultDoc();
     const k=await deriveKey(pw,a2b(d.salt));
     let pt;
     try{ pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:a2b(d.iv)},k,a2b(d.ct)); }
@@ -246,19 +262,17 @@ async function vaultLoad(){
     st.textContent='🔓 잠금 해제 — API 키·모델·토큰 복원 완료'+(o.saved?' (저장: '+o.saved.slice(0,16).replace('T',' ')+')':'');
   }catch(e){ st.textContent='불러오기 실패: '+e.message; }
 }
-// 시작 시: 볼트 있으면 암호 입력만 안내, 없으면 최초 설정 행을 자동으로 연다
+// 시작 시: 볼트 있으면 암호 입력만 안내, 없으면 최초 설정 행을 자동으로 연다 (폴백 조회 사용)
 document.getElementById('vaultpw').addEventListener('keydown',e=>{ if(e.key==='Enter') vaultLoad(); });
 (async()=>{
   try{
-    const r=await fetch(VAULT_API+'?ref='+VAULT_BRANCH,{method:'HEAD',cache:'no-store'});
-    if(r.ok){
-      document.getElementById('status').textContent='🔒 볼트 암호 입력 후 Enter로 시작하세요';
-      document.getElementById('vaultpw').focus();
-    }else{
-      document.getElementById('vaultRow').style.display='flex';
-      document.getElementById('status').textContent='최초 설정 — ⚙ 키 설정에 API 키 입력 후 볼트 암호와 함께 ☁ 저장';
-    }
-  }catch(_){ document.getElementById('vaultRow').style.display='flex'; }
+    await fetchVaultDoc();
+    document.getElementById('status').textContent='🔒 볼트 암호 입력 후 Enter로 시작하세요';
+    document.getElementById('vaultpw').focus();
+  }catch(_){
+    document.getElementById('vaultRow').style.display='flex';
+    document.getElementById('status').textContent='최초 설정 — ⚙ 키 설정에 API 키 입력 후 볼트 암호와 함께 ☁ 저장';
+  }
 })();
 async function callGemini(model,parts,cfg){
   const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent?key='+encodeURIComponent(key()),{
