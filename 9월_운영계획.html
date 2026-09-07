@@ -168,21 +168,53 @@
     background:#fff;transition:background .15s;
   }
   .btn-link:hover{background:#F2FBFC;}
-  section,h2,h3{scroll-margin-top:80px;}
+  section,h2,h3,.docbox{scroll-margin-top:80px;}
 
   /* ── 플로팅 목차 패널 ── */
   .toc-panel{
     display:none;position:absolute;right:0;bottom:52px;
-    background:#fff;border:1px solid var(--line);border-radius:16px;
+    background:#fff;border:1px solid var(--line);border-radius:14px;
     box-shadow:0 8px 24px rgba(15,23,42,.16);
-    padding:10px 8px;min-width:200px;max-height:70vh;overflow-y:auto;
+    padding:6px 0 4px;min-width:230px;max-height:70vh;overflow-y:auto;
+  }
+  .toc-title{
+    font-size:11.5px;font-weight:800;color:var(--sub);
+    letter-spacing:.08em;padding:8px 18px 6px;
+    border-bottom:1px solid var(--line);margin-bottom:2px;
   }
   .toc-panel a{
-    display:block;padding:7px 12px;border-radius:8px;
-    font-size:13px;font-weight:600;color:var(--ink);text-decoration:none;white-space:nowrap;
+    display:flex;align-items:baseline;gap:10px;
+    padding:9px 18px;border-radius:0;
+    background:none;box-shadow:none;
+    font-size:13.5px;font-weight:600;color:var(--ink);
+    text-decoration:none;white-space:nowrap;line-height:1.4;
   }
+  .toc-panel a + a{border-top:1px solid #F5F3EC;}
   .toc-panel a:hover{background:#F2FBFC;color:var(--teal);}
-  .toc-panel a .tnum{color:var(--teal);font-weight:800;margin-right:7px;}
+  .toc-panel a .tnum{flex:none;width:16px;text-align:right;color:var(--teal);font-weight:800;font-size:12px;}
+  .docbox summary{
+    cursor:pointer;font-weight:800;font-size:14.5px;color:var(--ink);
+    list-style:none;display:flex;align-items:center;
+  }
+  .docbox summary::-webkit-details-marker{display:none;}
+  .docbox summary::after{content:"펼치기 ▾";margin-left:auto;font-size:12px;font-weight:700;color:var(--teal);}
+  .docbox[open] summary::after{content:"접기 ▴";}
+  .docbox[open] summary{margin-bottom:16px;}
+  .docbox a{color:var(--ink);text-decoration:none;border-bottom:1px dotted rgba(90,100,116,.45);}
+  .docbox a:hover{color:var(--teal);border-bottom-color:var(--teal);}
+  .docbox .dnote{font-size:11.5px;color:var(--sub);}
+  .fold{border:1px solid var(--line);border-radius:14px;padding:16px 22px;margin-top:14px;background:#FAFAF7;}
+  .fold summary{cursor:pointer;font-weight:700;font-size:15.5px;color:var(--ink);list-style:none;display:flex;align-items:center;}
+  .fold summary::-webkit-details-marker{display:none;}
+  .fold summary::after{content:"펼치기 ▾";margin-left:auto;font-size:12px;font-weight:700;color:var(--teal);}
+  .fold[open] summary::after{content:"접기 ▴";}
+  .fold[open] summary{margin-bottom:12px;}
+  .tfold{margin-top:20px;}
+  .tfold summary{cursor:pointer;font-size:13.5px;font-weight:700;color:var(--ink);list-style:none;}
+  .tfold summary::-webkit-details-marker{display:none;}
+  .tfold summary::after{content:" ▾ 펼치기";font-size:12px;font-weight:700;color:var(--teal);margin-left:8px;}
+  .tfold[open] summary::after{content:" ▴ 접기";}
+  .tfold[open] summary{margin-bottom:10px;}
 
   /* ── 당월 강조 행 ── */
   tr.cur td{background:#F2FBFC;border-top:2px solid var(--teal);border-bottom:2px solid var(--teal);}
@@ -192,7 +224,7 @@
 
   /* ── 플로팅 별첨 바로가기 ── */
   .fab{position:fixed;right:24px;bottom:28px;z-index:90;}
-  .fab a{
+  .fab > a{
     display:flex;align-items:center;gap:6px;
     background:var(--teal);color:#fff;
     font-size:13px;font-weight:700;text-decoration:none;
@@ -200,7 +232,7 @@
     box-shadow:0 4px 14px rgba(0,177,189,.35);
     transition:transform .15s, box-shadow .15s;
   }
-  .fab a:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,177,189,.45);}
+  .fab > a:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,177,189,.45);}
 
   /* ── Flow ── */
   .cycle{
@@ -229,7 +261,7 @@
     .cycle .step::after{content:"↓";right:auto;left:50%;top:auto;bottom:-22px;transform:translateX(-50%);}
     table{font-size:13px;}
     .fab{right:14px;bottom:16px;}
-    .fab a{font-size:12px;padding:9px 14px;}
+    .fab > a{font-size:12px;padding:9px 14px;}
   }
   @media print{
     body{background:#fff;padding:0;}
@@ -272,7 +304,7 @@
       ① <b>앱 정식 오픈</b> — 1안 9/16 · 2안 9/30<br>
       ② <b>콘텐츠 주 5회 확대</b> — 9/1부터 화·목 아이템 딥다이브 추가<br>
       ③ <b>광고 확장</b> — 구글 신규 매체(검색·PMAX) 도입 + 메타 리타겟팅 개시<br>
-      ④ <b>마켓 입점</b> — 네이버 솔루션 마켓 입점 신청 (9월 1주차)
+      ④ <b>마켓 입점</b> — 카페24 입점 심사 진행 중 · 네이버 솔루션 마켓 신청 보류
     </div>
     <table class="kv">
       <tr><td>목적</td><td>① 사용자 유입 증대 &nbsp; ② 머신러닝 학습데이터 확보 (유입·행동 데이터 축적)</td></tr>
@@ -285,6 +317,15 @@
         <b>콘텐츠 발행</b> — 9월부터 이슬기·안지호 반반 분업 예정
       </td></tr>
     </table>
+
+    <div style="margin-top:16px;background:#FFF8EA;border-left:4px solid #E5A400;border-radius:0 14px 14px 0;padding:14px 18px;">
+      <p style="font-weight:800;font-size:13.5px;margin-bottom:9px;">⚠ 주요 이슈 — 솔루션 입점 심사</p>
+      <ol style="margin:0 0 0 20px;font-size:13.5px;">
+        <li style="margin-bottom:7px;"><b>네이버 스토어 입점</b> — 슬롯 추가 불가 건으로 <b>보류 상태</b> → 대안 내부 결정 필요 (실장 피드백: 기존 셀픽 앱 교체 검토)</li>
+        <li style="margin-bottom:7px;"><b>네이버 쇼핑 API 대안</b> — 크롤링 불가, 프록시 서버 대체안 IT실에서 제공 예정 (크롬 익스텐션 활용안 · 모바일 활용안) — <b>금주</b></li>
+        <li><b>TTJ 개발 우선 검증</b> — 검증용 세팅 수급 예정 (박재상 팀장) — <b>금주</b></li>
+      </ol>
+    </div>
   </section>
 
   <!-- ═══ 2. 월별 활동 요약 ═══ -->
@@ -327,7 +368,7 @@
   <section>
     <h2 id="toc-3"><span class="num">3</span>운영 성과 요약 (7월 vs. 8월)</h2>
     <div class="lead" style="font-size:13.5px;">
-      요지: <b>유입 확대는 성공, 다음 병목은 전환·리텐션</b> — 9월 활동(4장)은 메타 재배분 · 모바일 랜딩 개선 · 앱 오픈 리텐션에 집중. 상세 데이터는 별첨 1·2 참조.
+      요지: <b>유입 확대는 성공, 다음 병목은 전환·리텐션</b> — 9월 활동(4장)은 메타 재배분 · 모바일 랜딩 개선 · 앱 오픈 리텐션에 집중. 상세 데이터는 별첨 3·3 참조.
     </div>
     <p style="font-size:13.5px;font-weight:700;margin-top:14px;">항목별 성과 판정</p>
     <table>
@@ -350,15 +391,15 @@
     <!-- 3-1 도메인 지수 -->
     <h3 id="sec-domain">4-1. 도메인 지수 <span class="chip">담당 이슬기 · 발행 분업 안지호</span></h3>
     <table class="kv">
-      <tr><td>현황<br><small style="font-weight:400;color:var(--sub);">(발행 로그<br>8/28 기준)</small></td><td><b>3채널 누적 101건 · 정시 발행 체계 안착</b> — 8/26 계획분 3채널(본편 「마진율 계산」 · K트렌드 「연노랑 린넨 원피스」 · 네이버 첫 파생) 모두 정시 발행 확정, 전주(8/17~23) 주간 목표 전량 달성(K트렌드 3/3 · 본편 3/3), 금주 K트렌드 3/2 초과 달성. GitHub Actions 일일 자동 수집·판정 가동 중
-        <p style="margin:10px 0 0;"><a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/SEO%EB%AA%A8%EB%8B%88%ED%84%B0%EB%A7%81/seo-monitoring.html" target="_blank" rel="noopener noreferrer">📊 발행 로그 · SEO 모니터링 대시보드</a></p>
+      <tr><td>현황<br><small style="font-weight:400;color:var(--sub);">(발행 로그<br>8/28 기준)</small></td><td><b>3채널 누적 101건 · 정시 발행 체계 안착</b> — 8/26 계획분 3채널(본편 「마진율 계산」 · K트렌드 「연노랑 린넨 원피스」 · 네이버 첫 파생) 모두 정시 발행 확정, 전주(8/17~23) 주간 목표 전량 달성(K트렌드 3/3 · 본편 3/3), 금주 K트렌드 3/2 초과 달성. GitHub Actions 일일 자동 수집·판정 가동 중. SEO실 협업(주간 TF, 매주 수요일) 점검 로그 병행 운영
+        <p style="margin:10px 0 0;"><a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/SEO%EB%AA%A8%EB%8B%88%ED%84%B0%EB%A7%81/seo-monitoring.html" target="_blank" rel="noopener noreferrer">📊 발행 로그 · SEO 모니터링 대시보드</a> <a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/SEO%EC%A0%90%EA%B2%80/seo-check-dashboard.html" target="_blank" rel="noopener noreferrer">🤝 SEO실 협업 점검 로그</a></p>
       </td></tr>
       <tr><td>9월 활동</td><td>
         <ul style="margin-bottom:0;">
           <li><b>본편 주 5회 확대(9/1~):</b> 월·수·금 본편 11회 + 화·목 「아이템 딥다이브」 8회 — <b>이슬기·안지호 반반 분업 예정</b></li>
           <li><b>K트렌드 매거진 11회:</b> FW26 트렌드 4축(레드·체크·볼륨/커브드·패러독스) 기반, 추석룩 9/16 선점 발행 · 트렌드 학습 L1(9/14) 반영</li>
           <li><b>네이버 블로그 발행 14회:</b> 원본 +18~21일 시차 재집필 — 9~10월 네이버 전용 콘텐츠 가이드 수급 예정</li>
-          <li><b>GEO:</b> 하이훅 GEO 가이드 수령 대기 → 수령 즉시 발행 지침 반영 (AI 유입 누적 93건 · CVR 3.2% 전 채널 최고, 별첨 1)</li>
+          <li><b>GEO:</b> 하이훅 GEO 가이드 수령 대기 → 수령 즉시 발행 지침 반영 (AI 유입 누적 93건 · CVR 3.2% 전 채널 최고, 별첨 2)</li>
           <li>추석(9/24·25·28) 발행 스킵 — 시즌 콘텐츠는 2~3주 선행 배치 완료 · 색인·AI 브리핑 인용 주간 점검 지속</li>
         </ul>
         <p style="margin:10px 0 0;"><a class="btn-link" href="#apx-plan">📋 발행 계획 상세보기 →</a> <a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EB%B8%94%EB%A1%9C%EA%B7%B8_%EB%B0%9C%ED%96%89%EA%B3%84%ED%9A%8D_8-9%EC%9B%94.html" target="_blank" rel="noopener noreferrer">🔗 블로그 발행 계획 원문</a> <a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/K%ED%8A%B8%EB%A0%8C%EB%93%9C%EB%A7%A4%EA%B1%B0%EC%A7%84/K%ED%8A%B8%EB%A0%8C%EB%93%9C_%EB%A7%A4%EA%B1%B0%EC%A7%84_%EB%B0%9C%ED%96%89%EA%B3%84%ED%9A%8D_9%EC%9B%94.html" target="_blank" rel="noopener noreferrer">👗 K트렌드 9월 발행 계획</a></p>
@@ -467,7 +508,33 @@
 
   <!-- ═══ 4. 담당 구분 ═══ -->
   <!-- ═══ 5. 관리 체계 ═══ -->
-    <!-- ═══ 5. 9월 광고 품의 계획 ═══ -->
+    <!-- ═══ 초안: 서비스 고도화 ═══ -->
+  <section style="border:1.5px dashed var(--teal);background:#FBFEFE;">
+    <h2><span class="num" style="width:auto;padding:0 10px;background:#fff;color:var(--teal);border:1.5px dashed var(--teal);">초안</span>서비스 고도화 <span class="chip" style="background:var(--warn-bg);color:#9A6B00;">추가 예정</span></h2>
+    <p style="font-size:13.5px;color:var(--sub);margin-bottom:12px;">9월 초 「마케팅 소구점 및 기능 고도화 계획 수립」(7장 마일스톤) 산출 후 상세 확정 예정 — 아래 3개 트랙으로 구성.</p>
+    <ol style="margin:0 0 4px 22px;">
+      <li style="margin-bottom:7px;"><b>현행 기능 고도화</b></li>
+      <li style="margin-bottom:7px;"><b>TTJ · 셀링스파크 연동</b></li>
+      <li><b>셀링스파크 통합</b></li>
+    </ol>
+
+    <h3 style="margin-top:22px;">셀링부스터 통합 안건</h3>
+    <ol style="margin:0 0 4px 22px;">
+      <li style="margin-bottom:12px;"><b>프로토타입 확정 이후 상세 기획 예정</b> — 메인 · 판매하기/분석하기 서비스 페이지 · 요금제 페이지
+        <p style="margin:8px 0 8px;">
+          <a class="btn-link" style="font-size:11.5px;padding:4px 11px;" href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%ED%86%B5%ED%95%A9_%ED%94%84%EB%A1%9C%ED%86%A0%ED%83%80%EC%9E%85/selling-booster-prototype-v4.html" target="_blank" rel="noopener noreferrer">초안 (v4)</a>
+          <a class="btn-link" style="font-size:11.5px;padding:4px 11px;" href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80_%ED%94%84%EB%A1%9C%ED%86%A0%ED%83%80%EC%9E%85_260821.html" target="_blank" rel="noopener noreferrer">피벗 1</a>
+          <a class="btn-link" style="font-size:11.5px;padding:4px 11px;" href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80+%EA%B3%84%EC%82%B0%EA%B8%B0_%ED%94%84%EB%A1%9C%ED%86%A0%ED%83%80%EC%9E%85_260821.html#home" target="_blank" rel="noopener noreferrer">피벗 2</a>
+          <a class="btn-link" style="font-size:11.5px;padding:4px 11px;" href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%ED%86%B5%ED%95%A9%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80_%ED%94%84%EB%A1%9C%ED%86%A0%ED%83%80%EC%9E%85_v1.0.html#home" target="_blank" rel="noopener noreferrer">피벗 3 (v1.0)</a>
+        </p>
+        <span style="font-size:13.5px;">결론: 초안~피벗 3 최종 취합 후 <b>수요일 중 실장 보고 예정</b> (w. 임승용 책임)</span>
+      </li>
+      <li style="margin-bottom:7px;"><b>통합 브랜딩 컨택 예정</b> — 브랜드전략실 신지나 팀장 협의</li>
+      <li><b>개인정보처리방침 · 서비스 이용약관 개정 예정</b></li>
+    </ol>
+  </section>
+
+  <!-- ═══ 5. 9월 광고 품의 계획 ═══ -->
   <section>
     <h2 id="toc-5"><span class="num">5</span>9월 광고 품의 계획</h2>
     <div class="lead" style="font-size:13.5px;">
@@ -510,11 +577,35 @@
     <p style="font-size:12.5px;color:var(--sub);margin-top:6px;">※ PMAX(Performance Max) = 구글 AI 자동 운용 캠페인. 승인 시 해당 예산·정산 방식으로 광고 집행 신속 준비.</p>
   </section>
 
+  <!-- ═══ 6. 앱 QA 진행 현황 ═══ -->
+  <section>
+    <h2 id="toc-6"><span class="num">6</span>앱 QA 진행 현황</h2>
+    <div class="lead" style="font-size:13.5px;">
+      9/4 기준 발행 카드 <b>109장</b> · TC 수행률 77.6% · 통과율 <b>87.4%</b> — 현재 릴리즈 판정 <b>불가</b>(C·H 미해결 1건, A7 앱푸시 수신). 재검증 주간(9/7~9/11)에 해소 후 <b>9/11 종료 판정 → 오픈 1안 9/16 · 2안 9/30</b>. 앱 스토어 심사는 양 스토어 승인 완료(iOS 8/31 · AOS 9/2)로 오픈 선행 조건 충족.
+    </div>
+    <p style="margin:0 0 14px;">
+      <a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EC%95%B1_QA_%EA%B3%84%ED%9A%8D%EC%84%9C.html" target="_blank" rel="noopener noreferrer">📱 QA 진행계획서 (v1.3)</a>
+      <a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/QA/APP/Hd%20%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0%20%EC%95%B1%20qa%EC%A7%84%ED%96%89%EB%B3%B4%EA%B3%A0.html" target="_blank" rel="noopener noreferrer">📈 QA 진행보고서 (실시간)</a>
+    </p>
+    <table class="kv">
+      <tr><td>카드 현황</td><td>109장 (자동 106 · 수기 3) — 완료 6 · 검수 대기 20 · <b>할당 대기 34(병목)</b> · 고도화 예정 8. 미해결 오류 12건은 가입·탈퇴 인증 플로우 집중, 우선 할당 권고 3건</td></tr>
+      <tr><td>남은 일정</td><td>TC 1.5 재검증·팀원 검증 9/7~9/9 (T열 디자인 · U열 마케터) → TC 2.0 외부 인력·실원 검증 9/10~9/11 (축약본) → 9/11 종료·실장 보고. 사내 이벤트 검증·대표 보고는 재검증 진행 상황 기준 <b>일정 재조율(연기)</b></td></tr>
+      <tr><td>2차 구축</td><td>10~11월 — 운영 고도화 및 셀링스파크 통합 (서비스 고도화 초안 트랙과 연계)</td></tr>
+    </table>
+
+    <h3 style="margin-top:22px;">웹뷰 · 웹 운영 병행 현황</h3>
+    <table class="kv">
+      <tr><td>잔여 규모</td><td>웹·운영·기타 미완료 <b>28건</b> 병행 대응 — 앱 구축 대응 지원 및 웹 운영 병행 사항 (서버 오픈·운영 차수 이월 포함)</td></tr>
+      <tr><td>동시 반영</td><td>앱(웹뷰)과 웹 동시 수정 필요 건 존재 — 예: 알림 설정 선택(WEB 동시 수정) · 키워드 TOP10 미조회(웹 동일 이슈). 앱 수정 시 웹 반영 여부 교차 확인 운영</td></tr>
+    </table>
+    <p style="font-size:12.5px;color:var(--sub);margin-top:8px;">※ 수치는 9/4 아사나 API 자동 집계 기준 — 최신 현황은 진행보고서(실시간 동기화)에서 확인.</p>
+  </section>
+
 <!-- ═══ 6. 9월 주요 마일스톤 ═══ -->
   <section>
-    <h2 id="toc-6"><span class="num">6</span>9월 주요 마일스톤 · 필요 일정</h2>
+    <h2 id="toc-7"><span class="num">7</span>9월 주요 마일스톤 · 필요 일정</h2>
     <div class="lead" style="font-size:13.5px;">
-      핵심: <b>앱 QA 종료(9/11) → 경영진 보고(9/11·14·15) → 정식 오픈 1안 9/16 · 2안 9/30</b>. QA는 8/21 착수 후 실원 검증(9/1~2) → 사내 이벤트 검증(9/3~4) → 재검증(9/7~10) 순으로 진행 중이며, 앱 스토어 입점 심사(8/21 신청 · ~9/18 승인 예상) 지연 시 추석을 피해 2안 적용.
+      핵심: <b>앱 QA 종료(9/11) → 경영진 보고(9/11·14·15) → 정식 오픈 1안 9/16 · 2안 9/30</b>. QA는 8/21 착수, 재검증 주간 진행 중 — TC 1.5 팀원 검증(9/7~9/9) → TC 2.0 실원 검증(9/10~9/11). 앱 스토어 심사는 <b>양 스토어 승인 완료</b>(iOS 8/31 · AOS 9/2). 상세 현황은 6장 참조.
     </div>
     <p style="margin:0 0 14px;">
       <a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EC%95%B1_QA_%EA%B3%84%ED%9A%8D%EC%84%9C.html" target="_blank" rel="noopener noreferrer">📱 앱 QA 계획서 (v1.3) 바로가기</a>
@@ -525,17 +616,18 @@
       <tbody>
         <tr><td class="c">매주 수요일</td><td>SEO TF 정기 회의 (SEO/GEO 협의체)</td><td class="c">정기</td></tr>
         <tr><td class="c">9/1 (화)</td><td>블로그 본편 주 5회 확대 개시 — 화·목 「아이템 딥다이브」 추가 (이슬기·안지호 분업)</td><td class="c">콘텐츠</td></tr>
-        <tr><td class="c">9/1~9/2</td><td>앱 QA 실원 검증 — 커머스커넥트실 기획자 전원 + 개발 1인, P1(핵심 우선순위 TC)·핵심 플로우 교차 검증</td><td class="c">앱</td></tr>
-        <tr class="hl"><td class="c">9월 1주차</td><td><b>네이버 솔루션 마켓 입점 신청 완료 예정</b> · 카페24 입점 준비 병행</td><td class="c">마켓 입점</td></tr>
+        <tr><td class="c">9/7~9/9</td><td>TC 1.5 재검증(회귀) · 팀원 검증 — T열(디자인) · U열(마케터) 체크 기입</td><td class="c">앱</td></tr>
+        <tr class="hl"><td class="c">9월 1주차</td><td><b>네이버 솔루션 마켓 입점 신청 보류</b> · 카페24 입점 심사 진행 중</td><td class="c">마켓 입점</td></tr>
         <tr><td class="c">9월 초</td><td>당월 광고 품의 확정 — 9월 품의 4,008,000원 상세 5장 (매월 반복)</td><td class="c">광고</td></tr>
         <tr><td class="c">9월 초</td><td>셀링부스터 마케팅 소구점 및 기능 고도화 계획 수립</td><td class="c">기획·마케팅</td></tr>
-        <tr><td class="c">9/3~9/4</td><td>앱 사내 이벤트 검증 — 사내 참여자 자유 탐색·이슈 제보 (리워드: 커피 쿠폰) → 이후 대표 중간 보고 (일정 확정 예정)</td><td class="c">앱</td></tr>
+        <tr><td class="c">9/10~9/11</td><td>TC 2.0 외부 인력 · 실원 검증 — 축약본(기본 동작·중요 기능·이전 이슈 위주) 교차 검증</td><td class="c">앱</td></tr>
+        <tr><td class="c">일정 재조율</td><td>앱 사내 이벤트 검증 (자유 탐색·리워드) · 대표 중간 보고 — 재검증 진행 상황 기준 재설정 (연기)</td><td class="c">앱</td></tr>
         <tr><td class="c">9/4 (금)</td><td>코이페(한국 이커머스 박람회, 9/17~19 SETEC) 참관 대비 사전 가이드 콘텐츠 발행</td><td class="c">콘텐츠</td></tr>
         <tr><td class="c">9/11 (금)</td><td>QA 종료 판정 · 실장 보고 → 전무 보고 9/14 · 대표 보고 9/15</td><td class="c">앱·보고</td></tr>
         <tr><td class="c">9/14 (월)</td><td>K트렌드 트렌드 학습 L1 (무신사 STYLE, 3주 주기) — 9/16~10/3 발행분 반영</td><td class="c">콘텐츠</td></tr>
         <tr><td class="c">9월 중순</td><td>월간보고서 작성 (격월 주기, 직전 7월 말)</td><td class="c">보고</td></tr>
         <tr><td class="c">9월 중순</td><td>TTJ 인기 랭킹 서비스 도입 준비 착수</td><td class="c">서비스</td></tr>
-        <tr class="hl"><td class="c">9/16 (수)</td><td><b>앱 정식 오픈 1안</b> — QA 완료 + 대표 승인 + <b>앱 스토어 심사 승인</b> 3조건 충족 시 (미충족 시 2안 9/30)</td><td class="c">앱</td></tr>
+        <tr class="hl"><td class="c">9/16 (수)</td><td><b>앱 정식 오픈 1안</b> — QA 종료 + 대표 승인 시 (스토어 심사 승인 완료 · 별도 홍보 없이 진행, 미충족 시 2안 9/30)</td><td class="c">앱</td></tr>
         <tr><td class="c">9/17~9/19</td><td>코이페 참관 (SETEC) → 9/21 사후 방문기 발행</td><td class="c">콘텐츠</td></tr>
         <tr><td class="c">9월 중</td><td>GA4·GTM 설정 검증·보완 완료 (팀 목표) · 하이훅 GEO 가이드 수령 → 발행 지침 반영</td><td class="c">측정·SEO</td></tr>
         <tr><td class="c">9/24~9/28</td><td>추석 연휴 — 전 채널 콘텐츠 발행 스킵 (9/24·25·28). 1안(9/16) 오픈 시 연휴가 오픈 직후라 <b>연휴 중 앱 모니터링 당번 지정 운영</b> (대응 공백 방지)</td><td class="c">공통</td></tr>
@@ -547,22 +639,45 @@
 
     <!-- ═══ 7. 운영 정책 ═══ -->
   <section>
-    <h2 id="toc-7"><span class="num">7</span>운영 정책</h2>
-    <h3 style="margin-top:6px;">담당 구분 (R&amp;R)</h3>
-    <table>
+    <h2 id="toc-8"><span class="num">8</span>운영 정책</h2>
+    <p style="margin:2px 0 6px;"><a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%ED%8C%80%EC%97%85%EB%AC%B4%EC%A0%95%EB%A6%AC.html" target="_blank" rel="noopener noreferrer">🗂 셀링부스터 팀 업무 정리 (원본)</a></p>
+
+    <h3 style="margin-top:14px;">8-1. 담당 구분 (R&amp;R)</h3>
+      <table>
       <colgroup><col style="width:28%"><col style="width:22%"><col style="width:50%"></colgroup>
       <thead>
         <tr><th>항목</th><th>주담당</th><th>역할</th></tr>
       </thead>
       <tbody>
+        <tr><td>서비스 운영</td><td style="text-align:center;"><span class="owner">이슬기</span></td><td>서비스 모니터링, 정기 반영 F/U, 신규 정책 설계</td></tr>
         <tr><td>도메인 지수</td><td style="text-align:center;"><span class="owner">이슬기</span> <span style="font-size:12px;color:var(--sub);">(발행 분업 안지호)</span></td><td>발행 총괄·색인·인용 관리 — 9월부터 콘텐츠 발행은 이슬기·안지호 반반 분업 예정</td></tr>
         <tr><td>퍼포먼스 마케팅</td><td style="text-align:center;"><span class="owner">안지호</span></td><td>채널 집행·예산 운영·성과 측정</td></tr>
         <tr><td>전환율</td><td style="text-align:center;"><span class="owner">안지호</span> <span style="font-size:12px;color:var(--sub);">(협업 이슬기)</span></td><td>퍼널 측정·실험 집행 / 랜딩 개선안 기획 협업</td></tr>
         <tr><td>MAU/DAU 증대</td><td style="text-align:center;"><span class="owner">공동</span></td><td>콘텐츠 CTA·안내 접점(이슬기) / 캠페인 연계(안지호)</td></tr>
       </tbody>
     </table>
-    <h3 style="margin-top:24px;">지속 관리 체계</h3>
-    <p>월 단위 사이클 운영 — 매월 리뷰 결과를 익월 계획과 요약표(2장)에 누적 반영. 이를 근거로 <b>4분기 장기 집행 계획</b> 수립 방향으로 검토 부탁드립니다.</p>
+
+      <details class="tfold">
+      <summary>고정 업무 리스트 (팀 업무 정리 기준)</summary>
+      <div class="table-scroll">
+      <table>
+        <colgroup><col style="width:15%"><col style="width:43%"><col style="width:42%"></colgroup>
+        <thead><tr><th>업무 영역</th><th>기획 (이슬기)</th><th>마케팅 (안지호)</th></tr></thead>
+        <tbody>
+          <tr><td class="c">광고 관리</td><td class="c" style="color:var(--sub);">–</td><td>메타·네이버 키워드 검색광고 집행, 광고 대행사 대응(메타 소재 제작 · 미래아이앤씨 커뮤니케이션), 신규 마케팅 소구점 아이디에이션</td></tr>
+          <tr><td class="c">프로젝트</td><td>커머스 확장 · 앱 개발 프로젝트 관리, 크롬 익스텐션 개발 대응/모니터링, HAI(본부 AI 부서) 협업 대응</td><td class="c" style="color:var(--sub);">–</td></tr>
+          <tr><td class="c">셀링스파크 통합</td><td>정책·사용자 플로우 기획, 프로토타입 구현</td><td>서비스 내 마케팅 문구 워싱 (8월)</td></tr>
+          <tr><td class="c">운영</td><td>K트렌드 매거진 발행(주 3회), 서비스 모니터링·긴급 대응, 노션(우피) 이용 가이드 제작/운영</td><td>SEO툴 모니터링 (네이버 서치어드바이저 · 구글 서치 콘솔)</td></tr>
+          <tr><td class="c">데이터/분석</td><td colspan="2" class="c">GA4 · GTM 설정 (공동)</td></tr>
+          <tr><td class="c">행정 처리</td><td>주간/월간 보고서 작성, 재무 보조지표 보고, 지출 관리(품의·예산 검토), 공용계정 관리(개발·광고·외부 솔루션)</td><td class="c" style="color:var(--sub);">–</td></tr>
+          <tr><td class="c">공통 협업</td><td colspan="2" class="c">셀링부스터 고도화 아이디에이션(소구점·기능 개선) · SEO·GEO 활용 증진 아이디에이션 · SEO실 대응 (공동)</td></tr>
+        </tbody>
+      </table>
+      </div>
+      </details>
+
+    <h3 style="margin-top:26px;">8-2. 지속 관리 체계</h3>
+      <p>월 단위 사이클 운영 — 매월 리뷰 결과를 익월 계획과 요약표(2장)에 누적 반영. 이를 근거로 <b>4분기 장기 집행 계획</b> 수립 방향으로 검토 부탁드립니다.</p>
     <div class="cycle">
       <div class="step"><b>월초</b><span>항목별 활동 계획 확정, 요약표 갱신</span></div>
       <div class="step"><b>월중</b><span>실행 및 주간 지표 점검 (색인·집행·퍼널)</span></div>
@@ -576,7 +691,73 @@
   <section class="apx" id="apx">
     <h2><span class="num" style="width:auto;padding:0 10px;">별첨</span>유입·가입 현황 상세 데이터</h2>
 
-    <h3 style="margin-top:6px;">별첨 1. 채널별 누적 유입·전환 성과 (8/27 기준 · 자동 집계)</h3>
+    <h3 style="margin-top:6px;">별첨 1. 현행 로드맵 (2025.10 ~ 2026.12)</h3>
+    <div class="lead" style="font-size:13.5px;">
+      전체 진행률 <b>76.7%</b> — 60칸(월 4칸 기준) 중 <b>46칸 경과, 9월 2주차 진행 중</b> (기준 9/7). 4개 트랙 모두 9월 = 전환 구간: 운영 안정화 · 유입 채널 최적화 · 커머스 운영 안정화 · <b>앱스토어 입점·오픈</b>이 동시 진행.
+    </div>
+    <div class="table-scroll">
+    <table style="min-width:900px;">
+      <thead>
+        <tr><th rowspan="2" style="min-width:86px;">구분</th><th colspan="12">2025년</th><th colspan="48">2026년</th></tr>
+        <tr><th colspan="4" style="padding:4px 2px;font-size:10.5px;">10월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">11월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">12월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">1월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">2월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">3월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">4월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">5월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">6월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">7월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">8월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">9월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">10월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">11월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">12월</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="rowlabel" style="font-size:11.5px;padding:6px 8px;">진행 (76.7%)</td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:var(--teal);"></td><td style="height:14px;padding:0;border:1px solid #fff;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:1px solid #fff;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:1px solid #fff;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:1px solid #fff;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:1px solid #fff;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:1px solid #fff;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:1px solid #fff;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:1px solid #fff;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:1px solid #fff;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:1px solid #fff;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:1px solid #fff;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:1px solid #fff;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:1px solid #fff;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:1px solid #fff;background:#E9E7E0;"></td></tr>
+        <tr><td class="rowlabel" style="font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;">서비스 운영 안정화</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(0,177,189,.82);color:#fff;">기능분석/설계</td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(0,177,189,.82);color:#fff;">1차 기능 개발</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(0,177,189,.82);color:#fff;">베타 오픈</td><td colspan="12" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(0,177,189,.82);color:#fff;">디자인 리뉴얼·스마트스토어 연동</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(0,177,189,.82);color:#fff;">정식 오픈</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(0,177,189,.82);color:#fff;">크롬 익스텐션 반영</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(0,177,189,.82);color:#fff;">유지보수</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(0,177,189,.82);color:#fff;">핵심기능 고도화</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(100,102,250,.85);color:#fff;">운영 안정화</td><td colspan="12" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#E9E7E0;color:var(--sub);">지속 개선·운영 고도화</td></tr>
+        <tr><td class="rowlabel" style="font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;">사용자 확보 및 성장</td><td colspan="12" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#FAFAF7;"></td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(0,177,189,.82);color:#fff;">광고 구조 설계</td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(0,177,189,.82);color:#fff;">콘텐츠/SEO 운영</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(0,177,189,.82);color:#fff;">바이럴 콘텐츠 운영</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(0,177,189,.82);color:#fff;">퍼포먼스 광고</td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(0,177,189,.82);color:#fff;">마케팅 효율성 검증 (회원 유입·전환)</td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(100,102,250,.85);color:#fff;">유입 채널 최적화</td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#E9E7E0;color:var(--sub);">성과 기반 운영</td></tr>
+        <tr><td class="rowlabel" style="font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;">커머스 연동 확장</td><td colspan="12" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#FAFAF7;"></td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(0,177,189,.82);color:#fff;">초기 사용자 피드백 수집 (자문 1차)</td><td colspan="12" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(0,177,189,.82);color:#fff;">핵심 기능 사용 패턴 분석 (자문 2차)</td><td colspan="12" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(0,177,189,.82);color:#fff;">커머스 상품·셀러 수집 확장 (쿠팡·11번가)</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(100,102,250,.85);color:#fff;">운영 안정화</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#E9E7E0;color:var(--sub);">추가 확장 검토</td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#E9E7E0;color:var(--sub);">수집 확장 (셀링스파크·TTJ)</td></tr>
+        <tr><td class="rowlabel" style="font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;">서비스 확장</td><td colspan="24" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#FAFAF7;"></td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(0,177,189,.82);color:#fff;">APP 1차 기획/디자인</td><td colspan="12" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(0,177,189,.82);color:#fff;">APP 1차 개발 구현</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(100,102,250,.85);color:#fff;">앱스토어 입점·오픈</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#E9E7E0;color:var(--sub);">운영 안정화</td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#E9E7E0;color:var(--sub);">유료화·글로벌 확장 검토</td></tr>
+        
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:12.5px;color:var(--sub);margin-top:6px;">※ 월 = 4칸(주 단위) 환산 · <span style="display:inline-block;width:10px;height:10px;background:rgba(0,177,189,.82);border-radius:2px;vertical-align:-1px;"></span> 완료 · <span style="display:inline-block;width:10px;height:10px;background:rgba(100,102,250,.85);border-radius:2px;vertical-align:-1px;"></span> 진행 중(9월 걸침) · <span style="display:inline-block;width:10px;height:10px;background:#E9E7E0;border-radius:2px;vertical-align:-1px;"></span> 예정. 진행 바는 이번 주(9월 2주차)까지 채움.</p>
+    <details class="fold">
+      <summary>별첨 1-1. 회의 일정 (고정)</summary>
+      <div class="table-scroll">
+      <table>
+        <colgroup><col style="width:27%"><col style="width:9%"><col style="width:24%"><col style="width:9%"><col style="width:31%"></colgroup>
+        <thead><tr><th>회의명</th><th>주기</th><th>일시</th><th>참석</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>[SB] 사업팀 주간 회의</td><td class="c">주간</td><td class="c">월요일 08:30</td><td class="c">공통</td><td>실장 주관</td></tr>
+          <tr><td>[SB] 셀링스파크 주간 점검 회의</td><td class="c">주간</td><td class="c">월요일 15:00</td><td class="c">공통</td><td class="c" style="color:var(--sub);">–</td></tr>
+          <tr><td>[SB] 개발 점검 회의</td><td class="c">주간</td><td class="c">화요일 13:30 또는 15:30</td><td class="c">공통</td><td>전무 주관</td></tr>
+          <tr><td>[SB] 사업실 주간 회의</td><td class="c">주간</td><td class="c">목요일 08:30</td><td class="c">공통</td><td>대표 주관</td></tr>
+          <tr><td>[SB] 사업 미팅 (마케팅/기획)</td><td class="c">주간</td><td class="c">금요일 오후 (대체로 14~15시)</td><td class="c">공통</td><td>일정 유동적</td></tr>
+          <tr><td>[SB] 기획/마케팅 주간 회의</td><td class="c">주간</td><td class="c">15:00 (요일 미정)</td><td class="c">공통</td><td class="c" style="color:var(--sub);">–</td></tr>
+          <tr><td>캔미팅 (커머스솔루션실 전체)</td><td class="c">월간</td><td class="c">매월 말</td><td class="c">전체</td><td>일정 매월 별도 공지</td></tr>
+          <tr><td>[SB] SEO/GEO TF 회의</td><td class="c">주간</td><td class="c">매주 수요일</td><td class="c">공통</td><td>정기화 확정 (7장 마일스톤 참조)</td></tr>
+          <tr><td>[SB] 주간업무 현황 공유</td><td class="c">주간</td><td class="c">기록으로 공유</td><td class="c">공통</td><td>별도 회의 없이 기록 대체</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </details>
+
+    <details class="fold">
+      <summary>별첨 1-2. 품의 · 보고 일정 (고정)</summary>
+      <div class="table-scroll">
+      <table>
+        <colgroup><col style="width:15%"><col style="width:26%"><col style="width:47%"><col style="width:12%"></colgroup>
+        <thead><tr><th>항목</th><th>주기 / 시점</th><th>내용</th><th>담당</th></tr></thead>
+        <tbody>
+          <tr><td>광고 품의</td><td>매월 초 (당월)</td><td>광고비 · 대행 수수료 · 기타 지출 품의 계획</td><td class="c">기획</td></tr>
+          <tr><td>지출 품의</td><td>정기(월말·월초 주간) + 상시</td><td>비용 품의 및 월 예산 검토/취합</td><td class="c">기획</td></tr>
+          <tr><td>광고비 소진 정산</td><td>매월 초</td><td>네이버·메타·구글 충전금 실제 소진액 계산 — 해외매체(메타·구글) 소진 계산기 활용</td><td class="c">기획</td></tr>
+          <tr><td rowspan="2">대행사 지급 품의</td><td>① 선지급: 매월 말일</td><td>견적서 바탕으로 품의</td><td class="c">기획</td></tr>
+          <tr><td>② 세금계산서 발행: 매월 초</td><td>전월자 기준으로 발행 처리</td><td class="c">기획</td></tr>
+          <tr><td rowspan="3">주간보고서</td><td>① 취합: 매주 목요일 15:00 마감</td><td>팀별 주간 업무 내역 취합</td><td class="c">기획</td></tr>
+          <tr><td>② 검토: 차주 월요일 주간회의</td><td>주간회의 시 실장 보고</td><td class="c">기획</td></tr>
+          <tr><td>③ 마감·전달: 매주 월요일 16:00</td><td>한대수 팀장 전달</td><td class="c">기획</td></tr>
+          <tr><td>월간보고서</td><td>격월 중순 작성</td><td>직전 작성: 7월 말</td><td class="c">기획</td></tr>
+          <tr><td>재무보조지표</td><td>매월 말일</td><td>월간 재무지표용 보조지표 작성 및 보고</td><td class="c">기획</td></tr>
+          <tr><td>회의록</td><td>상시</td><td>회의별 회의록 작성 및 공유</td><td class="c">기획·마케팅</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </details>
+
+
+    <h3 style="margin-top:26px;">별첨 2. 채널별 누적 유입·전환 성과 (8/27 기준 · 자동 집계)</h3>
     <div class="lead" style="font-size:13.5px;">
       핵심: <b>AI 유입 CVR 3.2%로 전 채널 최고</b>(GEO 전략 검증) · 검색광고 CPA 격차 뚜렷 — 네이버 27,440원 vs. 메타 259,135원(약 9.4배). SEO 유입(간접+직접) 3,262건으로 오가닉 축 안착, 전환 질은 오가닉(직접검색 0.9%)이 메타(0.1%)를 상회.
     </div>
@@ -620,9 +801,9 @@
     </div>
     <p style="font-size:12.5px;color:var(--sub);margin-top:6px;">※ GA 자동 집계 · 전체 기간 누적(~8/27) 기준. 전환 정의(GA 전환 이벤트)에 따라 주간 리포트의 가입 수·4-3장 기준선(1.3%)과 산정 기준이 다를 수 있음. '–' = 광고비 미집행(오가닉). 전환의 74%(25/34)가 Desktop에서 발생 — 유입의 80%를 차지하는 Mobile 랜딩 전환 최적화가 개선 과제.</p>
 
-    <h3 style="margin-top:26px;">별첨 2. 주간 방문·가입 현황 — 8월 (7월 대비)</h3>
+    <h3 style="margin-top:26px;">별첨 3. 주간 방문·가입 현황 — 8월 (7월 대비) <a class="btn-link" href="https://works.do/592LroG" target="_blank" rel="noopener noreferrer" style="margin-left:8px;font-size:11.5px;padding:3px 10px;">🔗 주간보고서 원본</a></h3>
     <div class="lead" style="font-size:13.5px;">
-      핵심: 8월 방문 <b>7월 대비 2.7배 급성장</b>(월간 11,653명 · 주간 최대 4,571명, 3주차~) — 광고 확대·SEO 안착 효과. 단, 가입 전환율은 <b>1.06% → 0.31%로 하향</b>, 방문 규모 확대를 전환이 따라가지 못하는 구간 — 4-3장 랜딩 개선(모바일 우선, 별첨 1)의 근거.
+      핵심: 8월 방문 <b>7월 대비 2.7배 급성장</b>(월간 11,653명 · 주간 최대 4,571명, 3주차~) — 광고 확대·SEO 안착 효과. 단, 가입 전환율은 <b>1.06% → 0.31%로 하향</b>, 방문 규모 확대를 전환이 따라가지 못하는 구간 — 4-3장 랜딩 개선(모바일 우선, 별첨 2)의 근거.
     </div>
 
     <p style="font-size:13.5px;font-weight:700;margin-top:14px;">요약 지표 — 7월 vs. 8월 (8/28 기준)</p>
@@ -657,7 +838,7 @@
     </div>
     <p style="font-size:12.5px;color:var(--sub);margin-top:8px;">※ 전환율 = 주간 가입 ÷ 주간 방문. 주간 가입은 신규 가입(총), 누적 가입은 <b>탈퇴 차감 순증 기준</b> — 3~4주차 차이(+4·+3)는 탈퇴 반영분(3주차 6명 · 4주차 5명). 8월 중 탈퇴 누계 11명 발생(7월 0명). 8월 3주차부터 방문 급증(광고 확대·SEO 효과 중첩)과 함께 전환율 0.2%대 진입 — 유입 질·랜딩 전환 관리가 9월 과제. 7월 이전 주차 상세는 원본 주간 리포트 참조.</p>
 
-    <h3 id="apx-plan" style="margin-top:26px;">별첨 3. 블로그 발행 계획 (8~9월) — SEO·GEO 실행 상세 <a class="btn-link" href="#sec-domain" style="margin-left:8px;font-size:11.5px;padding:3px 10px;">↑ 3-1 도메인 지수로</a></h3>
+    <h3 id="apx-plan" style="margin-top:26px;">별첨 4. 블로그 발행 계획 (8~9월) — SEO·GEO 실행 상세 <a class="btn-link" href="#sec-domain" style="margin-left:8px;font-size:11.5px;padding:3px 10px;">↑ 3-1 도메인 지수로</a></h3>
     <div class="lead" style="font-size:13.5px;">
       본편 발행 <b>8월 11회 · 9월 11회</b>(주 3회, 월·수·금) + K트렌드 매거진 <b>주 3회(월·수·금) 정기 발행</b> 별도 운영 + 네이버 블로그 발행 <b>14회 + 10월 이월 8회</b>(8/26 개시). 파이프라인: 하이훅 → 워싱 워크플로 → CMS, 8월 하반기부터 GEO 가이드 적용. 9월에 10월 신규 서비스(블로그 마켓·틱톡샵) SEO 선점 콘텐츠 배치. <b>9/1부터 화·목 아이템 딥다이브 8회 추가 — 본편 주 5회 체계.</b>
     </div>
@@ -722,6 +903,40 @@
       <tr><td>신규 서비스 연계</td><td>블로그 마켓(10/7)·틱톡샵(10/12) 편이 10월 신규 서비스 출시 시점과 자연 정렬 — 네이버 내부 채널 시너지 활용</td></tr>
     </table>
     <p style="font-size:12.5px;color:var(--sub);margin-top:6px;">※ 회차별 네이버 제목·재집필 포인트, 하이훅 키워드 가이드, 시즈널 키워드 등 상세는 원문 문서 <a href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EB%B8%94%EB%A1%9C%EA%B7%B8_%EB%B0%9C%ED%96%89%EA%B3%84%ED%9A%8D_8-9%EC%9B%94.html" target="_blank" rel="noopener noreferrer" style="color:var(--teal);font-weight:700;">「셀링부스터 블로그 발행 계획 8~9월」</a> 참조.</p>
+
+    <details class="docbox" id="doc-links" style="margin-top:30px;background:#F1F0EA;border:1px solid var(--line);border-radius:16px;padding:22px 26px;">
+      <summary>📁 주요 문서 바로가기</summary>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;">
+        <div>
+          <p style="font-weight:700;font-size:12.5px;color:var(--teal);letter-spacing:.04em;margin-bottom:9px;">기획 문서</p>
+          <ul style="list-style:none;margin:0;padding:0;font-size:13px;line-height:2;">
+            <li><a href="https://works.do/x4k2h8o" target="_blank" rel="noopener noreferrer">기능정의서</a></li>
+            <li><a href="https://www.figma.com/design/Hbfn05jo0J5ouevp0elG9E/-SB--%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0-%EA%B8%B0%ED%9A%8D_%EB%82%B4%EB%B6%80%EA%B3%B5%EC%9C%A0%EC%9A%A9?node-id=5304-886&p=f&t=GxEAgLMTEPQk92Y9-0" target="_blank" rel="noopener noreferrer">화면설계서 — 베타 웹 · 앱 · 운영</a></li>
+            <li><a href="https://www.figma.com/design/T54gAHyO6oTAH5vvR7H06A/-HD--%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_v2.0--%EC%99%B8%EB%B6%80%EC%9A%A9-?m=auto&t=wKwxQDV5WdTs23ld-6" target="_blank" rel="noopener noreferrer">화면설계서 — 정식 웹 (에이전시)</a></li>
+            <li><a href="https://www.figma.com/design/piFeSGO9ZVnQBAvhUB4sOS/-SB--%ED%86%B5%ED%95%A9-%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0-%EA%B8%B0%ED%9A%8D_%EB%82%B4%EB%B6%80%EA%B3%B5%EC%9C%A0%EC%9A%A9?m=auto&t=wKwxQDV5WdTs23ld-6" target="_blank" rel="noopener noreferrer">화면설계서 — 셀링스파크 통합</a> <span class="dnote">(프로토 승인 후 개정 예정)</span></li>
+            <li><a href="https://works.do/FmUm3rN" target="_blank" rel="noopener noreferrer">전무 보고용 WBS</a> <span class="dnote">(9월 일정 차주 작성 예정 — 고도화 로드맵 확정 후)</span></li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-weight:700;font-size:12.5px;color:var(--teal);letter-spacing:.04em;margin-bottom:9px;">디자인 문서</p>
+          <ul style="list-style:none;margin:0;padding:0;font-size:13px;line-height:2;">
+            <li><a href="https://www.figma.com/design/jGtcUWSlZWdwqiyQ4xzEl8/-%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0--APP-%EA%B5%AC%EC%B6%95-%EB%94%94%EC%9E%90%EC%9D%B8?node-id=2949-887&p=f&t=lZiPdQcuVJIw39PU-0" target="_blank" rel="noopener noreferrer">앱</a></li>
+            <li><a href="https://www.figma.com/design/DuTcI8RrO1c4eTEGhBuuII/-%E1%84%89%E1%85%A6%E1%86%AF%E1%84%85%E1%85%B5%E1%86%BC%E1%84%87%E1%85%AE%E1%84%89%E1%85%B3%E1%84%90%E1%85%A5-_%E1%84%83%E1%85%B5%E1%84%8C%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AB_%EC%9A%B4%EC%98%81?node-id=40010912-2274&t=pTH4t3LVtWLoCilW-0" target="_blank" rel="noopener noreferrer">웹 · 운영</a></li>
+            <li><a href="https://www.figma.com/design/953xMFg3Lf8IuaFkZGRQ73/-%E1%84%89%E1%85%A6%E1%86%AF%E1%84%85%E1%85%B5%E1%86%BC%E1%84%87%E1%85%AE%E1%84%89%E1%85%B3%E1%84%90%E1%85%A5-_%E1%84%83%E1%85%B5%E1%84%8C%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AB_%E1%84%89%E1%85%A1%E1%86%AB%E1%84%8E%E1%85%AE%E1%86%AF%E1%84%86%E1%85%AE%E1%86%AF_%EC%B5%9C%EC%A2%85?m=auto&t=wKwxQDV5WdTs23ld-6" target="_blank" rel="noopener noreferrer">웹 · 에이전시</a></li>
+            <li><a href="https://www.figma.com/design/lKF9bY58Txw0o5hCpdGxaU/-%E1%84%89%E1%85%A6%E1%86%AF%E1%84%85%E1%85%B5%E1%86%BC%E1%84%87%E1%85%AE%E1%84%89%E1%85%B3%E1%84%90%E1%85%A5-_%E1%84%83%E1%85%B5%E1%84%8C%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%89%E1%85%B5%E1%84%89%E1%85%B3%E1%84%90%E1%85%A6%E1%86%B7_%EC%B5%9C%EC%A2%85?m=auto&t=wKwxQDV5WdTs23ld-6" target="_blank" rel="noopener noreferrer">웹 · 시스템 가이드</a></li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-weight:700;font-size:12.5px;color:var(--teal);letter-spacing:.04em;margin-bottom:9px;">협업 툴</p>
+          <ul style="list-style:none;margin:0;padding:0;font-size:13px;line-height:2;">
+            <li><a href="https://app.asana.com/1/1202264448618168/project/1211763974053621/overview/1211764441385001" target="_blank" rel="noopener noreferrer">아사나 — [SB] 셀링부스터 프로젝트</a></li>
+            <li><a href="https://app.asana.com/1/1202264448618168/project/1212334968261160/task/1218165942436276" target="_blank" rel="noopener noreferrer">아사나 — QA 프로젝트</a></li>
+            <li><a href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%ED%86%B5%ED%95%A9%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80_%ED%94%84%EB%A1%9C%ED%86%A0%ED%83%80%EC%9E%85_v1.0.html#home" target="_blank" rel="noopener noreferrer">노션 회의록</a></li>
+          </ul>
+          <p class="dnote" style="margin-top:9px;line-height:1.6;">아사나 차수 범례 — 1차 베타 · 2차 정식 웹 · 3차 정식 앱·커머스 확장 · 4차 셀링스파크 통합·TTJ 연동</p>
+        </div>
+      </div>
+    </details>
   </section>
 
 </div>
@@ -729,14 +944,17 @@
 <!-- ═══ 플로팅 목차 ═══ -->
 <div class="fab" id="tocFab">
   <div class="toc-panel" id="tocPanel">
+    <div class="toc-title">목차</div>
     <a href="#toc-1" onclick="toggleToc()"><span class="tnum">1</span>요약</a>
     <a href="#toc-2" onclick="toggleToc()"><span class="tnum">2</span>월별 활동 요약</a>
     <a href="#toc-3" onclick="toggleToc()"><span class="tnum">3</span>운영 성과 요약</a>
     <a href="#toc-4" onclick="toggleToc()"><span class="tnum">4</span>세부 실행 방안</a>
     <a href="#toc-5" onclick="toggleToc()"><span class="tnum">5</span>광고 품의 계획</a>
-    <a href="#toc-6" onclick="toggleToc()"><span class="tnum">6</span>마일스톤</a>
-    <a href="#toc-7" onclick="toggleToc()"><span class="tnum">7</span>운영 정책</a>
+    <a href="#toc-6" onclick="toggleToc()"><span class="tnum">6</span>앱 QA 진행 현황</a>
+    <a href="#toc-7" onclick="toggleToc()"><span class="tnum">7</span>마일스톤</a>
+    <a href="#toc-8" onclick="toggleToc()"><span class="tnum">8</span>운영 정책</a>
     <a href="#apx" onclick="toggleToc()"><span class="tnum">＋</span>별첨 (성과 데이터·발행 계획)</a>
+    <a href="#doc-links" onclick="openDocs()"><span class="tnum">＋</span>별첨 (주요 문서 바로가기)</a>
   </div>
   <a href="#" onclick="toggleToc();return false;">☰ 목차</a>
 </div>
@@ -784,6 +1002,11 @@
     window.print();
   }
 
+  function openDocs(){
+    var d = document.getElementById('doc-links');
+    if (d) d.open = true;
+    toggleToc();
+  }
   function toggleToc(){
     var p = document.getElementById('tocPanel');
     p.style.display = (p.style.display === 'block') ? 'none' : 'block';
