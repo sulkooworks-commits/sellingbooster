@@ -133,8 +133,13 @@
     </div>
     <div class="card">
       <h2>최근 발행 콘텐츠</h2>
-      <div class="cap">최근 수집 기준 상위 10건</div>
-      <table><thead><tr><th>발행일</th><th>채널</th><th>카테고리</th><th>제목</th></tr></thead><tbody id="recentRows"></tbody></table>
+      <div class="cap">최근 수집 기준 상위 10건 · 조회수는 사이트 블로그 글만 수집됨</div>
+      <table><thead><tr><th>발행일</th><th>채널</th><th>카테고리</th><th>제목</th><th style="text-align:right;">조회수</th></tr></thead><tbody id="recentRows"></tbody></table>
+    </div>
+    <div class="card">
+      <h2>콘텐츠 효과 — 조회수 상위</h2>
+      <div class="cap" id="viewsCap">사이트 블로그 글의 누적 조회수 기준 상위 8건</div>
+      <table><thead><tr><th>발행일</th><th>채널</th><th>제목</th><th style="text-align:right;">조회수</th></tr></thead><tbody id="topViewRows"></tbody></table>
     </div>
   </div>
 
@@ -168,7 +173,7 @@
     <div class="card">
       <h2>발행 이력 (전체)</h2>
       <div class="cap" id="allCap"></div>
-      <table><thead><tr><th>발행일</th><th>채널</th><th>카테고리</th><th>제목</th></tr></thead><tbody id="allRows"></tbody></table>
+      <table><thead><tr><th>발행일</th><th>채널</th><th>카테고리</th><th>제목</th><th style="text-align:right;">조회수</th></tr></thead><tbody id="allRows"></tbody></table>
     </div>
   </div>
 
@@ -199,7 +204,7 @@ async function loadAndRender(){
   }
 
   // ---------- 재렌더 대비 컨테이너 초기화 ----------
-  ['alerts','tiles','weekCal','chartLegend','chart','policyRows','recentRows','planRows','policyDoc','weeklyRows','totalRows','allRows'].forEach(function(id){
+  ['alerts','tiles','weekCal','chartLegend','chart','policyRows','recentRows','planRows','policyDoc','weeklyRows','totalRows','allRows','topViewRows'].forEach(function(id){
     var el = document.getElementById(id); if (el) el.innerHTML = '';
   });
 
@@ -392,15 +397,25 @@ async function loadAndRender(){
   document.getElementById('policyRows').innerHTML = pr;
 
   // ---------- recent posts ----------
+  function fmtViews(v){ return (v==null) ? '<span style="color:var(--text-muted)">–</span>' : v.toLocaleString('ko-KR'); }
   function postRow(p){
     var c = channelOf(p);
     var t = p.url ? '<a href="'+p.url+'" style="color:inherit;">'+p.title+'</a>' : p.title;
-    return '<tr><td class="num">'+fmtMD(p.date)+'</td><td style="white-space:nowrap;">'+(c?'<span class="swatch" style="background:'+slotColor(c)+'"></span>'+(chShort[c.id]||c.name):'-')+'</td><td>'+p.category+'</td><td>'+t+'</td></tr>';
+    return '<tr><td class="num">'+fmtMD(p.date)+'</td><td style="white-space:nowrap;">'+(c?'<span class="swatch" style="background:'+slotColor(c)+'"></span>'+(chShort[c.id]||c.name):'-')+'</td><td>'+p.category+'</td><td>'+t+'</td><td class="num" style="text-align:right;">'+fmtViews(p.views)+'</td></tr>';
   }
   var sorted = posts.slice().sort(function(a,b){ return b.date.localeCompare(a.date); });
   document.getElementById('recentRows').innerHTML = sorted.slice(0,10).map(postRow).join('');
   document.getElementById('allRows').innerHTML = sorted.map(postRow).join('');
   document.getElementById('allCap').textContent = '총 ' + posts.length + '건 수집됨 (2026-08-19 모니터링 시작 이후)';
+
+  // ---------- 콘텐츠 효과: 조회수 상위 ----------
+  var viewed = posts.filter(function(p){ return p.views != null; }).sort(function(a,b){ return b.views - a.views; });
+  document.getElementById('topViewRows').innerHTML = viewed.length
+    ? viewed.slice(0,8).map(function(p){
+        var vc = channelOf(p);
+        return '<tr><td class="num">'+fmtMD(p.date)+'</td><td style="white-space:nowrap;">'+(vc?'<span class="swatch" style="background:'+slotColor(vc)+'"></span>'+(chShort[vc.id]||vc.name):'-')+'</td><td>'+p.title+'</td><td class="num" style="text-align:right;">'+p.views.toLocaleString('ko-KR')+'</td></tr>';
+      }).join('')
+    : '<tr><td colspan="4" style="color:var(--text-muted)">조회수 데이터가 아직 없습니다 — 다음 수집부터 자동으로 채워집니다.</td></tr>';
 
   // ---------- plan vs actual ----------
   var planRows = '';
