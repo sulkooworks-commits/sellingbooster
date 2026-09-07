@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소싱 벌크 이미지 번역기 (Gemini)</title>
+<link href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+:root{--violet:#6466FA;--teal:#00B1BD;--ink:#0F172A;--bg:#F3F4F7;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'NanumSquare','Apple SD Gothic Neo','Malgun Gothic','Hiragino Kaku Gothic ProN','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 60px;}
+header{background:linear-gradient(115deg,var(--violet),var(--teal));border-radius:16px;padding:26px 30px;color:#fff;margin-bottom:18px;}
+header h1{font-size:22px;font-weight:800;}
+header p{font-size:13px;opacity:.85;margin-top:6px;}
+.keyrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.keyrow input{border:1.5px solid #d8dbea;border-radius:12px;padding:10px 14px;font-family:inherit;font-size:13.5px;background:#fff;}
+.keyrow input:focus{outline:2px solid rgba(100,102,250,.4);}
+#apikey{flex:1;min-width:200px;}
+.model{flex:0 0 205px;}
+.note{font-size:12px;color:#94a3b8;margin:-6px 0 14px;}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px;}
+.mode{display:flex;background:#fff;border-radius:12px;padding:4px;box-shadow:0 1px 3px rgba(15,23,42,.06);}
+.mode button{border:0;background:transparent;padding:9px 18px;border-radius:9px;font-family:inherit;font-size:14px;font-weight:700;color:#64748b;cursor:pointer;}
+.mode button.on{background:var(--violet);color:#fff;}
+.btn{border:0;border-radius:12px;padding:11px 20px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;}
+.btn:disabled{opacity:.35;cursor:default;}
+.btn-run{background:var(--ink);color:#fff;}
+.btn-file{background:#fff;color:var(--ink);border:1.5px dashed #c7cbe0;}
+.btn-t{background:var(--teal);color:#fff;}
+.btn-v{background:var(--violet);color:#fff;}
+.kwbox{margin-top:12px;padding:12px 14px;border-radius:12px;background:rgba(128,128,128,.08);display:none;}
+.kwbox .kt{font-size:12.5px;font-weight:800;color:var(--violet);margin-bottom:8px;}
+.kwbox .kws{display:flex;gap:6px;flex-wrap:wrap;}
+.kws{display:flex;gap:7px 8px;flex-wrap:wrap;}
+.kw{font-size:12px;font-weight:700;color:#7B7DFF;background:#fff;border:1px solid rgba(100,102,250,.38);border-radius:20px;padding:5px 12px;white-space:nowrap;line-height:1.25;}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;font-size:11.5px;color:#64748b;margin-bottom:10px;}
+.legend .li{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;}
+.legend .d{width:10px;height:10px;border-radius:50%;flex:none;font-style:normal;}
+.d.both{background:linear-gradient(115deg,var(--teal),var(--violet));}
+.d.nm{background:var(--teal);}
+.d.core{background:var(--violet);}
+.d.sub{background:#fff;border:1px solid rgba(100,102,250,.38);}
+.kw.core{background:var(--violet);border-color:var(--violet);color:#fff;}
+.kw.nm{background:var(--teal);border-color:var(--teal);color:#fff;}
+.kw.both{background:linear-gradient(115deg,var(--teal),var(--violet));border-color:transparent;color:#fff;}
+.namerec{margin-bottom:10px;padding:9px 12px;border-radius:10px;background:rgba(0,177,189,.08);font-size:13px;line-height:1.6;}
+.namerec b{color:#00929c;}
+.regen{position:absolute;top:8px;right:8px;z-index:2;border:0;border-radius:20px;padding:5px 12px;font-family:inherit;font-size:11.5px;font-weight:800;background:rgba(15,23,42,.72);color:#fff;cursor:pointer;}
+.regen:hover{background:var(--violet);}
+.sumgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:700px){.sumgrid{grid-template-columns:1fr;}}
+.sh{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13.5px;}
+.sh b{color:var(--violet);font-weight:800;}
+.sh .cnt{font-size:12px;color:#94a3b8;}
+.copybtn{margin-left:auto;border:0;border-radius:8px;padding:6px 14px;font-family:inherit;font-size:12px;font-weight:800;background:var(--teal);color:#fff;cursor:pointer;}
+.copybtn.done{background:#15803d;}
+.sumbox{max-height:150px;overflow-y:auto;background:rgba(128,128,128,.08);border-radius:10px;padding:11px 13px;font-size:13px;line-height:1.9;word-break:break-all;user-select:all;}
+.sumbox:empty::before{content:'키워드 추출 후 표시됩니다';color:#b0b6cf;font-size:12.5px;}
+.sumkw{margin-top:16px;border-top:1px dashed rgba(128,128,128,.3);padding-top:14px;}
+.sumkw .kws .kw{cursor:pointer;}
+.sumkw .kws .kw:hover{filter:brightness(1.06);box-shadow:0 1px 6px rgba(100,102,250,.35);}
+.namerec .copybtn{padding:4px 11px;font-size:11.5px;}
+.status{font-size:13px;color:#64748b;}
+.dropzone{border:2px dashed #c7cbe0;border-radius:16px;background:#fff;padding:40px 20px;text-align:center;font-size:13.5px;color:#94a3b8;line-height:1.8;margin-bottom:16px;cursor:pointer;}
+.dropzone.over{border-color:var(--violet);background:#fbfbff;}
+.dropzone b{color:var(--violet);}
+.card{background:#fff;border-radius:16px;padding:16px 18px;margin-bottom:14px;border:1.5px solid transparent;}
+.card .top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.num{width:26px;height:26px;border-radius:8px;background:rgba(100,102,250,.12);color:var(--violet);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;}
+.card h3{font-size:15px;font-weight:800;word-break:break-all;}
+.chip{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:20px;background:rgba(0,177,189,.1);color:#00929c;}
+.chip.st{background:rgba(100,102,250,.1);color:var(--violet);}
+.chip.ok{background:rgba(22,163,74,.1);color:#15803d;}
+.chip.ng{background:#fee2e2;color:#b91c1c;}
+.actions{margin-left:auto;display:flex;gap:6px;}
+.mini{border:0;width:29px;height:29px;border-radius:8px;background:#f1f2f8;color:#64748b;font-size:14px;cursor:pointer;line-height:1;}
+.mini:hover{background:rgba(100,102,250,.14);color:var(--violet);}
+.mini.del:hover{background:#fee2e2;color:#b91c1c;}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:700px){.pair{grid-template-columns:1fr;}}
+.pane{border-radius:12px;background:#f1f2f8;overflow:hidden;position:relative;}
+.pane .cap{position:absolute;top:8px;left:8px;z-index:2;font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px;background:rgba(15,23,42,.72);color:#fff;}
+.pane .cap.tr{background:rgba(0,177,189,.9);}
+.pane img{width:100%;display:block;max-height:520px;object-fit:contain;background:#fff;}
+.pane .ph{padding:60px 16px;font-size:12.5px;color:#b0b6cf;text-align:center;line-height:1.7;}
+.texts{margin-top:12px;border-radius:12px;background:rgba(235,235,235,.5);padding:12px 14px;font-size:13px;line-height:1.7;display:none;}
+.texts table{width:100%;border-collapse:collapse;}
+.texts th{text-align:left;font-size:12px;color:var(--violet);padding:4px 8px;border-bottom:1px solid rgba(128,128,128,.25);}
+.texts td{padding:5px 8px;border-bottom:1px solid rgba(128,128,128,.15);vertical-align:top;word-break:break-all;}
+.texts td:first-child{color:#64748b;width:46%;}
+.err{background:#fff;border-radius:16px;padding:16px 18px;font-size:13.5px;color:#b91c1c;line-height:1.7;margin-bottom:14px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>소싱 벌크 이미지 번역기 <span style="font-size:13px;font-weight:400;opacity:.8">Gemini · 상세 이미지 일괄 번역</span></h1>
+    <p>외국어 상품 상세 이미지 벌크 업로드 → 텍스트만 목표 언어로 교체한 이미지 재생성 · 긴 상세페이지 자동 분할/병합 · ZIP 일괄 저장</p>
+  </header>
+
+  <div class="keyrow">
+    <input type="password" id="apikey" placeholder="Google AI Studio API 키 (AIza…)">
+    <input type="text" id="model" class="model" value="gemini-3.1-flash-lite" placeholder="텍스트 추출·번역 모델">
+    <input type="text" id="imodel" class="model" value="gemini-3.1-flash-image-preview" placeholder="이미지 번역(생성) 모델">
+    <button class="btn btn-file" style="border-style:solid" onclick="toggleVault()">☁ 키 저장/불러오기</button>
+  </div>
+  <div class="keyrow" id="vaultRow" style="display:none">
+    <input type="password" id="vaultpw" class="model" style="flex:0 0 240px" placeholder="볼트 암호 (복호화용, 길게)">
+    <input type="password" id="ghtoken" placeholder="GitHub 토큰 — 저장할 때만 필요 (contents:write)">
+    <button class="btn btn-t" onclick="vaultLoad()">불러오기</button>
+    <button class="btn btn-v" onclick="vaultSave()">저장</button>
+  </div>
+  <p class="note">키는 브라우저에 저장하지 않습니다. ☁ 볼트 사용 시 <b>AES-GCM 암호화된 암호문만</b> GitHub 저장소(신규기능/data)에 커밋됩니다 — 저장소가 public이므로 볼트 암호를 길고 복잡하게 설정하세요. · 왼쪽 모델=텍스트 추출·대조표, 오른쪽 모델=번역 이미지 생성 · 긴 상세 이미지는 자동 분할 번역 후 재병합됩니다</p>
+
+  <div class="toolbar">
+    <span style="font-size:13px;font-weight:800;color:#64748b">번역 언어</span>
+    <div class="mode" id="langBar">
+      <button class="on" data-l="ko" onclick="setLang('ko')">한국어</button>
+      <button data-l="ja" onclick="setLang('ja')">일본어</button>
+      <button data-l="zh" onclick="setLang('zh')">중국어</button>
+      <button data-l="en" onclick="setLang('en')">영어</button>
+    </div>
+    <button class="btn btn-file" onclick="document.getElementById('file').click()">이미지 선택 (여러 장)</button>
+    <input type="file" id="file" accept="image/*" multiple hidden onchange="addFiles(this.files);this.value=''">
+    <button class="btn btn-run" id="run" disabled onclick="runAll()">① 일괄 번역 실행</button>
+    <button class="btn btn-t" id="btnZip" disabled onclick="saveZip()">② ZIP 저장</button>
+    <button class="btn btn-v" id="btnKw" disabled onclick="extractAllKw()">키워드 추출</button>
+    <button class="btn btn-t" id="btnKwCsv" disabled onclick="saveKwCsv()">키워드 CSV 저장</button>
+    <span class="status" id="status">이미지를 추가하세요</span>
+  </div>
+
+  <div class="dropzone" id="drop" onclick="document.getElementById('file').click()">
+    번역할 상세 이미지를 여기에 <b>드래그&드롭</b>하거나 클릭해서 선택하세요<br>
+    <b>Ctrl+V 붙여넣기</b>도 가능 · 여러 장 동시 추가 가능 · 원문 언어는 자동 인식됩니다
+  </div>
+
+  <div class="card" id="sumcard" style="display:none">
+    <div class="top"><span class="num">Σ</span><h3>키워드 요약</h3><span class="chip">전체 이미지 합산 · 중복 제거</span></div>
+    <div class="sumgrid">
+      <div>
+        <div class="sh"><b>번역 키워드 전체 합본</b><span class="cnt" id="sumAllCnt"></span><button class="copybtn" onclick="copySum('sumAll',this)">복사</button></div>
+        <div class="sumbox" id="sumAll"></div>
+      </div>
+      <div>
+        <div class="sh"><b>핵심 키워드 TOP 10</b><span class="cnt" id="sumCoreCnt"></span><button class="copybtn" onclick="copySum('sumCore',this)">복사</button></div>
+        <div class="sumbox" id="sumCore"></div>
+      </div>
+    </div>
+    <div class="sumkw" id="sumKw"></div>
+  </div>
+
+  <div id="cards"></div>
+</div>
+
+<script>
+let lang='ko', jobs=[], busy=false;
+const LANGS={
+  ko:{name:'한국어',en:'Korean',suffix:'ko'},
+  ja:{name:'일본어',en:'Japanese',suffix:'ja'},
+  zh:{name:'중국어(간체)',en:'Simplified Chinese',suffix:'zh'},
+  en:{name:'영어',en:'English',suffix:'en'}
+};
+const SLICE_W=1000, SLICE_H=1280, SINGLE_MAX=1600; // 분할 기준: 폭 1000 정규화 후 높이 1600 초과 시 1280px 단위 분할
+
+function setLang(l){
+  if(busy){ document.getElementById('status').textContent='번역 진행 중에는 언어를 변경할 수 없습니다'; return; }
+  lang=l;
+  document.querySelectorAll('#langBar button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
+  jobs.forEach(j=>{ if(j.status==='done'){ j.status='ready'; j.transUrl=null; j.transSlices=[]; } j.texts=[]; j.keywords=[]; j.nameRec=''; });
+  renderCards();
+}
+
+function key(){return document.getElementById('apikey').value.trim();}
+
+// ── ☁ 키 볼트: AES-GCM 암호문을 GitHub 저장소에 커밋 (public repo → 암호문만 저장)
+const VAULT_REPO='sulkooworks-commits/sellingbooster';
+const VAULT_PATH='신규기능/data/gemini-vault.json';
+const VAULT_BRANCH='main';
+const VAULT_API='https://api.github.com/repos/'+VAULT_REPO+'/contents/'+encodeURI(VAULT_PATH);
+function toggleVault(){
+  const r=document.getElementById('vaultRow');
+  r.style.display=r.style.display==='none'?'flex':'none';
+}
+const b2a=b=>btoa(String.fromCharCode(...new Uint8Array(b)));
+const a2b=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function deriveKey(pw,salt){
+  const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+  return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:150000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+}
+async function vaultSave(){
+  const st=document.getElementById('status');
+  const pw=document.getElementById('vaultpw').value, gt=document.getElementById('ghtoken').value.trim();
+  if(!key()){ st.textContent='저장할 API 키를 먼저 입력하세요'; return; }
+  if(pw.length<8){ st.textContent='볼트 암호는 8자 이상으로 설정하세요'; return; }
+  if(!gt){ st.textContent='저장에는 GitHub 토큰(contents:write)이 필요합니다'; return; }
+  st.textContent='암호화·커밋 중…';
+  try{
+    const salt=crypto.getRandomValues(new Uint8Array(16)), iv=crypto.getRandomValues(new Uint8Array(12));
+    const k=await deriveKey(pw,salt);
+    const payload=new TextEncoder().encode(JSON.stringify({
+      apikey:key(), model:document.getElementById('model').value.trim(),
+      imodel:document.getElementById('imodel').value.trim(), saved:new Date().toISOString()
+    }));
+    const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},k,payload);
+    const doc=JSON.stringify({v:1,alg:'AES-256-GCM + PBKDF2-SHA256(150k)',salt:b2a(salt),iv:b2a(iv),ct:b2a(ct)},null,1);
+    // 기존 파일 sha 조회(갱신 시 필요)
+    let sha=null;
+    const head=await fetch(VAULT_API+'?ref='+VAULT_BRANCH,{headers:{Authorization:'Bearer '+gt},cache:'no-store'});
+    if(head.ok) sha=(await head.json()).sha;
+    const res=await fetch(VAULT_API,{method:'PUT',
+      headers:{Authorization:'Bearer '+gt,'Content-Type':'application/json'},
+      body:JSON.stringify({message:'chore: gemini vault update',branch:VAULT_BRANCH,content:btoa(doc),...(sha?{sha}:{})})});
+    if(!res.ok){ const e=await res.json().catch(()=>({})); throw new Error(res.status+' '+(e.message||'커밋 실패')); }
+    document.getElementById('ghtoken').value='';
+    st.textContent='☁ 키 저장 완료 — '+VAULT_PATH+' 커밋됨';
+  }catch(e){ st.textContent='키 저장 실패: '+e.message; }
+}
+async function vaultLoad(){
+  const st=document.getElementById('status');
+  const pw=document.getElementById('vaultpw').value;
+  if(!pw){ st.textContent='볼트 암호를 입력하세요'; return; }
+  st.textContent='볼트 불러오는 중…';
+  try{
+    const res=await fetch(VAULT_API+'?ref='+VAULT_BRANCH,{headers:{Accept:'application/vnd.github.raw+json'},cache:'no-store'});
+    if(res.status===404) throw new Error('저장된 볼트가 없습니다');
+    if(!res.ok) throw new Error('조회 실패 ('+res.status+')');
+    const d=JSON.parse(await res.text());
+    const k=await deriveKey(pw,a2b(d.salt));
+    let pt;
+    try{ pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:a2b(d.iv)},k,a2b(d.ct)); }
+    catch(_){ throw new Error('암호가 일치하지 않습니다'); }
+    const o=JSON.parse(new TextDecoder().decode(pt));
+    document.getElementById('apikey').value=o.apikey||'';
+    if(o.model) document.getElementById('model').value=o.model;
+    if(o.imodel) document.getElementById('imodel').value=o.imodel;
+    st.textContent='☁ 키 불러오기 완료 (저장 시각: '+(o.saved||'').slice(0,16).replace('T',' ')+')';
+  }catch(e){ st.textContent='불러오기 실패: '+e.message; }
+}
+// 시작 시 볼트 존재 여부만 조용히 확인
+(async()=>{
+  try{
+    const r=await fetch(VAULT_API+'?ref='+VAULT_BRANCH,{method:'HEAD',cache:'no-store'});
+    if(r.ok){
+      document.getElementById('vaultRow').style.display='flex';
+      document.getElementById('status').textContent='☁ 저장된 키 발견 — 볼트 암호 입력 후 「불러오기」';
+    }
+  }catch(_){}
+})();
+async function callGemini(model,parts,cfg){
+  const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent?key='+encodeURIComponent(key()),{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({contents:[{role:'user',parts}],generationConfig:cfg||{}})
+  });
+  const data=await res.json();
+  if(data.error) throw new Error('['+(data.error.code||'')+'] '+(data.error.message||'API 오류'));
+  return data;
+}
+
+// ── 이미지 추가: 폭 정규화 → 긴 이미지 자동 분할
+function addFiles(list){
+  [...list].filter(f=>f.type.startsWith('image/')).forEach(f=>{
+    const img=new Image();
+    img.onload=()=>{
+      const s=Math.min(1,SLICE_W/img.width);
+      const W=Math.round(img.width*s), H=Math.round(img.height*s);
+      const slices=[];
+      if(H<=SINGLE_MAX){ slices.push(cut(img,0,img.height,W,H)); }
+      else{
+        const n=Math.ceil(H/SLICE_H), srcSlice=img.height/n;
+        for(let i=0;i<n;i++){
+          const sy=Math.round(i*srcSlice), sh=Math.round(Math.min(img.height-sy,srcSlice));
+          slices.push(cut(img,sy,sh,W,Math.round(sh*s)));
+        }
+      }
+      jobs.push({name:f.name.replace(/\.[^.]+$/,''), w:W,
+        slices, transSlices:new Array(slices.length).fill(null),
+        origUrl:mergeUrl(slices), transUrl:null, texts:[], keywords:[], nameRec:'', status:'ready', errMsg:''});
+      URL.revokeObjectURL(img.src);
+      renderCards(); syncButtons();
+    };
+    img.src=URL.createObjectURL(f);
+  });
+}
+function cut(img,sy,sh,dw,dh){
+  const c=document.createElement('canvas'); c.width=dw; c.height=dh;
+  c.getContext('2d').drawImage(img,0,sy,img.width,sh,0,0,dw,dh);
+  return {b64:c.toDataURL('image/jpeg',0.85).split(',')[1], w:dw, h:dh};
+}
+function mergeUrl(slices){
+  // 단일 조각은 즉시 미리보기, 다중 조각은 ensureOrig()에서 비동기 병합
+  return slices.length===1 ? 'data:image/jpeg;base64,'+slices[0].b64 : null;
+}
+async function mergeAsync(parts){ // parts: [{src(dataURL), w, h}]
+  const imgs=await Promise.all(parts.map(p=>new Promise(res=>{const im=new Image();im.onload=()=>res(im);im.src=p.src;})));
+  const W=Math.max(...parts.map(p=>p.w)), H=parts.reduce((a,p)=>a+p.h,0);
+  const c=document.createElement('canvas'); c.width=W; c.height=H;
+  const ctx=c.getContext('2d'); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+  let y=0;
+  imgs.forEach((im,i)=>{ ctx.drawImage(im,0,y,W,Math.round(im.height*W/im.width)); y+=Math.round(im.height*W/im.width); });
+  return c.toDataURL('image/jpeg',0.9);
+}
+
+// 원본 미리보기 병합(추가 직후 1회)
+async function ensureOrig(j){
+  if(j.origUrl||j._merging) return;
+  j._merging=true;
+  j.origUrl=await mergeAsync(j.slices.map(s=>({src:'data:image/jpeg;base64,'+s.b64,w:s.w,h:s.h})));
+  j._merging=false;
+  renderCards();
+}
+
+// ── 프롬프트
+function imgPrompt(){
+  const T=LANGS[lang].en;
+  return 'This is a section of an e-commerce product detail page image. Regenerate the EXACT same image — identical layout, background, product photos, graphics, icons, colors and design — but translate every piece of visible text into natural, accurate '+T+'. Replace text in place, matching the original font size, weight and position as closely as possible. Do not add, remove, move or restyle any non-text element. Do not translate brand names or model numbers. Output the image only, same aspect ratio, no watermark.';
+}
+function txtPrompt(){
+  return '이미지 속 모든 텍스트를 위에서 아래 순서로 추출하고 '+LANGS[lang].name+'로 번역하라.\n줄마다 정확히: TXT|원문|번역\n브랜드명·모델명은 번역하지 말고 그대로 둔다. 그 외 어떤 텍스트도 출력 금지.';
+}
+function kwPrompt(){
+  return '이미지는 상품 상세페이지다. 기재된 텍스트에서 상품 검색·등록에 쓸 핵심 키워드를 추출하고 '+LANGS[lang].name+'로 번역한 뒤, 키워드별 용도를 판정하라.\n'+
+'대상: 상품명·카테고리·소재·기능·특징·용도·사이즈/규격 표현. 조사·문장·광고문구·중복 제외, 이미지당 8~20개.\n'+
+'판정 기준:\n'+
+'- 상품명=Y: 상품의 정체성을 정의하는 키워드(카테고리명·형태·소재·핵심 용도). 온라인몰 상품명 조합에 넣어야 검색 매칭되는 것만 Y.\n'+
+'- 핵심=Y: 구매 검색 수요가 예상되는 메인 키워드. 태그·광고·상세설명 강조에 우선 사용할 것만 Y.\n'+
+'- 둘 다 N: 참고용 보조 키워드.\n'+
+'줄마다 정확히: KW|키워드|상품명(Y/N)|핵심(Y/N)\n'+
+'모든 KW 라인 뒤 마지막에 한 줄 — 상품명=Y 키워드를 자연스럽게 조합한 추천 상품명(공백 포함 50자 이내):\n'+
+'NAME|추천 상품명\n'+
+'브랜드명·모델명은 번역하지 말고 그대로 둔다. 그 외 어떤 텍스트도 출력 금지.';
+}
+
+// ── 키워드 일괄 추출 (텍스트 모델, 순차)
+async function extractAllKw(){
+  if(busy) return;
+  if(!key()){ document.getElementById('status').textContent='API 키를 먼저 입력하세요'; return; }
+  const st=document.getElementById('status'); busy=true;
+  document.getElementById('btnKw').disabled=true;
+  const tm=document.getElementById('model').value.trim();
+  const targets=jobs.filter(j=>!j.keywords.length);
+  let done=0;
+  for(const j of targets){
+    const map=new Map(); j.nameRec='';
+    try{
+      for(let s=0;s<j.slices.length;s++){
+        st.textContent='키워드 추출 중 '+(done+1)+'/'+targets.length+' — '+j.name+(j.slices.length>1?' (조각 '+(s+1)+'/'+j.slices.length+')':'');
+        const data=await callGemini(tm,[{text:kwPrompt()},{inlineData:{mimeType:'image/jpeg',data:j.slices[s].b64}}],{maxOutputTokens:2048,temperature:0.2});
+        const text=(data.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('\n');
+        text.split('\n').forEach(line=>{
+          line=line.trim();
+          if(line.startsWith('KW|')){
+            const f=line.split('|');
+            const k=(f[1]||'').trim(); if(!k) return;
+            const nm=/^y/i.test((f[2]||'').trim()), core=/^y/i.test((f[3]||'').trim());
+            const ex=map.get(k);
+            if(ex){ ex.nm=ex.nm||nm; ex.core=ex.core||core; }   // 조각 간 중복 → 플래그 병합
+            else map.set(k,{k,nm,core});
+          }else if(line.startsWith('NAME|')&&!j.nameRec){ j.nameRec=line.slice(5).trim(); }
+        });
+      }
+      // 정렬: 상품명 → 핵심 → 보조
+      j.keywords=[...map.values()].sort((a,b)=>(b.nm-a.nm)||(b.core-a.core));
+    }catch(e){ st.textContent='키워드 추출 실패('+j.name+'): '+e.message; busy=false; document.getElementById('btnKw').disabled=false; renderCards(); syncButtons(); return; }
+    done++; renderCards();
+  }
+  const total=jobs.reduce((a,j)=>a+j.keywords.length,0);
+  st.textContent='키워드 추출 완료 — 전체 '+total+'개';
+  busy=false; document.getElementById('btnKw').disabled=false; syncButtons();
+}
+
+// 키워드 CSV 저장 — BOM 포함(엑셀 한글 호환), 상품명·핵심 판정 열 + 추천 상품명 행 포함
+function saveKwCsv(){
+  const seen=new Set();
+  const rows=[['번호','파일명','키워드('+LANGS[lang].name+')','상품명 포함','핵심','비고']];
+  jobs.forEach((j,i)=>{
+    const no=String(i+1).padStart(2,'0');
+    if(j.nameRec) rows.push([no, j.name, j.nameRec, '', '', '★ 추천 상품명']);
+    j.keywords.forEach(o=>{
+      const dup=seen.has(o.k); seen.add(o.k);
+      rows.push([no, j.name, o.k, o.nm?'Y':'', o.core?'Y':'', dup?'중복':'']);
+    });
+  });
+  const csv='\uFEFF'+rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\r\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+  a.download='상세페이지_키워드_'+LANGS[lang].suffix+'_'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'.csv'; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+}
+
+// ── ① 일괄 번역 (순차)
+async function runAll(){
+  if(busy) return;
+  if(!key()){ document.getElementById('status').textContent='API 키를 먼저 입력하세요'; return; }
+  const st=document.getElementById('status'), run=document.getElementById('run');
+  run.disabled=true; busy=true;
+  const im=document.getElementById('imodel').value.trim();
+  const targets=jobs.filter(j=>j.status!=='done');
+  await runAllBody(st,run,im,targets);
+}
+
+// 한 이미지 번역 (조각 순차) — 일괄·개별 공용
+async function translateJob(j, im, st, prefix){
+  for(let s=0;s<j.slices.length;s++){
+    if(j.transSlices[s]) continue;
+    st.textContent=prefix+' — '+j.name+(j.slices.length>1?' (조각 '+(s+1)+'/'+j.slices.length+')':'');
+    const data=await callGemini(im,[{text:imgPrompt()},{inlineData:{mimeType:'image/jpeg',data:j.slices[s].b64}}],{responseModalities:['TEXT','IMAGE']});
+    const p=(data.candidates?.[0]?.content?.parts||[]).find(p=>p.inlineData);
+    if(!p) throw new Error('이미지 응답 없음 (조각 '+(s+1)+')');
+    j.transSlices[s]={src:'data:'+(p.inlineData.mimeType||'image/png')+';base64,'+p.inlineData.data,w:j.slices[s].w,h:j.slices[s].h};
+  }
+  j.transUrl=await mergeAsync(j.transSlices);
+}
+
+async function runAllBody(st,run,im,targets){
+  let done=0;
+  for(const j of targets){
+    j.status='working'; j.errMsg=''; renderCards();
+    try{
+      await translateJob(j, im, st, '번역 중 '+(done+1)+'/'+targets.length);
+      j.status='done';
+    }catch(e){ j.status='error'; j.errMsg=e.message; }
+    done++; renderCards();
+  }
+  st.textContent='일괄 번역 완료 — 성공 '+jobs.filter(j=>j.status==='done').length+' / 전체 '+jobs.length;
+  run.disabled=false; busy=false; syncButtons();
+}
+
+// 개별 다시 생성 — 해당 이미지의 결과를 버리고 전 조각 재번역 (부분 미번역 대응)
+async function regen(i){
+  if(busy) return;
+  const j=jobs[i], st=document.getElementById('status');
+  if(!key()){ st.textContent='API 키를 먼저 입력하세요'; return; }
+  busy=true;
+  j.transSlices=new Array(j.slices.length).fill(null);
+  j.transUrl=null; j.errMsg=''; j.status='working'; renderCards();
+  try{
+    await translateJob(j, document.getElementById('imodel').value.trim(), st, '다시 생성 중');
+    j.status='done'; st.textContent='다시 생성 완료 — '+j.name;
+  }catch(e){ j.status='error'; j.errMsg=e.message; st.textContent='다시 생성 실패: '+e.message; }
+  busy=false; renderCards(); syncButtons();
+}
+
+// 텍스트 대조표 추출
+async function extract(i){
+  if(busy) return;
+  const j=jobs[i], st=document.getElementById('status');
+  if(!key()){ st.textContent='API 키를 먼저 입력하세요'; return; }
+  busy=true; st.textContent='텍스트 추출 중 — '+j.name;
+  try{
+    j.texts=[];
+    for(let s=0;s<j.slices.length;s++){
+      const data=await callGemini(document.getElementById('model').value.trim(),
+        [{text:txtPrompt()},{inlineData:{mimeType:'image/jpeg',data:j.slices[s].b64}}],{maxOutputTokens:4096,temperature:0.2});
+      const text=(data.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('\n');
+      text.split('\n').forEach(line=>{
+        line=line.trim();
+        if(line.startsWith('TXT|')){ const f=line.split('|'); if(f.length>=3) j.texts.push([f[1],f.slice(2).join('|')]); }
+      });
+    }
+    st.textContent='텍스트 추출 완료 — '+j.texts.length+'줄';
+  }catch(e){ st.textContent='텍스트 추출 실패: '+e.message; }
+  busy=false; renderCards();
+  const t=document.getElementById('texts'+i); if(t&&j.texts.length) t.style.display='block';
+}
+function toggleTexts(i){
+  const t=document.getElementById('texts'+i);
+  if(t) t.style.display=t.style.display==='block'?'none':'block';
+}
+
+function delJob(i){ if(busy) return; jobs.splice(i,1); renderCards(); syncButtons(); }
+
+function dl(i){
+  const j=jobs[i]; if(!j.transUrl) return;
+  const a=document.createElement('a');
+  a.href=j.transUrl; a.download=j.name+'_'+LANGS[lang].suffix+'.jpg'; a.click();
+}
+
+async function saveZip(){
+  const zip=new JSZip();
+  jobs.filter(j=>j.transUrl).forEach(j=>zip.file(j.name+'_'+LANGS[lang].suffix+'.jpg', j.transUrl.split(',')[1], {base64:true}));
+  const blob=await zip.generateAsync({type:'blob'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download='번역이미지_'+LANGS[lang].suffix+'_'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'.zip'; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+}
+
+function legendHtml(){
+  return '<div class="legend">'
+    +'<span class="li"><i class="d both"></i>상품명+핵심</span>'
+    +'<span class="li"><i class="d nm"></i>상품명 포함 권장</span>'
+    +'<span class="li"><i class="d core"></i>핵심(태그·광고)</span>'
+    +'<span class="li"><i class="d sub"></i>보조</span></div>';
+}
+function esc(s){return String(s).replace(/</g,'&lt;');}
+const STCHIP={ready:['대기','st'],working:['번역 중…','st'],done:['완료','ok'],error:['실패','ng']};
+function renderCards(){
+  const C=document.getElementById('cards');
+  C.innerHTML=jobs.map((j,i)=>{
+    const [label,cls]=STCHIP[j.status];
+    return '<div class="card">'+
+    '<div class="top"><span class="num">'+String(i+1).padStart(2,'0')+'</span><h3>'+esc(j.name)+'</h3>'+
+    '<span class="chip">'+(j.slices.length>1?j.slices.length+'조각 분할':'단일')+'</span>'+
+    '<span class="chip '+cls+'">'+label+'</span>'+
+    (j.errMsg?'<span class="chip ng">'+esc(j.errMsg)+'</span>':'')+
+    '<span class="actions">'+
+    '<button class="mini" title="텍스트 대조표 추출" onclick="extract('+i+')">¶</button>'+
+    (j.texts.length?'<button class="mini" title="대조표 접기/펼치기" onclick="toggleTexts('+i+')">≡</button>':'')+
+    '<button class="mini" title="이 이미지 다시 생성" onclick="regen('+i+')">↻</button>'+
+    (j.transUrl?'<button class="mini" title="번역 이미지 다운로드" onclick="dl('+i+')">⬇</button>':'')+
+    '<button class="mini del" title="삭제" onclick="delJob('+i+')">✕</button></span></div>'+
+    '<div class="pair">'+
+    '<div class="pane"><span class="cap">원본</span>'+(j.origUrl?'<img src="'+j.origUrl+'">':'<div class="ph">미리보기 준비 중…</div>')+'</div>'+
+    '<div class="pane"><span class="cap tr">'+LANGS[lang].name+' 번역</span>'+
+    (j.transUrl?'<button class="regen" onclick="regen('+i+')">↻ 다시 생성</button><img src="'+j.transUrl+'">':'<div class="ph">'+(j.status==='working'?'번역 생성 중…':'① 일괄 번역 실행 시 여기에 표시됩니다')+'</div>')+'</div>'+
+    '</div>'+
+    '<div class="texts" id="texts'+i+'"'+(j.texts.length?' style="display:block"':'')+'>'+
+    (j.texts.length?'<table><tr><th>원문</th><th>'+LANGS[lang].name+'</th></tr>'+j.texts.map(t=>'<tr><td>'+esc(t[0])+'</td><td>'+esc(t[1])+'</td></tr>').join('')+'</table>':'')+
+    '</div>'+
+    '<div class="kwbox"'+(j.keywords.length?' style="display:block"':'')+'>'+
+    (j.keywords.length?
+      '<div class="kt">추출 키워드 '+j.keywords.length+'개 (상품명 '+j.keywords.filter(o=>o.nm).length+' · 핵심 '+j.keywords.filter(o=>o.core).length+')</div>'+
+      (j.nameRec?'<div class="namerec"><b>★ 추천 상품명</b> · '+esc(j.nameRec)+'</div>':'')+
+      legendHtml()+
+      '<div class="kws">'+j.keywords.map(o=>'<span class="kw'+(o.nm&&o.core?' both':o.nm?' nm':o.core?' core':'')+'">'+esc(o.k)+'</span>').join('')+'</div>'
+    :'')+
+    '</div></div>';
+  }).join('');
+  jobs.forEach(j=>ensureOrig(j));
+  renderSummary();
+}
+
+// ── 상단 키워드 요약 (전체 합본 + 핵심 TOP 10)
+function renderSummary(){
+  const card=document.getElementById('sumcard');
+  const has=jobs.some(j=>j.keywords.length);
+  card.style.display=has?'block':'none';
+  if(!has) return;
+  const seen=new Set(), all=[];
+  jobs.forEach(j=>j.keywords.forEach(o=>{ if(!seen.has(o.k)){ seen.add(o.k); all.push(o); } }));
+  // 핵심 TOP 10: 상품명+핵심 > 핵심 > 상품명 순, 부족 시까지 채움
+  const score=o=>(o.nm&&o.core)?3:o.core?2:o.nm?1:0;
+  const core=all.filter(o=>score(o)>0).sort((a,b)=>score(b)-score(a)).slice(0,10);
+  document.getElementById('sumAll').textContent=all.map(o=>o.k).join(', ');
+  document.getElementById('sumAllCnt').textContent=all.length+'개';
+  document.getElementById('sumCore').textContent=core.map(o=>o.k).join(', ');
+  document.getElementById('sumCoreCnt').textContent=core.length+'개';
+
+  // 하단: 추천 상품명 목록 + 등급별 통합 칩 (칩 클릭=개별 복사)
+  const sorted=[...all].sort((a,b)=>score(b)-score(a));
+  window._sumKws=sorted.map(o=>o.k);
+  window._sumNames=jobs.map((j,i)=>({no:String(i+1).padStart(2,'0'),n:j.nameRec})).filter(x=>x.n);
+  document.getElementById('sumKw').innerHTML=
+    '<div class="sh"><b>분류 상세</b><span class="cnt">상품명 '+all.filter(o=>o.nm).length+' · 핵심 '+all.filter(o=>o.core).length+' · 보조 '+all.filter(o=>score(o)===0).length+' — 칩 클릭 시 개별 복사</span></div>'+
+    window._sumNames.map((x,i)=>'<div class="namerec"><b>★ '+x.no+' 추천 상품명</b> · '+esc(x.n)+' <button class="copybtn" style="float:right" onclick="copyName('+i+',this)">복사</button></div>').join('')+
+    legendHtml()+
+    '<div class="kws">'+sorted.map((o,i)=>'<span class="kw'+(o.nm&&o.core?' both':o.nm?' nm':o.core?' core':'')+'" title="클릭하여 복사" onclick="copyKw('+i+')">'+esc(o.k)+'</span>').join('')+'</div>';
+}
+function copyKw(i){
+  const k=window._sumKws[i];
+  navigator.clipboard.writeText(k).then(()=>{ document.getElementById('status').textContent='복사됨: '+k; });
+}
+function copyName(i,btn){
+  navigator.clipboard.writeText(window._sumNames[i].n).then(()=>{
+    btn.textContent='복사됨'; btn.classList.add('done');
+    setTimeout(()=>{btn.textContent='복사';btn.classList.remove('done');},1500);
+  });
+}
+function copySum(id,btn){
+  const t=document.getElementById(id).textContent;
+  if(!t) return;
+  navigator.clipboard.writeText(t).then(()=>{
+    btn.textContent='복사됨'; btn.classList.add('done');
+    setTimeout(()=>{btn.textContent='복사';btn.classList.remove('done');},1500);
+  }).catch(()=>{
+    const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy'); ta.remove();
+    btn.textContent='복사됨'; setTimeout(()=>btn.textContent='복사',1500);
+  });
+}
+function syncButtons(){
+  document.getElementById('run').disabled=!jobs.length||busy;
+  document.getElementById('btnZip').disabled=!jobs.some(j=>j.transUrl);
+  document.getElementById('btnKw').disabled=!jobs.length||busy;
+  document.getElementById('btnKwCsv').disabled=!jobs.some(j=>j.keywords.length);
+  if(jobs.length&&!busy) document.getElementById('status').textContent=jobs.length+'장 준비 — ① 일괄 번역 실행을 누르세요';
+}
+
+// 붙여넣기(Ctrl+V) — 여러 이미지 동시 지원
+document.addEventListener('paste',e=>{
+  const fs=[...(e.clipboardData?.items||[])].filter(i=>i.type.startsWith('image/')).map(i=>i.getAsFile());
+  if(fs.length){ e.preventDefault(); addFiles(fs); }
+});
+// 드래그&드롭
+const _dz=document.getElementById('drop');
+_dz.addEventListener('dragover',e=>{e.preventDefault();_dz.classList.add('over');});
+_dz.addEventListener('dragleave',()=>_dz.classList.remove('over'));
+_dz.addEventListener('drop',e=>{e.preventDefault();_dz.classList.remove('over');addFiles(e.dataTransfer.files);});
+</script>
+</body>
+</html>
