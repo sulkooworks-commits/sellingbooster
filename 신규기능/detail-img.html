@@ -103,6 +103,7 @@ header p{font-size:13px;opacity:.85;margin-top:6px;}
 
   <div class="keyrow">
     <input type="password" id="vaultpw" style="flex:1;min-width:200px" placeholder="🔒 볼트 암호 입력 후 Enter — 저장된 API 키·설정으로 바로 시작">
+    <button class="btn btn-file" style="border-style:solid;padding:11px 14px" title="암호 표시/숨김" onclick="const p=document.getElementById('vaultpw');p.type=p.type==='password'?'text':'password'">👁</button>
     <button class="btn btn-v" onclick="vaultLoad()">잠금 해제</button>
     <button class="btn btn-file" style="border-style:solid" onclick="toggleVault()">⚙ 키 설정</button>
   </div>
@@ -181,22 +182,23 @@ const VAULT_PATH='신규기능/data/gemini-vault.json';
 const VAULT_BRANCH='main';
 const VAULT_API='https://api.github.com/repos/'+VAULT_REPO+'/contents/'+encodeURI(VAULT_PATH);
 // 조회 폴백 체인: ①API(토큰 있으면 인증 — 무인증은 60회/시 제한으로 403 가능) ②raw ③GitHub Pages
-async function fetchVaultDoc(){
+async function fetchVaultDocs(){
   const tries=[
     {u:VAULT_API+'?ref='+VAULT_BRANCH,h:{Accept:'application/vnd.github.raw+json',...(window._ghtoken?{Authorization:'Bearer '+window._ghtoken}:{})}},
     {u:'https://raw.githubusercontent.com/'+VAULT_REPO+'/'+VAULT_BRANCH+'/'+encodeURI(VAULT_PATH)+'?t='+Date.now()},
     {u:'https://sulkooworks-commits.github.io/sellingbooster/'+encodeURI(VAULT_PATH)+'?t='+Date.now()}
   ];
-  const errs=[];
+  const docs=[], errs=[];
   for(const t of tries){
     try{
       const res=await fetch(t.u,{headers:t.h||{},cache:'no-store'});
-      if(res.ok){ const d=JSON.parse(await res.text()); window._vaultDoc=d; return d; }
-      errs.push(res.status);
+      if(res.ok){ const d=JSON.parse(await res.text()); if(d&&d.ct&&!docs.some(x=>x.ct===d.ct)) docs.push(d); }
+      else errs.push(res.status);
     }catch(e){ errs.push(e.message); }
   }
-  if(window._vaultDoc) return window._vaultDoc; // 시작 시 성공분 재사용
-  if(errs.every(x=>x===404)) throw new Error('저장된 볼트가 없습니다');
+  if(window._vaultDoc&&!docs.some(x=>x.ct===window._vaultDoc.ct)) docs.push(window._vaultDoc);
+  if(docs.length){ window._vaultDoc=docs[0]; return docs; }
+  if(errs.length&&errs.every(x=>x===404)) throw new Error('저장된 볼트가 없습니다');
   throw new Error('조회 실패 ('+errs.join(' / ')+')');
 }
 function toggleVault(){
@@ -225,7 +227,7 @@ async function vaultSave(){
       imodel:document.getElementById('imodel').value.trim(), saved:new Date().toISOString()
     }));
     const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},k,payload);
-    const doc=JSON.stringify({v:1,alg:'AES-256-GCM + PBKDF2-SHA256(150k)',salt:b2a(salt),iv:b2a(iv),ct:b2a(ct)},null,1);
+    const doc=JSON.stringify({v:1,alg:'AES-256-GCM + PBKDF2-SHA256(150k)',updated:new Date().toISOString(),salt:b2a(salt),iv:b2a(iv),ct:b2a(ct)},null,1);
     // 기존 파일 sha 조회(갱신 시 필요)
     let sha=null;
     const head=await fetch(VAULT_API+'?ref='+VAULT_BRANCH,{headers:{Authorization:'Bearer '+gt},cache:'no-store'});
@@ -246,12 +248,19 @@ async function vaultLoad(){
   if(!pw){ st.textContent='볼트 암호를 입력하세요'; return; }
   st.textContent='볼트 불러오는 중…';
   try{
-    const d=await fetchVaultDoc();
-    const k=await deriveKey(pw,a2b(d.salt));
-    let pt;
-    try{ pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:a2b(d.iv)},k,a2b(d.ct)); }
-    catch(_){ throw new Error('암호가 일치하지 않습니다'); }
-    const o=JSON.parse(new TextDecoder().decode(pt));
+    const docs=await fetchVaultDocs();
+    let o=null;
+    for(const d of docs){
+      try{
+        const k=await deriveKey(pw,a2b(d.salt));
+        const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:a2b(d.iv)},k,a2b(d.ct));
+        o=JSON.parse(new TextDecoder().decode(pt)); break;
+      }catch(_){}
+    }
+    if(!o){
+      const when=docs.map(d=>d.updated?d.updated.slice(0,16).replace('T',' '):'시각 미기록').join(' · ');
+      throw new Error('암호가 일치하지 않습니다 — 시도한 볼트 '+docs.length+'판 (저장: '+when+'). 👁로 입력값 확인 후 재시도하거나, ⚙ 키 설정에서 새 암호로 재저장하세요');
+    }
     document.getElementById('apikey').value=o.apikey||'';
     if(o.model) document.getElementById('model').value=o.model;
     if(o.imodel) document.getElementById('imodel').value=o.imodel;
@@ -263,10 +272,10 @@ async function vaultLoad(){
   }catch(e){ st.textContent='불러오기 실패: '+e.message; }
 }
 // 시작 시: 볼트 있으면 암호 입력만 안내, 없으면 최초 설정 행을 자동으로 연다 (폴백 조회 사용)
-document.getElementById('vaultpw').addEventListener('keydown',e=>{ if(e.key==='Enter') vaultLoad(); });
+document.getElementById('vaultpw').addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.isComposing&&e.keyCode!==229) vaultLoad(); });
 (async()=>{
   try{
-    await fetchVaultDoc();
+    await fetchVaultDocs();
     document.getElementById('status').textContent='🔒 볼트 암호 입력 후 Enter로 시작하세요';
     document.getElementById('vaultpw').focus();
   }catch(_){
