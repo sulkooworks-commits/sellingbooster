@@ -215,6 +215,27 @@
   .tfold summary::after{content:" ▾ 펼치기";font-size:12px;font-weight:700;color:var(--teal);margin-left:8px;}
   .tfold[open] summary::after{content:" ▴ 접기";}
   .tfold[open] summary{margin-bottom:10px;}
+  .qrow{display:flex;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:13.5px;line-height:1.55;}
+  .qrow:last-of-type{border-bottom:none;}
+  .qrow b.k{flex:none;width:40px;color:var(--violet);font-weight:800;}
+  .mstrip{display:flex;gap:6px;margin:10px 0 2px;flex-wrap:wrap;}
+  .mstrip .nd{flex:1;min-width:108px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px;text-align:center;}
+  .mstrip .nd .w{font-weight:800;font-size:12px;color:var(--violet);}
+  .mstrip .nd .l{font-size:11.5px;color:var(--sub);margin-top:2px;line-height:1.4;}
+  .mstrip .nd.tl{border-color:rgba(0,177,189,.5);background:#F2FBFC;}
+  .agchips span{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:700;margin:4px 5px 0 0;}
+  .agchips i{font-style:normal;background:var(--violet);color:#fff;border-radius:50%;width:17px;height:17px;display:inline-flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:800;flex:none;}
+  .flow{display:flex;gap:10px;align-items:stretch;margin:8px 0 4px;}
+  .flow .box{flex:1;background:#FAFAF7;border:1px solid var(--line);border-radius:12px;padding:12px 14px;}
+  .flow .box .cap{font-weight:800;font-size:12.5px;margin-bottom:7px;}
+  .flow .box ul{margin:0 0 0 16px;font-size:12.5px;line-height:1.6;}
+  .flow .box.goal{background:#F2FBFC;border-color:rgba(0,177,189,.35);}
+  .flow .arrow{align-self:center;font-weight:800;color:var(--sub);}
+  .ax{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11.5px;font-weight:800;white-space:nowrap;}
+  .ax-y{background:#FFF3C4;color:#8A6400;}.ax-p{background:#EFE4FF;color:#6D3FD6;}.ax-g{background:#DCF5E5;color:#0F7A38;}
+  .ax-b{background:#DEE9FF;color:#1D4ED8;}.ax-o{background:#FFE4D1;color:#B84A08;}
+  .mut{color:var(--sub);font-size:12px;font-weight:400;}
+  @media (max-width:720px){.flow{flex-direction:column;}.flow .arrow{transform:rotate(90deg);align-self:center;}}
 
   /* ── 당월 강조 행 ── */
   tr.cur td{background:#F2FBFC;border-top:2px solid var(--teal);border-bottom:2px solid var(--teal);}
@@ -309,7 +330,7 @@
     <table class="kv">
       <tr><td>목적</td><td>① 사용자 유입 증대 &nbsp; ② 머신러닝 학습데이터 확보 (유입·행동 데이터 축적)</td></tr>
       <tr><td>관리 방식</td><td>월 단위 계획 수립 → 실행 → 월말 성과 리뷰 → 익월 계획 갱신 (지속 관리)</td></tr>
-      <tr><td>총 예상 예산</td><td><b>4,008,000원</b> — 9월 광고비 총액 (구글 신규 매체 도입 포함 · 품의 상세 5장)</td></tr>
+      <tr><td>총 예상 예산</td><td><b>4,008,000원</b> — 9월 광고비 총액 (구글 신규 매체 도입 포함 · 품의 상세 6장)</td></tr>
       <tr><td>담당</td><td>
         <b>안지호</b> — 퍼포먼스 마케팅 · 전환율<br>
         <b>이슬기</b> — 도메인 지수 · 콘텐츠 유입<br>
@@ -348,7 +369,7 @@
         <tr class="cur">
           <td class="rowlabel">9월<br><small>(당월)</small></td>
           <td>본편 주 5회 확대 + K트렌드 11회 + 네이버 14회<small>GEO 가이드 반영 · 추석 스킵(9/24~28)</small></td>
-          <td>예산 4,008,000원 · 구글 신규 도입 + 메타 리타겟팅<small>품의 상세 5장 · 8월 ROAS 기준 재배분</small></td>
+          <td>예산 4,008,000원 · 구글 신규 도입 + 메타 리타겟팅<small>품의 상세 6장 · 8월 ROAS 기준 재배분</small></td>
           <td>8월 실험 반영 2차 개선 · GA4·GTM 검증<small>앱 오픈 시 앱 퍼널 측정 추가</small></td>
           <td>앱 정식 오픈(1안 9/16) 리텐션 활동<small>온보딩 개선 검토 · 리타겟팅 연계</small></td>
         </tr>
@@ -413,7 +434,7 @@
       <tr><td>현황</td><td>8월 예산 2,968,050원 집행 완료(결산 집계 중), 2개 채널(네이버 검색광고 · 메타 인스타그램) 운영. 초기 성과 기준 <b>네이버 = 저비용·고전환</b>(가입당 4,164원), <b>메타 = 노출 우위·전환 저조</b>(가입당 65.18 USD)</td></tr>
       <tr><td>9월 활동</td><td>
         <ul style="margin-bottom:0;">
-          <li>9월 예산 4,008,000원 집행 — 구글 신규 매체(검색·PMAX) 테스트 도입 (품의 상세 5장)</li>
+          <li>9월 예산 4,008,000원 집행 — 구글 신규 매체(검색·PMAX) 테스트 도입 (품의 상세 6장)</li>
           <li><b>메타 리타겟팅 그룹 운영 개시:</b> 전환 이탈자 대상 리타겟팅 광고 집행 — 재방문 트리거 생성 목표</li>
           <li>8월 채널별 ROAS 기준 예산 재배분 — 네이버(CPA 우수) 키워드 확장 · 메타 소재 개선 지속</li>
           <li><b>광고 소재 차별 메시지 반영 (다시체크 경쟁 분석 기반):</b> ① "확장프로그램 없이 모바일·앱에서 가능한 분석" (경쟁사 구조적 약점 공략) ② 3채널(스마트스토어·쿠팡·11번가) 지원 ③ AI 상품명·최적가 추천 (당사 단독 기능) — 메타 소재·네이버 광고 문안에 순차 적용</li>
@@ -508,17 +529,34 @@
 
   <!-- ═══ 4. 담당 구분 ═══ -->
   <!-- ═══ 5. 관리 체계 ═══ -->
-    <!-- ═══ 초안: 서비스 고도화 ═══ -->
-  <section style="border:1.5px dashed var(--teal);background:#FBFEFE;">
-    <h2><span class="num" style="width:auto;padding:0 10px;background:#fff;color:var(--teal);border:1.5px dashed var(--teal);">초안</span>서비스 고도화 <span class="chip" style="background:var(--warn-bg);color:#9A6B00;">추가 예정</span></h2>
-    <p style="font-size:13.5px;color:var(--sub);margin-bottom:12px;">9월 초 「마케팅 소구점 및 기능 고도화 계획 수립」(7장 마일스톤) 산출 후 상세 확정 예정 — 아래 3개 트랙으로 구성.</p>
-    <ol style="margin:0 0 4px 22px;">
-      <li style="margin-bottom:7px;"><b>현행 기능 고도화</b></li>
-      <li style="margin-bottom:7px;"><b>TTJ · 셀링스파크 연동</b></li>
-      <li><b>셀링스파크 통합</b></li>
-    </ol>
+    <!-- ═══ 5. 서비스 고도화 ═══ -->
+  <section>
+    <h2 id="toc-5"><span class="num">5</span>서비스 고도화 <span class="chip" style="background:var(--warn-bg);color:#9A6B00;">추가 예정</span></h2>
+    <p style="margin:2px 0 8px;"><a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/pm/4q-plan.html" target="_blank" rel="noopener noreferrer">📋 4분기 기획안 바로가기</a></p>
+    <p style="font-size:13.5px;color:var(--sub);margin-bottom:12px;">4분기 기획 아젠다 5건 — <b>확정 요청 예정</b> (9/9 수 실장 보고, 8장 마일스톤 연계). 확정 시 정식 섹션 승격 및 WBS·Asana 하위 태스크 전개.</p>
 
-    <h3 style="margin-top:22px;">셀링부스터 통합 안건</h3>
+    <h3 style="margin-top:16px;">1) 4분기 기획 요약</h3>
+    <div style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px 16px;margin-bottom:12px;">
+      <div class="qrow"><b class="k">범위</b><span>4분기 아젠다 <b>5건 확정 요청</b> — 현행 기능 고도화 · 셀링스파크 통합 · TTJ 연동 · 운영성 마이너작업 · 챌린지. 수집 이슈는 전무 피드백으로 <b>1안(익스텐션 내부 해소, 일 2,200건)</b>부터 진행</span></div>
+      <div class="qrow"><b class="k">일정</b><span><b>9/9(수) 통합 기획 1차 의사결정 완료</b> → 10월 초 파일럿 → 11월 초 베타 오픈(통합 버전) → 11월 중순 앱 2차 → 12월 말 앱 3차 · 연동/고도화 배포</span></div>
+      <div class="qrow"><b class="k">실행</b><span>승인 즉시 WBS 상세화 + Asana 하위 태스크 전개 · QA 이원화 — 셀링스파크(통합/App) <b>헥토큐앤엠</b> / 셀부 고도화 내부 QA</span></div>
+    </div>
+    <div class="mstrip">
+      <div class="nd"><div class="w">9/9 (수)</div><div class="l">통합 기획 1차<br>의사결정 완료</div></div>
+      <div class="nd"><div class="w">10월 초</div><div class="l">파일럿 버전<br>(기능 시연)</div></div>
+      <div class="nd"><div class="w">11월 초</div><div class="l">베타 오픈<br>(통합 버전)</div></div>
+      <div class="nd"><div class="w">11월 중순</div><div class="l">앱 구축 2차<br>(계정·메인·서브)</div></div>
+      <div class="nd tl"><div class="w">12월 말</div><div class="l">앱 3차 · 연동/<br>고도화 배포</div></div>
+    </div>
+    <div class="agchips" style="margin-bottom:4px;">
+      <span><i>1</i>현행 기능 고도화</span>
+      <span><i>2</i>셀링스파크 통합</span>
+      <span><i>3</i>TTJ·셀링스파크 연동</span>
+      <span><i>4</i>운영성 마이너작업</span>
+      <span><i>5</i>의장챌린지</span>
+    </div>
+
+    <h3 style="margin-top:24px;">2) 셀링부스터 통합 안건</h3>
     <ol style="margin:0 0 4px 22px;">
       <li style="margin-bottom:12px;"><b>프로토타입 확정 이후 상세 기획 예정</b> — 메인 · 판매하기/분석하기 서비스 페이지 · 요금제 페이지
         <p style="margin:8px 0 8px;">
@@ -533,11 +571,30 @@
       <li style="margin-bottom:7px;"><b>통합 브랜딩 컨택 예정</b> — 브랜드전략실 신지나 팀장 협의</li>
       <li><b>개인정보처리방침 · 서비스 이용약관 개정 예정</b></li>
     </ol>
+
+    <h3 style="margin-top:24px;">3) 현행 기능 고도화 아이디에이션 요약 — 아젠다 1</h3>
+    <p style="font-size:13.5px;margin-bottom:8px;">진단: 랭킹·수치 나열에 그침 · 수집(네이버 API) 차단 리스크 · 초보 셀러 온보딩 부재 · 분석 결과 공유 경로 없음 → 개선 5축으로 재편:
+      <span class="ax ax-y">① 키워드·랭킹 강화</span> <span class="ax ax-p">② 벤치마킹·익스텐션 모델</span> <span class="ax ax-g">③ 셀러 온보딩·가이드</span> <span class="ax ax-b">④ 콘텐츠·데이터 연계</span> <span class="ax ax-o">⑤ 체험형 서비스 강화</span></p>
+    <div class="table-scroll">
+    <table>
+      <colgroup><col style="width:7%"><col style="width:44%"><col style="width:15%"><col style="width:18%"><col style="width:16%"></colgroup>
+      <thead><tr><th>순위</th><th>작업</th><th>개선 축</th><th>비고</th><th>담당/구분</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td class="c"><b>1</b></td><td>셀러 사용 가이드 기획안 정리</td><td class="c"><span class="ax ax-g">③</span></td><td>즉시 착수</td><td class="c"><b>이슬기</b></td></tr>
+        <tr><td class="c">2</td><td>폴센트 벤치마킹 스펙 확인 (공유하기·알림·즉시 분석)</td><td class="c"><span class="ax ax-p">②</span> <span class="ax ax-o">⑤</span></td><td>3사 공유 가능 여부</td><td class="c">기술 검토</td></tr>
+        <tr><td class="c">3</td><td>버티컬 리스트업 · API 정리 (무신사·올리브영·다이소·오늘의집 / TTJ·라쿠텐)</td><td class="c"><span class="ax ax-y">①</span></td><td>기존/추가 API 구분</td><td class="c">기획·기술</td></tr>
+        <tr><td class="c">4</td><td>랭킹 활용 목적 정의 (인사이트 제공 방식 확정)</td><td class="c"><span class="ax ax-y">①</span> <span class="ax ax-o">⑤</span></td><td>활용 방식 확정</td><td class="c">기획 검토</td></tr>
+        <tr><td class="c">5</td><td>초보셀러 실전 코스 설계 (셀픽 테스트 계정 · 셀링스파크 연계)</td><td class="c"><span class="ax ax-g">③</span></td><td>계정 수급 확인</td><td class="c">기획 검토</td></tr>
+        <tr><td class="c">6</td><td>제외·후순위 보류 항목 정리 (추가 아이디에이션 4건 편입/보류 포함)</td><td class="c">공통</td><td>최종 판단 필요</td><td class="c"><b style="color:#D6232B;">의사결정</b></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:12.5px;color:var(--sub);margin-top:6px;">※ 문제 진단 → 개선 방안 → 기대효과 전체 표와 추가 아이디에이션(광고 계산기 · 커머스별 SEO 솔루션 · 스파크 통합 분석 화면 · 유료 부가 서비스)은 <a href="#apx5" style="color:var(--teal);font-weight:700;">별첨 5</a> 참조. 순위 확정 시 Asana 하위 태스크로 연동 예정.</p>
   </section>
 
-  <!-- ═══ 5. 9월 광고 품의 계획 ═══ -->
+  <!-- ═══ 6. 9월 광고 품의 계획 ═══ -->
   <section>
-    <h2 id="toc-5"><span class="num">5</span>9월 광고 품의 계획</h2>
+    <h2 id="toc-6"><span class="num">6</span>9월 광고 품의 계획</h2>
     <div class="lead" style="font-size:13.5px;">
       9월 광고비 총액 <b>4,008,000원</b> — 구글 신규 매체(검색광고 + PMAX) 테스트 도입에 따른 증액. 이 중 대행사(미래아이엔씨) 지급분 <b>2,398,000원</b>은 인보이스 정산 방식. 검토·승인 요청드립니다.
     </div>
@@ -578,9 +635,9 @@
     <p style="font-size:12.5px;color:var(--sub);margin-top:6px;">※ PMAX(Performance Max) = 구글 AI 자동 운용 캠페인. 승인 시 해당 예산·정산 방식으로 광고 집행 신속 준비.</p>
   </section>
 
-  <!-- ═══ 6. 앱 QA 진행 현황 ═══ -->
+  <!-- ═══ 7. 앱 QA 진행 현황 ═══ -->
   <section>
-    <h2 id="toc-6"><span class="num">6</span>앱 QA 진행 현황</h2>
+    <h2 id="toc-7"><span class="num">7</span>앱 QA 진행 현황</h2>
     <div class="lead" style="font-size:13.5px;">
       9/4 기준 발행 카드 <b>109장</b> · TC 수행률 77.6% · 통과율 <b>87.4%</b> — 현재 릴리즈 판정 <b>불가</b>(C·H 미해결 1건, A7 앱푸시 수신). 재검증 주간(9/7~9/11)에 해소 후 <b>9/11 종료 판정 → 오픈 1안 9/16 · 2안 9/30</b>. 앱 스토어 심사는 양 스토어 승인 완료(iOS 8/31 · AOS 9/2)로 오픈 선행 조건 충족.
     </div>
@@ -591,7 +648,7 @@
     <table class="kv">
       <tr><td>카드 현황</td><td>109장 (자동 106 · 수기 3) — 완료 6 · 검수 대기 20 · <b>할당 대기 34(병목)</b> · 고도화 예정 8. 미해결 오류 12건은 가입·탈퇴 인증 플로우 집중, 우선 할당 권고 3건</td></tr>
       <tr><td>남은 일정</td><td>TC 1.5 재검증·팀원 검증 9/7~9/9 (T열 디자인 · U열 마케터) → TC 2.0 외부 인력·실원 검증 9/10~9/11 (축약본) → 9/11 종료·실장 보고. 사내 이벤트 검증·대표 보고는 재검증 진행 상황 기준 <b>일정 재조율(연기)</b></td></tr>
-      <tr><td>2차 구축</td><td>10~11월 — 운영 고도화 및 셀링스파크 통합 (서비스 고도화 초안 트랙과 연계)</td></tr>
+      <tr><td>2차 구축</td><td>10~11월 — 운영 고도화 및 셀링스파크 통합 (5장 서비스 고도화 트랙과 연계)</td></tr>
     </table>
 
     <h3 style="margin-top:22px;">웹뷰 · 웹 운영 병행 현황</h3>
@@ -604,9 +661,9 @@
 
 <!-- ═══ 6. 9월 주요 마일스톤 ═══ -->
   <section>
-    <h2 id="toc-7"><span class="num">7</span>9월 주요 마일스톤 · 필요 일정</h2>
+    <h2 id="toc-8"><span class="num">8</span>9월 주요 마일스톤 · 필요 일정</h2>
     <div class="lead" style="font-size:13.5px;">
-      핵심: <b>앱 QA 종료(9/11) → 경영진 보고(9/11·14·15) → 정식 오픈 1안 9/16 · 2안 9/30</b>. QA는 8/21 착수, 재검증 주간 진행 중 — TC 1.5 팀원 검증(9/7~9/9) → TC 2.0 실원 검증(9/10~9/11). 앱 스토어 심사는 <b>양 스토어 승인 완료</b>(iOS 8/31 · AOS 9/2). 상세 현황은 6장 참조.
+      핵심: <b>앱 QA 종료(9/11) → 경영진 보고(9/11·14·15) → 정식 오픈 1안 9/16 · 2안 9/30</b>. QA는 8/21 착수, 재검증 주간 진행 중 — TC 1.5 팀원 검증(9/7~9/9) → TC 2.0 실원 검증(9/10~9/11). 앱 스토어 심사는 <b>양 스토어 승인 완료</b>(iOS 8/31 · AOS 9/2). 상세 현황은 7장 참조.
     </div>
     <p style="margin:0 0 14px;">
       <a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EC%95%B1_QA_%EA%B3%84%ED%9A%8D%EC%84%9C.html" target="_blank" rel="noopener noreferrer">📱 앱 QA 계획서 (v1.3) 바로가기</a>
@@ -619,7 +676,7 @@
         <tr><td class="c">9/1 (화)</td><td>블로그 본편 주 5회 확대 개시 — 화·목 「아이템 딥다이브」 추가 (이슬기·안지호 분업)</td><td class="c">콘텐츠</td></tr>
         <tr><td class="c">9/7~9/9</td><td>TC 1.5 재검증(회귀) · 팀원 검증 — T열(디자인) · U열(마케터) 체크 기입</td><td class="c">앱</td></tr>
         <tr class="hl"><td class="c">9월 1주차</td><td><b>네이버 솔루션 마켓 입점 신청 보류</b> · 카페24 입점 심사 진행 중</td><td class="c">마켓 입점</td></tr>
-        <tr><td class="c">9월 초</td><td>당월 광고 품의 확정 — 9월 품의 4,008,000원 상세 5장 (매월 반복)</td><td class="c">광고</td></tr>
+        <tr><td class="c">9월 초</td><td>당월 광고 품의 확정 — 9월 품의 4,008,000원 상세 6장 (매월 반복)</td><td class="c">광고</td></tr>
         <tr><td class="c">9월 초</td><td>셀링부스터 마케팅 소구점 및 기능 고도화 계획 수립</td><td class="c">기획·마케팅</td></tr>
         <tr><td class="c">9/10~9/11</td><td>TC 2.0 외부 인력 · 실원 검증 — 축약본(기본 동작·중요 기능·이전 이슈 위주) 교차 검증</td><td class="c">앱</td></tr>
         <tr><td class="c">일정 재조율</td><td>앱 사내 이벤트 검증 (자유 탐색·리워드) · 대표 중간 보고 — 재검증 진행 상황 기준 재설정 (연기)</td><td class="c">앱</td></tr>
@@ -638,12 +695,12 @@
     <p style="font-size:12.5px;color:var(--sub);margin-top:8px;">※ 10월 예고: 셀링스파크·블로그페이 연동, 신규 서비스(블로그 마켓·틱톡샵) 콘텐츠 연계, 4분기 예산 확대 집행.</p>
   </section>
 
-    <!-- ═══ 7. 운영 정책 ═══ -->
+    <!-- ═══ 9. 운영 정책 ═══ -->
   <section>
-    <h2 id="toc-8"><span class="num">8</span>운영 정책</h2>
+    <h2 id="toc-9"><span class="num">9</span>운영 정책</h2>
     <p style="margin:2px 0 6px;"><a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%ED%8C%80%EC%97%85%EB%AC%B4%EC%A0%95%EB%A6%AC.html" target="_blank" rel="noopener noreferrer">🗂 셀링부스터 팀 업무 정리 (원본)</a></p>
 
-    <h3 style="margin-top:14px;">8-1. 담당 구분 (R&amp;R)</h3>
+    <h3 style="margin-top:14px;">9-1. 담당 구분 (R&amp;R)</h3>
       <table>
       <colgroup><col style="width:28%"><col style="width:22%"><col style="width:50%"></colgroup>
       <thead>
@@ -677,7 +734,7 @@
       </div>
       </details>
 
-    <h3 style="margin-top:26px;">8-2. 지속 관리 체계</h3>
+    <h3 style="margin-top:26px;">9-2. 지속 관리 체계</h3>
       <p>월 단위 사이클 운영 — 매월 리뷰 결과를 익월 계획과 요약표(2장)에 누적 반영. 이를 근거로 <b>4분기 장기 집행 계획</b> 수립 방향으로 검토 부탁드립니다.</p>
     <div class="cycle">
       <div class="step"><b>월초</b><span>항목별 활동 계획 확정, 요약표 갱신</span></div>
@@ -728,7 +785,7 @@
           <tr><td>[SB] 사업 미팅 (마케팅/기획)</td><td class="c">주간</td><td class="c">금요일 오후 (대체로 14~15시)</td><td class="c">공통</td><td>일정 유동적</td></tr>
           <tr><td>[SB] 기획/마케팅 주간 회의</td><td class="c">주간</td><td class="c">15:00 (요일 미정)</td><td class="c">공통</td><td class="c" style="color:var(--sub);">–</td></tr>
           <tr><td>캔미팅 (커머스솔루션실 전체)</td><td class="c">월간</td><td class="c">매월 말</td><td class="c">전체</td><td>일정 매월 별도 공지</td></tr>
-          <tr><td>[SB] SEO/GEO TF 회의</td><td class="c">주간</td><td class="c">매주 수요일</td><td class="c">공통</td><td>정기화 확정 (7장 마일스톤 참조)</td></tr>
+          <tr><td>[SB] SEO/GEO TF 회의</td><td class="c">주간</td><td class="c">매주 수요일</td><td class="c">공통</td><td>정기화 확정 (8장 마일스톤 참조)</td></tr>
           <tr><td>[SB] 주간업무 현황 공유</td><td class="c">주간</td><td class="c">기록으로 공유</td><td class="c">공통</td><td>별도 회의 없이 기록 대체</td></tr>
         </tbody>
       </table>
@@ -906,6 +963,117 @@
     </table>
     <p style="font-size:12.5px;color:var(--sub);margin-top:6px;">※ 회차별 네이버 제목·재집필 포인트, 하이훅 키워드 가이드, 시즈널 키워드 등 상세는 원문 문서 <a href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EB%B8%94%EB%A1%9C%EA%B7%B8_%EB%B0%9C%ED%96%89%EA%B3%84%ED%9A%8D_8-9%EC%9B%94.html" target="_blank" rel="noopener noreferrer" style="color:var(--teal);font-weight:700;">「셀링부스터 블로그 발행 계획 8~9월」</a> 참조.</p>
 
+    <h3 id="apx5" style="margin-top:26px;">별첨 5. 현행 기능 고도화 아이디에이션 — 아젠다 1 심화 <span style="font-weight:400;font-size:12px;color:var(--sub);">(4분기 기획 문서 4-1 원문 · Asana 연동 예정)</span></h3>
+    <p style="font-size:13.5px;color:var(--sub);margin-bottom:10px;">아이디에이션을 실행 관점으로 가공 — 현재 셀링부스터의 문제점·취약점에서 출발해 개선 포인트(5축) → 방안 → 기대효과로 정리. 우선순위 확정 후 Asana 하위 태스크로 연동 예정.</p>
+
+    <p style="font-size:13.5px;font-weight:700;margin-top:14px;">구조 도식 — 문제 → 개선 → 기대효과</p>
+    <div class="flow">
+      <div class="box">
+        <div class="cap">현재 문제점 · 취약점</div>
+        <ul>
+          <li>수집 안정성 — 네이버 API 차단 리스크 · 지표 부재</li>
+          <li>랭킹·수치 나열에 그침, 활용 인사이트 부재</li>
+          <li>초보 셀러 온보딩·실전 가이드 부재 → 이탈</li>
+          <li>분석 결과 공유·확산 경로 없음</li>
+        </ul>
+      </div>
+      <div class="arrow">→</div>
+      <div class="box">
+        <div class="cap">개선 포인트 (5축)</div>
+        <ul>
+          <li><b style="color:#8A6400">①</b> 키워드·랭킹 강화</li>
+          <li><b style="color:#6D3FD6">②</b> 벤치마킹·익스텐션 모델</li>
+          <li><b style="color:#0F7A38">③</b> 셀러 온보딩·가이드</li>
+          <li><b style="color:#1D4ED8">④</b> 콘텐츠·데이터 연계</li>
+          <li><b style="color:#B84A08">⑤</b> 체험형 서비스 강화</li>
+        </ul>
+      </div>
+      <div class="arrow">→</div>
+      <div class="box goal">
+        <div class="cap">기대효과</div>
+        <ul>
+          <li>랭킹 → 인사이트로 재방문 가치 상승</li>
+          <li>공유 기반 오가닉 유입 신규 경로</li>
+          <li>가입 → 활성 전환·리텐션 개선</li>
+          <li>셀링스파크·TTJ 연계 브릿지 확보</li>
+          <li>즉시 분석 체험 → 락인·재방문 상시화</li>
+        </ul>
+      </div>
+    </div>
+
+    <p style="font-size:13.5px;font-weight:700;margin-top:18px;">문제점 · 개선 포인트 · 방안 · 기대효과</p>
+    <div class="table-scroll">
+    <table>
+      <colgroup><col style="width:23%"><col style="width:15%"><col style="width:38%"><col style="width:24%"></colgroup>
+      <thead><tr><th>문제점 · 취약점</th><th>개선 포인트</th><th>방안</th><th>기대효과</th></tr></thead>
+      <tbody>
+      <tr>
+        <td>랭킹·수치를 보여주는 데 그침 — "어떻게 활용할지" 가이드 부재, 버티컬·해외 커버리지 한정</td>
+        <td class="c"><span class="ax ax-y">① 키워드·랭킹 강화</span></td>
+        <td>· 인기 키워드 랭킹 — 테마·기간 필터, 증감 추이 그래프<br>· 버티컬 키워드 랭킹 — 무신사·올리브영·다이소·오늘의집 / 해외 TTJ·라쿠텐<br>· 최적가 추천·알림 기능 추가<br>· 기존 키워드 인사이트 고도화 — 인사이트 요소 강화 · 네이버 API로 부재한 관련 지표 재적용</td>
+        <td>· 단순 랭킹 → 고객 인사이트 제공 전환<br>· 버티컬 차별화 · 재방문 가치 강화</td>
+      </tr>
+      <tr>
+        <td>분석 결과 외부 공유·확산 경로 없음, 수집 모델의 차단 리스크·진입장벽</td>
+        <td class="c"><span class="ax ax-p">② 벤치마킹·익스텐션 모델</span></td>
+        <td>· 폴센트 벤치마킹 — 키워드 앱 공유하기(URL) → 분석 인사이트·상세분석 유도<br>· 경쟁 셀러·1위 가격·최저가 알림<br>· 크롬 익스텐션 통합 상품 분석 고도화 — 수집이슈 1안 연계</td>
+        <td>· 공유 기반 오가닉 유입 신규 경로 확보<br>· 수집 안정화 — 일 2,200건 호출</td>
+      </tr>
+      <tr>
+        <td>초보 셀러 온보딩·실전 가이드 부재 — 가입 후 활용 경로 없이 이탈</td>
+        <td class="c"><span class="ax ax-g">③ 셀러 온보딩·가이드</span></td>
+        <td>· 셀러 사용 가이드 UI — 환경 모션·메시지 톡<br>· 초보셀러 실전 코스 — 데모 체험·셀픽 테스트 계정 (셀링스파크 연계 예정)<br>· 커뮤니티 운영 — 카카오 오픈채팅·라이브방송</td>
+        <td>· 가입 → 활성 전환·리텐션 개선<br>· 셀링스파크 도입 브릿지</td>
+      </tr>
+      <tr>
+        <td>발행 콘텐츠·데이터 자산이 서비스 내부와 미연계 — 유입 자산의 전환 연결 미흡</td>
+        <td class="c"><span class="ax ax-b">④ 콘텐츠·데이터 연계</span></td>
+        <td>· K트렌드 정기 리포트 — 월·분기, PDF/뉴스레터 자사 배포<br>· 해외 소싱사이트 연계 — TTJ 대비 일본<br>· 경쟁 셀러 광고 분석 — 검색기반·광고기반 수급</td>
+        <td>· 콘텐츠 자산 → 서비스 유입·재방문 트리거<br>· TTJ 연동 선행 준비</td>
+      </tr>
+      <tr>
+        <td>네이버 API 지표 부재로 아이템랭킹·체험 기능 제한 — 상품 분석 진입 동선(즉시 분석) 부재</td>
+        <td class="c"><span class="ax ax-o">⑤ 체험형 서비스 강화</span></td>
+        <td>· 아이템랭킹 고도화 — 네이버 API로 부재한 지표 보완, 자사/경쟁사 랭킹 트래킹 (의장챌린지 폴센트 벤치 요소 연계)<br>· 최적가 기능 고도화 — 플랫폼 3사(네이버·쿠팡·11번가) 지원<br>· 상품 상세 복사 → 즉시 상품 분석 서비스 (폴센트 차용 · 익스텐션 기반 기술 필요)</td>
+        <td>· 분석 진입 마찰 제거 → 체험 기반 락인<br>· 자사/경쟁사 랭킹 트래킹으로 재방문 상시화<br>· 의장챌린지(폴센트 벤치마킹) 실행 연계</td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p style="font-size:13.5px;font-weight:700;margin-top:18px;">추가 아이디에이션 · 셀링스파크 연계 검토 <span style="font-size:12px;font-weight:700;color:var(--sub);">우선순위 미배정 — 검토 후 편입</span></p>
+    <div class="table-scroll">
+    <table>
+      <colgroup><col style="width:15%"><col style="width:22%"><col style="width:47%"><col style="width:16%"></colgroup>
+      <thead><tr><th>구분</th><th>항목</th><th>내용 · 선결 과제</th><th>연계 축</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="c" rowspan="2">추가<br>아이디에이션</td>
+        <td>광고 계산기</td>
+        <td>광고비·수익 시뮬레이션 계산기로 승화 — <b>선결: 커머스별 광고 정책 러닝</b></td>
+        <td class="c"><span class="ax ax-o">⑤</span> <span class="ax ax-b">④</span></td>
+      </tr>
+      <tr>
+        <td>커머스별 SEO 솔루션</td>
+        <td>플랫폼별 검색 노출 최적화 (상품명·태그·키워드) 가이드/도구화</td>
+        <td class="c"><span class="ax ax-y">①</span></td>
+      </tr>
+      <tr>
+        <td class="c" rowspan="2">셀링스파크<br>연계 기능</td>
+        <td>스파크 셀러 통합 분석 화면</td>
+        <td>유사 상품 · 사업자 · 랭킹/가격 분석 <b>통합 화면</b> — 체험 기능으로 차별화</td>
+        <td class="c"><span class="ax ax-o">⑤</span> 통합(아젠다 2)</td>
+      </tr>
+      <tr>
+        <td>부가 서비스 (유료)</td>
+        <td>대표 언급(9/8) — <b>소싱 번역기</b> · <b>아이템 분석기</b> (이미지 첨부 분석)</td>
+        <td class="c">수익 모델</td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:12.5px;color:var(--sub);margin-top:6px;">※ 전 건 우선순위 미배정 상태 — 검토 확정 시 우선순위 표(5장 3번 요약)로 편입. 부가 서비스(유료) 2건은 상용화(수익 모델 라인)와 연동 검토. 상세 아이디어 원문은 4분기 기획 문서 별첨 2 참조.</p>
+
     <details class="docbox" id="doc-links" style="margin-top:30px;background:#F1F0EA;border:1px solid var(--line);border-radius:16px;padding:22px 26px;">
       <summary>📁 주요 문서 바로가기</summary>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;">
@@ -951,10 +1119,11 @@
     <a href="#toc-2" onclick="toggleToc()"><span class="tnum">2</span>월별 활동 요약</a>
     <a href="#toc-3" onclick="toggleToc()"><span class="tnum">3</span>운영 성과 요약</a>
     <a href="#toc-4" onclick="toggleToc()"><span class="tnum">4</span>세부 실행 방안</a>
-    <a href="#toc-5" onclick="toggleToc()"><span class="tnum">5</span>광고 품의 계획</a>
-    <a href="#toc-6" onclick="toggleToc()"><span class="tnum">6</span>앱 QA 진행 현황</a>
-    <a href="#toc-7" onclick="toggleToc()"><span class="tnum">7</span>마일스톤</a>
-    <a href="#toc-8" onclick="toggleToc()"><span class="tnum">8</span>운영 정책</a>
+    <a href="#toc-5" onclick="toggleToc()"><span class="tnum">5</span>서비스 고도화</a>
+    <a href="#toc-6" onclick="toggleToc()"><span class="tnum">6</span>광고 품의 계획</a>
+    <a href="#toc-7" onclick="toggleToc()"><span class="tnum">7</span>앱 QA 진행 현황</a>
+    <a href="#toc-8" onclick="toggleToc()"><span class="tnum">8</span>마일스톤</a>
+    <a href="#toc-9" onclick="toggleToc()"><span class="tnum">9</span>운영 정책</a>
     <a href="#apx" onclick="toggleToc()"><span class="tnum">＋</span>별첨 (성과 데이터·발행 계획)</a>
     <a href="#doc-links" onclick="openDocs()"><span class="tnum">＋</span>별첨 (주요 문서 바로가기)</a>
   </div>
