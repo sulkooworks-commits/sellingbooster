@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HD_4분기 기획 고도화 계획(초안)_260908</title>
+<link href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html-docx-js@0.3.1/dist/html-docx.min.js"></script>
+<style>
+:root{
+  --violet:#6466FA; --teal:#00B1BD; --bg:#F3F4F7; --ink:#1E2532;
+  --line:rgba(30,37,50,0.10); --sub:#6B7280;
+  --violet-soft:rgba(100,102,250,0.08); --teal-soft:rgba(0,177,189,0.08);
+  --warn:#E8590C; --danger:#C0161D; --ok:#0F8A3C;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'NanumSquare','Apple SD Gothic Neo',sans-serif;background:var(--bg);color:var(--ink);font-size:14.5px;line-height:1.7;letter-spacing:-0.01em;word-break:keep-all;overflow-wrap:break-word}
+#doc{max-width:1040px;margin:0 auto;padding:34px 40px 90px}
+
+/* ── sticky topbar ── */
+#topbar{position:sticky;top:0;z-index:50;background:rgba(243,244,247,0.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+#topbar .in{max-width:1040px;margin:0 auto;padding:12px 40px;display:flex;align-items:center;gap:12px}
+#topbar .brand{font-weight:800;font-size:14px;color:var(--violet)}
+#topbar .tt{font-size:13px;color:var(--sub);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#topbar button{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 14px;font-family:inherit;font-size:12.5px;font-weight:700;color:var(--ink);cursor:pointer}
+#topbar button:hover{border-color:var(--violet);color:var(--violet)}
+
+/* ── head ── */
+.docmeta{margin:38px 0 8px;display:flex;gap:8px;flex-wrap:wrap}
+.docmeta span{font-size:12px;font-weight:800;padding:5px 12px;border-radius:20px;background:var(--violet-soft);color:var(--violet)}
+.docmeta span.t{background:var(--teal-soft);color:var(--teal)}
+h1{font-size:29px;font-weight:800;line-height:1.35;margin:6px 0 10px}
+.lead{font-size:14px;color:var(--sub);margin-bottom:8px}
+.draftnote{margin:16px 0 0;padding:13px 18px;border-radius:12px;background:rgba(232,89,12,0.07);border:1px solid rgba(232,89,12,0.25);font-size:13px;color:#9A3D06}
+.draftnote b{color:var(--warn)}
+
+/* ── card ── */
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px 30px;margin-top:26px;box-shadow:0 1px 3px rgba(30,37,50,0.04)}
+.card h2{font-size:19px;font-weight:800;display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.card h2 .no{display:inline-flex;align-items:center;justify-content:center;min-width:27px;height:27px;border-radius:8px;background:var(--violet);color:#fff;font-size:13.5px}
+.card h2 .aux{font-size:12px;font-weight:700;color:var(--teal);background:var(--teal-soft);padding:3px 10px;border-radius:14px}
+.card .desc{font-size:13px;color:var(--sub);margin-bottom:18px}
+h3{font-size:15.5px;font-weight:800;margin:22px 0 10px;padding-left:12px;border-left:4px solid var(--violet)}
+h3.t{border-left-color:var(--teal)}
+
+/* ── table ── */
+table{width:100%;border-collapse:collapse;font-size:13.2px;margin:8px 0}
+th,td{border:1px solid rgba(128,128,128,0.3);padding:10px 13px;text-align:left;vertical-align:top}
+th{background:#1E2532;color:#fff;text-align:center;font-weight:700;font-size:13px;padding:10px 12px}
+td.c{text-align:center}
+td .mut{color:var(--sub);font-size:12.3px}
+.ph{color:#9AA1AD;font-style:normal}
+.ph::before{content:"〔 "}
+.ph::after{content:" 〕"}
+.subitem{margin:2px 0 2px 2px;padding-left:15px;position:relative;font-size:13px}
+.subitem::before{content:attr(data-k);position:absolute;left:0;font-weight:800;color:var(--violet);font-size:12px}
+
+/* ── 도식: 배경→목적 플로우 ── */
+.flow{display:flex;align-items:stretch;gap:0;margin:14px 0 6px;flex-wrap:wrap}
+.flow .box{flex:1;min-width:200px;border:1.5px solid var(--line);border-radius:13px;padding:16px 18px;background:#FAFBFD}
+.flow .box .cap{font-size:11.5px;font-weight:800;color:var(--sub);margin-bottom:7px}
+.flow .box ul{list-style:none}
+.flow .box li{position:relative;padding-left:13px;font-size:13px;margin-bottom:4px}
+.flow .box li::before{content:"·";position:absolute;left:2px;font-weight:800;color:var(--violet)}
+.flow .arrow{display:flex;align-items:center;padding:0 10px;color:var(--violet);font-size:22px;font-weight:800}
+.flow .box.goal{border-color:var(--violet);background:var(--violet-soft)}
+.flow .box.goal .cap{color:var(--violet)}
+
+/* ── 결론 하이라이트 ── */
+.concl{border:1.5px solid var(--violet);border-radius:14px;overflow:hidden;margin-top:6px}
+.concl .head{background:var(--violet);color:#fff;font-weight:800;font-size:14px;padding:11px 20px}
+.concl .body{padding:18px 22px;background:#fff}
+.concl .body ol{margin-left:20px}
+.concl .body li{margin-bottom:8px;font-size:14px}
+.concl .body li b{color:var(--violet)}
+
+/* ── 로드맵 ── */
+.rmwrap{overflow-x:auto;margin-top:10px}
+.rm{min-width:940px;border:1px solid var(--line);border-radius:13px}
+.rm .hd>div:first-child{border-top-left-radius:12px}
+.rm .hd>div:last-child{border-top-right-radius:12px}
+.rm .row:last-child>div:first-child{border-bottom-left-radius:12px}
+.rm .row:last-child>div:last-child{border-bottom-right-radius:12px}
+.rm .row{display:grid;grid-template-columns:180px 1fr}
+.rm .row.hd{grid-template-columns:180px repeat(4,1fr)}
+.rm .row>div{border-bottom:1px solid var(--line);font-size:12.8px}
+.rm .row:last-child>div{border-bottom:none}
+.rm .hd>div{padding:11px 14px;border-right:1px solid var(--line)}
+.rm .hd>div:last-child{border-right:none}
+.rm .cells{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:min-content;row-gap:4px;padding:9px 0;background:linear-gradient(var(--line),var(--line)) no-repeat 25% 0/1px 100%,linear-gradient(var(--line),var(--line)) no-repeat 50% 0/1px 100%,linear-gradient(var(--line),var(--line)) no-repeat 75% 0/1px 100%}
+.rm .cells .bar{width:auto;margin:0 7px}
+.rm .hd>div{background:#1E2532;color:#fff;font-weight:800;text-align:center;font-size:13px}
+.rm .hd>div:first-child{position:sticky;left:0;z-index:3}
+.rm .lane{background:#F7F8FB;font-weight:800;display:flex;align-items:center;gap:8px;line-height:1.4;position:sticky;left:0;z-index:2;box-shadow:2px 0 0 rgba(30,37,50,.10);padding:11px 14px;border-right:1px solid var(--line)}
+.rm .lane .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.rm .lane small{display:block;font-weight:700;font-size:11px;color:var(--sub)}
+.bar{display:block;width:100%;border-radius:4px;padding:4px 10px;font-size:11.8px;font-weight:700;margin:3px 0;line-height:1.35;text-align:left}
+.bar.v{background:rgba(100,102,250,0.13);color:#4547D6;border-left:3px solid var(--violet)}
+.bar.t{background:rgba(0,177,189,0.12);color:#00707A;border-left:3px solid var(--teal)}
+.bar.g{background:rgba(128,128,128,0.09);color:var(--sub);border:1px dashed rgba(128,128,128,0.4);border-left:3px dashed rgba(128,128,128,0.55)}
+.bar.m{background:#1E2532;color:#fff;border-left:3px solid #0A0F18}
+
+/* ── 마일스톤 ── */
+.ms{border-left:2.5px solid var(--line);margin:12px 0 4px 8px;padding-left:22px}
+.ms .item{position:relative;padding-bottom:16px}
+.ms .item:last-child{padding-bottom:2px}
+.ms .item::before{content:"";position:absolute;left:-29.5px;top:5px;width:11px;height:11px;border-radius:50%;background:#fff;border:3px solid var(--violet)}
+.ms .item.t::before{border-color:var(--teal)}
+.ms .item.d::before{border-color:#C6CBD4}
+.ms .when{font-size:12px;font-weight:800;color:var(--violet)}
+.ms .item.t .when{color:var(--teal)}
+.ms .item.d .when{color:var(--sub)}
+.ms .what{font-size:13.5px;font-weight:700}
+.ms .memo{font-size:12.5px;color:var(--sub)}
+
+/* ── 진척률 바 ── */
+.pg{display:flex;align-items:center;gap:8px;min-width:130px}
+.pg .trk{flex:1;height:8px;border-radius:6px;background:rgba(128,128,128,0.15);overflow:hidden}
+.pg .fil{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--violet),var(--teal))}
+.pg .n{font-size:12px;font-weight:800;min-width:34px;text-align:right}
+.st{display:inline-block;font-size:11.5px;font-weight:800;padding:3px 10px;border-radius:12px}
+.st.p1{background:rgba(128,128,128,0.12);color:var(--sub)}
+.st.p2{background:var(--violet-soft);color:var(--violet)}
+.st.p3{background:var(--teal-soft);color:#00838D}
+.st.p4{background:rgba(15,138,60,0.1);color:var(--ok)}
+
+/* ── 리스크 ── */
+.sev{display:inline-block;font-size:11.5px;font-weight:800;padding:3px 10px;border-radius:12px}
+.sev.h{background:rgba(192,22,29,0.09);color:var(--danger)}
+.sev.m{background:rgba(232,89,12,0.09);color:var(--warn)}
+.sev.l{background:rgba(15,138,60,0.09);color:var(--ok)}
+
+/* ── etc ── */
+.note{font-size:12.5px;color:var(--sub);margin-top:10px}
+.note::before{content:"※ "}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--sub);margin-top:10px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.card{scroll-margin-top:64px}
+.sumcard{border-top:4px solid var(--violet)}
+.sumcap{font-size:11px;font-weight:800;color:var(--violet);letter-spacing:.14em;margin-bottom:8px}
+.sumbox{background:var(--bg);border-radius:14px;padding:6px 20px;margin:12px 0 18px}
+.sumbox .r{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #E1E4EA;font-size:14px;line-height:1.65}
+.sumbox .r:last-child{border-bottom:none}
+.sumbox .r b.k{flex-shrink:0;min-width:44px;color:var(--ink)}
+.ul{box-shadow:inset 0 -3px 0 rgba(100,102,250,.45)}
+.tstrip{position:relative;margin:22px 6px 6px;padding-top:14px}
+.tstrip .line{position:absolute;top:19px;left:3%;right:3%;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--violet),var(--teal))}
+.tstrip .nodes{display:flex;justify-content:space-between;position:relative}
+.tstrip .nd{flex:1;text-align:center;position:relative}
+.tstrip .nd .dot{width:13px;height:13px;border-radius:50%;background:#fff;border:3.5px solid var(--violet);margin:0 auto 8px;position:relative;z-index:1}
+.tstrip .nd.t .dot{border-color:var(--teal)}
+.tstrip .nd .w{font-size:11.5px;font-weight:800;color:var(--violet)}
+.tstrip .nd.t .w{color:var(--teal)}
+.tstrip .nd .l{font-size:12px;font-weight:700;line-height:1.4;margin-top:1px}
+.agchips{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.agchips span{font-size:12px;font-weight:700;background:var(--violet-soft);color:#4547D6;border-radius:16px;padding:5px 13px}
+.agchips span i{font-style:normal;font-weight:800;margin-right:4px}
+.fg{display:grid;grid-template-columns:88px 1fr 24px 1fr 24px 1.06fr;gap:9px 0;align-items:stretch;margin-top:14px}
+.fg .h{font-size:12px;font-weight:800;letter-spacing:.06em;color:#5B6472;padding:0 4px 2px;align-self:end}
+.fg .h.g{color:var(--violet)}
+.fg .th{display:flex;align-items:center;font-size:12px;font-weight:800;color:#5B6472;padding-right:10px;line-height:1.35}
+.fg .cell{background:var(--bg);border-radius:11px;padding:12px 15px;font-size:13px;line-height:1.62;display:flex;align-items:center}
+.fg .cell .ph{white-space:nowrap;display:inline-block}
+.fg .cell.g{background:var(--violet-soft);border:1px solid rgba(100,102,250,.35);font-weight:600}
+.fg .ar{display:flex;align-items:center;justify-content:center;color:#B9BFCB;font-weight:800}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.toc a{display:inline-flex;align-items:center;gap:7px;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:22px;padding:7px 14px 7px 8px;font-size:12.5px;font-weight:700;color:var(--ink);transition:border-color .15s,color .15s}
+.toc a:hover{border-color:var(--violet);color:var(--violet)}
+.toc a .n{display:inline-flex;align-items:center;justify-content:center;min-width:21px;height:21px;padding:0 5px;border-radius:7px;background:var(--violet);color:#fff;font-size:11px;font-weight:800}
+.toc a.ax .n{background:var(--teal)}
+#tocFab{position:fixed;right:22px;bottom:22px;z-index:60;background:#1E2532;color:#fff;border:none;border-radius:26px;padding:11px 18px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 6px 18px rgba(30,37,50,0.25)}
+#tocFab:hover{background:var(--violet)}
+#tocPanel{position:fixed;right:22px;bottom:72px;z-index:60;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px rgba(30,37,50,0.18);padding:10px;min-width:250px;display:none}
+#tocPanel.open{display:block}
+#tocPanel a{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink);font-size:13px;font-weight:700;padding:8px 10px;border-radius:9px}
+#tocPanel a:hover{background:var(--violet-soft);color:var(--violet)}
+#tocPanel a .n{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 5px;border-radius:7px;background:var(--violet);color:#fff;font-size:11px;font-weight:800;flex-shrink:0}
+#tocPanel a.ax .n{background:var(--teal)}
+.table-scroll{overflow-x:auto}
+.hl{display:inline-block;padding:1px 8px;border-radius:5px;font-weight:800;font-size:12.5px}
+.hl-y{background:rgba(214,158,17,0.16);color:#8A6400}
+.hl-p{background:rgba(139,92,246,0.14);color:#6D3FD6}
+.hl-g{background:rgba(15,138,60,0.13);color:#0F7A38}
+.hl-b{background:rgba(37,99,235,0.12);color:#1D4ED8}
+.hl-o{background:rgba(232,89,12,0.13);color:#B84A08}
+.ideawrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px}
+@media(max-width:760px){.ideawrap{grid-template-columns:1fr}}
+.ideagrp{border:1.5px solid var(--line);border-radius:13px;overflow:hidden;background:#fff}
+.ideagrp .gh{padding:10px 16px;font-weight:800;font-size:13.5px;display:flex;align-items:center;gap:8px}
+.ideagrp .gh .sq{width:11px;height:11px;border-radius:3px}
+.ideagrp .gb{padding:12px 16px 14px;font-size:12.8px}
+.ideagrp .gb .it{margin-bottom:10px}
+.ideagrp .gb .it:last-child{margin-bottom:0}
+.ideagrp .gb .it .tt{font-weight:800;margin-bottom:2px}
+.ideagrp .gb .it .tt .star{color:var(--danger);font-weight:800}
+.ideagrp .gb ul{list-style:none;margin-top:2px}
+.ideagrp .gb li{position:relative;padding-left:12px;margin-bottom:2px;color:#3A4150;line-height:1.55}
+.ideagrp .gb li::before{content:"·";position:absolute;left:2px;font-weight:800}
+.ideagrp .gb li.sub{padding-left:24px;font-size:12.2px;color:var(--sub)}
+.ideagrp .gb li.sub::before{content:"◦";left:13px}
+.agrow td.seg{padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff}
+.agrow td.seg.run{background:rgba(100,102,250,.16);color:#1E2532}
+.agrow td.seg.plan{background:rgba(0,177,189,.10);color:#00707A}
+.agrow td.seg.blank{background:#FAFAF7}
+footer{margin-top:44px;text-align:center;font-size:12px;color:#A6ACB8}
+
+@media print{
+  #topbar,#tocFab,#tocPanel,.toc{display:none}
+  body{background:#fff}
+  .card{box-shadow:none;break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <div class="in">
+    <span class="brand">HectoData</span>
+    <span class="tt">4분기 기획 고도화 계획(초안) · 커머스커넥트실 커머스기획팀</span>
+    <button onclick="exportWord()">Word 내보내기</button>
+    <button onclick="exportPDF()">PDF 내보내기</button>
+  </div>
+</div>
+
+<div id="doc">
+
+  <div class="docmeta">
+    <span>기획 · 계획문서</span>
+    <span class="t">2026 Q4</span>
+    <span class="t">DRAFT v0.3</span>
+  </div>
+  <h1>2026년 4분기 셀링부스터 기획 고도화 계획 (초안)</h1>
+  <p class="lead">2026-09-08 (화) | 커머스커넥트실 커머스기획팀 이슬기</p>
+
+  <!-- ══════════ 0. 전체 요약 ══════════ -->
+  <div class="card sumcard" id="sec0">
+    <div class="sumcap">SUMMARY</div>
+    <h2 style="margin-bottom:2px">4분기 기획 고도화 — 전체 요약</h2>
+
+    <div class="sumbox">
+      <div class="r"><b class="k">범위</b><span>4분기 아젠다 <b class="ul">5건 확정 요청</b> — 현행 기능 고도화 · 셀링스파크 통합 · TTJ 연동 · 운영성 마이너작업 · 챌린지. 수집이슈는 전무 피드백으로 <b class="ul">1안(익스텐션 내부 해소, 일 2,200건)</b>부터 진행</span></div>
+      <div class="r"><b class="k">일정</b><span><b class="ul">9/9(수) 통합 기획 1차 의사결정 완료</b> → 10월 초 파일럿 → 11월 초 베타 오픈(통합 버전) → 11월 중순 앱 2차 → 12월 말 앱 3차 · 연동/고도화 배포</span></div>
+      <div class="r"><b class="k">실행</b><span>승인 즉시 WBS 상세화 + Asana 하위 태스크 전개(§6 체계) · QA 이원화 — 셀링스파크(통합/App) <b class="ul">헥토큐앤엠</b> / 셀부 고도화 내부 QA</span></div>
+    </div>
+
+    <h3 style="margin-top:20px">셀링부스터 통합 진행 이정표</h3>
+    <div class="tstrip">
+      <div class="line"></div>
+      <div class="nodes">
+        <div class="nd"><div class="dot"></div><div class="w">9/9 (수)</div><div class="l">통합 기획 1차<br>의사결정 완료</div></div>
+        <div class="nd"><div class="dot"></div><div class="w">10월 초</div><div class="l">파일럿 버전<br>(기능 시연)</div></div>
+        <div class="nd"><div class="dot"></div><div class="w">11월 초</div><div class="l">베타 오픈<br>(통합 버전)</div></div>
+        <div class="nd"><div class="dot"></div><div class="w">11월 중순</div><div class="l">앱 구축 2차<br>(계정·메인·서브)</div></div>
+        <div class="nd t"><div class="dot"></div><div class="w">12월 말</div><div class="l">앱 3차 · 연동/<br>고도화 배포</div></div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:22px">4분기 주요 아젠다</h3>
+    <div class="agchips">
+      <span><i>1</i>현행 기능 고도화</span>
+      <span><i>2</i>셀링스파크 통합</span>
+      <span><i>3</i>TTJ·셀링스파크 연동</span>
+      <span><i>4</i>운영성 마이너작업</span>
+      <span><i>5</i>의장챌린지</span>
+    </div>
+    <p class="note">빠른 검토 동선: 본 요약 → §2 결론(확정 요청) → §6 KPI·현황. 상세 근거는 §3~4, 원자료는 별첨 1·2.</p>
+  </div>
+
+  <!-- ══════════ 1. 배경·목적 ══════════ -->
+  <div class="card" id="sec1">
+    <h2><span class="no">1</span>배경 · 목적 <span class="aux">도식</span></h2>
+    <p class="desc">4개 스토리라인(데이터 수집·서비스 통합·수익 모델·운영 품질)별 현황 → 과제 → 목표. 행 단위로 읽으면 "왜 지금 하는가"가 한 줄로 잡히도록 구성.</p>
+
+    <div class="fg">
+      <div></div><div class="h">AS-IS 현황</div><div></div><div class="h">4분기 과제</div><div></div><div class="h g">TO-BE 목표 (달성 기준)</div>
+
+      <div class="th">데이터<br>수집</div>
+      <div class="cell">버티컬 스크래핑·수집 이슈 상존 → 분석 데이터 신뢰도 저하</div>
+      <div class="ar">→</div>
+      <div class="cell">익스텐션 기반 수집 내재화 <b>(1안 확정)</b></div>
+      <div class="ar">→</div>
+      <div class="cell g">일 2,200건 안정 수집 · 수집이슈 해소 완료</div>
+
+      <div class="th">서비스<br>통합</div>
+      <div class="cell">셀링부스터·셀링스파크 분리 운영 — 통합 기획 피벗 검토 (초안 v4 → 피벗 3)</div>
+      <div class="ar">→</div>
+      <div class="cell">통합 서비스 체계 확정 — 메인 · 서비스 · 요금제 · 앱</div>
+      <div class="ar">→</div>
+      <div class="cell g">11월 초 통합 베타 오픈 · 통합 회원 체계 적용</div>
+
+      <div class="th">수익<br>모델</div>
+      <div class="cell">전 기능 무료 제공 — 요금제·법인 회원 등 상용 구조 미비</div>
+      <div class="ar">→</div>
+      <div class="cell">요금제 설계 · TTJ 연동으로 데이터 커버리지 확대</div>
+      <div class="ar">→</div>
+      <div class="cell g">12월 결제 기능 도입(앱 3차) · 상용화 기반 확보</div>
+
+      <div class="th">운영<br>품질</div>
+      <div class="cell">운영성 마이너 이슈 누적 — 사용성·신뢰 저하</div>
+      <div class="ar">→</div>
+      <div class="cell">백로그 취합 후 분기 내 순차 해소</div>
+      <div class="ar">→</div>
+      <div class="cell g">버그 해소율 <span class="ph">N%</span> · 잔여 백로그 <span class="ph">N건</span> 이하</div>
+    </div>
+    <p class="note">각 행이 하나의 인과 사슬 — 현황이 과제를 만들고, 과제 완료 상태가 곧 4분기 목표.</p>
+  </div>
+
+  <!-- ══════════ 2. 결론 ══════════ -->
+  <div class="card" id="sec2">
+    <h2><span class="no">2</span>결론</h2>
+    <p class="desc">두괄식 요약 — 본 문서에서 확정 요청하는 사항. 상세 근거는 §3 이하 참조.</p>
+
+    <div class="concl">
+      <div class="head">확정 요청 사항 (요약)</div>
+      <div class="body">
+        <ol>
+          <li><b>아젠다 5건</b>으로 4분기 범위 확정 — ① 현행 기능 고도화 ② 셀링스파크 통합 ③ TTJ·셀링스파크 연동 ④ 운영성 마이너작업 해소 ⑤ 챌린지(브랜딩·의장 방향성·대표 지시사항)</li>
+          <li><b>셀링스파크 통합</b>: 초안(v4)~피벗 3(v1.0) 최종 취합 후 <b>9/9(수) 실장 보고</b>(w. 임승용 책임) — 승인 시 상세 기획 즉시 착수, 피벗 추가 결정 시 §7 리스크 대응안(범위 축소) 가동</li>
+          <li>아젠다별 <b>1순위 마일스톤</b> 및 마감일 승인 (§4)</li>
+          <li><b>QA 이원화</b> 승인 — 셀링스파크 관련(통합/App) 헥토큐앤엠 의뢰 / 셀부 고도화 내부 QA</li>
+          <li>승인 즉시 <b>WBS 상세화 + Asana 하위 태스크 생성</b> 착수 (§6 지표 체계 기준)</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ 3. 주요 아젠다 ══════════ -->
+  <div class="card" id="sec3">
+    <h2><span class="no">3</span>주요 아젠다 <span class="aux">로드맵 · 도식</span></h2>
+    <p class="desc">아젠다 5건 × 월별(9~12월) 로드맵. 검정 = 확정 마일스톤, 컬러 = 실행 과제, 점선 = 미확정.</p>
+
+    <h3>아젠다 정의</h3>
+    <table>
+      <colgroup><col style="width:7%"><col style="width:24%"><col style="width:51%"><col style="width:18%"></colgroup>
+      <tr><th>구분</th><th>아젠다</th><th>세부 범위</th><th>QA 방식</th></tr>
+      <tr>
+        <td class="c"><b>1</b></td><td><b>현행 기능 고도화</b></td>
+        <td>
+          <div class="subitem" data-k="A.">버티컬 스크래핑 및 수집이슈 해소</div>
+          <div class="subitem" data-k="B.">신규기능 — §4-1 작업 우선순위 확정 결과 반영</div>
+          <div class="subitem" data-k="C.">익스텐션 고도화</div>
+        </td>
+        <td class="c">내부 QA</td>
+      </tr>
+      <tr>
+        <td class="c"><b>2</b></td><td><b>셀링스파크 통합</b></td>
+        <td>
+          <div class="subitem" data-k="A.">프로토타입 확정 이후 상세 기획 — 메인 · 판매하기/분석하기 서비스 페이지 · 요금제 페이지 · 앱 (초안 v4 → 피벗 1 → 피벗 2 → 피벗 3 v1.0)</div>
+          <div class="subitem" data-k="B.">초안~피벗 3 최종 취합 후 수요일 중 실장 보고 예정 (w. 임승용 책임) · 통합 회원가입 수정 및 법인 회원 도입 — 기획 완료 상태</div>
+          <div class="subitem" data-k="C.">통합 브랜딩 컨택 예정 — 브랜드전략실 신지나 팀장 협의</div>
+          <div class="subitem" data-k="D.">개인정보처리방침 · 서비스 이용약관 개정 예정</div>
+          <div class="subitem" data-k="E.">앱 구축 — 2차(10~11월: 통합 계정·메인·서브) · 3차(12월: 웹 호환 추가 — 결제 기능 도입, 판매/분석 기능 추가 적용)</div>
+        </td>
+        <td class="c">헥토큐앤엠</td>
+      </tr>
+      <tr>
+        <td class="c"><b>3</b></td><td><b>TTJ · 셀링스파크 연동</b></td>
+        <td><span class="ph">연동 범위 정의 기재 — 데이터 스코프 · 연동 방식 · 노출 화면</span></td>
+        <td class="c">헥토큐앤엠</td>
+      </tr>
+      <tr>
+        <td class="c"><b>4</b></td><td><b>운영성 마이너작업 해소</b></td>
+        <td>
+          <div class="subitem" data-k="A.">마케팅 요건</div>
+          <div class="subitem" data-k="B.">어드민 요건</div>
+          <div class="subitem" data-k="C.">버그 해결</div>
+          <div class="subitem" data-k="D.">사용성 고도화</div>
+          <div class="subitem" data-k="E.">커머스 확장기능 디테일 확정 — 상품명 패턴(11번가·쿠팡) · 시즈널 키워드 · 커머스 일정</div>
+        </td>
+        <td class="c">내부 QA</td>
+      </tr>
+      <tr>
+        <td class="c"><b>5</b></td><td><b>챌린지</b></td>
+        <td>
+          <div class="subitem" data-k="A.">통합 브랜딩 — 셀픽 OMS · TTJ · 셀링부스터+셀링스파크 (진행 중)</div>
+          <div class="subitem" data-k="B.">의장 방향성 — 키파서비스 · 폴센트 서비스 · 헥토월렛 도입 추진</div>
+          <div class="subitem" data-k="C.">대표 지시사항 — 의장챌린지 아이디에이션 · Keepa 서비스 분석 벤치마킹 · 다시체크(쿠팡 판매분석) / 폴센트(셀러행으로: 가격추적서비스 · 아이템 랭킹시스템) 트래킹 및 실행</div>
+        </td>
+        <td class="c">해당 없음</td>
+      </tr>
+    </table>
+
+    <h3 class="t">분기 로드맵 (9월 ~ 12월)</h3>
+    <div class="rmwrap">
+      <div class="rm">
+        <div class="row hd"><div>아젠다</div><div>9월</div><div>10월</div><div>11월</div><div>12월</div></div>
+        <div class="row">
+          <div class="lane"><span class="dot" style="background:var(--violet)"></span><span>1. 현행 기능 고도화<small>내부 QA</small></span></div>
+          <div class="cells">
+            <span class="bar m" style="grid-column:1/2">해결방안 확정 (1안)</span>
+            <span class="bar v" style="grid-column:2/3">스크래핑·수집이슈 해소</span>
+            <span class="bar v" style="grid-column:3/4">신규기능 기획·개발</span>
+            <span class="bar m" style="grid-column:4/5">고도화 배포</span>
+            <span class="bar v" style="grid-column:1/2">익스텐션 구축 착수</span>
+            <span class="bar v" style="grid-column:3/4">익스텐션 고도화</span>
+            <span class="bar t" style="grid-column:4/5">내부 QA</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="lane"><span class="dot" style="background:#8B5CF6"></span><span>2. 셀링스파크 통합<small>헥토큐앤엠</small></span></div>
+          <div class="cells">
+            <span class="bar m" style="grid-column:1/2">초안~피벗 3 취합 실장 보고 (9/9)</span>
+            <span class="bar m" style="grid-column:2/3">파일럿 버전 (10월 초)</span>
+            <span class="bar m" style="grid-column:3/4">베타 오픈 (11월 초)</span>
+            <span class="bar v" style="grid-column:4/5">앱 구축 3차 (웹 호환 추가: 결제 기능 도입 · 판매/분석 기능 추가 적용)</span>
+            <span class="bar v" style="grid-column:1/5">브랜딩 협의(신지나 팀장) — 9~12월</span>
+            <span class="bar v" style="grid-column:1/2">상세 기획 (메인·서비스·요금제·앱)</span>
+            <span class="bar v" style="grid-column:3/4">회원가입·메인/서브 3·정책 개정</span>
+            <span class="bar v" style="grid-column:2/4">앱 구축 2차 (통합 계정·메인·서브)</span>
+            <span class="bar t" style="grid-column:4/5">통합 QA</span>
+            <span class="bar g" style="grid-column:4/5">베타 안정화</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="lane"><span class="dot" style="background:var(--teal)"></span><span>3. TTJ·셀링스파크 연동<small>헥토큐앤엠</small></span></div>
+          <div class="cells">
+            <span class="bar v" style="grid-column:1/2">요구사항 사전 검토</span>
+            <span class="bar v" style="grid-column:2/3">연동 범위·데이터 정의</span>
+            <span class="bar v" style="grid-column:3/4">연동 개발</span>
+            <span class="bar t" style="grid-column:4/5">헥토큐앤엠 QA</span>
+            <span class="bar m" style="grid-column:4/5">연동 배포</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="lane"><span class="dot" style="background:#94A3B8"></span><span>4. 운영성 마이너작업<small>내부 QA</small></span></div>
+          <div class="cells">
+            <span class="bar v" style="grid-column:1/2">백로그 취합·우선순위 분류</span>
+            <span class="bar v" style="grid-column:2/5">마케팅·어드민 요건 — 10~12월</span>
+            <span class="bar v" style="grid-column:1/2">버그 해결</span>
+            <span class="bar v" style="grid-column:2/5">사용성 고도화 — 10~12월</span>
+            <span class="bar v" style="grid-column:2/5">커머스 확장기능 디테일 (상품명 패턴·시즈널 키워드·커머스 일정)</span>
+            <span class="bar g" style="grid-column:2/5">잔여 백로그 이월</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="lane"><span class="dot" style="background:#E8590C"></span><span>5. 챌린지<small>전략 · 상시 트래킹</small></span></div>
+          <div class="cells">
+            <span class="bar v" style="grid-column:1/2">통합 브랜딩 진행</span>
+            <span class="bar v" style="grid-column:2/3">의장챌린지 아이디에이션</span>
+            <span class="bar g" style="grid-column:3/4">키파(익스텐션 고도화 모델) ·<br>폴센트(가격트레킹) ·<br>다시체크(쿠팡 판매분석)<br>분석 및 유사 기능 구현</span>
+            <span class="bar g" style="grid-column:4/5">헥토월렛 도입</span>
+            <span class="bar v" style="grid-column:1/2">Keepa 벤치마킹 착수</span>
+            <span class="bar v" style="grid-column:1/2">다시체크 벤치마킹 착수</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="legend">
+      <span><i style="background:#1E2532"></i>확정 마일스톤</span>
+      <span><i style="background:var(--violet-soft);border:1px solid rgba(100,102,250,0.35)"></i>실행 과제</span>
+      <span><i style="background:var(--teal-soft);border:1px solid rgba(0,177,189,0.35)"></i>QA</span>
+      <span><i style="background:rgba(128,128,128,0.09);border:1px dashed rgba(128,128,128,0.4)"></i>미확정(협의 중)</span>
+    </div>
+    <p class="note">로드맵 배치는 예시. 아젠다별 배포일 확정 시 월 배치 갱신.</p>
+  </div>
+
+  <!-- ══════════ 4. 아젠다별 우선순위 ══════════ -->
+  <div class="card" id="sec4">
+    <h2><span class="no">4</span>아젠다별 주요 우선순위 <span class="aux">마일스톤</span></h2>
+    <p class="desc">아젠다별 우선순위 + 핵심 마일스톤 타임라인. P1 = 분기 내 필수, P2 = 목표, P3 = 여력 시.</p>
+
+    <h3>1. 현행 기능 고도화</h3>
+    <table>
+      <colgroup><col style="width:8%"><col style="width:38%"><col style="width:32%"><col style="width:22%"></colgroup>
+      <tr><th>순위</th><th>과제</th><th>완료 기준 (DoD)</th><th>마감(안)</th></tr>
+      <tr><td class="c"><b>P1</b></td><td>A. 버티컬 스크래핑 및 수집이슈 해소 — 1안(내부 해소)부터 진행</td><td>익스텐션 전사 배포 · 일 2,200건 호출 달성</td><td class="c"><span class="ph">10월</span></td></tr>
+      <tr><td class="c"><b>P2</b></td><td>B. 신규기능 — §4-1 우선순위 확정 결과로 범위 채움 <span class="mut">(후보: 셀러 사용 가이드 · 폴센트 공유 · 버티컬 랭킹 등)</span></td><td>§4-1 우선순위 1~5 중 확정분 기획+개발 완료</td><td class="c"><span class="ph">11월</span></td></tr>
+      <tr><td class="c"><b>P2</b></td><td>C. 익스텐션 고도화</td><td><span class="ph">고도화 범위 정의 후 기재</span></td><td class="c"><span class="ph">11~12월</span></td></tr>
+    </table>
+
+    <h3 class="t">수집이슈 해결방안 — 네이버 API 문제 <span style="font-size:12px;font-weight:700;color:var(--warn)">전무 피드백: 1안부터 진행</span></h3>
+    <table>
+      <colgroup><col style="width:16%"><col style="width:26%"><col style="width:58%"></colgroup>
+      <tr><th colspan="3">문제 분석</th></tr>
+      <tr>
+        <td class="c" rowspan="2"><b>기존 방안</b><br><span class="mut">보류</span></td>
+        <td>스크래핑</td><td>리스크 — S2S · 이스파이더 · 익스텐션 → 진입장벽</td>
+      </tr>
+      <tr>
+        <td>크롤링 (ALL · 검색)</td><td class="mut">동일 리스크 범주</td>
+      </tr>
+      <tr>
+        <td class="c" rowspan="2"><b>신규 방안</b><br><span class="mut">진행 필요</span></td>
+        <td>익스텐션</td><td>호출 패턴 상이 — 기존 대비 차단 리스크 낮음</td>
+      </tr>
+      <tr>
+        <td>모바일</td><td>S2S와 동일 패턴 · 공격 범위 동일 → 제외</td>
+      </tr>
+    </table>
+    <table>
+      <colgroup><col style="width:16%"><col style="width:14%"><col style="width:35%"><col style="width:35%"></colgroup>
+      <tr><th colspan="2">대안</th><th>1안 · 내부 해소 <span style="font-weight:400">(진행 확정)</span></th><th>2안 · 신규 모델 구축</th></tr>
+      <tr><td class="c" colspan="2"><b>방안 / 기획</b></td><td>익스텐션 구축 후 전사 직원 배포 → 확장</td><td>벤치마킹 우선 (Keepa)</td></tr>
+      <tr><td class="c" colspan="2"><b>조건 / 스펙</b></td><td>페이지수 적게 전달</td><td>브라우저 케이스 · 서비스 소구점 정의</td></tr>
+      <tr><td class="c" colspan="2"><b>목표</b></td><td>일 2,200건 호출</td><td>1,000만 요청</td></tr>
+    </table>
+    <p class="note">1안 우선 진행(전무 피드백), 2안은 챌린지 아젠다 5-C의 Keepa 벤치마킹과 연계하여 병행 기획.</p>
+
+    <div class="ms">
+      <div class="item"><div class="when">9월</div><div class="what">해결방안 확정 — 1안(내부 해소) 착수</div><div class="memo">익스텐션 구축 → 전사 배포 준비</div></div>
+      <div class="item"><div class="when">10월 〔 일자 〕</div><div class="what">수집이슈 해소 완료</div><div class="memo">일 2,200건 호출 달성 기준</div></div>
+      <div class="item d"><div class="when">12월 〔 일자 〕</div><div class="what">고도화 배포</div><div class="memo">내부 QA 통과 조건</div></div>
+    </div>
+
+    <h3>2. 셀링스파크 통합</h3>
+    <table>
+      <colgroup><col style="width:8%"><col style="width:38%"><col style="width:32%"><col style="width:22%"></colgroup>
+      <tr><th>순위</th><th>과제</th><th>완료 기준 (DoD)</th><th>마감(안)</th></tr>
+      <tr><td class="c"><b>P1</b></td><td>A. 프로토타입 확정 → 상세 기획 (메인 · 판매하기/분석하기 서비스 페이지 · 요금제 페이지 · 앱)</td><td>초안 v4 → 피벗 1·2·3(v1.0) 취합 → 상세 기획서 확정</td><td class="c">9월</td></tr>
+      <tr><td class="c"><b>P1</b></td><td>B. 실장 보고 (초안~피벗 3 최종 취합, w. 임승용 책임)</td><td>보고 완료 + 방향 확정</td><td class="c">9/9 (수)</td></tr>
+      <tr><td class="c"><b>P1</b></td><td>B. 통합 회원가입 수정 · 법인 회원 도입 <span class="mut">(기획 완료 상태)</span></td><td>개발 반영 + 검증 완료</td><td class="c">11월 초 (베타 포함)</td></tr>
+      <tr><td class="c"><b>P2</b></td><td>C. 통합 브랜딩 협의 (브랜드전략실 신지나 팀장)</td><td>브랜딩 방향 합의서</td><td class="c">9~12월</td></tr>
+      <tr><td class="c"><b>P2</b></td><td>D. 개인정보처리방침 · 서비스 이용약관 개정</td><td>법무 검토 완료 + 고지·시행</td><td class="c">11월 초 (베타 포함)</td></tr>
+      <tr><td class="c"><b>P1</b></td><td>E. 앱 구축 2차 — 통합 계정 · 메인 · 서브</td><td><span class="ph">범위 확정 후 기재 — 헥토큐앤엠 App QA 통과</span></td><td class="c">11월 중순</td></tr>
+      <tr><td class="c"><b>P1</b></td><td>E. 앱 구축 3차 — 웹 호환 추가 (결제 기능 도입 · 판매/분석 기능 추가 적용)</td><td><span class="ph">범위 확정 후 기재 — 헥토큐앤엠 App QA 통과</span></td><td class="c">12월 말</td></tr>
+    </table>
+    <div class="ms">
+      <div class="item"><div class="when">9/9 (수)</div><div class="what">초안~피벗 3 취합 실장 보고</div><div class="memo">w. 임승용 책임 · 보고 결과가 상세 기획 착수 조건</div></div>
+      <div class="item"><div class="when">10월 초</div><div class="what">파일럿 버전</div><div class="memo">기능 시연 목적</div></div>
+      <div class="item"><div class="when">11월 초</div><div class="what">베타 오픈 버전 — 통합 버전 오픈</div><div class="memo">회원가입 · 메인/서브 3 · 정책 개정 포함</div></div>
+      <div class="item"><div class="when">11월 중순</div><div class="what">앱 구축 2차 완료 — 통합 계정 · 메인 · 서브</div><div class="memo">10월 착수 · 헥토큐앤엠 App QA 연계</div></div>
+      <div class="item"><div class="when">12월 말</div><div class="what">앱 구축 3차 — 웹 호환 추가 (결제 기능 도입 · 판매/분석 기능 추가 적용)</div></div>
+      <div class="item d"><div class="when">12월 〔 일자 〕</div><div class="what">베타 안정화 · 통합 QA</div><div class="memo">헥토큐앤엠 QA 일정 협의 후 확정</div></div>
+    </div>
+    <p class="note">파일럿(10월 초)·베타(11월 초)는 과정 보고용 주요 일정 — 세부 일자 확정 시 갱신.</p>
+
+    <h3>3. TTJ · 셀링스파크 연동</h3>
+    <table>
+      <colgroup><col style="width:8%"><col style="width:38%"><col style="width:32%"><col style="width:22%"></colgroup>
+      <tr><th>순위</th><th>과제</th><th>완료 기준 (DoD)</th><th>마감(안)</th></tr>
+      <tr><td class="c"><b>P1</b></td><td>연동 범위·데이터 정의 확정</td><td>정의서 결재 + 개발 일정 합의</td><td class="c"><span class="ph">10월</span></td></tr>
+      <tr><td class="c"><b>P1</b></td><td>연동 개발 · QA · 배포</td><td>헥토큐앤엠 QA 통과 + 배포</td><td class="c"><span class="ph">12월</span></td></tr>
+    </table>
+    <div class="ms">
+      <div class="item t"><div class="when">10월 〔 일자 〕</div><div class="what">연동 정의 확정</div></div>
+      <div class="item t"><div class="when">12월 〔 일자 〕</div><div class="what">연동 배포</div></div>
+    </div>
+
+    <h3>4. 운영성 마이너작업 해소</h3>
+    <table>
+      <colgroup><col style="width:8%"><col style="width:38%"><col style="width:32%"><col style="width:22%"></colgroup>
+      <tr><th>순위</th><th>과제</th><th>완료 기준 (DoD)</th><th>마감(안)</th></tr>
+      <tr><td class="c"><b>P1</b></td><td>C. 버그 해결</td><td><span class="ph">등록 버그 해소율 N% 이상</span></td><td class="c">9월</td></tr>
+      <tr><td class="c"><b>P2</b></td><td>A. 마케팅 요건 / B. 어드민 요건</td><td><span class="ph">요건 목록 확정 후 기재</span></td><td class="c">10~12월</td></tr>
+      <tr><td class="c"><b>P2</b></td><td>E. 커머스 확장기능 디테일 확정<br><span class="mut">· 상품명 패턴 추가 (11번가·쿠팡)<br>· 시즈널 키워드 내역<br>· 커머스 일정 내역</span></td><td>3개 항목 상세 정의 · 서비스 반영 범위 확정</td><td class="c">10~12월</td></tr>
+      <tr><td class="c"><b>P3</b></td><td>D. 사용성 고도화</td><td><span class="ph">개선 항목 정의 후 기재</span></td><td class="c">10~12월</td></tr>
+    </table>
+
+    <h3>5. 챌린지</h3>
+    <table>
+      <colgroup><col style="width:8%"><col style="width:38%"><col style="width:32%"><col style="width:22%"></colgroup>
+      <tr><th>순위</th><th>과제</th><th>완료 기준 (DoD)</th><th>마감(안)</th></tr>
+      <tr><td class="c"><b>P1</b></td><td>A. 통합 브랜딩 — 셀픽 OMS · TTJ · 셀링부스터+셀링스파크 <span class="mut">(진행 중)</span></td><td>브랜드 체계 합의 + 적용 범위 확정</td><td class="c"><span class="ph">진행 중 · 〔 〕</span></td></tr>
+      <tr><td class="c"><b>P1</b></td><td>C. 대표 지시사항 — 의장챌린지 아이디에이션 · Keepa 서비스 분석 벤치마킹 · 다시체크(쿠팡 판매분석) / 폴센트(가격추적 · 아이템 랭킹) 트래킹 및 실행</td><td>아이디에이션 보고 + 트래킹 체계 가동</td><td class="c"><span class="ph">〔 〕</span></td></tr>
+      <tr><td class="c"><b>P2</b></td><td>B. 의장 방향성 — 키파서비스 · 폴센트 서비스 · 헥토월렛 도입 추진</td><td><span class="ph">도입 검토안 보고</span></td><td class="c"><span class="ph">〔 〕</span></td></tr>
+    </table>
+    <div class="ms">
+      <div class="item"><div class="when">〔 일자 〕</div><div class="what">의장챌린지 아이디에이션 보고</div><div class="memo">Keepa·다시체크·폴센트 벤치마킹 포함</div></div>
+      <div class="item d"><div class="when">〔 일자 〕</div><div class="what">키파(익스텐션 고도화 모델) · 폴센트(가격트레킹) · 다시체크(쿠팡 판매분석) 분석 및 유사 기능 구현</div><div class="memo">아젠다 1-C 익스텐션 고도화·수집이슈 2안(신규 모델)과 연계</div></div>
+      <div class="item d"><div class="when">〔 일자 〕</div><div class="what">헥토월렛 도입</div></div>
+      <div class="item d"><div class="when">〔 일자 〕</div><div class="what">통합 브랜딩 체계 확정</div><div class="memo">아젠다 2-C(신지나 팀장 협의)와 연계</div></div>
+    </div>
+
+    <h3 class="t">상세 QA 일정</h3>
+    <table>
+      <colgroup><col style="width:32%"><col style="width:20%"><col style="width:28%"><col style="width:20%"></colgroup>
+      <tr><th>대상</th><th>QA 방식</th><th>기간(안)</th><th>비고</th></tr>
+      <tr><td>셀링스파크 관련 (통합 / App)</td><td class="c"><b>헥토큐앤엠 의뢰</b></td><td class="c"><span class="ph">일정 협의 후 기재</span></td><td>외주 의뢰 예정 — 견적·일정 협의 선행</td></tr>
+      <tr><td>셀부 (현행 기능 고도화)</td><td class="c"><b>내부 QA</b></td><td class="c"><span class="ph">배포 전 〔 〕주</span></td><td>TC 워크북 체계 활용</td></tr>
+    </table>
+  </div>
+
+  <!-- ══════════ 4-1. 아젠다 1 심화 (별첨 2 가공) ══════════ -->
+  <div class="card" id="sec4a">
+    <h2><span class="no">4-1</span>아젠다 1 심화 — 문제 진단 · 개선 방안 · 우선순위 <span class="aux">별첨 2 가공 · Asana 연동 예정</span></h2>
+    <p class="desc">별첨 2 아이디에이션을 실행 관점으로 가공 — 현재 셀링부스터의 문제점·취약점에서 출발해 개선 포인트(5축) → 방안 → 기대효과로 정리. 우선순위는 확정 후 Asana 하위 태스크로 연동 예정.</p>
+
+    <h3>구조 도식 — 문제 → 개선 → 기대효과</h3>
+    <div class="flow">
+      <div class="box">
+        <div class="cap">현재 문제점 · 취약점</div>
+        <ul>
+          <li>수집 안정성 — 네이버 API 차단 리스크 · 지표 부재</li>
+          <li>랭킹·수치 나열에 그침, 활용 인사이트 부재</li>
+          <li>초보 셀러 온보딩·실전 가이드 부재 → 이탈</li>
+          <li>분석 결과 공유·확산 경로 없음</li>
+        </ul>
+      </div>
+      <div class="arrow">→</div>
+      <div class="box">
+        <div class="cap">개선 포인트 (5축)</div>
+        <ul>
+          <li><b style="color:#8A6400">①</b> 키워드·랭킹 강화</li>
+          <li><b style="color:#6D3FD6">②</b> 벤치마킹·익스텐션 모델</li>
+          <li><b style="color:#0F7A38">③</b> 셀러 온보딩·가이드</li>
+          <li><b style="color:#1D4ED8">④</b> 콘텐츠·데이터 연계</li>
+          <li><b style="color:#B84A08">⑤</b> 체험형 서비스 강화</li>
+        </ul>
+      </div>
+      <div class="arrow">→</div>
+      <div class="box goal">
+        <div class="cap">기대효과</div>
+        <ul>
+          <li>랭킹 → 인사이트로 재방문 가치 상승</li>
+          <li>공유 기반 오가닉 유입 신규 경로</li>
+          <li>가입 → 활성 전환·리텐션 개선</li>
+          <li>셀링스파크·TTJ 연계 브릿지 확보</li>
+          <li>즉시 분석 체험 → 락인·재방문 상시화</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="t">문제점 · 개선 포인트 · 방안 · 기대효과</h3>
+    <table>
+      <colgroup><col style="width:23%"><col style="width:15%"><col style="width:38%"><col style="width:24%"></colgroup>
+      <tr><th>문제점 · 취약점</th><th>개선 포인트</th><th>방안</th><th>기대효과</th></tr>
+      <tr>
+        <td>랭킹·수치를 보여주는 데 그침 — "어떻게 활용할지" 가이드 부재, 버티컬·해외 커버리지 한정</td>
+        <td class="c"><span class="hl hl-y">① 키워드·랭킹 강화</span></td>
+        <td>· 인기 키워드 랭킹 — 테마·기간 필터, 증감 추이 그래프<br>· 버티컬 키워드 랭킹 — 무신사·올리브영·다이소·오늘의집 / 해외 TTJ·라쿠텐<br>· 최적가 추천·알림 기능 추가<br>· 기존 키워드 인사이트 고도화 — 인사이트 요소 강화 · 네이버 API로 부재한 관련 지표 재적용</td>
+        <td>· 단순 랭킹 → 고객 인사이트 제공 전환<br>· 버티컬 차별화 · 재방문 가치 강화</td>
+      </tr>
+      <tr>
+        <td>분석 결과 외부 공유·확산 경로 없음, 수집 모델의 차단 리스크·진입장벽</td>
+        <td class="c"><span class="hl hl-p">② 벤치마킹·익스텐션 모델</span></td>
+        <td>· 폴센트 벤치마킹 — 키워드 앱 공유하기(URL) → 분석 인사이트·상세분석 유도<br>· 경쟁 셀러·1위 가격·최저가 알림<br>· 크롬 익스텐션 통합 상품 분석 고도화 — 수집이슈 1안 연계</td>
+        <td>· 공유 기반 오가닉 유입 신규 경로 확보<br>· 수집 안정화 — 일 2,200건 호출</td>
+      </tr>
+      <tr>
+        <td>초보 셀러 온보딩·실전 가이드 부재 — 가입 후 활용 경로 없이 이탈</td>
+        <td class="c"><span class="hl hl-g">③ 셀러 온보딩·가이드</span></td>
+        <td>· 셀러 사용 가이드 UI — 환경 모션·메시지 톡<br>· 초보셀러 실전 코스 — 데모 체험·셀픽 테스트 계정 (셀링스파크 연계 예정)<br>· 커뮤니티 운영 — 카카오 오픈채팅·라이브방송</td>
+        <td>· 가입 → 활성 전환·리텐션 개선<br>· 셀링스파크 도입 브릿지</td>
+      </tr>
+      <tr>
+        <td>발행 콘텐츠·데이터 자산이 서비스 내부와 미연계 — 유입 자산의 전환 연결 미흡</td>
+        <td class="c"><span class="hl hl-b">④ 콘텐츠·데이터 연계</span></td>
+        <td>· K트렌드 정기 리포트 — 월·분기, PDF/뉴스레터 자사 배포<br>· 해외 소싱사이트 연계 — TTJ 대비 일본<br>· 경쟁 셀러 광고 분석 — 검색기반·광고기반 수급</td>
+        <td>· 콘텐츠 자산 → 서비스 유입·재방문 트리거<br>· TTJ 연동 선행 준비</td>
+      </tr>
+      <tr>
+        <td>네이버 API 지표 부재로 아이템랭킹·체험 기능 제한 — 상품 분석 진입 동선(즉시 분석) 부재</td>
+        <td class="c"><span class="hl hl-o">⑤ 체험형 서비스 강화</span></td>
+        <td>· 아이템랭킹 고도화 — 네이버 API로 부재한 지표 보완, 자사/경쟁사 랭킹 트래킹 (의장챌린지 폴센트 벤치 요소 연계)<br>· 최적가 기능 고도화 — 플랫폼 3사(네이버·쿠팡·11번가) 지원<br>· 상품 상세 복사 → 즉시 상품 분석 서비스 (폴센트 차용 · 익스텐션 기반 기술 필요)</td>
+        <td>· 분석 진입 마찰 제거 → 체험 기반 락인<br>· 자사/경쟁사 랭킹 트래킹으로 재방문 상시화<br>· 의장챌린지(폴센트 벤치마킹) 실행 연계</td>
+      </tr>
+    </table>
+
+    <h3 class="t">추가 아이디에이션 · 셀링스파크 연계 검토 <span style="font-size:12px;font-weight:700;color:#8A93A2">우선순위 미배정 — 검토 후 편입</span></h3>
+    <table>
+      <colgroup><col style="width:15%"><col style="width:22%"><col style="width:47%"><col style="width:16%"></colgroup>
+      <tr><th>구분</th><th>항목</th><th>내용 · 선결 과제</th><th>연계 축</th></tr>
+      <tr>
+        <td class="c" rowspan="2">추가<br>아이디에이션</td>
+        <td>광고 계산기</td>
+        <td>광고비·수익 시뮬레이션 계산기로 승화 — <b>선결: 커머스별 광고 정책 러닝</b></td>
+        <td class="c"><span class="hl hl-o">⑤</span> <span class="hl hl-b">④</span></td>
+      </tr>
+      <tr>
+        <td>커머스별 SEO 솔루션</td>
+        <td>플랫폼별 검색 노출 최적화 (상품명·태그·키워드) 가이드/도구화</td>
+        <td class="c"><span class="hl hl-y">①</span></td>
+      </tr>
+      <tr>
+        <td class="c" rowspan="2">셀링스파크<br>연계 기능</td>
+        <td>스파크 셀러 통합 분석 화면</td>
+        <td>유사 상품 · 사업자 · 랭킹/가격 분석 <b>통합 화면</b> — 체험 기능으로 차별화</td>
+        <td class="c"><span class="hl hl-o">⑤</span> 아젠다 2</td>
+      </tr>
+      <tr>
+        <td>부가 서비스 (유료)</td>
+        <td>대표 언급(9/8) — <b>소싱 번역기</b> · <b>아이템 분석기</b> (이미지 첨부 분석)</td>
+        <td class="c">수익 모델</td>
+      </tr>
+    </table>
+    <p class="note">전 건 우선순위 미배정 상태 — 검토 확정 시 아래 작업 우선순위 표로 편입. 부가 서비스(유료) 2건은 상용화(§1 수익 모델 라인)와 연동 검토.</p>
+
+    <h3>작업 우선순위 정리 <span style="font-size:12px;font-weight:700;color:var(--teal)">확정 후 Asana 하위 태스크 연동 예정</span></h3>
+    <table>
+      <colgroup><col style="width:6%"><col style="width:34%"><col style="width:13%"><col style="width:29%"><col style="width:18%"></colgroup>
+      <tr><th>순위</th><th>작업</th><th>개선 축</th><th>선행 조건 · 확인 사항</th><th>담당/구분</th></tr>
+      <tr><td class="c"><b>1</b></td><td><b>셀러 사용 가이드 기획안 정리</b><br><span class="mut">· 가이드 UI — 환경 모션 · 메시지 톡<br>· 커뮤니티 운영(카카오 오픈채팅·라이브방송) 연계<br>· 기대: 가입 → 활성 전환 · 리텐션 개선</span></td><td class="c"><span class="hl hl-g">③</span></td><td>즉시 착수 — 우선 기획안 산출</td><td class="c"><b>이슬기</b></td></tr>
+      <tr><td class="c"><b>2</b></td><td>폴센트 벤치마킹 스펙 확인<br><span class="mut">· 키워드 앱 공유하기(URL) → 분석 인사이트·상세분석 유도<br>· 경쟁 셀러 · 1위 가격 · 최저가 알림<br>· 상품 상세 복사 → 즉시 상품 분석 (⑤ 연계 · 익스텐션 기반)<br>· 기대: 공유 기반 오가닉 유입 신규 경로</span></td><td class="c"><span class="hl hl-p">②</span> <span class="hl hl-o">⑤</span></td><td>3개 커머스 공유하기 가능 여부 — 동일 상품 매칭 or 유사상품 매칭</td><td class="c">기술 검토</td></tr>
+      <tr><td class="c"><b>3</b></td><td>버티컬 리스트업 · API 정리<br><span class="mut">· 대상: 무신사·올리브영·다이소·오늘의집 / 해외 TTJ·라쿠텐<br>· 네이버 API로 부재한 지표 보완 검토 (⑤ 아이템랭킹 연계)<br>· 기대: 버티컬 차별화 · 커버리지 확대</span></td><td class="c"><span class="hl hl-y">①</span></td><td>기존 API / 추가 API 구분</td><td class="c">기획·기술</td></tr>
+      <tr><td class="c"><b>4</b></td><td>랭킹 활용 목적 정의<br><span class="mut">· 인기 키워드 랭킹 — 테마·기간 필터, 증감 추이 그래프<br>· 기존 키워드 인사이트 고도화 — API 부재 관련 지표 재적용<br>· 자사/경쟁사 랭킹 트래킹 (⑤ · 의장챌린지 폴센트 벤치 연계)<br>· 기대: 단순 랭킹 → 인사이트 전환 · 재방문 가치 강화</span></td><td class="c"><span class="hl hl-y">①</span> <span class="hl hl-o">⑤</span></td><td>랭킹을 보여주되 어떻게 활용할 것인지 — 인사이트 제공 방식 확정</td><td class="c">기획 검토</td></tr>
+      <tr><td class="c"><b>5</b></td><td>초보셀러 실전 코스 설계<br><span class="mut">· 데모 체험 — 셀픽 테스트 계정 (셀링스파크 연계 예정)<br>· 기대: 가입 → 활성 전환 · 셀링스파크 도입 브릿지</span></td><td class="c"><span class="hl hl-g">③</span></td><td>셀픽 테스트 계정 수급 · 스마트스토어 점포 추가 개설 확인 · 실전 범위(정산·배송 뒷부분) 재확인 · 셀러/비셀러 분기</td><td class="c">기획 검토</td></tr>
+      <tr><td class="c"><b>6</b></td><td>제외·후순위 보류 항목 정리<br><span class="mut">· 추가 아이디에이션 4건 편입/보류 판단 포함 — 광고 계산기 · 커머스별 SEO 솔루션 · 스파크 통합 분석 화면 · 부가 서비스(유료: 소싱 번역기·아이템 분석기)</span></td><td class="c">공통</td><td>정리 후 최종 의사결정 필요</td><td class="c"><b style="color:var(--danger)">의사결정</b></td></tr>
+    </table>
+    <p class="note">순위 확정 시 각 행을 [SB] 셀링부스터_PJT 하위 태스크로 생성·연동 예정 (§6 현황표와 동일 체계). 상세 아이디어 원문은 별첨 2 참조.</p>
+  </div>
+
+  <!-- ══════════ 5. 투입인력 및 예상 공수 ══════════ -->
+  <div class="card" id="sec5">
+    <h2><span class="no">5</span>투입인력 및 예상 공수 <span class="aux">상세는 WBS에서</span></h2>
+    <p class="desc">직무 단위 개괄만 기재. 태스크별 상세 공수(M/D)는 §6 확정 후 WBS에서 산정.</p>
+
+    <table>
+      <colgroup><col style="width:14%"><col style="width:14%"><col style="width:42%"><col style="width:14%"><col style="width:16%"></colgroup>
+      <tr><th>직무</th><th>담당</th><th>주요 투입 영역</th><th>투입 비중(안)</th><th>비고</th></tr>
+      <tr><td class="c">기획</td><td class="c">이슬기</td><td>전 아젠다 기획 · 통합 상세 기획 · 내부 QA 운영</td><td class="c"><span class="ph">〔 〕%</span></td><td class="c">겸임</td></tr>
+      <tr><td class="c">마케팅</td><td class="c">안지호</td><td>운영성 마케팅 요건 · 통합 브랜딩 협의 지원</td><td class="c"><span class="ph">〔 〕%</span></td><td class="c">겸임</td></tr>
+      <tr><td class="c">디자인</td><td class="c">이순우</td><td>통합 서비스 페이지·요금제 화면 디자인 · 익스텐션</td><td class="c"><span class="ph">〔 〕%</span></td><td class="c">겸임</td></tr>
+      <tr><td class="c">개발 (BE)</td><td class="c">이승재</td><td>수집·스크래핑 해소 · TTJ 연동 · 통합 회원 체계</td><td class="c"><span class="ph">〔 〕%</span></td><td class="c">겸임</td></tr>
+      <tr><td class="c">개발 (FE)</td><td class="c">이다솜</td><td>통합 화면 구현 (메인·서브·요금제) · 익스텐션 고도화</td><td class="c"><span class="ph">〔 〕%</span></td><td class="c">겸임</td></tr>
+      <tr><td class="c">개발 (APP)</td><td class="c">채민우 (iOS) · 김승래 (AOS)</td><td>앱 구축 2차·3차 (통합 계정·메인·서브 → 웹 호환)</td><td class="c"><span class="ph">〔 〕%</span></td><td class="c">겸임</td></tr>
+      <tr><td class="c">QA(외주)</td><td class="c">헥토큐앤엠</td><td>셀링스파크 통합 / App QA</td><td class="c">-</td><td class="c">의뢰 예정</td></tr>
+    </table>
+    <p class="note">협업 유관: 임승용 책임(통합 보고) · 브랜드전략실 신지나 팀장(브랜딩) · 법무(약관 개정).</p>
+  </div>
+
+  <!-- ══════════ 6. 전체 현황 및 달성 지표 ══════════ -->
+  <div class="card" id="sec6">
+    <h2><span class="no">6</span>전체 현황 및 달성 지표 <span class="aux">확정 후 WBS · Asana 하위 생성</span></h2>
+    <p class="desc">과제 단위 진척 관리 마스터 테이블. 본 표 확정 시 각 행을 WBS로 상세화하고 Asana([SB] 셀링부스터_PJT) 하위 태스크로 전개.</p>
+
+    <h3>아젠다별 달성 기준 (KPI)</h3>
+    <table>
+      <colgroup><col style="width:26%"><col style="width:74%"></colgroup>
+      <tr><th>아젠다</th><th>분기 말 달성 기준</th></tr>
+      <tr><td><b>1</b> 현행 기능 고도화</td><td>1안 익스텐션 전사 배포 · <b>일 2,200건 호출 달성</b> · 신규기능 범위 확정(§4-1 연동) · 고도화 배포 완료</td></tr>
+      <tr><td><b>2</b> 셀링스파크 통합</td><td>파일럿 <b>10월 초</b> · 베타 오픈 <b>11월 초</b> 정시 달성 · 앱 2차 <b>11월 중순</b> / 3차 <b>12월 말</b> 완료 · 정책 개정 시행</td></tr>
+      <tr><td><b>3</b> TTJ·셀링스파크 연동</td><td>연동 배포 12월 내 · 헥토큐앤엠 QA 통과</td></tr>
+      <tr><td><b>4</b> 운영성 마이너작업</td><td>등록 버그 해소율 <span class="ph">N</span>% 이상 · 잔여 백로그 <span class="ph">N</span>건 이하</td></tr>
+      <tr><td><b>5</b> 챌린지</td><td>의장챌린지 아이디에이션 보고 완료 · 벤치마킹 3종(Keepa·다시체크·폴센트) 분석 산출물 확보</td></tr>
+    </table>
+
+    <h3 class="t">과제별 진척 현황</h3>
+    <table>
+      <colgroup><col style="width:13%"><col style="width:29%"><col style="width:11%"><col style="width:19%"><col style="width:13%"><col style="width:15%"></colgroup>
+      <tr><th>그룹</th><th>과제</th><th>단계</th><th>진척률</th><th>마감일</th><th>담당</th></tr>
+      <tr>
+        <td class="c"><b>1</b></td><td>수집이슈 해소 — 1안 익스텐션 전사 배포 (일 2,200건)</td>
+        <td class="c"><span class="st p2">진행</span></td>
+        <td><div class="pg"><div class="trk"><div class="fil" style="width:30%"></div></div><span class="n">30%</span></div></td>
+        <td class="c"><span class="ph">10/〔 〕</span></td><td class="c">기획·개발</td>
+      </tr>
+      <tr>
+        <td class="c"><b>1</b></td><td>신규기능</td>
+        <td class="c"><span class="st p1">기획</span></td>
+        <td><div class="pg"><div class="trk"><div class="fil" style="width:0%"></div></div><span class="n">0%</span></div></td>
+        <td class="c"><span class="ph">11/〔 〕</span></td><td class="c">기획</td>
+      </tr>
+      <tr>
+        <td class="c"><b>1</b></td><td>익스텐션 고도화</td>
+        <td class="c"><span class="st p1">기획</span></td>
+        <td><div class="pg"><div class="trk"><div class="fil" style="width:0%"></div></div><span class="n">0%</span></div></td>
+        <td class="c"><span class="ph">12/〔 〕</span></td><td class="c">기획·개발</td>
+      </tr>
+      <tr>
+        <td class="c"><b>2</b></td><td>통합 상세 기획 (메인·서비스·요금제·앱)</td>
+        <td class="c"><span class="st p2">진행</span></td>
+        <td><div class="pg"><div class="trk"><div class="fil" style="width:45%"></div></div><span class="n">45%</span></div></td>
+        <td class="c">9월</td><td class="c">기획·디자인</td>
+      </tr>
+      <tr>
+        <td class="c"><b>2</b></td><td>통합 회원가입 수정 · 법인 회원</td>
+        <td class="c"><span class="st p3">검수</span></td>
+        <td><div class="pg"><div class="trk"><div class="fil" style="width:70%"></div></div><span class="n">70%</span></div></td>
+        <td class="c">11월 초</td><td class="c">개발</td>
+      </tr>
+      <tr>
+        <td class="c"><b>2</b></td><td>통합 브랜딩 협의 (9~12월)</td>
+        <td class="c"><span class="st p1">기획</span></td>
+        <td><div class="pg"><div class="trk"><div class="fil" style="width:5%"></div></div><span class="n">5%</span></div></td>
+        <td class="c">12월</td><td class="c">기획·마케팅</td>
+      </tr>
+      <tr>
+        <td class="c"><b>2</b></td><td>약관 · 개인정보처리방침 개정</td>
+        <td class="c"><span class="st p1">기획</span></td>
+        <td><div class="pg"><div class="trk"><div class="fil" style="width:0%"></div></div><span class="n">0%</span></div></td>
+        <td class="c">11월 초</td><td class="c">기획·법무</td>
+      </tr>
+      <tr>
+        <td class="c"><b>2</b></td><td>앱 구축 2차 (통합 계정·메인·서브)</td>
+        <td class="c"><span class="st p1">기획</span></td>
+        <td><div class="pg"><div class="trk"><div class="fil" style="width:0%"></div></div><span class="n">0%</span></div></td>
+        <td class="c">11월 중순</td><td class="c">기획·개발</td>
+      </tr>
+      <tr>
+        <td class="c"><b>2</b></td><td>앱 구축 3차 (웹 호환: 결제 도입·판매/분석 추가)</td>
+        <td class="c"><span class="st p1">기획</span></td>
+        <td><div class="pg"><div class="trk"><div class="fil" style="width:0%"></div></div><span class="n">0%</span></div></td>
+        <td class="c">12월 말</td><td class="c">기획·개발</td>
+      </tr>
+      <tr>
+        <td class="c"><b>3</b></td><td>TTJ · 셀링스파크 연동</td>
+        <td class="c"><span class="st p1">기획</span></td>
+        <td><div class="pg"><div class="trk"><div class="fil" style="width:10%"></div></div><span class="n">10%</span></div></td>
+        <td class="c"><span class="ph">12/〔 〕</span></td><td class="c">기획·개발</td>
+      </tr>
+      <tr>
+        <td class="c"><b>4</b></td><td>마케팅·어드민 요건 / 버그 / 사용성</td>
+        <td class="c"><span class="st p2">진행</span></td>
+        <td><div class="pg"><div class="trk"><div class="fil" style="width:20%"></div></div><span class="n">20%</span></div></td>
+        <td class="c">상시</td><td class="c">전원</td>
+      </tr>
+      <tr>
+        <td class="c"><b>5</b></td><td>통합 브랜딩 (셀픽 OMS·TTJ·셀부+셀스)</td>
+        <td class="c"><span class="st p2">진행</span></td>
+        <td><div class="pg"><div class="trk"><div class="fil" style="width:30%"></div></div><span class="n">30%</span></div></td>
+        <td class="c"><span class="ph">〔 〕</span></td><td class="c">기획·마케팅</td>
+      </tr>
+      <tr>
+        <td class="c"><b>5</b></td><td>키파·폴센트·다시체크 분석 및 유사 기능 구현 · 헥토월렛 도입</td>
+        <td class="c"><span class="st p1">기획</span></td>
+        <td><div class="pg"><div class="trk"><div class="fil" style="width:0%"></div></div><span class="n">0%</span></div></td>
+        <td class="c"><span class="ph">〔 〕</span></td><td class="c">기획</td>
+      </tr>
+      <tr>
+        <td class="c"><b>5</b></td><td>대표 지시사항 — 아이디에이션·Keepa 벤치마킹·다시체크/폴센트 트래킹 실행</td>
+        <td class="c"><span class="st p2">진행</span></td>
+        <td><div class="pg"><div class="trk"><div class="fil" style="width:10%"></div></div><span class="n">10%</span></div></td>
+        <td class="c">상시</td><td class="c">기획</td>
+      </tr>
+    </table>
+
+    <div class="legend">
+      <span>단계: <span class="st p1">기획</span> → <span class="st p2">진행</span> → <span class="st p3">검수</span> → <span class="st p4">완료</span></span>
+    </div>
+    <p class="note">진척률·단계는 예시값. 확정 후 Asana 하위 태스크와 1:1 매핑, 주간 갱신 예정. §4-1 작업 우선순위(6건)는 확정 시 그룹 1 하위 행으로 편입해 본 표에서 일원 관리.</p>
+  </div>
+
+  <!-- ══════════ 7. 리스크 대응 ══════════ -->
+  <div class="card" id="sec7">
+    <h2><span class="no">7</span>리스크 대응</h2>
+    <p class="desc">발생 가능성 × 영향도 기준. 트리거 발생 시 대응안 즉시 가동.</p>
+
+    <table>
+      <colgroup><col style="width:26%"><col style="width:10%"><col style="width:22%"><col style="width:42%"></colgroup>
+      <tr><th>리스크</th><th>등급</th><th>트리거(감지 기준)</th><th>대응안</th></tr>
+      <tr>
+        <td>통합 프로토타입 보고 결과에 따른 방향 재수정 → 상세 기획 착수 지연</td>
+        <td class="c"><span class="sev h">高</span></td>
+        <td>수요일 보고에서 피벗 추가 결정</td>
+        <td>피벗 4 발생 시 상세 기획 범위를 메인 우선으로 축소, 요금제는 후행 분리</td>
+      </tr>
+      <tr>
+        <td>개발 리소스 경합 (현행 고도화 · TTJ 연동 · 통합 회원 동시 진행)</td>
+        <td class="c"><span class="sev h">高</span></td>
+        <td>아젠다 착수 시점 리소스 미배정</td>
+        <td>P1 순 직렬화 합의, 익스텐션 고도화는 후순위 조정</td>
+      </tr>
+      <tr>
+        <td>헥토큐앤엠 QA 일정·견적 협의 지연</td>
+        <td class="c"><span class="sev m">中</span></td>
+        <td>배포 D-〔 〕주 계약 미체결</td>
+        <td>의뢰 범위 사전 확정(통합/App 분리 견적), 지연 시 통합분 우선 의뢰</td>
+      </tr>
+      <tr>
+        <td>약관·개인정보처리방침 개정 법무 검토 리드타임 초과</td>
+        <td class="c"><span class="sev m">中</span></td>
+        <td>10월 중 검토 미착수 (베타 11월 초 역산)</td>
+        <td>9월 중 초안 선전달, 고지 기간(최소 7일) 역산 데드라인 관리</td>
+      </tr>
+      <tr>
+        <td><span class="ph">리스크 항목 추가</span></td>
+        <td class="c"><span class="sev l">低</span></td>
+        <td><span class="ph"></span></td>
+        <td><span class="ph"></span></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ══════════ 8. 고정성 운영업무 참고 ══════════ -->
+  <div class="card" id="sec8">
+    <h2><span class="no">8</span>참고 — 고정성 운영업무</h2>
+    <p class="desc">4분기 신규 과제와 무관하게 상시 유지되는 운영 업무. 공수 산정 시 기본 차감분으로 반영.</p>
+
+    <table>
+      <colgroup><col style="width:24%"><col style="width:20%"><col style="width:38%"><col style="width:18%"></colgroup>
+      <tr><th>업무</th><th>주기</th><th>내용</th><th>담당</th></tr>
+      <tr><td>자사 블로그 발행</td><td class="c">주 5회 (월~금)</td><td>본편(월·수·금) + 아이템 딥다이브(화·목) · Highook 초안 → 워싱</td><td class="c">기획·마케팅</td></tr>
+      <tr><td>K트렌드 매거진</td><td class="c">주 3회 (월·수·금)</td><td>전속 모델 5인 · Genspark 이미지</td><td class="c">기획</td></tr>
+      <tr><td>네이버 블로그</td><td class="c">주 3회</td><td>파생 재집필 · 10월 셀링스파크 진입 시 동시 발행 확대</td><td class="c">기획</td></tr>
+      <tr><td>SEO 발행 모니터링</td><td class="c">매일 (자동)</td><td>GitHub Actions 수집 + 11시 검증 · 일요일 주간 확정</td><td class="c">자동+기획</td></tr>
+      <tr><td>QA 대시보드 동기화</td><td class="c">6시간 (자동)</td><td>Asana → qa_report.enc.json cron 갱신</td><td class="c">자동</td></tr>
+      <tr><td><span class="ph">운영 업무 추가</span></td><td class="c"><span class="ph"></span></td><td><span class="ph"></span></td><td class="c"><span class="ph"></span></td></tr>
+    </table>
+    <p class="note">추석 연휴(9/24·9/25·9/28) 발행 스킵 반영 완료 — 4분기 연말 스킵일은 확정 시 추가.</p>
+  </div>
+
+
+  <!-- ══════════ 9. 확정 필요 항목 · 개정 이력 ══════════ -->
+  <div class="card" id="sec9">
+    <h2><span class="no">9</span>확정 필요 항목 체크리스트 · 개정 이력</h2>
+    <p class="desc">잔여 〔 〕 플레이스홀더 소거용 — 확정 회의에서 본 표만 순회하며 결정. 전건 확정 시 DRAFT 해제.</p>
+
+    <table>
+      <colgroup><col style="width:6%"><col style="width:34%"><col style="width:16%"><col style="width:44%"></colgroup>
+      <tr><th>#</th><th>확정 필요 항목</th><th>위치</th><th>확정 방법 · 시점</th></tr>
+      <tr><td class="c">1</td><td>TTJ·셀링스파크 연동 세부 범위 정의</td><td class="c">§3 정의표</td><td>A′(토큰 발급 방식) 기준 — 셀픽 개발팀 확인 항목 회신 후 기재</td></tr>
+      <tr><td class="c">2</td><td>아젠다 1-B 신규기능 범위</td><td class="c">§4 · §4-1</td><td>§4-1 작업 우선순위 확정 결과 반영 → Asana 하위 태스크 생성</td></tr>
+      <tr><td class="c">3</td><td>KPI 수치 (백로그 해소율 N% · 베타 초기 지표)</td><td class="c">§1 · §6</td><td>확정 회의에서 목표치 합의</td></tr>
+      <tr><td class="c">4</td><td>헥토큐앤엠 QA 기간·계약</td><td class="c">§4 QA 일정</td><td>견적·일정 협의 회신 후 기재 (베타 11월 초 역산)</td></tr>
+      <tr><td class="c">5</td><td>수집이슈 해소 완료일</td><td class="c">§4 아젠다 1</td><td>1안 익스텐션 구축 일정 확정 시 (10월 중 목표)</td></tr>
+      <tr><td class="c">6</td><td>챌린지 마일스톤 일자 3건</td><td class="c">§4 아젠다 5</td><td>아이디에이션 보고 일정 확정 시</td></tr>
+      <tr><td class="c">7</td><td>투입 비중(%) 4개 직무 + QA 외주</td><td class="c">§5</td><td>WBS 상세화 시 산정</td></tr>
+      <tr><td class="c">8</td><td>§6 진척률·마감일 실측치 전환</td><td class="c">§6</td><td>Asana 하위 태스크 생성 후 1:1 매핑·주간 갱신</td></tr>
+    </table>
+
+    <h3 class="t">개정 이력</h3>
+    <table>
+      <colgroup><col style="width:12%"><col style="width:14%"><col style="width:14%"><col style="width:60%"></colgroup>
+      <tr><th>버전</th><th>일자</th><th>작성</th><th>변경 내용</th></tr>
+      <tr><td class="c">v0.1</td><td class="c">2026-09-08</td><td class="c">이슬기</td><td>초안 양식 작성 (8개 섹션 구조)</td></tr>
+      <tr><td class="c">v0.2</td><td class="c">2026-09-08</td><td class="c">이슬기</td><td>아젠다 5건 실데이터 반영 · 수집이슈 해결방안(1안 확정) · 파일럿/베타/앱 2·3차 일정 · §4-1 심화 장표 · 별첨 1(전체 로드맵)·별첨 2(아이디에이션) 추가</td></tr>
+      <tr><td class="c">v0.3</td><td class="c">2026-09-08</td><td class="c">이슬기</td><td>실장 보고 9/9(수) 확정 표기 · 아젠다별 KPI 표 신설 · 신규기능↔§4-1 참조 연결 · 확정 필요 항목 체크리스트 신설</td></tr>
+    </table>
+  </div>
+
+  <!-- ══════════ 별첨. 전체 로드맵 ══════════ -->
+  <div class="card" id="apx1">
+    <h2><span class="no">별첨 1</span>셀링부스터 전체 로드맵 (2025.10 ~ 2026.12) <span class="aux">4분기 아젠다 위치 매핑</span></h2>
+    <p class="desc">전체 진행률 <b>76.7%</b> — 60칸(월 4칸 기준) 중 <b>46칸 경과, 9월 2주차 진행 중</b> (기준 9/7). 5개 트랙 모두 9월 = 전환 구간: 운영 안정화 · 유입 채널 최적화 · 커머스 운영 안정화 · 앱스토어 입점·오픈 · 셀링스파크 통합 기획이 동시 진행. 기존 5개 트랙은 원안 유지, 하단에 4분기 아젠다 ①~⑤ 행을 추가 개정으로 표기.</p>
+
+    <div class="table-scroll">
+    <table style="min-width:900px;">
+      <thead>
+        <tr><th rowspan="2" style="min-width:86px;position:sticky;left:0;z-index:3;">구분</th><th colspan="12">2025년</th><th colspan="48">2026년</th></tr>
+        <tr><th colspan="4" style="padding:4px 2px;font-size:10.5px;">10월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">11월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">12월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">1월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">2월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">3월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">4월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">5월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">6월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">7월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">8월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">9월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">10월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">11월</th><th colspan="4" style="padding:4px 2px;font-size:10.5px;">12월</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="rowlabel" style="position:sticky;left:0;z-index:2;background:#F4F3EE;box-shadow:2px 0 0 rgba(30,37,50,.08);font-size:11.5px;padding:6px 8px;">진행 (76.7%)</td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:var(--teal);"></td><td style="height:14px;padding:0;border:none;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:none;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:none;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:none;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:none;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:none;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:none;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:none;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:none;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:none;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:none;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:none;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:none;background:#E9E7E0;"></td><td style="height:14px;padding:0;border:none;background:#E9E7E0;"></td></tr>
+        <tr><td class="rowlabel" style="position:sticky;left:0;z-index:2;background:#F4F3EE;box-shadow:2px 0 0 rgba(30,37,50,.08);font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;">서비스 운영 안정화</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#D8D6CE;color:#4A4F5A;">기능분석/설계</td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#D8D6CE;color:#4A4F5A;">1차 기능 개발</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#D8D6CE;color:#4A4F5A;">베타 오픈</td><td colspan="12" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#D8D6CE;color:#4A4F5A;">디자인 리뉴얼·스마트스토어 연동</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#D8D6CE;color:#4A4F5A;">정식 오픈</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#D8D6CE;color:#4A4F5A;">크롬 익스텐션 반영</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#D8D6CE;color:#4A4F5A;">유지보수</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#D8D6CE;color:#4A4F5A;">핵심기능 고도화</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(100,102,250,.16);color:#1E2532;">운영 안정화</td><td colspan="12" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#F2F1EB;color:var(--sub);">지속 개선·운영 고도화</td></tr>
+        <tr><td class="rowlabel" style="position:sticky;left:0;z-index:2;background:#F4F3EE;box-shadow:2px 0 0 rgba(30,37,50,.08);font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;">사용자 확보 및 성장</td><td colspan="12" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#FAFAF7;"></td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#D8D6CE;color:#4A4F5A;">광고 구조 설계</td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#D8D6CE;color:#4A4F5A;">콘텐츠/SEO 운영</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#D8D6CE;color:#4A4F5A;">바이럴 콘텐츠 운영</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#D8D6CE;color:#4A4F5A;">퍼포먼스 광고</td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#D8D6CE;color:#4A4F5A;">마케팅 효율성 검증 (회원 유입·전환)</td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(100,102,250,.16);color:#1E2532;">유입 채널 최적화</td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#F2F1EB;color:var(--sub);">성과 기반 운영</td></tr>
+        <tr><td class="rowlabel" style="position:sticky;left:0;z-index:2;background:#F4F3EE;box-shadow:2px 0 0 rgba(30,37,50,.08);font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;">커머스 연동 확장</td><td colspan="12" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#FAFAF7;"></td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#D8D6CE;color:#4A4F5A;">초기 사용자 피드백 수집 (자문 1차)</td><td colspan="12" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#D8D6CE;color:#4A4F5A;">핵심 기능 사용 패턴 분석 (자문 2차)</td><td colspan="12" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#D8D6CE;color:#4A4F5A;">커머스 상품·셀러 수집 확장 (쿠팡·11번가)</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(100,102,250,.16);color:#1E2532;">운영 안정화</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#F2F1EB;color:var(--sub);">추가 확장 검토</td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#F2F1EB;color:var(--sub);">수집 확장 (셀링스파크·TTJ)</td></tr>
+        <tr><td class="rowlabel" style="position:sticky;left:0;z-index:2;background:#F4F3EE;box-shadow:2px 0 0 rgba(30,37,50,.08);font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;">서비스 확장</td><td colspan="24" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#FAFAF7;"></td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#D8D6CE;color:#4A4F5A;">APP 1차 기획/디자인</td><td colspan="12" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#D8D6CE;color:#4A4F5A;">APP 1차 개발 구현</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(100,102,250,.16);color:#1E2532;">앱스토어 입점·오픈</td><td colspan="4" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#F2F1EB;color:var(--sub);">운영 안정화</td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#F2F1EB;color:var(--sub);">APP 서비스 2차 구현</td></tr>
+        <tr><td class="rowlabel" style="position:sticky;left:0;z-index:2;background:#F4F3EE;box-shadow:2px 0 0 rgba(30,37,50,.08);font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;">셀링스파크 서비스 통합</td><td colspan="40" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#FAFAF7;"></td><td colspan="6" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(100,102,250,.16);color:#1E2532;">통합 기획 정책 수립</td><td colspan="6" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:rgba(100,102,250,.16);color:#1E2532;">통합 화면 설계 및 구현</td><td colspan="8" style="padding:5px 4px;font-size:10.5px;line-height:1.35;text-align:center;border:1px solid #fff;background:#F2F1EB;color:var(--sub);">유료화·글로벌 확장 검토</td></tr>
+        <tr class="agrow"><td colspan="61" style="background:rgba(100,102,250,0.10);padding:5px 8px;border:1px solid #fff;"><div style="position:sticky;left:8px;display:inline-block;width:max-content;color:var(--violet);font-weight:800;font-size:11px;">▼ 4분기 아젠다 (추가 개정 — 기존 트랙 원안 유지)</div></td></tr>
+        <tr class="agrow"><td class="rowlabel" style="position:sticky;left:0;z-index:2;background:#F4F3EE;box-shadow:2px 0 0 rgba(30,37,50,.08);font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;"><span style="color:var(--violet);font-weight:800">①</span> 현행 기능 고도화</td><td colspan="44" class="seg blank"></td><td colspan="4" class="seg run">해결방안 확정 · 1안 착수</td><td colspan="4" class="seg plan">수집이슈 해소</td><td colspan="4" class="seg plan">신규기능 · 익스텐션 고도화</td><td colspan="4" class="seg plan">고도화 배포 · 내부 QA</td></tr>
+        <tr class="agrow"><td class="rowlabel" style="position:sticky;left:0;z-index:2;background:#F4F3EE;box-shadow:2px 0 0 rgba(30,37,50,.08);font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;"><span style="color:var(--violet);font-weight:800">②</span> 셀링스파크 통합</td><td colspan="44" class="seg blank"></td><td colspan="4" class="seg run">실장 보고(9/9) · 상세 기획 (메인·서비스·요금제·앱)</td><td colspan="4" class="seg plan">파일럿 버전 (10월 초) · 앱 구축 2차 착수</td><td colspan="4" class="seg plan">베타 오픈 (11월 초) · 앱 구축 2차 (통합 계정·메인·서브)</td><td colspan="4" class="seg plan">앱 구축 3차 (웹 호환: 결제·판매/분석) · 통합 QA</td></tr>
+        <tr class="agrow"><td class="rowlabel" style="position:sticky;left:0;z-index:2;background:#F4F3EE;box-shadow:2px 0 0 rgba(30,37,50,.08);font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;"><span style="color:var(--violet);font-weight:800">③</span> TTJ·셀링스파크 연동</td><td colspan="44" class="seg blank"></td><td colspan="4" class="seg run">요구사항 사전 검토</td><td colspan="4" class="seg plan">연동 범위·데이터 정의</td><td colspan="4" class="seg plan">연동 개발</td><td colspan="4" class="seg plan">헥토큐앤엠 QA · 배포</td></tr>
+        <tr class="agrow"><td class="rowlabel" style="position:sticky;left:0;z-index:2;background:#F4F3EE;box-shadow:2px 0 0 rgba(30,37,50,.08);font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;"><span style="color:var(--violet);font-weight:800">④</span> 운영성 마이너작업</td><td colspan="44" class="seg blank"></td><td colspan="4" class="seg run">백로그 취합·분류 · 버그 해결</td><td colspan="12" class="seg plan">마케팅·어드민 요건 · 사용성 고도화 (10~12월)</td></tr>
+        <tr class="agrow"><td class="rowlabel" style="position:sticky;left:0;z-index:2;background:#F4F3EE;box-shadow:2px 0 0 rgba(30,37,50,.08);font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;"><span style="color:var(--violet);font-weight:800">⑤</span> 챌린지</td><td colspan="44" class="seg blank"></td><td colspan="4" class="seg run">통합 브랜딩 · Keepa·다시체크 벤치마킹 착수</td><td colspan="4" class="seg plan">의장챌린지 아이디에이션</td><td colspan="4" class="seg plan">키파·폴센트·다시체크 분석 및 유사 기능 구현</td><td colspan="4" class="seg plan">헥토월렛 도입</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:12.5px;color:var(--sub);margin-top:6px;">※ 월 = 4칸(주 단위) 환산 · <span style="display:inline-block;width:10px;height:10px;background:#D8D6CE;border-radius:2px;vertical-align:-1px;"></span> 완료 · <span style="display:inline-block;width:10px;height:10px;background:rgba(100,102,250,.16);border:1px solid rgba(100,102,250,.4);border-radius:2px;vertical-align:-1px;"></span> 진행 중(9월 걸침) · <span style="display:inline-block;width:10px;height:10px;background:#F2F1EB;border-radius:2px;vertical-align:-1px;"></span> 예정 · <span style="display:inline-block;width:10px;height:10px;background:rgba(0,177,189,.10);border:1px solid rgba(0,177,189,.35);border-radius:2px;vertical-align:-1px;"></span> 4분기 아젠다 계획 구간. 진행 바는 이번 주(9월 2주차)까지 채움.</p>
+
+    <h3 class="t">아젠다 ↔ 기존 트랙 연계 (위치 표시)</h3>
+    <table>
+      <colgroup><col style="width:26%"><col style="width:34%"><col style="width:40%"></colgroup>
+      <tr><th>4분기 아젠다</th><th>연계 트랙 · 구간</th><th>연계 내용</th></tr>
+      <tr><td><b>①</b> 현행 기능 고도화</td><td>서비스 운영 안정화 — 운영 안정화 → 지속 개선·운영 고도화</td><td>수집이슈 해소·신규기능·익스텐션 고도화가 지속 개선 구간의 실행 단위</td></tr>
+      <tr><td><b>②</b> 셀링스파크 통합</td><td>셀링스파크 서비스 통합 — 통합 기획 정책 수립 → 화면 설계·구현 / 서비스 확장 — APP 2차 구현</td><td>파일럿(10월 초)·베타(11월 초)가 통합 트랙의 산출 마일스톤, 앱 구축은 APP 2차 구현과 연계</td></tr>
+      <tr><td><b>③</b> TTJ·셀링스파크 연동</td><td>커머스 연동 확장 — 수집 확장 (셀링스파크·TTJ)</td><td>기존 예정 구간(9~12월)을 4분기 실행 계획으로 구체화</td></tr>
+      <tr><td><b>④</b> 운영성 마이너작업</td><td>서비스 운영 안정화 — 지속 개선·운영 고도화</td><td>마케팅·어드민 요건, 버그, 사용성 개선의 상시 처리 트랙</td></tr>
+      <tr><td><b>⑤</b> 챌린지</td><td>신규 (기존 로드맵 외 — 추가 개정 대상)</td><td>통합 브랜딩·의장 방향성·대표 지시사항은 전략 레이어로 신설, 27년 로드맵 개정 시 정식 트랙화 검토</td></tr>
+    </table>
+  </div>
+
+
+  <!-- ══════════ 별첨 2. 아젠다 1 상세 아이디에이션 ══════════ -->
+  <div class="card" id="apx2">
+    <h2><span class="no">별첨 2</span>아젠다 1 상세 아이디에이션 — 현행 기능 고도화 <span class="aux">하이라이트 그룹핑</span></h2>
+    <p class="desc">기능별(1차 축) × 단계별(2차~최종) 아이디어를 하이라이트 색상 기준 4개 요소 그룹으로 재구성. *** = 우선 검토 후보. 출처: 셀부 내부 주간 회의.</p>
+
+    <h3>요소 그룹핑 (하이라이트 색상 기준)</h3>
+    <div class="ideawrap">
+      <div class="ideagrp">
+        <div class="gh" style="background:rgba(214,158,17,0.10)"><span class="sq" style="background:#D69E11"></span>① 키워드·랭킹 강화 <span style="font-weight:700;font-size:11.5px;color:var(--sub)">(노랑)</span></div>
+        <div class="gb">
+          <div class="it"><div class="tt">키워드 분석 · 최적가 추천/알림 · 상품명 추천</div>
+            <ul><li>1차 기능 축 — 고도화 베이스</li><li>최적가 알림 기능 추가</li></ul></div>
+          <div class="it"><div class="tt">인기 키워드 랭킹 <span style="font-weight:700;color:var(--sub)">(3차)</span></div>
+            <ul><li>테마/기간 필터</li><li>증감 추이 (그래프)</li></ul></div>
+          <div class="it"><div class="tt">버티컬 키워드 랭킹 제공 <span style="font-weight:700;color:var(--sub)">(3차→최종)</span></div>
+            <ul><li>의류-무신사 · 뷰티-올리브영 · 생활용품-다이소/오늘의집</li><li>해외: TTJ · 라쿠텐 등</li><li>최종: 단순 랭킹이 아닌 고객 인사이트 제공</li></ul></div>
+        </div>
+      </div>
+      <div class="ideagrp">
+        <div class="gh" style="background:rgba(139,92,246,0.09)"><span class="sq" style="background:#8B5CF6"></span>② 벤치마킹 · 익스텐션 모델 <span style="font-weight:700;font-size:11.5px;color:var(--sub)">(보라)</span></div>
+        <div class="gb">
+          <div class="it"><div class="tt">폴센트 벤치마킹 <span style="font-weight:700;color:var(--sub)">(2차)</span></div>
+            <ul><li>경쟁 셀러 분석</li><li>1위 가격 키워드</li><li>최저가 추천 알림</li></ul></div>
+          <div class="it"><div class="tt">크롬 익스텐션 통합 상품 분석 고도화 <span style="font-weight:700;color:var(--sub)">(2차)</span></div></div>
+          <div class="it"><div class="tt">폴센트 벤치마킹 <span class="star">***</span> <span style="font-weight:700;color:var(--sub)">(3차)</span></div>
+            <ul><li>키워드 앱 공유하기 (or URL) → 분석 인사이트 제공 (상세분석 이동)</li><li>기술검토 및 기획 정책 필요</li></ul></div>
+        </div>
+      </div>
+      <div class="ideagrp">
+        <div class="gh" style="background:rgba(15,138,60,0.08)"><span class="sq" style="background:#0F8A3C"></span>③ 셀러 온보딩 · 사용 가이드 <span style="font-weight:700;font-size:11.5px;color:var(--sub)">(초록)</span></div>
+        <div class="gb">
+          <div class="it"><div class="tt">초보셀러 관점 (매출) <span class="star">***</span> <span style="font-weight:700;color:var(--sub)">(4차)</span></div>
+            <ul><li>팔 수 있는 상품</li><li>데모버전 — 체험 서비스 제공 (실제 판매대행; 셀링스파크 연계 예정)</li><li class="sub">셀픽 테스트 계정 수급 필요 → 셀러의 실전 코스 제공 (메시지 UI 활용)</li><li>판매자 관점 랭킹 (셀러 랭킹)</li><li>스토어 전용 SNS 채널 운영 가이드</li><li>판매 계정 구좌 지원 (사업자 정보 대여업)</li></ul></div>
+          <div class="it"><div class="tt">셀러 사용 가이드 <span style="font-weight:700;color:var(--sub)">(2차)</span></div>
+            <ul><li>CTA 개선</li><li>우선: 마켓연동 OR 상품링크 공유</li></ul></div>
+          <div class="it"><div class="tt">셀러 사용 가이드 <span class="star">***</span> <span style="font-weight:700;color:var(--sub)">(최종)</span></div>
+            <ul><li>사용자 환경에서 UI로 제공</li><li class="sub">불사자 (환경 모션) · 폴센트 (메시지 톡)</li><li>커뮤니티 운영</li><li class="sub">카카오 오픈 채팅 성공사례 공유 · 라이브방송(교육방송) 공지 1,848명 · 대표님 언급 영상 콘텐츠 예시</li><li>카피 고려 필요 — "불안한 사장님~~"</li><li>참고: 소도몰 · 국민상회</li></ul></div>
+        </div>
+      </div>
+      <div class="ideagrp">
+        <div class="gh" style="background:rgba(37,99,235,0.08)"><span class="sq" style="background:#2563EB"></span>④ 콘텐츠 · 데이터 연계 <span style="font-weight:700;font-size:11.5px;color:var(--sub)">(파랑)</span></div>
+        <div class="gb">
+          <div class="it"><div class="tt">K트렌드 정기 리포트 <span style="font-weight:700;color:var(--sub)">(3차)</span></div>
+            <ul><li>월 · 분기별</li><li>기발행 포스트·데이터 종합 → PDF/뉴스레터 배포 → 자사 사이트 배포 필수</li></ul></div>
+          <div class="it"><div class="tt">해외 소싱사이트 연계 <span style="font-weight:700;color:var(--sub)">(4차)</span></div>
+            <ul><li>대량 등록 · 반자동 소싱</li><li>대량 소싱 이미지 번역</li><li>TTJ 대비: 일본</li></ul></div>
+          <div class="it"><div class="tt">경쟁 셀러 광고 분석 <span style="font-weight:700;color:var(--sub)">(2차)</span></div>
+            <ul><li>광고 유형 · 쇼핑SEO 등 광고 data 확보·분석</li><li>기술검토 및 기획 정책 필요</li><li>정보 수급: 검색기반(범용) · 광고기반(개별)</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="t">단계 매트릭스 (원본)</h3>
+    <div class="table-scroll">
+    <table style="min-width:860px">
+      <colgroup><col style="width:5%"><col style="width:13%"><col style="width:20%"><col style="width:21%"><col style="width:22%"><col style="width:19%"></colgroup>
+      <tr><th>#</th><th>1차</th><th>2차</th><th>3차</th><th>4차</th><th>최종</th></tr>
+      <tr>
+        <td class="c">1</td>
+        <td><span class="hl hl-y">키워드 분석</span></td>
+        <td><span class="hl hl-p">폴센트 벤치마킹</span><div class="mut">경쟁 셀러 분석 · 1위 가격 키워드 · 최저가 추천 알림</div></td>
+        <td><span class="hl hl-b">K트렌드 정기 리포트</span><div class="mut">월·분기별 · 기발행 포스트·데이터 종합 PDF/뉴스레터 → 자사 사이트 배포 필수</div></td>
+        <td><span class="hl hl-g">초보셀러 관점 (매출)***</span><div class="mut">팔 수 있는 상품 · 데모버전 체험(셀링스파크 연계 예정, 셀픽 테스트 계정 수급 → 실전 코스, 메시지 UI) · 셀러 랭킹 · 스토어 SNS 운영 가이드 · 판매 계정 구좌 지원(사업자 정보 대여업)</div></td>
+        <td><span class="hl hl-g">셀러 사용 가이드***</span><div class="mut">사용자 환경 UI 제공(불사자 환경 모션·폴센트 메시지 톡) · 커뮤니티 운영(카카오 오픈채팅·라이브방송 1,848명·영상 콘텐츠) · 카피 고려("불안한 사장님") · 참고: 소도몰·국민상회</div></td>
+      </tr>
+      <tr>
+        <td class="c">2</td>
+        <td>상품 분석</td>
+        <td><span class="hl hl-p">크롬 익스텐션 통합 상품 분석 고도화</span></td>
+        <td><span class="hl hl-y">인기 키워드 랭킹</span><div class="mut">테마/기간 필터 · 증감 추이(그래프)</div></td>
+        <td><span class="hl hl-b">해외 소싱사이트 연계</span><div class="mut">대량 등록·반자동 소싱 · 이미지 번역 · TTJ 대비: 일본</div></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="c">3</td>
+        <td>리뷰 분석</td>
+        <td><span class="hl hl-g">셀러 사용 가이드</span><div class="mut">CTA 개선 · 우선: 마켓연동 OR 상품링크 공유</div></td>
+        <td><span class="hl hl-p">폴센트 벤치마킹***</span><div class="mut">키워드 앱 공유하기(or URL) → 분석 인사이트 제공(상세분석 이동) · 기술검토·기획 정책 필요</div></td>
+        <td></td><td></td>
+      </tr>
+      <tr>
+        <td class="c">4</td>
+        <td><span class="hl hl-y">최적가 추천·알림 기능 추가</span></td>
+        <td><span class="hl hl-b">경쟁 셀러 광고 분석</span><div class="mut">광고 유형·쇼핑SEO 광고 data 확보·분석 · 기술검토·기획 정책 필요 · 정보 수급: 검색기반(범용)·광고기반(개별)</div></td>
+        <td><span class="hl hl-y">버티컬 키워드 랭킹 제공</span><div class="mut">의류-무신사 · 뷰티-올리브영 · 생활용품-다이소/오늘의집 · 해외: TTJ·라쿠텐 등</div></td>
+        <td></td>
+        <td><span class="hl hl-y">버티컬 키워드 랭킹 제공</span><div class="mut">단순 랭킹이 아닌 고객 인사이트 제공</div></td>
+      </tr>
+      <tr>
+        <td class="c">5</td>
+        <td><span class="hl hl-y">상품명 추천</span></td>
+        <td></td><td></td><td></td><td></td>
+      </tr>
+    </table>
+    </div>
+
+    <h3>우선순위 체크 · 의사결정 필요 사항</h3>
+    <p class="desc" style="margin-bottom:10px">우선 진행 가능한 부분 확인 or 우선순위 설정하여 순차 처리 → <b style="color:var(--danger)">최종 의사결정 필요</b></p>
+    <table>
+      <colgroup><col style="width:30%"><col style="width:52%"><col style="width:18%"></colgroup>
+      <tr><th>항목</th><th>확인·결정 내용</th><th>담당/구분</th></tr>
+      <tr><td><b>셀러 사용 가이드</b> <span style="color:var(--danger);font-weight:800">우선</span></td><td>우선으로 기획안 정리 필요</td><td class="c"><b>이슬기</b></td></tr>
+      <tr><td>폴센트 벤치마킹</td><td>3개 커머스 공유하기 가능한지 스펙 확인 필요 — 동일 상품 매칭 or 유사상품 매칭</td><td class="c">스펙 확인</td></tr>
+      <tr><td>셀러 랭킹·현황</td><td>1위 셀러 현황 확인 및 분석 내용 보여주기 · 내 순위의 변화</td><td class="c">기획 검토</td></tr>
+      <tr><td>판매상품 판정</td><td>판매상품 유무 → 유: 판매중 / 판매대기 여부 구분</td><td class="c">기획 검토</td></tr>
+      <tr><td>셀러/비셀러 분기</td><td>셀러: 돈을 더 벌 수 있는지 / 비셀러: 실전 연습 기간 별도 구분(셀링스파크 도입 시 활용) · 셀픽 테스트 계정</td><td class="c">기획 검토</td></tr>
+      <tr><td>스마트스토어 점포</td><td>점포 추가 개설 가능한지 확인 필요</td><td class="c">확인 필요</td></tr>
+      <tr><td>실전 범위</td><td>실전 범위 재확인 필요 — 정산 뒷부분 · 배송 뒷부분</td><td class="c">확인 필요</td></tr>
+      <tr><td>버티컬</td><td>버티컬 리스트업</td><td class="c">기획 검토</td></tr>
+      <tr><td>API</td><td>기존 API · 추가 API 구분 정리</td><td class="c">기술 검토</td></tr>
+      <tr><td>랭킹 목적</td><td>보여주는 목적 확인 필요 — 랭킹을 보여주되 어떻게 활용할 것인지</td><td class="c">기획 검토</td></tr>
+      <tr><td>기타</td><td>제외하거나 후순위로 보류할 항목 정리 → <b style="color:var(--danger)">최종 의사결정 필요</b></td><td class="c">의사결정</td></tr>
+    </table>
+  </div>
+
+  <footer>HectoData · 커머스기획팀 · 본 문서는 초안이며 확정 회의 결과에 따라 갱신됩니다</footer>
+</div>
+
+<button id="tocFab" onclick="document.getElementById('tocPanel').classList.toggle('open')">☰ 목차</button>
+<div id="tocPanel">
+  <a href="#sec0" onclick="closeToc()"><span class="n">S</span>전체 요약</a>
+  <a href="#sec1" onclick="closeToc()"><span class="n">1</span>배경 · 목적</a>
+  <a href="#sec2" onclick="closeToc()"><span class="n">2</span>결론</a>
+  <a href="#sec3" onclick="closeToc()"><span class="n">3</span>주요 아젠다</a>
+  <a href="#sec4" onclick="closeToc()"><span class="n">4</span>아젠다별 우선순위</a>
+  <a href="#sec4a" onclick="closeToc()"><span class="n">4-1</span>아젠다 1 심화</a>
+  <a href="#sec5" onclick="closeToc()"><span class="n">5</span>투입인력 · 예상 공수</a>
+  <a href="#sec6" onclick="closeToc()"><span class="n">6</span>전체 현황 · 달성 지표</a>
+  <a href="#sec7" onclick="closeToc()"><span class="n">7</span>리스크 대응</a>
+  <a href="#sec8" onclick="closeToc()"><span class="n">8</span>고정성 운영업무</a>
+  <a href="#sec9" onclick="closeToc()"><span class="n">9</span>확정 필요·개정 이력</a>
+  <a href="#apx1" class="ax" onclick="closeToc()"><span class="n">＋</span>별첨 1 전체 로드맵</a>
+  <a href="#apx2" class="ax" onclick="closeToc()"><span class="n">＋</span>별첨 2 아이디에이션</a>
+</div>
+
+<script>
+function closeToc(){document.getElementById('tocPanel').classList.remove('open')}
+document.addEventListener('click',function(e){
+  var pn=document.getElementById('tocPanel'),fb=document.getElementById('tocFab');
+  if(pn.classList.contains('open') && !pn.contains(e.target) && e.target!==fb){pn.classList.remove('open')}
+});
+function exportPDF(){
+  const el=document.getElementById('doc');
+  html2pdf().set({
+    margin:[8,6,10,6],
+    filename:'HD_4분기기획고도화_260908.pdf',
+    image:{type:'jpeg',quality:0.95},
+    html2canvas:{scale:2,useCORS:true},
+    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
+    pagebreak:{mode:['avoid-all','css']}
+  }).from(el).save();
+}
+function exportWord(){
+  const content=document.getElementById('doc').innerHTML;
+  const html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><style>body{font-family:"NanumSquare","Malgun Gothic",sans-serif;font-size:11pt}table{border-collapse:collapse;width:100%}th,td{border:1px solid #999;padding:6px 8px}th{background:#1E2532;color:#fff}</style></head><body>'+content+'</body></html>';
+  const blob=htmlDocx.asBlob(html);
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='HD_4분기기획고도화_260908.docx';
+  a.click();
+}
+</script>
+</body>
+</html>
