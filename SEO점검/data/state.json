@@ -1,5 +1,14 @@
 {
-  "history": [],
+  "history": [
+    {
+      "id": "mtsbscy1q0vzd",
+      "date": "2026-09-08",
+      "thisWeek": "",
+      "nextWeek": "",
+      "issue": "대표님 소집 내용: 수익에 연결되는 SEO 지표 만들어라",
+      "note": ""
+    }
+  ],
   "tools": [
     {
       "id": "hihook",
@@ -37,5 +46,5 @@
     }
   ],
   "docLinks": [],
-  "updatedAt": null
+  "updatedAt": "2026-09-08T07:05:49.706Z"
 }
