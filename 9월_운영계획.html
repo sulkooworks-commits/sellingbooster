@@ -233,7 +233,7 @@
   .flow .arrow{align-self:center;font-weight:800;color:var(--sub);}
   .ax{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11.5px;font-weight:800;white-space:nowrap;}
   .ax-y{background:#FFF3C4;color:#8A6400;}.ax-p{background:#EFE4FF;color:#6D3FD6;}.ax-g{background:#DCF5E5;color:#0F7A38;}
-  .ax-b{background:#DEE9FF;color:#1D4ED8;}.ax-o{background:#FFE4D1;color:#B84A08;}
+  .ax-b{background:#DEE9FF;color:#1D4ED8;}.ax-o{background:#FFE4D1;color:#B84A08;}.ax-t{background:#D7F1F3;color:#0B6E77;}
   .mut{color:var(--sub);font-size:12px;font-weight:400;}
   @media (max-width:720px){.flow{flex-direction:column;}.flow .arrow{transform:rotate(90deg);align-self:center;}}
 
@@ -533,28 +533,27 @@
   <section>
     <h2 id="toc-5"><span class="num">5</span>서비스 고도화 <span class="chip" style="background:var(--warn-bg);color:#9A6B00;">추가 예정</span></h2>
     <p style="margin:2px 0 8px;"><a class="btn-link" href="https://sulkooworks-commits.github.io/sellingbooster/pm/4q-plan.html" target="_blank" rel="noopener noreferrer">📋 4분기 기획안 바로가기</a></p>
-    <p style="font-size:13.5px;color:var(--sub);margin-bottom:12px;">4분기 기획 아젠다 5건 — <b>확정 요청 예정</b> (9/9 수 실장 보고, 8장 마일스톤 연계). 확정 시 정식 섹션 승격 및 WBS·Asana 하위 태스크 전개.</p>
+    <p style="font-size:13.5px;color:var(--sub);margin-bottom:12px;">4분기 기획안(초안 v0.3 · 9/8) 기준 — 아젠다 5건 <b>확정 요청 예정</b> (9/9 수 실장 보고, 8장 마일스톤 연계). 확정 시 WBS 상세화 · Asana 하위 태스크 전개.</p>
 
-    <h3 style="margin-top:16px;">1) 4분기 기획 요약</h3>
+    <h3 style="margin-top:16px;">1) 신규 고도화 기능 요약</h3>
     <div style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px 16px;margin-bottom:12px;">
-      <div class="qrow"><b class="k">범위</b><span>4분기 아젠다 <b>5건 확정 요청</b> — 현행 기능 고도화 · 셀링스파크 통합 · TTJ 연동 · 운영성 마이너작업 · 챌린지. 수집 이슈는 전무 피드백으로 <b>1안(익스텐션 내부 해소, 일 2,200건)</b>부터 진행</span></div>
-      <div class="qrow"><b class="k">일정</b><span><b>9/9(수) 통합 기획 1차 의사결정 완료</b> → 10월 초 파일럿 → 11월 초 베타 오픈(통합 버전) → 11월 중순 앱 2차 → 12월 말 앱 3차 · 연동/고도화 배포</span></div>
-      <div class="qrow"><b class="k">실행</b><span>승인 즉시 WBS 상세화 + Asana 하위 태스크 전개 · QA 이원화 — 셀링스파크(통합/App) <b>헥토큐앤엠</b> / 셀부 고도화 내부 QA</span></div>
+      <div class="qrow"><b class="k">범위</b><span>4분기 아젠다 1-B(신규기능) 후보를 <b>개선 6축 · 기능 9건</b>으로 구조화 — 문제점·방안·기대효과·프로토 예시까지 상세 기획 단위로 정리. 우선순위 확정분이 곧 아젠다 1-B의 실행 범위</span></div>
+      <div class="qrow"><b class="k">방향</b><span>수치 나열형 서비스에서 <b>인사이트 · 체험 · 확산 중심으로 전환</b> — 공유·즉시 분석으로 유입 경로를 만들고, 가이드·실전 코스로 활성 전환을 높이며, 소싱으로 분석→판매 풀퍼널 완성</span></div>
+      <div class="qrow"><b class="k">일정</b><span>9월 기획안·우선순위 확정 → 10월 상세 기획·기술검토 → <b>11월 개발 완료 (아젠다 1-B 마감)</b> → 12월 고도화 배포 (내부 QA 통과 조건)</span></div>
+      <div class="qrow"><b class="k">실행</b><span>기능 1(셀러 사용 가이드)은 <b>즉시 착수 — 이슬기 우선 기획안 산출</b>. 나머지는 선결 조건 해소 순으로 순차 진행, 확정 시 Asana 하위 태스크 연동</span></div>
     </div>
+    <p style="font-size:13.5px;font-weight:700;margin:14px 0 4px;">개선 방향 <span style="font-weight:400;font-size:12px;color:var(--sub);">(아이디에이션 기준 — 별첨 5)</span></p>
+    <p style="margin:0 0 10px;">
+      <span class="ax ax-y">① 키워드·랭킹 강화</span> <span class="ax ax-p">② 벤치마킹·익스텐션</span> <span class="ax ax-g">③ 셀러 온보딩·가이드</span> <span class="ax ax-b">④ 콘텐츠·데이터 연계</span> <span class="ax ax-o">⑤ 체험형 서비스 강화</span> <span class="ax ax-t">⑥ 소싱 (대량·분석)</span>
+    </p>
+    <p style="font-size:13.5px;font-weight:700;margin:14px 0 2px;">로드맵</p>
     <div class="mstrip">
-      <div class="nd"><div class="w">9/9 (수)</div><div class="l">통합 기획 1차<br>의사결정 완료</div></div>
-      <div class="nd"><div class="w">10월 초</div><div class="l">파일럿 버전<br>(기능 시연)</div></div>
-      <div class="nd"><div class="w">11월 초</div><div class="l">베타 오픈<br>(통합 버전)</div></div>
-      <div class="nd"><div class="w">11월 중순</div><div class="l">앱 구축 2차<br>(계정·메인·서브)</div></div>
-      <div class="nd tl"><div class="w">12월 말</div><div class="l">앱 3차 · 연동/<br>고도화 배포</div></div>
+      <div class="nd"><div class="w">9월</div><div class="l">기획안 확정<br>우선순위 의사결정</div></div>
+      <div class="nd"><div class="w">10월</div><div class="l">상세 기획·디자인<br>기술검토 회신</div></div>
+      <div class="nd"><div class="w">11월</div><div class="l">개발 완료<br>(아젠다 1-B 마감)</div></div>
+      <div class="nd tl"><div class="w">12월</div><div class="l">고도화 배포<br>내부 QA 통과</div></div>
     </div>
-    <div class="agchips" style="margin-bottom:4px;">
-      <span><i>1</i>현행 기능 고도화</span>
-      <span><i>2</i>셀링스파크 통합</span>
-      <span><i>3</i>TTJ·셀링스파크 연동</span>
-      <span><i>4</i>운영성 마이너작업</span>
-      <span><i>5</i>의장챌린지</span>
-    </div>
+    <p style="font-size:12.5px;color:var(--sub);margin:6px 0 0;">※ 세부 우선순위는 아래 3) 요약, 전체 근거는 별첨 5 · 4분기 기획안(상단 버튼) 참조.</p>
 
     <h3 style="margin-top:24px;">2) 셀링부스터 통합 안건</h3>
     <ol style="margin:0 0 4px 22px;">
@@ -565,16 +564,17 @@
           <a class="btn-link" style="font-size:11.5px;padding:4px 11px;" href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80+%EA%B3%84%EC%82%B0%EA%B8%B0_%ED%94%84%EB%A1%9C%ED%86%A0%ED%83%80%EC%9E%85_260821.html#home" target="_blank" rel="noopener noreferrer">피벗 2</a>
           <a class="btn-link" style="font-size:11.5px;padding:4px 11px;" href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%ED%86%B5%ED%95%A9%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80_%ED%94%84%EB%A1%9C%ED%86%A0%ED%83%80%EC%9E%85_v1.0.html#home" target="_blank" rel="noopener noreferrer">피벗 3 (v1.0)</a>
         </p>
-        <span style="font-size:13.5px;">결론: 초안~피벗 3 최종 취합 후 <b>수요일 중 실장 보고 예정</b> (w. 임승용 책임)</span>
+        <span style="font-size:13.5px;">초안~피벗 3 취합 후 <b>9/9(수) 실장 보고 예정</b> (w. 임승용 책임)</span>
       </li>
-      <li style="margin-bottom:7px;"><b>통합 회원가입 수정 및 법인 회원 도입</b> — 기획 완료 상태</li>
-      <li style="margin-bottom:7px;"><b>통합 브랜딩 컨택 예정</b> — 브랜드전략실 신지나 팀장 협의</li>
-      <li><b>개인정보처리방침 · 서비스 이용약관 개정 예정</b></li>
+      <li style="margin-bottom:7px;"><b>통합 회원가입 수정 및 법인 회원 도입</b> — 기획 정리 완료 (개발 반영 대기)</li>
+      <li style="margin-bottom:7px;"><b>통합 브랜딩 협의 예정</b> — 브랜드전략실 신지나 팀장</li>
+      <li style="margin-bottom:7px;"><b>개인정보처리방침 · 서비스 이용약관 개정 예정</b> — 11월 초 베타 시점 목표</li>
+      <li><b>앱 구축 2차 · 3차</b> — 2차(10~11월: 통합 계정·메인·서브, 11월 중순 목표) · 3차(12월 말 목표: 웹 호환 — 결제 도입 · 판매/분석 추가)</li>
     </ol>
 
     <h3 style="margin-top:24px;">3) 현행 기능 고도화 아이디에이션 요약 — 아젠다 1</h3>
-    <p style="font-size:13.5px;margin-bottom:8px;">진단: 랭킹·수치 나열에 그침 · 수집(네이버 API) 차단 리스크 · 초보 셀러 온보딩 부재 · 분석 결과 공유 경로 없음 → 개선 5축으로 재편:
-      <span class="ax ax-y">① 키워드·랭킹 강화</span> <span class="ax ax-p">② 벤치마킹·익스텐션 모델</span> <span class="ax ax-g">③ 셀러 온보딩·가이드</span> <span class="ax ax-b">④ 콘텐츠·데이터 연계</span> <span class="ax ax-o">⑤ 체험형 서비스 강화</span></p>
+    <p style="font-size:13.5px;margin-bottom:8px;">현황: 랭킹·수치 나열 중심 · 수집(네이버 API) 차단 리스크 · 초보 셀러 온보딩 부재 · 분석 결과 공유 경로 없음 · 소싱(분석↔판매) 연결 부재 → 개선 6축으로 재구성:
+      <span class="ax ax-y">① 키워드·랭킹 강화</span> <span class="ax ax-p">② 벤치마킹·익스텐션 모델</span> <span class="ax ax-g">③ 셀러 온보딩·가이드</span> <span class="ax ax-b">④ 콘텐츠·데이터 연계</span> <span class="ax ax-o">⑤ 체험형 서비스 강화</span> <span class="ax ax-t">⑥ 소싱 기능 (대량·분석)</span></p>
     <div class="table-scroll">
     <table>
       <colgroup><col style="width:7%"><col style="width:44%"><col style="width:15%"><col style="width:18%"><col style="width:16%"></colgroup>
@@ -590,6 +590,11 @@
     </table>
     </div>
     <p style="font-size:12.5px;color:var(--sub);margin-top:6px;">※ 문제 진단 → 개선 방안 → 기대효과 전체 표와 추가 아이디에이션(광고 계산기 · 커머스별 SEO 솔루션 · 스파크 통합 분석 화면 · 유료 부가 서비스)은 <a href="#apx5" style="color:var(--teal);font-weight:700;">별첨 5</a> 참조. 순위 확정 시 Asana 하위 태스크로 연동 예정.</p>
+
+    <h3 style="margin-top:24px;">4) 고도화 추가 항목</h3>
+    <ul style="margin:0 0 4px 22px;">
+      <li><b>앱서비스 유입지표 설계·반영</b> — 1차 9~10월(써드파티·GTM 세팅) → 2차 11~12월(통합 오픈 버전 반영) · 4분기 아젠다 4 정식 편입 (Asana 등록 완료)</li>
+    </ul>
   </section>
 
   <!-- ═══ 6. 9월 광고 품의 계획 ═══ -->
@@ -964,7 +969,7 @@
     <p style="font-size:12.5px;color:var(--sub);margin-top:6px;">※ 회차별 네이버 제목·재집필 포인트, 하이훅 키워드 가이드, 시즈널 키워드 등 상세는 원문 문서 <a href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EB%B8%94%EB%A1%9C%EA%B7%B8_%EB%B0%9C%ED%96%89%EA%B3%84%ED%9A%8D_8-9%EC%9B%94.html" target="_blank" rel="noopener noreferrer" style="color:var(--teal);font-weight:700;">「셀링부스터 블로그 발행 계획 8~9월」</a> 참조.</p>
 
     <h3 id="apx5" style="margin-top:26px;">별첨 5. 현행 기능 고도화 아이디에이션 — 아젠다 1 심화 <span style="font-weight:400;font-size:12px;color:var(--sub);">(4분기 기획 문서 4-1 원문 · Asana 연동 예정)</span></h3>
-    <p style="font-size:13.5px;color:var(--sub);margin-bottom:10px;">아이디에이션을 실행 관점으로 가공 — 현재 셀링부스터의 문제점·취약점에서 출발해 개선 포인트(5축) → 방안 → 기대효과로 정리. 우선순위 확정 후 Asana 하위 태스크로 연동 예정.</p>
+    <p style="font-size:13.5px;color:var(--sub);margin-bottom:10px;">아이디에이션을 실행 관점으로 가공 — 현재 셀링부스터의 문제점·취약점에서 출발해 개선 포인트(6축) → 방안 → 기대효과로 정리. 우선순위 확정 후 Asana 하위 태스크로 연동 예정.</p>
 
     <p style="font-size:13.5px;font-weight:700;margin-top:14px;">구조 도식 — 문제 → 개선 → 기대효과</p>
     <div class="flow">
@@ -979,13 +984,14 @@
       </div>
       <div class="arrow">→</div>
       <div class="box">
-        <div class="cap">개선 포인트 (5축)</div>
+        <div class="cap">개선 포인트 (6축)</div>
         <ul>
           <li><b style="color:#8A6400">①</b> 키워드·랭킹 강화</li>
           <li><b style="color:#6D3FD6">②</b> 벤치마킹·익스텐션 모델</li>
           <li><b style="color:#0F7A38">③</b> 셀러 온보딩·가이드</li>
           <li><b style="color:#1D4ED8">④</b> 콘텐츠·데이터 연계</li>
           <li><b style="color:#B84A08">⑤</b> 체험형 서비스 강화</li>
+          <li><b style="color:#0B6E77">⑥</b> 소싱 기능 (대량 소싱·분석)</li>
         </ul>
       </div>
       <div class="arrow">→</div>
@@ -997,6 +1003,7 @@
           <li>가입 → 활성 전환·리텐션 개선</li>
           <li>셀링스파크·TTJ 연계 브릿지 확보</li>
           <li>즉시 분석 체험 → 락인·재방문 상시화</li>
+          <li>분석 → 소싱 → 판매 풀퍼널 완성</li>
         </ul>
       </div>
     </div>
@@ -1036,6 +1043,12 @@
         <td class="c"><span class="ax ax-o">⑤ 체험형 서비스 강화</span></td>
         <td>· 아이템랭킹 고도화 — 네이버 API로 부재한 지표 보완, 자사/경쟁사 랭킹 트래킹 (의장챌린지 폴센트 벤치 요소 연계)<br>· 최적가 기능 고도화 — 플랫폼 3사(네이버·쿠팡·11번가) 지원<br>· 상품 상세 복사 → 즉시 상품 분석 서비스 (폴센트 차용 · 익스텐션 기반 기술 필요)</td>
         <td>· 분석 진입 마찰 제거 → 체험 기반 락인<br>· 자사/경쟁사 랭킹 트래킹으로 재방문 상시화<br>· 의장챌린지(폴센트 벤치마킹) 실행 연계</td>
+      </tr>
+      <tr>
+        <td>소싱(사입) 단계 기능 부재 — 분석(셀부)과 판매(셀스) 사이 연결 고리 없음</td>
+        <td class="c"><span class="ax ax-t">⑥ 소싱 기능 (대량·분석)</span></td>
+        <td>· 대량 소싱 기능 — 셀링스파크 연계 지점 확보 (셀링스파크로 보내기 or 해당 화면 탑재)<br>· 소싱 분석 기능 — 도매 채널별 아이템 검색 · 소싱 트렌드 체크 · 소싱 스크랩<br>· 소싱 채널 API 연동 — 도매꾹 · 1688 · 기타</td>
+        <td>· 분석 → 소싱 → 판매 풀퍼널 완성 (셀부–셀스 연결 고리)<br>· 부가 서비스(소싱 번역기·아이템 분석기) 유료화 시너지</td>
       </tr>
       </tbody>
     </table>
