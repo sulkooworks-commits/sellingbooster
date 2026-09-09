@@ -185,6 +185,17 @@ td .mut{color:var(--sub);font-size:12.3px}
 .hl-g{background:rgba(15,138,60,0.13);color:#0F7A38}
 .hl-b{background:rgba(37,99,235,0.12);color:#1D4ED8}
 .hl-o{background:rgba(232,89,12,0.13);color:#B84A08}
+.hl-r{background:rgba(219,39,119,0.11);color:#BE185D}
+.detbtn{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:800;color:#fff !important;background:var(--violet);border-radius:9px;padding:8px 15px;text-decoration:none;box-shadow:0 2px 8px rgba(100,102,250,.28);transition:background .15s}
+.detbtn:hover{background:#4F51E8}
+.sflow{background:var(--bg);border-radius:12px;padding:8px 18px;margin-top:12px}
+.sflow .r{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid #E1E4EA}
+.sflow .r:last-child{border-bottom:none}
+.sflow .pd{flex-shrink:0;font-size:12px;font-weight:800;color:#fff;background:var(--violet);border-radius:8px;padding:4px 10px}
+.sflow .r.sp .pd{background:var(--teal)}
+.sflow .st{font-size:12.6px;font-weight:700;background:#fff;border:1px solid var(--line);border-radius:8px;padding:5px 11px;line-height:1.45}
+.sflow .a{color:#B9BFCB;font-weight:800;font-size:13px}
+.sflow .st small{display:block;font-size:11px;font-weight:600;color:#8A93A2;margin-top:1px}
 .ideawrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px}
 @media(max-width:760px){.ideawrap{grid-template-columns:1fr}}
 .ideagrp{border:1.5px solid var(--line);border-radius:13px;overflow:hidden;background:#fff}
@@ -368,6 +379,7 @@ footer{margin-top:44px;text-align:center;font-size:12px;color:#A6ACB8}
           <div class="subitem" data-k="C.">버그 해결</div>
           <div class="subitem" data-k="D.">사용성 고도화</div>
           <div class="subitem" data-k="E.">커머스 확장기능 디테일 확정 — 상품명 패턴(11번가·쿠팡) · 시즈널 키워드 · 커머스 일정</div>
+          <div class="subitem" data-k="F.">앱서비스 유입지표 설계·반영 — 1차(9~10월, 써드파티·GTM 세팅) → 2차(11~12월, 통합 오픈 버전)</div>
         </td>
         <td class="c">내부 QA</td>
       </tr>
@@ -391,7 +403,7 @@ footer{margin-top:44px;text-align:center;font-size:12px;color:#A6ACB8}
           <div class="cells">
             <span class="bar m" style="grid-column:1/2">해결방안 확정 (1안)</span>
             <span class="bar v" style="grid-column:2/3">스크래핑·수집이슈 해소</span>
-            <span class="bar v" style="grid-column:3/4">신규기능 기획·개발</span>
+            <span class="bar v" style="grid-column:2/4">신규기능 기획·개발 — 10~11월</span>
             <span class="bar m" style="grid-column:4/5">고도화 배포</span>
             <span class="bar v" style="grid-column:1/2">익스텐션 구축 착수</span>
             <span class="bar v" style="grid-column:3/4">익스텐션 고도화</span>
@@ -430,6 +442,8 @@ footer{margin-top:44px;text-align:center;font-size:12px;color:#A6ACB8}
             <span class="bar v" style="grid-column:2/5">마케팅·어드민 요건 — 10~12월</span>
             <span class="bar v" style="grid-column:1/2">버그 해결</span>
             <span class="bar v" style="grid-column:2/5">사용성 고도화 — 10~12월</span>
+            <span class="bar v" style="grid-column:1/3">앱 1차 유입지표 설계·반영 (써드파티·GTM 세팅)</span>
+            <span class="bar v" style="grid-column:3/5">앱 2차 유입지표 설계·반영 (통합 오픈 버전)</span>
             <span class="bar v" style="grid-column:2/5">커머스 확장기능 디테일 (상품명 패턴·시즈널 키워드·커머스 일정)</span>
             <span class="bar g" style="grid-column:2/5">잔여 백로그 이월</span>
           </div>
@@ -545,6 +559,8 @@ footer{margin-top:44px;text-align:center;font-size:12px;color:#A6ACB8}
       <tr><td class="c"><b>P1</b></td><td>C. 버그 해결</td><td><span class="ph">등록 버그 해소율 N% 이상</span></td><td class="c">9월</td></tr>
       <tr><td class="c"><b>P2</b></td><td>A. 마케팅 요건 / B. 어드민 요건</td><td><span class="ph">요건 목록 확정 후 기재</span></td><td class="c">10~12월</td></tr>
       <tr><td class="c"><b>P2</b></td><td>E. 커머스 확장기능 디테일 확정<br><span class="mut">· 상품명 패턴 추가 (11번가·쿠팡)<br>· 시즈널 키워드 내역<br>· 커머스 일정 내역</span></td><td>3개 항목 상세 정의 · 서비스 반영 범위 확정</td><td class="c">10~12월</td></tr>
+      <tr><td class="c"><b>P1</b></td><td>F-1. 앱서비스 1차 유입지표 설계·반영 — 앱서비스 1차 버전<br><span class="mut">· 써드파티 및 GTM 세팅 예정</span></td><td>유입지표 정의 · 써드파티/GTM 세팅 · 1차 버전 반영</td><td class="c">9~10월</td></tr>
+      <tr><td class="c"><b>P1</b></td><td>F-2. 앱서비스 2차 유입지표 설계·반영 — 앱서비스 통합 오픈 버전</td><td>통합 오픈 버전 지표 반영 · 유입 데이터 수집 가동</td><td class="c">11~12월</td></tr>
       <tr><td class="c"><b>P3</b></td><td>D. 사용성 고도화</td><td><span class="ph">개선 항목 정의 후 기재</span></td><td class="c">10~12월</td></tr>
     </table>
 
@@ -575,7 +591,8 @@ footer{margin-top:44px;text-align:center;font-size:12px;color:#A6ACB8}
   <!-- ══════════ 4-1. 아젠다 1 심화 (별첨 2 가공) ══════════ -->
   <div class="card" id="sec4a">
     <h2><span class="no">4-1</span>아젠다 1 심화 — 문제 진단 · 개선 방안 · 우선순위 <span class="aux">별첨 2 가공 · Asana 연동 예정</span></h2>
-    <p class="desc">별첨 2 아이디에이션을 실행 관점으로 가공 — 현재 셀링부스터의 문제점·취약점에서 출발해 개선 포인트(5축) → 방안 → 기대효과로 정리. 우선순위는 확정 후 Asana 하위 태스크로 연동 예정.</p>
+    <p class="desc">별첨 2 아이디에이션을 실행 관점으로 가공 — 현재 셀링부스터의 문제점·취약점에서 출발해 개선 포인트(6축) → 방안 → 기대효과로 정리. 우선순위는 확정 후 Asana 하위 태스크로 연동 예정.</p>
+    <p style="margin:2px 0 16px"><a class="detbtn" href="https://sulkooworks-commits.github.io/sellingbooster/pm/new-fn.html" target="_blank" rel="noopener">기획 상세 보기 ↗</a></p>
 
     <h3>구조 도식 — 문제 → 개선 → 기대효과</h3>
     <div class="flow">
@@ -590,13 +607,14 @@ footer{margin-top:44px;text-align:center;font-size:12px;color:#A6ACB8}
       </div>
       <div class="arrow">→</div>
       <div class="box">
-        <div class="cap">개선 포인트 (5축)</div>
+        <div class="cap">개선 포인트 (6축)</div>
         <ul>
           <li><b style="color:#8A6400">①</b> 키워드·랭킹 강화</li>
           <li><b style="color:#6D3FD6">②</b> 벤치마킹·익스텐션 모델</li>
           <li><b style="color:#0F7A38">③</b> 셀러 온보딩·가이드</li>
           <li><b style="color:#1D4ED8">④</b> 콘텐츠·데이터 연계</li>
           <li><b style="color:#B84A08">⑤</b> 체험형 서비스 강화</li>
+          <li><b style="color:#BE185D">⑥</b> 소싱 기능 (대량 소싱·분석)</li>
         </ul>
       </div>
       <div class="arrow">→</div>
@@ -608,45 +626,39 @@ footer{margin-top:44px;text-align:center;font-size:12px;color:#A6ACB8}
           <li>가입 → 활성 전환·리텐션 개선</li>
           <li>셀링스파크·TTJ 연계 브릿지 확보</li>
           <li>즉시 분석 체험 → 락인·재방문 상시화</li>
+          <li>분석 → 소싱 → 판매 풀퍼널 완성</li>
         </ul>
       </div>
     </div>
 
-    <h3 class="t">문제점 · 개선 포인트 · 방안 · 기대효과</h3>
+    <h3 class="t">개선 6축 요약 <span style="font-size:12px;font-weight:700;color:#8A93A2">상세(문제점·방안·기대효과·유사업체 검증 전문)는 별첨 2 참조</span></h3>
     <table>
-      <colgroup><col style="width:23%"><col style="width:15%"><col style="width:38%"><col style="width:24%"></colgroup>
-      <tr><th>문제점 · 취약점</th><th>개선 포인트</th><th>방안</th><th>기대효과</th></tr>
-      <tr>
-        <td>랭킹·수치를 보여주는 데 그침 — "어떻게 활용할지" 가이드 부재, 버티컬·해외 커버리지 한정</td>
-        <td class="c"><span class="hl hl-y">① 키워드·랭킹 강화</span></td>
-        <td>· 인기 키워드 랭킹 — 테마·기간 필터, 증감 추이 그래프<br>· 버티컬 키워드 랭킹 — 무신사·올리브영·다이소·오늘의집 / 해외 TTJ·라쿠텐<br>· 최적가 추천·알림 기능 추가<br>· 기존 키워드 인사이트 고도화 — 인사이트 요소 강화 · 네이버 API로 부재한 관련 지표 재적용</td>
-        <td>· 단순 랭킹 → 고객 인사이트 제공 전환<br>· 버티컬 차별화 · 재방문 가치 강화</td>
-      </tr>
-      <tr>
-        <td>분석 결과 외부 공유·확산 경로 없음, 수집 모델의 차단 리스크·진입장벽</td>
-        <td class="c"><span class="hl hl-p">② 벤치마킹·익스텐션 모델</span></td>
-        <td>· 폴센트 벤치마킹 — 키워드 앱 공유하기(URL) → 분석 인사이트·상세분석 유도<br>· 경쟁 셀러·1위 가격·최저가 알림<br>· 크롬 익스텐션 통합 상품 분석 고도화 — 수집이슈 1안 연계</td>
-        <td>· 공유 기반 오가닉 유입 신규 경로 확보<br>· 수집 안정화 — 일 2,200건 호출</td>
-      </tr>
-      <tr>
-        <td>초보 셀러 온보딩·실전 가이드 부재 — 가입 후 활용 경로 없이 이탈</td>
-        <td class="c"><span class="hl hl-g">③ 셀러 온보딩·가이드</span></td>
-        <td>· 셀러 사용 가이드 UI — 환경 모션·메시지 톡<br>· 초보셀러 실전 코스 — 데모 체험·셀픽 테스트 계정 (셀링스파크 연계 예정)<br>· 커뮤니티 운영 — 카카오 오픈채팅·라이브방송</td>
-        <td>· 가입 → 활성 전환·리텐션 개선<br>· 셀링스파크 도입 브릿지</td>
-      </tr>
-      <tr>
-        <td>발행 콘텐츠·데이터 자산이 서비스 내부와 미연계 — 유입 자산의 전환 연결 미흡</td>
-        <td class="c"><span class="hl hl-b">④ 콘텐츠·데이터 연계</span></td>
-        <td>· K트렌드 정기 리포트 — 월·분기, PDF/뉴스레터 자사 배포<br>· 해외 소싱사이트 연계 — TTJ 대비 일본<br>· 경쟁 셀러 광고 분석 — 검색기반·광고기반 수급</td>
-        <td>· 콘텐츠 자산 → 서비스 유입·재방문 트리거<br>· TTJ 연동 선행 준비</td>
-      </tr>
-      <tr>
-        <td>네이버 API 지표 부재로 아이템랭킹·체험 기능 제한 — 상품 분석 진입 동선(즉시 분석) 부재</td>
-        <td class="c"><span class="hl hl-o">⑤ 체험형 서비스 강화</span></td>
-        <td>· 아이템랭킹 고도화 — 네이버 API로 부재한 지표 보완, 자사/경쟁사 랭킹 트래킹 (의장챌린지 폴센트 벤치 요소 연계)<br>· 최적가 기능 고도화 — 플랫폼 3사(네이버·쿠팡·11번가) 지원<br>· 상품 상세 복사 → 즉시 상품 분석 서비스 (폴센트 차용 · 익스텐션 기반 기술 필요)</td>
-        <td>· 분석 진입 마찰 제거 → 체험 기반 락인<br>· 자사/경쟁사 랭킹 트래킹으로 재방문 상시화<br>· 의장챌린지(폴센트 벤치마킹) 실행 연계</td>
-      </tr>
+      <colgroup><col style="width:22%"><col style="width:44%"><col style="width:34%"></colgroup>
+      <tr><th>개선 축</th><th>핵심 방안 (요약)</th><th>경쟁 검증 요약</th></tr>
+      <tr><td class="c"><span class="hl hl-y">① 키워드·랭킹 강화</span></td><td>인기·버티컬 키워드 랭킹 · 최적가 추천/알림 · 기존 키워드 인사이트 고도화(API 부재 지표 재적용)</td><td class="mut">아이템스카웃·다시체크 보유 / <b>최적가는 비교 5종 미보유 — 자사 고유</b></td></tr>
+      <tr><td class="c"><span class="hl hl-p">② 벤치마킹·익스텐션</span></td><td>폴센트 공유하기(URL)·가격 알림 벤치 · 크롬 익스텐션 통합 분석 고도화(수집 1안 연계)</td><td class="mut">폴센트 차용 원본 · 익스텐션 수집은 업계 표준 구조</td></tr>
+      <tr><td class="c"><span class="hl hl-g">③ 셀러 온보딩·가이드</span></td><td>가이드 UI · 초보셀러 실전 코스(데모·테스트 계정) · 커뮤니티</td><td class="mut"><b>데모 체험형 비교군 미보유 — 차별화 여지</b></td></tr>
+      <tr><td class="c"><span class="hl hl-b">④ 콘텐츠·데이터 연계</span></td><td>K트렌드 정기 리포트 · 해외 소싱사이트 연계 · 경쟁 셀러 광고 분석</td><td class="mut">판다랭크(AI 생성)·트렌디어·불사자 부분 보유</td></tr>
+      <tr><td class="c"><span class="hl hl-o">⑤ 체험형 서비스 강화</span></td><td>아이템랭킹 고도화(자사/경쟁사 트래킹) · 3사 최적가 고도화 · 상품 상세 복사 → 즉시 분석</td><td class="mut">폴센트 차용 · <b>판매량 추정은 자사 미보유 갭</b>(다시체크)</td></tr>
+      <tr><td class="c"><span class="hl hl-r">⑥ 소싱 (대량·분석)</span></td><td>대량 소싱(셀링스파크 연계) · 소싱 분석(도매 채널 검색·트렌드·스크랩) · API 연동(도매꾹·1688)</td><td class="mut"><b>직접 경쟁 4종 공통 표준</b> · 불사자가 동일 플로우 상용 운영(2.3만+)</td></tr>
     </table>
+
+    <h3 class="t">⑥ 소싱 기능 — 예상 사용 플로우</h3>
+    <div class="sflow">
+      <div class="r">
+        <span class="pd">셀링부스터</span>
+        <span class="st">아이템 분석기</span><span class="a">→</span>
+        <span class="st">소싱 검색/분석</span><span class="a">→</span>
+        <span class="st">스크랩 <small>or</small></span>
+        <span class="st">대량 소싱 시작 <small>→ 스파크로 보내기</small></span>
+      </div>
+      <div class="r sp">
+        <span class="pd">셀링스파크</span>
+        <span class="st">소싱 검색/분석 <small>or 스크랩 조회</small></span><span class="a">→</span>
+        <span class="st">대량 소싱 시작</span><span class="a">→</span>
+        <span class="st">상품 상세페이지 번역/제작 <small>상세페이지 번역 이미지 생성</small></span>
+      </div>
+    </div>
 
     <h3 class="t">추가 아이디에이션 · 셀링스파크 연계 검토 <span style="font-size:12px;font-weight:700;color:#8A93A2">우선순위 미배정 — 검토 후 편입</span></h3>
     <table>
@@ -797,6 +809,13 @@ footer{margin-top:44px;text-align:center;font-size:12px;color:#A6ACB8}
         <td class="c">상시</td><td class="c">전원</td>
       </tr>
       <tr>
+        <td class="c"><b>4</b></td><td>앱서비스 유입지표 설계·반영 (1차 → 2차 통합 오픈)</td>
+        <td class="c"><span class="st p1">기획</span></td>
+        <td><div class="pg"><div class="trk"><div class="fil" style="width:0%"></div></div><span class="n">0%</span></div></td>
+        <td class="c">10월 → 12월</td>
+        <td class="c">이슬기·안지호</td>
+      </tr>
+      <tr>
         <td class="c"><b>5</b></td><td>통합 브랜딩 (셀픽 OMS·TTJ·셀부+셀스)</td>
         <td class="c"><span class="st p2">진행</span></td>
         <td><div class="pg"><div class="trk"><div class="fil" style="width:30%"></div></div><span class="n">30%</span></div></td>
@@ -932,7 +951,7 @@ footer{margin-top:44px;text-align:center;font-size:12px;color:#A6ACB8}
         <tr class="agrow"><td class="rowlabel" style="position:sticky;left:0;z-index:2;background:#F4F3EE;box-shadow:2px 0 0 rgba(30,37,50,.08);font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;"><span style="color:var(--violet);font-weight:800">①</span> 현행 기능 고도화</td><td colspan="44" class="seg blank"></td><td colspan="4" class="seg run">해결방안 확정 · 1안 착수</td><td colspan="4" class="seg plan">수집이슈 해소</td><td colspan="4" class="seg plan">신규기능 · 익스텐션 고도화</td><td colspan="4" class="seg plan">고도화 배포 · 내부 QA</td></tr>
         <tr class="agrow"><td class="rowlabel" style="position:sticky;left:0;z-index:2;background:#F4F3EE;box-shadow:2px 0 0 rgba(30,37,50,.08);font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;"><span style="color:var(--violet);font-weight:800">②</span> 셀링스파크 통합</td><td colspan="44" class="seg blank"></td><td colspan="4" class="seg run">실장 보고(9/9) · 상세 기획 (메인·서비스·요금제·앱)</td><td colspan="4" class="seg plan">파일럿 버전 (10월 초) · 앱 구축 2차 착수</td><td colspan="4" class="seg plan">베타 오픈 (11월 초) · 앱 구축 2차 (통합 계정·메인·서브)</td><td colspan="4" class="seg plan">앱 구축 3차 (웹 호환: 결제·판매/분석) · 통합 QA</td></tr>
         <tr class="agrow"><td class="rowlabel" style="position:sticky;left:0;z-index:2;background:#F4F3EE;box-shadow:2px 0 0 rgba(30,37,50,.08);font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;"><span style="color:var(--violet);font-weight:800">③</span> TTJ·셀링스파크 연동</td><td colspan="44" class="seg blank"></td><td colspan="4" class="seg run">요구사항 사전 검토</td><td colspan="4" class="seg plan">연동 범위·데이터 정의</td><td colspan="4" class="seg plan">연동 개발</td><td colspan="4" class="seg plan">헥토큐앤엠 QA · 배포</td></tr>
-        <tr class="agrow"><td class="rowlabel" style="position:sticky;left:0;z-index:2;background:#F4F3EE;box-shadow:2px 0 0 rgba(30,37,50,.08);font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;"><span style="color:var(--violet);font-weight:800">④</span> 운영성 마이너작업</td><td colspan="44" class="seg blank"></td><td colspan="4" class="seg run">백로그 취합·분류 · 버그 해결</td><td colspan="12" class="seg plan">마케팅·어드민 요건 · 사용성 고도화 (10~12월)</td></tr>
+        <tr class="agrow"><td class="rowlabel" style="position:sticky;left:0;z-index:2;background:#F4F3EE;box-shadow:2px 0 0 rgba(30,37,50,.08);font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;"><span style="color:var(--violet);font-weight:800">④</span> 운영성 마이너작업</td><td colspan="44" class="seg blank"></td><td colspan="4" class="seg run">백로그 취합·분류 · 버그 해결 · 앱 유입지표 1차 착수</td><td colspan="12" class="seg plan">마케팅·어드민 요건 · 사용성 고도화 · 앱 유입지표 1차(~10월)/2차(11~12월)</td></tr>
         <tr class="agrow"><td class="rowlabel" style="position:sticky;left:0;z-index:2;background:#F4F3EE;box-shadow:2px 0 0 rgba(30,37,50,.08);font-size:11.5px;padding:6px 8px;white-space:normal;min-width:86px;"><span style="color:var(--violet);font-weight:800">⑤</span> 챌린지</td><td colspan="44" class="seg blank"></td><td colspan="4" class="seg run">통합 브랜딩 · Keepa·다시체크 벤치마킹 착수</td><td colspan="4" class="seg plan">의장챌린지 아이디에이션</td><td colspan="4" class="seg plan">키파·폴센트·다시체크 분석 및 유사 기능 구현</td><td colspan="4" class="seg plan">헥토월렛 도입</td></tr>
       </tbody>
     </table>
@@ -956,6 +975,56 @@ footer{margin-top:44px;text-align:center;font-size:12px;color:#A6ACB8}
   <div class="card" id="apx2">
     <h2><span class="no">별첨 2</span>아젠다 1 상세 아이디에이션 — 현행 기능 고도화 <span class="aux">하이라이트 그룹핑</span></h2>
     <p class="desc">기능별(1차 축) × 단계별(2차~최종) 아이디어를 하이라이트 색상 기준 4개 요소 그룹으로 재구성. *** = 우선 검토 후보. 출처: 셀부 내부 주간 회의.</p>
+
+    <h3>문제점 · 개선 포인트 · 방안 · 기대효과 · 유사업체 검증 <span style="font-size:12px;font-weight:700;color:var(--teal)">§4-1 상세 원문</span></h3>
+    <table>
+      <colgroup><col style="width:17%"><col style="width:12%"><col style="width:30%"><col style="width:18%"><col style="width:23%"></colgroup>
+      <tr><th>문제점 · 취약점</th><th>개선 포인트</th><th>방안</th><th>기대효과</th><th>유사업체 사례 (경쟁 검증)</th></tr>
+      <tr>
+        <td>랭킹·수치를 보여주는 데 그침 — "어떻게 활용할지" 가이드 부재, 버티컬·해외 커버리지 한정</td>
+        <td class="c"><span class="hl hl-y">① 키워드·랭킹 강화</span></td>
+        <td>· 인기 키워드 랭킹 — 테마·기간 필터, 증감 추이 그래프<br>· 버티컬 키워드 랭킹 — 무신사·올리브영·다이소·오늘의집 / 해외 TTJ·라쿠텐<br>· 최적가 추천·알림 기능 추가<br>· 기존 키워드 인사이트 고도화 — 인사이트 요소 강화 · 네이버 API로 부재한 관련 지표 재적용</td>
+        <td>· 단순 랭킹 → 고객 인사이트 제공 전환<br>· 버티컬 차별화 · 재방문 가치 강화</td>
+        <td class="mut">· 아이템스카웃 — 랭킹 추적 · 익스텐션 "랭킹 찾기"<br>· 다시체크 — 경쟁강도 기준 공개(20/50/100) · 키워드 6탭<br>· 틱톡 크리에이티브 센터 — 랭킹 노출 UIUX (TTJ 벤치)<br>· <b>최적가 추천은 비교 5종 전부 미보유 — 자사 고유</b></td>
+      </tr>
+      <tr>
+        <td>분석 결과 외부 공유·확산 경로 없음, 수집 모델의 차단 리스크·진입장벽</td>
+        <td class="c"><span class="hl hl-p">② 벤치마킹·익스텐션 모델</span></td>
+        <td>· 폴센트 벤치마킹 — 키워드 앱 공유하기(URL) → 분석 인사이트·상세분석 유도<br>· 경쟁 셀러·1위 가격·최저가 알림<br>· 크롬 익스텐션 통합 상품 분석 고도화 — 수집이슈 1안 연계</td>
+        <td>· 공유 기반 오가닉 유입 신규 경로 확보<br>· 수집 안정화 — 일 2,200건 호출</td>
+        <td class="mut">· 폴센트 — 쇼핑 동선 '공유하기' 등록 → 기준별 가격 알림(최저가·하락·설정가·재입고)<br>· 아이템스카웃 — 익스텐션 백그라운드 수집 (네이버 제한 환경 동작 확인)<br>· 다시체크 — 확장이 핵심 데이터 엔진 (재고 추적·Wing PV)</td>
+      </tr>
+      <tr>
+        <td>초보 셀러 온보딩·실전 가이드 부재 — 가입 후 활용 경로 없이 이탈</td>
+        <td class="c"><span class="hl hl-g">③ 셀러 온보딩·가이드</span></td>
+        <td>· 셀러 사용 가이드 UI — 환경 모션·메시지 톡<br>· 초보셀러 실전 코스 — 데모 체험·셀픽 테스트 계정 (셀링스파크 연계 예정)<br>· 커뮤니티 운영 — 카카오 오픈채팅·라이브방송</td>
+        <td>· 가입 → 활성 전환·리텐션 개선<br>· 셀링스파크 도입 브릿지</td>
+        <td class="mut">· 다시체크 — 가이드 8섹션 · 검색 유입형 FAQ 37건<br>· 판다랭크 — 컨설팅 제공<br>· <b>데모 체험·테스트 계정형 실전 코스는 비교군 미보유 — 차별화 여지</b></td>
+      </tr>
+      <tr>
+        <td>발행 콘텐츠·데이터 자산이 서비스 내부와 미연계 — 유입 자산의 전환 연결 미흡</td>
+        <td class="c"><span class="hl hl-b">④ 콘텐츠·데이터 연계</span></td>
+        <td>· K트렌드 정기 리포트 — 월·분기, PDF/뉴스레터 자사 배포<br>· 해외 소싱사이트 연계 — TTJ 대비 일본<br>· 경쟁 셀러 광고 분석 — 검색기반·광고기반 수급</td>
+        <td>· 콘텐츠 자산 → 서비스 유입·재방문 트리거<br>· TTJ 연동 선행 준비</td>
+        <td class="mut">· 판다랭크 — 판다 AI 콘텐츠 생성(상세페이지·블로그·SNS)<br>· 트렌디어 — 한·중·일 트렌드 리포트<br>· 불사자 — 광고 ROAS 비교 / Seller APP — AI 광고 자동화</td>
+      </tr>
+      <tr>
+        <td>네이버 API 지표 부재로 아이템랭킹·체험 기능 제한 — 상품 분석 진입 동선(즉시 분석) 부재</td>
+        <td class="c"><span class="hl hl-o">⑤ 체험형 서비스 강화</span></td>
+        <td>· 아이템랭킹 고도화 — 네이버 API로 부재한 지표 보완, 자사/경쟁사 랭킹 트래킹 (의장챌린지 폴센트 벤치 요소 연계)<br>· 최적가 기능 고도화 — 플랫폼 3사(네이버·쿠팡·11번가) 지원<br>· 상품 상세 복사 → 즉시 상품 분석 서비스 (폴센트 차용 · 익스텐션 기반 기술 필요)</td>
+        <td>· 분석 진입 마찰 제거 → 체험 기반 락인<br>· 자사/경쟁사 랭킹 트래킹으로 재방문 상시화<br>· 의장챌린지(폴센트 벤치마킹) 실행 연계</td>
+        <td class="mut">· 폴센트 — '공유하기' → 즉시 등록·추적 (진입 최소화 UX, 차용 원본)<br>· 다시체크 — 판매량·매출 추정(7일·재구매) — <b>자사 미보유 갭</b><br>· 아이템스카웃 — 익스텐션 설치 시 동일 화면 데이터 채움</td>
+      </tr>
+      <tr>
+        <td>소싱(사입) 단계 기능 부재 — 분석(셀부)과 판매(셀스) 사이 연결 고리 없음</td>
+        <td class="c"><span class="hl hl-r">⑥ 소싱 기능 (대량 소싱·분석)</span></td>
+        <td>· 대량 소싱 기능 — 셀링스파크 연계 지점 확보 (셀링스파크로 보내기 or 해당 화면 탑재)<br>· 소싱 분석 기능 — 도매 채널별 아이템 검색 · 소싱 트렌드 체크 · 소싱 스크랩<br>· 소싱 채널 API 연동 — 도매꾹 · 1688 · 기타</td>
+        <td>· 분석 → 소싱 → 판매 풀퍼널 완성 (셀부–셀스 연결 고리)<br>· 부가 서비스(소싱 번역기·아이템 분석기) 유료화 시너지</td>
+        <td class="mut">· <b>1688 소싱 = 직접 경쟁 4종 공통 표준</b> — 아이템스카웃 · 판다랭크 · 셀링하니(AI 번역) · 셀록홈즈<br>· 불사자 — 타오바오·알리 소싱 → AI 상세페이지 번역 → 5개 마켓 원클릭 등록 (예상 플로우와 동일 구조, 이용 2.3만+)<br>· 자사 미보유 — 벤치 보고서 "대응 방향 결정" 보류 항목</td>
+      </tr>
+    </table>
+
+    <p class="note">유사업체 사례 출처 — <a href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EC%9C%A0%EC%82%AC%EC%84%9C%EB%B9%84%EC%8A%A4_%EB%B2%A4%EC%B9%98%EB%A7%88%ED%82%B9_%EB%B3%B4%EA%B3%A0%EC%84%9C.html" target="_blank" rel="noopener">유사서비스 벤치마킹 보고서 (8/13 · 25종+3종)</a> · <a href="https://sulkooworks-commits.github.io/sellingbooster/%EB%8B%A4%EC%8B%9C%EC%B2%B4%ED%81%AC_%EA%B2%BD%EC%9F%81%EB%B6%84%EC%84%9D_%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EB%B9%84%EA%B5%90%EA%B2%80%ED%86%A0.html" target="_blank" rel="noopener">다시체크 경쟁 분석 (8/27)</a></p>
 
     <h3>요소 그룹핑 (하이라이트 색상 기준)</h3>
     <div class="ideawrap">
