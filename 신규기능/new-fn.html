@@ -164,6 +164,9 @@ td .mut{color:var(--sub);font-size:12.3px}
 .btn.sec{background:#fff;border-color:rgba(30,37,50,0.18);color:var(--ink)}
 .btn.tl{background:var(--teal);color:#fff}
 .btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.pilot{display:inline-flex;align-items:center;gap:6px;font-size:12.3px;font-weight:800;color:var(--teal);background:var(--teal-soft);border:1px solid rgba(0,177,189,0.4);border-radius:9px;padding:6px 13px;text-decoration:none}
+.pilot:hover{background:var(--teal);color:#fff}
+.pilot::before{content:"↗";font-weight:800}
 
 /* input mock */
 .inp{display:flex;gap:8px;align-items:center}
@@ -636,7 +639,7 @@ footer{margin-top:44px;text-align:center;font-size:12px;color:#A6ACB8}
       <dt>방안</dt>
       <dd>① 소싱 분석 — 도매 채널별 아이템 검색 · 소싱 트렌드 체크 · 소싱 스크랩 ② 대량 소싱 — 셀링스파크 연계 지점 확보(스파크로 보내기 or 해당 화면 탑재) ③ 소싱 채널 API 연동 — 도매꾹 · 1688 · 기타.</dd>
       <dt>기대효과</dt>
-      <dd>분석 → 소싱 → 판매 풀퍼널 완성(셀부–셀스 연결 고리) · 유료 부가서비스(소싱 번역기·아이템 분석기)와 수익화 시너지.</dd>
+      <dd>분석 → 소싱 → 판매 풀퍼널 완성(셀부–셀스 연결 고리) · 유료 부가서비스(소싱 번역기·아이템 분석기 — 파일럿 페이지 §4 바로가기)와 수익화 시너지.</dd>
       <dt>선결·검토</dt>
       <dd>통합(아젠다 2) 화면 체계 확정 후 탑재 위치 결정 · 소싱 채널 API 계약·연동 범위 · 벤치 보고서 보류 항목 "대응 방향 결정" 선행.</dd>
     </dl>
@@ -773,7 +776,12 @@ footer{margin-top:44px;text-align:center;font-size:12px;color:#A6ACB8}
       <tr><td class="c" rowspan="2">추가<br>아이디에이션</td><td>광고 계산기</td><td>광고비·수익 시뮬레이션 계산기로 승화 — <b>선결: 커머스별 광고 정책 러닝</b></td><td class="c"><span class="hl hl-o">⑤</span> <span class="hl hl-b">④</span></td></tr>
       <tr><td>커머스별 SEO 솔루션</td><td>플랫폼별 검색 노출 최적화(상품명·태그·키워드) 가이드/도구화</td><td class="c"><span class="hl hl-y">①</span></td></tr>
       <tr><td class="c" rowspan="2">셀링스파크<br>연계</td><td>스파크 셀러 통합 분석 화면</td><td>유사 상품·사업자·랭킹/가격 분석 통합 화면 — 체험 기능으로 차별화</td><td class="c"><span class="hl hl-o">⑤</span> 아젠다 2</td></tr>
-      <tr><td>부가 서비스 (유료)</td><td>대표 언급(9/8) — <b>소싱 번역기 · 아이템 분석기</b>(이미지 첨부 분석). 상용화(수익 모델 라인)와 연동 검토</td><td class="c">수익 모델</td></tr>
+      <tr><td>부가 서비스 (유료)</td><td>대표 언급(9/8) — <b>소싱 번역기 · 아이템 분석기</b>(이미지 첨부 분석). 파일럿 페이지 제작 완료
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin:8px 0 7px">
+          <a class="pilot" href="https://sulkooworks-commits.github.io/sellingbooster/%EC%8B%A0%EA%B7%9C%EA%B8%B0%EB%8A%A5/detail-img.html" target="_blank" rel="noopener">소싱 번역기 파일럿</a>
+          <a class="pilot" href="https://sulkooworks-commits.github.io/sellingbooster/%EC%8B%A0%EA%B7%9C%EA%B8%B0%EB%8A%A5/item-analyzer.html" target="_blank" rel="noopener">아이템 분석기 파일럿</a>
+        </div>
+        <span class="mut">비고 — 셀부·셀파 연계 가능 기능. 9/8 대표 언급 부가서비스(유료화 모델)로 고려해볼 만함 — <b>크레딧비 + 사용수수료</b> 과금 구조 검토</span></td><td class="c">수익 모델</td></tr>
     </table>
   </div>
 
