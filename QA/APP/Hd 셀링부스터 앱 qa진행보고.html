@@ -129,15 +129,16 @@ body.pdf-mode #tocBtn,body.pdf-mode #tocPanel{display:none!important}
     <div class="sumrow"><b>대응 방향</b><span>
       · 미할당 29장 — 개발 할당 촉진<br>
       · 작업 완료 20장 — 검수 회전<br>
-      · 재확인 대기 9건 — 차기 빌드(1.0.0(12) / sb_260904.apk) 일괄 재검<br>
+      · 재확인 대기 9건 — 차기 빌드(1.0.0(16) / sb_260910) 일괄 재검<br>
       · <span class="ul">9/11(금) QA 종료 → 오픈 1안 9/16(수) · 2안 9/30(수)</span></span></div>
     <div class="sumrow"><b>현재 빌드<br><small style="font-weight:700;color:#64748B">(9/4 기준)</small></b><span>
-      · iOS — 운영서버 <b>1.0.0 (11)</b> · 개발서버 <b>1.0.0 (12)</b><br>
-      · AOS — 운영서버 <b>sb_260904.apk</b> · 개발서버 <b>sb_dev_260904.apk</b><br>
+      · iOS — 운영서버 <b>1.0.0 (11)</b> · 개발서버 <b>1.0.0 (16)</b><br>
+      · AOS — 운영서버 <b>sb_260904.apk</b> · 개발서버 <b>sb_260910</b><br>
       · 비고: 아사나 최종 표기된 기준으로 이슈카드 현행 상태 표기</span></div>
   </div>
   <div class="grid2">
     <div class="lb"><div class="t">진척 포인트</div><ul>
+      <li><span class="ul">9/2 앱스토어 입점심사 확인 완료 (iOS·AOS)</span> — QA 정상 완료 시 1안 일정으로 오픈 가능</li>
       <li>7개 시트(A0~A3·A5~A7) 1회전 완료 — 결함·요청 전건 카드화</li>
       <li>iOS 4개 빌드 순환 검증, 공통 영역 2회 재검 완료</li>
       <li>검색·알림·팝업·에러 처리 신규 영역 검증 완료</li>
@@ -201,7 +202,7 @@ body.pdf-mode #tocBtn,body.pdf-mode #tocPanel{display:none!important}
     <tr><td class="l">사전검증 (스모크·TC 설계·보안 스캔)</td><td>~8/20 (목)</td><td><span class="pill p-done">완료</span></td><td class="l">TC 1.0 설계 착수, MobSF·Robo 1회 수행</td></tr>
     <tr><td class="l">입점 심사 승인</td><td>iOS ~8/31 · AOS ~9/2</td><td><span class="pill p-done">완료</span></td><td class="l">양 스토어 심사 승인 완료 — 오픈 선행 조건 충족</td></tr>
     <tr class="crit"><td class="l">TC 1.0 — 개발 QA</td><td><span class="mark">진행 중 ~9/9 (수)</span></td><td><span class="pill p-imp">진행 중</span></td><td class="l">현행 443행 · 발행 카드 109장, 신규 빌드 재검 회전</td></tr>
-    <tr><td class="l">TC 1.5 — 재검증(회귀) · 팀원 검증</td><td>9/7 (월) ~ 9/9 (수)</td><td><span class="pill p-chk">예정</span></td><td class="l">체크 기입: T열(디자인)·U열(마케터) 활용 · 상세 내용은 별도 열 없이 K열 추가 기재 · 1.0 종료 후 단계적 요청 예정</td></tr>
+    <tr><td class="l">TC 1.5 — 재검증(회귀) · 팀원 검증</td><td>9/7 (월) ~ 9/9 (수)</td><td><span class="pill p-imp">진행 중</span></td><td class="l">체크 기입: T열(디자인)·U열(마케터) 활용 · 상세 내용은 별도 열 없이 K열 추가 기재 · 1.0 종료 후 단계적 요청 예정</td></tr>
     <tr><td class="l">TC 2.0 — 외부 인력 · 실원 검증</td><td>9/10 (목) ~ 9/11 (금)</td><td><span class="pill p-chk">예정</span></td><td class="l">축약본 — 기본 동작·중요 기능·이전 QA 이슈 위주, 쉬운 가이드로 재작성</td></tr>
     <tr><td class="l">사내 이벤트 검증 · 대표 보고</td><td>일정 재설정</td><td><span class="pill p-na">연기</span></td><td class="l">일정 연기 필요 — 재검증 진행 상황 기준 재조율</td></tr>
     <tr><td class="l">QA 종료 · 실장 보고</td><td>9/11 (금)</td><td><span class="pill p-chk">예정</span></td><td class="l">통과율 기준 릴리즈 판정, 잔여 M·L 오픈 후 처리 합의</td></tr>
@@ -338,12 +339,12 @@ body.pdf-mode #tocBtn,body.pdf-mode #tocPanel{display:none!important}
   <h2>배포 버전 커버리지</h2>
   <div class="grid2">
     <div class="lb"><div class="t">검증 이력</div><ul>
-      <li>iOS: 1.0.0(5) → (10) → (11) → (12) 4개 빌드 순환</li>
-      <li>AOS: sb_260824 단일 빌드 검증, sb_260904.apk 전환 예정</li>
+      <li>iOS: 1.0.0(5) → (10) → (11) → (12) → (14) → (16) 6개 빌드 순환</li>
+      <li>AOS: sb_260824 → sb_260904.apk → sb_dev_260908.apk → sb_260910 순환</li>
       <li>A2 공통 영역은 (11)·(12) 재검 완료, 6차 점검 변동 0</li>
     </ul></div>
     <div class="lb"><div class="t">차기 라운드 기준</div><ul>
-      <li>iOS 1.0.0(12) · AOS sb_260904.apk 병행 검증</li>
+      <li>iOS 1.0.0(16) · AOS sb_260910 병행 검증</li>
       <li>A0·A1·A7 잔여 카드 (5) 빌드분 — 신규 빌드 재현 확인 필요</li>
       <li>푸시 5건·에러 3건은 설정 확인 후 일괄 재검</li>
     </ul></div>
@@ -356,10 +357,10 @@ body.pdf-mode #tocBtn,body.pdf-mode #tocPanel{display:none!important}
   <div class="tbox"><table>
     <colgroup><col style="width:14%"><col style="width:16%"><col style="width:20%"><col style="width:50%"></colgroup>
     <tr><th>버전</th><th>대상</th><th>일정</th><th>내용</th></tr>
-    <tr class="crit"><td class="em">TC 1.0</td><td>개발 QA</td><td><span class="mark">진행 중 ~9/9 (수)</span></td><td class="l">현행 443행(취합 424행 · A9 제외) · 발행 카드 109장 — 7개 시트 1회전 완료(A4·A8 잔여), 신규 빌드 (12)/sb_260904.apk 재검 회전</td></tr>
+    <tr class="crit"><td class="em">TC 1.0</td><td>개발 QA</td><td><span class="mark">진행 중 ~9/9 (수)</span></td><td class="l">현행 443행(취합 424행 · A9 제외) · 발행 카드 109장 — 7개 시트 1회전 완료(A4·A8 잔여), 신규 빌드 (16)/sb_260910 재검 회전</td></tr>
     <tr><td class="em">TC 1.5</td><td>마케터 · 디자이너<br><small style="color:#64748B">재검증(회귀) · 팀원 검증</small></td><td>9/7 (월) ~ 9/9 (수)</td><td class="l">체크 기입 T열(디자인)·U열(마케터) 활용, 상세 내용은 별도 열 없이 K열 추가 기재 — 1.0 종료 후 단계적 요청 예정</td></tr>
     <tr><td class="em">TC 2.0</td><td>외부 인력<br><small style="color:#64748B">실원 검증</small></td><td>9/10 (목) ~ 9/11 (금)</td><td class="l">축약본 — 기본 동작·중요 기능·이전 QA 이슈 위주 선별, 비전문가용 쉬운 가이드로 재작성</td></tr>
-    <tr><td class="em">2차 구축</td><td>운영 · 통합</td><td>10월 ~ 12월</td><td class="l">운영 고도화 및 셀링스파크 통합을 위한 2차 구축 진행</td></tr>
+    <tr><td class="em">2차 구축</td><td>운영 · 통합</td><td>10월 ~ 11월</td><td class="l">운영 고도화 및 셀링스파크 통합을 위한 2차 구축 진행</td></tr>
   </table></div>
   <p><small class="src">1.0과 1.5는 9/7~9/9 병행 구간 — 1.0 검수 회전과 1.5 T·U열 기입이 동일 워크북에서 동시 운용</small></p>
 </div>
@@ -371,7 +372,7 @@ body.pdf-mode #tocBtn,body.pdf-mode #tocPanel{display:none!important}
     <colgroup><col style="width:8%"><col style="width:40%"><col style="width:22%"><col style="width:30%"></colgroup>
     <tr><th>순번</th><th>액션</th><th>담당</th><th>목표</th></tr>
     <tr><td>1</td><td class="l">QA 라인 대기 29장 개발 할당 — 인증 오류 3건 우선</td><td>기획 → 앱 개발</td><td class="l">이번 주 내 할당 완료</td></tr>
-    <tr><td>2</td><td class="l">작업 완료 20장 신규 빌드 검수 (12) / sb_260904.apk</td><td>기획(QA)</td><td class="l">차기 TC 업로드 시 반영</td></tr>
+    <tr><td>2</td><td class="l">작업 완료 20장 신규 빌드 검수 (16) / sb_260910</td><td>기획(QA)</td><td class="l">차기 TC 업로드 시 반영</td></tr>
     <tr><td>3</td><td class="l">다이렉트 링크 방식 확정 (미적용 3건 해소)</td><td>내부 협의</td><td class="l">출시 전 방식 결정</td></tr>
     <tr><td>4</td><td class="l">푸시 알림 설정 확인 후 재확인 5건 일괄 재검</td><td>기획 + 앱 개발</td><td class="l">푸시 인프라 확정 후 즉시</td></tr>
     <tr><td>5</td><td class="l">TC 1.5(마케터·디자이너) → 2.0(외부 인력) 전환</td><td>기획</td><td class="l">1.5: 9/7~9/9 · 2.0: 9/10~9/11</td></tr>
