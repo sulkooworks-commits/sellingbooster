@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-10T10:15:16+09:00",
+  "generatedAt": "2026-09-10T10:16:31+09:00",
   "generatedBy": "github-actions/asana-sync",
   "source": {
     "workspace": "헥토데이터",
@@ -4340,27 +4340,6 @@
       "role": "마케팅",
       "tasks": [
         {
-          "gid": "1216807137532296",
-          "name": "SEO 하이훅 개선 요청사항",
-          "type": "task",
-          "section": "🚨지연",
-          "due_on": "2026-07-28",
-          "start_on": null,
-          "modified_at": "2026-07-28T15:55:27.933Z",
-          "created_at": "2026-07-23T23:51:00.811Z",
-          "owner": "안지호",
-          "completed": false,
-          "completed_at": null,
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1216807137532296",
-          "fields": {
-            "담당 파트*": "마케팅"
-          },
-          "subtasks": 0,
-          "followers": [
-            "이슬기"
-          ]
-        },
-        {
           "gid": "1218091787078697",
           "name": "META ga4연동 여부 문의",
           "type": "task",
@@ -4638,6 +4617,27 @@
             "담당 파트*": "마케팅",
             "분류": "행정지원",
             "우선순위(차수)": "운영"
+          },
+          "subtasks": 0,
+          "followers": [
+            "이슬기"
+          ]
+        },
+        {
+          "gid": "1216807137532296",
+          "name": "SEO 하이훅 개선 요청사항",
+          "type": "task",
+          "section": "완료",
+          "due_on": "2026-07-28",
+          "start_on": null,
+          "modified_at": "2026-09-10T01:16:13.340Z",
+          "created_at": "2026-07-23T23:51:00.811Z",
+          "owner": "안지호",
+          "completed": true,
+          "completed_at": "2026-09-10T01:16:11.977Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1216807137532296",
+          "fields": {
+            "담당 파트*": "마케팅"
           },
           "subtasks": 0,
           "followers": [
@@ -5318,27 +5318,6 @@
       "role": "공통",
       "tasks": [
         {
-          "gid": "1216807137532296",
-          "name": "SEO 하이훅 개선 요청사항",
-          "type": "task",
-          "section": "🚨지연",
-          "due_on": "2026-07-28",
-          "start_on": null,
-          "modified_at": "2026-07-28T15:55:27.933Z",
-          "created_at": "2026-07-23T23:51:00.811Z",
-          "owner": "안지호",
-          "completed": false,
-          "completed_at": null,
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1216807137532296",
-          "fields": {
-            "담당 파트*": "마케팅"
-          },
-          "subtasks": 0,
-          "followers": [
-            "이슬기"
-          ]
-        },
-        {
           "gid": "1216739316200412",
           "name": "신규회원 유입 경로 확인 문항 추가 요청",
           "type": "task",
@@ -5955,6 +5934,27 @@
           "subtasks": 14,
           "followers": [
             "안지호"
+          ]
+        },
+        {
+          "gid": "1216807137532296",
+          "name": "SEO 하이훅 개선 요청사항",
+          "type": "task",
+          "section": "완료",
+          "due_on": "2026-07-28",
+          "start_on": null,
+          "modified_at": "2026-09-10T01:16:13.340Z",
+          "created_at": "2026-07-23T23:51:00.811Z",
+          "owner": "안지호",
+          "completed": true,
+          "completed_at": "2026-09-10T01:16:11.977Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1216807137532296",
+          "fields": {
+            "담당 파트*": "마케팅"
+          },
+          "subtasks": 0,
+          "followers": [
+            "이슬기"
           ]
         },
         {
