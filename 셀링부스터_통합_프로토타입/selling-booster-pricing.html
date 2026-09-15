@@ -38,6 +38,26 @@ img{max-width:100%;display:block}
 .fee-tb td{padding:16px 18px;border:1px solid #E9EEF0;font-size:13.5px;color:#5B6572}
 .fee-tb td.k{text-align:center;font-weight:800;color:#1E2532;background:#FAFCFD}
 .fee-tb td b{color:#00B1BD;font-weight:800}
+.fee-tb th.hd{background:#1E2532;color:#fff;border-color:#2A3341}
+.fee-tb th.hl{background:#00B1BD;color:#fff;border-color:#00B1BD}
+.fee-tb td.pm{text-align:left;color:#1E2532;font-weight:600}
+.fee-tb td.v{text-align:center;font-weight:800;color:#00B1BD;background:#F3FBFC}
+.fee-tb td.v.n{color:#5B6572;background:#FAFCFD}
+.note.left{text-align:left;margin-top:12px;line-height:1.8}
+/* 영중소 우대 수수료 */
+.pr-sme{background:#fff;border:1px solid #E9EEF0;border-radius:22px;padding:44px 40px 34px;margin-top:24px;box-shadow:0 6px 24px rgba(30,37,50,.05)}
+.pr-sme h2{font-size:24px;font-weight:800;text-align:center;letter-spacing:-.02em}
+.pr-sme .lead{text-align:center;color:#5B6572;margin:12px 0 26px;font-size:14.5px}
+.sme-grid{display:grid;grid-template-columns:repeat(6,1fr);border:1px solid #E9EEF0;border-radius:16px;overflow:hidden}
+.sme-c{padding:24px 10px;text-align:center;border-right:1px solid #EEF2F4;background:#fff}
+.sme-c:last-child{border-right:none}
+.sme-c .h{font-size:13.5px;font-weight:800;color:#1E2532}
+.sme-c small{display:block;font-size:11px;color:#98A2AE;font-weight:600;margin-top:6px;line-height:1.4}
+.sme-c .dn{font-size:12px;font-weight:800;color:#E0393E;margin-top:14px}
+.sme-c .rt{font-size:23px;font-weight:800;margin-top:6px;letter-spacing:-.02em;color:#1E2532}
+.sme-c.na{background:#F7FAFB}
+.sme-c.na .dn{color:#98A2AE}
+.sme-c.na .rt{color:#A6B0BB}
 .pr-cta{margin-top:36px}
 .cta-simple{background:#fff;border:1px solid #E9EEF0;border-radius:22px;padding:34px 38px;display:flex;align-items:center;gap:24px;box-shadow:0 6px 24px rgba(30,37,50,.05)}
 .cta-simple h3{font-size:21px;font-weight:800;letter-spacing:-.02em}
@@ -79,7 +99,17 @@ img{max-width:100%;display:block}
 .calc-actions .line{border:1.5px solid #00B1BD;color:#00B1BD;background:#fff;cursor:pointer}
 .calc-actions .line:hover{background:#E5F7F8}
 
+@media (max-width:860px){
+  .sme-grid{grid-template-columns:repeat(3,1fr)}
+  .sme-c:nth-child(3n){border-right:none}
+  .sme-c:nth-child(-n+3){border-bottom:1px solid #EEF2F4}
+}
 @media (max-width:720px){
+  .pr-fee,.pr-sme{padding:32px 20px 26px}
+  .fee-tb th,.fee-tb td{padding:12px 8px;font-size:12.5px}
+  .sme-grid{grid-template-columns:repeat(2,1fr)}
+  .sme-c:nth-child(3n){border-right:1px solid #EEF2F4}
+  .sme-c:nth-child(2n){border-right:none}
   .cmp{grid-template-columns:1fr}
   .cta-simple{flex-direction:column;text-align:center}
   .cta-simple .btn-solid{margin-left:0}
@@ -349,14 +379,36 @@ img{max-width:100%;display:block}
     <h2>결제 수수료 안내</h2>
     <p class="lead">PG 가입비는 무료로 지원하며 타사 대비 저렴한 결제 수수료를 제공합니다.</p>
     <table class="fee-tb">
-      <colgroup><col style="width:28%"><col style="width:72%"></colgroup>
-      <thead><tr><th>구분</th><th>수수료</th></tr></thead>
+      <colgroup><col style="width:20%"><col style="width:40%"><col style="width:20%"><col style="width:20%"></colgroup>
+      <thead>
+        <tr><th class="hd">구분</th><th class="hd">결제수단</th><th class="hl">사업자</th><th class="hl">비사업자</th></tr>
+      </thead>
       <tbody>
-        <tr><td class="k">사업자(개인/법인)</td><td>신용카드/간편결제 : <b>3.4%</b> &nbsp; 계좌이체 : <b>2.00%</b> &nbsp; 가상계좌 : <b>200원</b></td></tr>
-        <tr><td class="k">비사업자</td><td>신용카드/간편 결제 : <b>4.0%</b> &nbsp; 계좌이체 : <b>2.00%</b> &nbsp; 가상계좌 : <b>200원</b></td></tr>
+        <tr>
+          <td class="k">간편현금결제</td>
+          <td class="pm">내통장결제 (결제)</td>
+          <td class="v">2.00%</td><td class="v n">2.00%</td>
+        </tr>
+        <tr>
+          <td class="k" rowspan="3">PG 전자결제</td>
+          <td class="pm">신용카드</td>
+          <td class="v">3.30%</td><td class="v n">4.00%</td>
+        </tr>
+        <tr><td class="pm">가상계좌 (결제)</td><td class="v">220원/건</td><td class="v n">220원/건</td></tr>
+        <tr><td class="pm">가상계좌 (환불)</td><td class="v">50원/건</td><td class="v n">50원/건</td></tr>
+        <tr>
+          <td class="k" rowspan="6">PG 간편결제</td>
+          <td class="pm">카카오페이 (신용카드)</td>
+          <td class="v">3.30%</td><td class="v n">4.00%</td>
+        </tr>
+        <tr><td class="pm">카카오페이 (머니/포인트)</td><td class="v">3.30%</td><td class="v n">4.00%</td></tr>
+        <tr><td class="pm">네이버페이 (카드)</td><td class="v">3.30%</td><td class="v n">4.00%</td></tr>
+        <tr><td class="pm">네이버페이 (포인트)</td><td class="v">3.30%</td><td class="v n">4.00%</td></tr>
+        <tr><td class="pm">토스페이 (신용카드)</td><td class="v">3.30%</td><td class="v n">4.00%</td></tr>
+        <tr><td class="pm">토스페이 (토스머니/포인트)</td><td class="v">3.30%</td><td class="v n">4.00%</td></tr>
       </tbody>
     </table>
-    <p class="note right">*VAT 별도</p>
+    <p class="note left">* VAT 별도</p>
     <div class="fee-calc">
       <p>내 매출 기준으로 정산 금액이 얼마나 차이 나는지 확인해 보세요.</p>
       <button class="btn-solid" onclick="openCalc(event)">
@@ -364,6 +416,21 @@ img{max-width:100%;display:block}
         정산 계산기
       </button>
     </div>
+  </section>
+
+  <!-- ②-2 영중소 우대 수수료 (PPT 4p · 프로토타입 v1.2 내용 반영) -->
+  <section class="pr-sme">
+    <h2>영중소 우대 수수료</h2>
+    <p class="lead">자영업자, 소상공인의 부담 경감을 위해 연 매출에 따른 수수료 우대를 제공합니다.</p>
+    <div class="sme-grid">
+      <div class="sme-c"><div class="h">영세<small>연 매출 3억 이하</small></div><div class="dn">1.5% ↓</div><div class="rt">1.9%</div></div>
+      <div class="sme-c"><div class="h">중소 1<small>중소 · 연 3~5억</small></div><div class="dn">0.95% ↓</div><div class="rt">2.45%</div></div>
+      <div class="sme-c"><div class="h">중소 2<small>준중소 · 연 5~10억</small></div><div class="dn">0.8% ↓</div><div class="rt">2.6%</div></div>
+      <div class="sme-c"><div class="h">중소 3<small>중견 · 연 10~30억</small></div><div class="dn">0.55% ↓</div><div class="rt">2.85%</div></div>
+      <div class="sme-c na"><div class="h">일반<small>연 30억 이상</small></div><div class="dn">미적용</div><div class="rt">3.4%</div></div>
+      <div class="sme-c na"><div class="h">신규<small>등록 1년 이내</small></div><div class="dn">미적용</div><div class="rt">3.4%</div></div>
+    </div>
+    <p class="note left">- 사업자(개인 / 법인)만 해당됩니다.<br>- 신용카드 결제만 적용 대상이며, 카카오 머니 / 네이버계좌 등 현금성 결제는 해당되지 않습니다.</p>
   </section>
 
   <!-- ③ 하단 CTA 2단 -->
