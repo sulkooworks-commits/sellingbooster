@@ -101,6 +101,23 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .btn-gray:hover{background:#E2E7EA}
 
 /* ---------- 셀러 온보딩: 판매자 정보 등록 (2단계) ---------- */
+/* 업종심사 · 유의/불가업종 팝업 */
+.biz-note{background:#F7FAFB;border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+  font-size:12.5px;color:var(--ink-sub);line-height:1.8}
+.biz-note em{font-style:normal;color:#D93A3A;font-weight:800}
+.f-btn.wide{margin-top:10px;padding:0 18px}
+.opt{color:var(--ink-weak);font-weight:700;margin-left:4px}
+.biz-dim{position:fixed;inset:0;background:rgba(15,20,28,.55);display:none;z-index:200;
+  align-items:center;justify-content:center;padding:20px}
+.biz-dim.on{display:flex}
+.biz-win{background:#fff;border-radius:18px;width:100%;max-width:540px;max-height:82vh;overflow:auto;padding:28px 30px}
+.biz-win h3{font-size:19px;font-weight:800;letter-spacing:-.02em}
+.biz-win .biz-lead{font-size:13px;color:var(--ink-sub);margin-top:10px;line-height:1.7}
+.biz-win h4{font-size:14px;font-weight:800;margin-top:22px}
+.biz-win h4 .rd{color:#D93A3A}
+.biz-win ul{list-style:none;margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+.biz-win li{font-size:12.5px;font-weight:700;color:var(--ink-sub);background:#F4F7F9;border-radius:999px;padding:7px 13px}
+.biz-win .warn{margin-top:20px;font-size:11.5px;color:var(--ink-weak);line-height:1.8}
 .seg-tabs{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:12px 12px 0 0;overflow:hidden}
 .seg-tabs button{height:56px;font-size:15px;font-weight:800;color:var(--ink-weak);background:#F5F7F9;transition:.15s}
 .seg-tabs button.on{background:var(--surface);color:var(--primary);box-shadow:inset 0 -3px 0 var(--primary)}
@@ -490,6 +507,9 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
         <label class="tm-row"><input type="checkbox" class="sl-term sl-req sl-sub" onchange="slSync()"> [필수] 개인정보의 보유 및 이용기간<a class="view" href="#">보기</a></label>
       </div>
 
+      <label class="tm-row"><input type="checkbox" class="sl-term" onchange="slSync()"> 마케팅 정보 수신 동의<span class="opt">(선택)</span></label>
+      <div class="tm-box">마케팅 정보를 수신하시면 사업에 도움이 되는 다양한 정보를 받아 보실 수 있습니다. 마케팅 정보 수신 동의는 [환경 설정 &gt; 알림 설정]에서 변경할 수 있습니다.</div>
+
       <div class="form-actions">
         <button class="btn btn-line" onclick="resetPick()">다시 선택하기</button>
         <button class="btn btn-primary" onclick="goSellerInfo()">다음</button>
@@ -537,6 +557,13 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
           </div></div>
         <div class="frm-row"><div class="th">전자계약<span class="star">★</span></div>
           <div class="td f-center"><button class="f-btn" id="btnContract" onclick="goContract()">전자계약 하러가기</button></div></div>
+        <div class="frm-row"><div class="th">업종심사</div>
+          <div class="td">
+            <div class="biz-note">판매자 정보 검토 및 간단한 업종 심사가 진행됩니다.<br>
+              <em>유의(위험) 업종</em>의 경우 추가 심사 및 결제 한도 제한이 있을 수 있으며,
+              <em>제한(불가) 업종</em>의 경우 이용이 불가할 수 있습니다.</div>
+            <button class="f-btn wide" onclick="openBizList()">유의 및 불가업종 보기</button>
+          </div></div>
       </div>
 
       <!-- 비사업자 폼 -->
@@ -559,11 +586,18 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
             <input class="fi" placeholder="기본 주소" readonly>
             <input class="fi" placeholder="상세 주소를 입력해 주세요.">
           </div></div>
+        <div class="frm-row"><div class="th">업종심사</div>
+          <div class="td">
+            <div class="biz-note">판매자 정보 검토 및 간단한 업종 심사가 진행됩니다.<br>
+              <em>유의(위험) 업종</em>의 경우 추가 심사 및 결제 한도 제한이 있을 수 있으며,
+              <em>제한(불가) 업종</em>의 경우 이용이 불가할 수 있습니다.</div>
+            <button class="f-btn wide" onclick="openBizList()">유의 및 불가업종 보기</button>
+          </div></div>
       </div>
 
       <div class="form-actions">
         <button class="btn btn-line" onclick="backToTerms()">이전</button>
-        <button class="btn btn-primary" onclick="finishSeller()">다음</button>
+        <button class="btn btn-primary" onclick="finishSeller()">완료</button>
       </div>
     </div>
 
@@ -669,10 +703,13 @@ function goContract(){
 }
 function finishSeller(){
   if(sellerTab==='biz' && !contractDone){ alert('전자계약을 완료하셔야 합니다.'); return; }
-  alert('판매자 정보가 등록되었습니다. 이제 판매하기 기능을 사용할 수 있습니다.');
+  alert('셀러 정보가 등록되었습니다. 맞춤형 환경으로 시작해 보세요!');
   showStep('stepDone');
 }
 function backToInfo(){ showStep('stepInfo'); }
+function openBizList(){ document.getElementById('bizDim').classList.add('on'); }
+function closeBizList(){ document.getElementById('bizDim').classList.remove('on'); }
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeBizList(); });
 function startSelling(){
   /* 완료 → 판매 대시보드 진입 */
   alert('설정이 완료되었습니다. 판매 관리를 시작해 보세요!');
@@ -683,6 +720,32 @@ document.addEventListener('click',function(e){
   if(w && !w.contains(e.target)) w.classList.remove('open');
 });
 </script>
+
+<!-- ================= 유의 및 불가업종 팝업 (온보딩 판매 6-7-1) ================= -->
+<div class="biz-dim" id="bizDim" onclick="if(event.target===this)closeBizList()">
+  <div class="biz-win" role="dialog" aria-modal="true" aria-label="유의 및 불가업종 안내">
+    <h3>유의 및 불가업종 안내</h3>
+    <p class="biz-lead">아래 업종은 가입 후 추가 심사가 진행되거나 서비스 이용이 제한될 수 있습니다.</p>
+
+    <h4><span class="rd">유의(위험)</span> 업종 — 추가 심사 · 결제 한도 제한</h4>
+    <ul>
+      <li>건강기능식품</li><li>의료기기</li><li>화장품 병행수입</li>
+      <li>여행 · 숙박 예약</li><li>티켓 · 상품권</li><li>구독 · 정기결제</li>
+      <li>고가 귀금속</li><li>중고 거래 중개</li>
+    </ul>
+
+    <h4><span class="rd">제한(불가)</span> 업종 — 이용 불가</h4>
+    <ul>
+      <li>주류 · 담배</li><li>의약품</li><li>성인용품</li>
+      <li>사행성 · 도박</li><li>가상자산</li><li>무기 · 총포류</li>
+      <li>대부 · 금융중개</li><li>유사수신 · 다단계</li>
+    </ul>
+
+    <p class="warn">※ 위 목록은 프로토타입 예시입니다. 최종 업종 분류 · 심사 기준은 정책 확정 후 반영됩니다.<br>
+      심사 결과에 따라 등록 후에도 판매가 중지될 수 있습니다.</p>
+    <div class="form-actions"><button class="btn btn-primary" onclick="closeBizList()">확인</button></div>
+  </div>
+</div>
 
 <!-- ================= 전체 플로우 보기 팝업 ================= -->
 <div class="flow-dim" id="flowDim" onclick="if(event.target===this)closeFlow()">
