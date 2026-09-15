@@ -847,6 +847,15 @@ body.sbm-lock{overflow:hidden}
 .tip-img::before{content:"";position:absolute;left:30px;top:-7px;width:13px;height:13px;background:#fff;
   border-left:1px solid var(--line);border-top:1px solid var(--line);transform:rotate(45deg)}
 .tip-img img{width:100%;display:block;border-radius:10px}
+/* 간편결제 브랜드 배지 */
+.pays{display:inline-flex;gap:4px;margin-left:8px;vertical-align:middle}
+.pay-n,.pay-k,.pay-t{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;
+  border-radius:50%;font-size:10.5px;font-weight:800;font-style:normal;line-height:1;vertical-align:middle}
+.pay-n{background:#03C75A;color:#fff}
+.pay-k{background:#FEE500;color:#3C1E1E}
+.pay-t{background:#0064FF;color:#fff}
+.fee-table td .pay-n.sm{width:16px;height:16px;font-size:9.5px;margin-left:6px}
+.fee-note .pay-n,.fee-note .pay-k,.fee-note .pay-t{width:16px;height:16px;font-size:9.5px;margin:0 2px}
 .fee-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .fee-table.cmp th,.fee-table.cmp td{padding:14px 10px;font-size:13.5px;white-space:nowrap;
   border-left:1px solid var(--line)}
@@ -1232,9 +1241,12 @@ body.sbm-lock{overflow:hidden}
             <td class="pm">3.10%</td><td class="pm">3.70%</td>
           </tr>
           <tr>
-            <td class="l">간편결제</td>
+            <td class="l">간편결제
+              <span class="pays"><i class="pay-n" title="네이버페이">N</i><i class="pay-k" title="카카오페이">K</i><i class="pay-t" title="토스페이">T</i></span>
+            </td>
             <td class="g">3.30%</td>
-            <td class="g">3.40%</td><td class="g">4.00%</td>
+            <td class="g">3.40%</td>
+            <td class="g">4.00%<i class="pay-n sm" title="네이버페이">N</i></td>
             <td class="sb">3.30%</td><td class="sb">3.90%</td>
             <td class="pm">3.10%</td><td class="pm">3.70%</td>
           </tr>
@@ -1255,7 +1267,8 @@ body.sbm-lock{overflow:hidden}
         </tbody>
       </table>
     </div>
-    <p class="fee-note">* 프로모션은 전 판매자 공통, 가입 후 6개월 적용 · 영중소 우대 대상은 영세 1.90%부터 적용<br>
+    <p class="fee-note">* 간편결제 = <i class="pay-n">N</i> 네이버페이 · <i class="pay-k">K</i> 카카오페이 · <i class="pay-t">T</i> 토스페이<br>
+      * 프로모션은 전 판매자 공통, 가입 후 6개월 적용 · 영중소 우대 대상은 영세 1.90%부터 적용<br>
       * 거래액 상위 셀러는 지금 내는 수수료보다 낮은 요율로 전담 매니저가 별도 상담해 드립니다</p>
 
 
