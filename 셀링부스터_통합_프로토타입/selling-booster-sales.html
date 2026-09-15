@@ -10,7 +10,7 @@
    SELLING BOOSTER — 판매하기 페이지 (와이어프레임 확정 반영)
    · 서브비주얼 + 스크롤 포커싱 탭 7종
    · 섹션: 즉시 판매 / 주문서 자동 생성 / PC·모바일 쇼핑몰 / 전용 관리자·앱 /
-           멀티링크 / 분석 판매 통합 / 하단 CTA 2단
+           멀티링크 / 분석 판매 통합 / 파는 데 필요한 건 다 있습니다 / 하단 CTA 2단
    · 이미지 요소: 와이어프레임 명세 라벨을 플레이스홀더에 표기
    ===================================================================== */
 :root{
@@ -114,6 +114,16 @@ section[id]{scroll-margin-top:calc(var(--header-h) + var(--tab-h))}
 .proc-card .ph{aspect-ratio:16/9;margin-top:auto}
 .proc-arrow{align-self:center;color:#C4CDD3;flex-shrink:0}
 
+/* 파는 데 필요한 건 다 있습니다 (8카드) */
+.feat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:44px}
+.fcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);
+  padding:26px 24px;box-shadow:var(--shadow)}
+.fcard .ico{display:flex;align-items:center;justify-content:center;width:44px;height:44px;
+  border-radius:14px;background:var(--card-soft);font-size:20px;margin-bottom:18px}
+.fcard h4{font-size:16px;font-weight:800;letter-spacing:-.02em}
+.fcard p{font-size:var(--fs-sm);color:var(--ink-sub);line-height:1.7;margin-top:10px}
+@media (max-width:1024px){.feat-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.feat-grid{grid-template-columns:1fr}}
 /* 하단 CTA 2단 */
 .cta-simple{border:1px solid var(--line);border-radius:var(--r-xl);padding:40px 44px;background:var(--surface);
   display:flex;align-items:center;gap:24px;box-shadow:var(--shadow)}
@@ -470,6 +480,23 @@ section[id]{scroll-margin-top:calc(var(--header-h) + var(--tab-h))}
         <p>실시간 순위와 매출<br>한곳에서 확인</p>
         <div class="ph" data-token="IMG/SHOT">이미지</div>
       </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ⑧ 파는 데 필요한 건 다 있습니다 (프로토 v1.2 반영) ================= -->
+<section id="allinone" class="section tint" style="padding-bottom:40px">
+  <div class="container">
+    <h2 class="sec-title">파는 데 필요한 건 다 있습니다</h2>
+    <div class="feat-grid">
+      <article class="fcard"><span class="ico">👤</span><h4>사업자 없이도 판매</h4><p>비사업자도 결제와 정산이 가능합니다. 요율만 다릅니다.</p></article>
+      <article class="fcard"><span class="ico">⚡</span><h4>PG 심사 없이 시작</h4><p>가입비 0원, 별도 심사 대기 없이 가입 즉시 결제를 받습니다.</p></article>
+      <article class="fcard"><span class="ico">📱</span><h4>셀러 관리자 앱</h4><p>앱으로 주문을 관리하고 새 주문은 실시간 푸시로 받습니다.</p></article>
+      <article class="fcard"><span class="ico">🚚</span><h4>배송비 세분화</h4><p>고정 · 수량구간 · 도서산간 차등까지 클릭 몇 번으로.</p></article>
+      <article class="fcard"><span class="ico">🔗</span><h4>링크 매출 리포트</h4><p>다른 멀티링크는 클릭만, 셀링부스터는 클릭 + 매출을 봅니다.</p></article>
+      <article class="fcard"><span class="ico">🛍️</span><h4>드래그&amp;드롭 쇼핑몰</h4><p>코드 없이 메인 화면 구성과 노출 순서를 직접 배치합니다.</p></article>
+      <article class="fcard"><span class="ico">🧾</span><h4>주문서 자동 생성</h4><p>공동구매 주문서를 따로 만들 필요가 없습니다.</p></article>
+      <article class="fcard"><span class="ico">📊</span><h4>분석하기 연동</h4><p>판매 데이터가 분석하기로 이어집니다.</p></article>
     </div>
   </div>
 </section>
