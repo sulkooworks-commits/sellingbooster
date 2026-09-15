@@ -846,6 +846,24 @@ body.sbm-lock{overflow:hidden}
 .tip-img::before{content:"";position:absolute;left:30px;top:-7px;width:13px;height:13px;background:#fff;
   border-left:1px solid var(--line);border-top:1px solid var(--line);transform:rotate(45deg)}
 .tip-img img{width:100%;display:block;border-radius:10px}
+.fee-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.fee-table.cmp th,.fee-table.cmp td{padding:14px 10px;font-size:13.5px;white-space:nowrap;
+  border-left:1px solid var(--line)}
+.fee-table.cmp th.l,.fee-table.cmp td.l{border-left:none;padding-left:18px;font-size:14px}
+.fee-table.cmp th.sub{font-size:12.5px;font-weight:700;padding:9px 10px}
+.fee-table th.g{background:#F2F4F6;color:#8A929C}
+.fee-table th.g.sub{background:#F8F9FA;color:#98A2AE}
+.fee-table td.g{background:#FAFBFC;color:#9AA3AD;font-weight:600}
+.fee-table td.na{color:#BCC3CA}
+.fee-table th.sb{background:var(--ink);color:#fff;border-left-color:#2A3341}
+.fee-table th.sb.sub{background:#3A4454;color:#D8DDE4}
+.fee-table td.sb{background:var(--card-soft);color:var(--ink);font-weight:700}
+.fee-table th.pm{background:var(--primary);color:#fff;border-left-color:var(--primary-dark)}
+.fee-table th.pm.sub{background:#1CC3CE;color:#fff}
+.fee-table td.pm{background:var(--primary-tint);color:var(--primary-dark);font-weight:800}
+.persona-card.hi{border:1.5px solid var(--primary);background:var(--primary-tint);
+  box-shadow:0 12px 32px rgba(0,177,189,.16)}
+.persona-card.hi .lead b{color:var(--primary-dark);font-weight:800}
 .mv-steps{display:flex;align-items:flex-start;gap:6px;margin-top:auto;padding-top:10px}
 .mv-steps .s{flex:1;text-align:center;font-size:11.5px;font-weight:700;color:var(--ink-sub);line-height:1.45}
 .mv-steps .ic{display:flex;align-items:center;justify-content:center;width:44px;height:44px;margin:0 auto 8px;
@@ -1109,19 +1127,6 @@ body.sbm-lock{overflow:hidden}
 
       <article class="try-card">
         <span class="tag t-teal">분석하기</span>
-        <h3>이 상품,<br><em>얼마에 팔아야 할까요?</em></h3>
-        <p class="d">키워드를 넣으면 검색량 · 경쟁강도 · 추천 판매가를 바로 보여드립니다.</p>
-        <div class="pv">
-          <div class="box"><span>월 검색량</span><b>184,000</b></div>
-          <div class="box"><span>경쟁강도</span><b>보통</b></div>
-          <div class="box hi"><span>추천 판매가</span><b>22,900원</b></div>
-          <div class="box hi"><span>이 가격이면</span><b>상위 20%</b></div>
-        </div>
-        <button class="btn btn-primary" onclick="openKW(event)">키워드 분석하기</button>
-      </article>
-
-      <article class="try-card">
-        <span class="tag t-teal">분석하기</span>
         <h3>이 상품,<br><em>어떤 이름으로 올릴까요?</em></h3>
         <p class="d">브랜드와 핵심 키워드만 넣으면 AI가 마켓별 상품명을 만들어 드립니다.</p>
         <div class="pv-name">
@@ -1133,16 +1138,16 @@ body.sbm-lock{overflow:hidden}
       </article>
 
       <article class="try-card">
-        <span class="tag t-violet">판매하기</span>
-        <h3>지금 내는 수수료,<br><em>얼마나 아낄 수 있을까요?</em></h3>
-        <p class="d">월 거래액과 현재 요율만 넣으면 매달 얼마가 더 남는지 계산됩니다.</p>
+        <span class="tag t-teal">분석하기</span>
+        <h3>이 상품,<br><em>얼마에 팔아야 할까요?</em></h3>
+        <p class="d">키워드를 넣으면 검색량 · 경쟁강도 · 추천 판매가를 바로 보여드립니다.</p>
         <div class="pv">
-          <div class="box"><span>월 거래액</span><b>30,000,000원</b></div>
-          <div class="box"><span>현재 카드 요율</span><b>3.40%</b></div>
-          <div class="box hi"><span>셀링부스터</span><b>3.10%</b></div>
-          <div class="box hi"><span>매달 더 버는 돈</span><b>+90,000원</b></div>
+          <div class="box"><span>월 검색량</span><b>184,000</b></div>
+          <div class="box"><span>경쟁강도</span><b>보통</b></div>
+          <div class="box hi"><span>추천 판매가</span><b>22,900원</b></div>
+          <div class="box hi"><span>이 가격이면</span><b>상위 20%</b></div>
         </div>
-        <button class="btn btn-primary" onclick="openCalc(event)">30초 계산해보기</button>
+        <button class="btn btn-primary" onclick="openKW(event)">키워드 분석하기</button>
       </article>
 
       <article class="try-card">
@@ -1157,6 +1162,18 @@ body.sbm-lock{overflow:hidden}
         <button class="btn btn-primary" onclick="openML(event)">매출까지 보기</button>
       </article>
 
+      <article class="try-card">
+        <span class="tag t-violet">판매하기</span>
+        <h3>지금 내는 수수료,<br><em>얼마나 아낄 수 있을까요?</em></h3>
+        <p class="d">월 거래액과 현재 요율만 넣으면 매달 얼마가 더 남는지 계산됩니다.</p>
+        <div class="pv">
+          <div class="box"><span>월 거래액</span><b>30,000,000원</b></div>
+          <div class="box"><span>현재 카드 요율</span><b>3.40%</b></div>
+          <div class="box hi"><span>셀링부스터</span><b>3.10%</b></div>
+          <div class="box hi"><span>매달 더 버는 돈</span><b>+90,000원</b></div>
+        </div>
+        <button class="btn btn-primary" onclick="openCalc(event)">30초 계산해보기</button>
+      </article>
     </div>
   </div>
 </section>
@@ -1186,19 +1203,60 @@ body.sbm-lock{overflow:hidden}
 
     <div class="sec-head center-head" style="margin-top:72px">
       <h2 class="sec-title center">결제 수수료 안내</h2>
-      <p class="sec-sub">결제수단별 업계 최저 수준. 모든 요율은 VAT 별도입니다.</p>
+      <p class="sec-sub">결제 수단 별 업계 최저 수준의 수수료를 제공합니다.</p>
     </div>
-    <table class="fee-table">
-      <thead>
-        <tr><th class="l">구분</th><th>신용카드 · 간편결제</th><th>내통장결제</th><th class="p">프로모션 요율</th><th>타사</th></tr>
-      </thead>
-      <tbody>
-        <tr><td class="l">사업자</td><td>3.30%</td><td>2.00%</td><td class="p">3.10% / 1.50%</td><td>3.40% / 2.00%</td></tr>
-        <tr><td class="l">개인 (비사업자)</td><td>4.00%</td><td>2.00%</td><td class="p">3.70% / 1.50%</td><td>4.00% / 불가</td></tr>
-      </tbody>
-    </table>
+    <div class="fee-scroll">
+      <table class="fee-table cmp">
+        <thead>
+          <tr>
+            <th class="l" rowspan="2">구분</th>
+            <th class="g" colspan="2">A사</th>
+            <th class="g" colspan="2">B사</th>
+            <th class="sb" colspan="2">셀링부스터</th>
+            <th class="pm" colspan="2">오픈 프로모션</th>
+          </tr>
+          <tr>
+            <th class="g sub">사업자</th><th class="g sub">비사업자</th>
+            <th class="g sub">사업자</th><th class="g sub">비사업자</th>
+            <th class="sb sub">사업자</th><th class="sb sub">비사업자</th>
+            <th class="pm sub">사업자</th><th class="pm sub">비사업자</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="l">신용카드</td>
+            <td class="g">3.30%</td><td class="g na" rowspan="4">미제공</td>
+            <td class="g">3.40%</td><td class="g">4.00%</td>
+            <td class="sb">3.30%</td><td class="sb">3.90%</td>
+            <td class="pm">3.10%</td><td class="pm">3.70%</td>
+          </tr>
+          <tr>
+            <td class="l">간편결제</td>
+            <td class="g">3.30%</td>
+            <td class="g">3.40%</td><td class="g">4.00%</td>
+            <td class="sb">3.30%</td><td class="sb">3.90%</td>
+            <td class="pm">3.10%</td><td class="pm">3.70%</td>
+          </tr>
+          <tr>
+            <td class="l">가상계좌</td>
+            <td class="g">300원/건</td>
+            <td class="g">220원/건</td><td class="g">220원/건</td>
+            <td class="sb">220원/건</td><td class="sb">220원/건</td>
+            <td class="pm">220원/건</td><td class="pm">220원/건</td>
+          </tr>
+          <tr>
+            <td class="l">내통장결제</td>
+            <td class="g na">미제공</td>
+            <td class="g">2.00%</td><td class="g">2.00%</td>
+            <td class="sb">2.00%</td><td class="sb">2.00%</td>
+            <td class="pm">1.50%</td><td class="pm">1.50%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <p class="fee-note">* 프로모션은 전 판매자 공통, 가입 후 6개월 적용 · 영중소 우대 대상은 영세 1.90%부터 적용<br>
       * 거래액 상위 셀러는 지금 내는 수수료보다 낮은 요율로 전담 매니저가 별도 상담해 드립니다</p>
+
 
     <div class="winback">
       <div>
@@ -1362,7 +1420,7 @@ body.sbm-lock{overflow:hidden}
       </article>
       <article class="persona-card">
         <h4><span class="num">2.</span> 소규모 개인 셀러</h4>
-        <p class="lead">복잡한 심사 없이<br>가입 한번으로 판매하고 싶으신 분</p>
+        <p class="lead">사업자 없이도<br>결제와 정산이 가능합니다.</p>
         <div class="ph ph-card" data-token="IMG/CARD"></div>
         <ul><li>승인완료 + 카드사 로고 이미지</li></ul>
       </article>
@@ -1372,9 +1430,9 @@ body.sbm-lock{overflow:hidden}
         <div class="ph ph-card" data-token="IMG/CARD"></div>
         <ul><li>쇼핑몰 메인 화면 + 무료(또는 0원)</li><li>강조 태그 이미지</li></ul>
       </article>
-      <article class="persona-card">
+      <article class="persona-card hi">
         <h4><span class="num">4.</span> 수수료를 아끼고 싶은 셀러</h4>
-        <p class="lead">높은 결제 수수료를 계속 내고 계신가요?<br>이제 쇼핑몰을 바꿔보세요</p>
+        <p class="lead">높은 결제 수수료가 아까우신가요?<br><b>무조건 낮게, 이전까지 무료로 지원합니다.</b></p>
         <a class="btn btn-primary" href="/selling-booster-migration.html" style="align-self:flex-start">문의하기</a>
         <div class="ph ph-card" data-token="IMG/CARD"></div>
         <ul><li>이사 형태의 이미지+무료 아이콘</li></ul>
