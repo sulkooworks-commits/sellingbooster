@@ -55,12 +55,18 @@
       "memo": "",
       "analysis": {
         "summary": [],
-        "todos": [],
+        "todos": [
+          {
+            "text": "구글서치콘솔에서 최근 1개월 간 발행한 포스트 색인 신청 피료",
+            "done": false,
+            "priority": 1
+          }
+        ],
         "method": "rule",
         "error": "Failed to fetch",
         "at": "2026-09-16T08:13:11.376Z"
       }
     }
   ],
-  "updatedAt": "2026-09-16T08:13:11.376Z"
+  "updatedAt": "2026-09-16T08:14:05.608Z"
 }
