@@ -45,6 +45,22 @@
       "url": "https://sellingbooster.io/community/blog?category=SELLING_TREND"
     }
   ],
-  "docLinks": [],
-  "updatedAt": "2026-09-08T07:31:05.633Z"
+  "docLinks": [
+    {
+      "id": "mu3tpsc1m60ky",
+      "name": "콘텐츠 발행 시 SEO 색인 다이렉트 신청하기",
+      "url": "https://search.google.com/search-console/welcome?hl=ko",
+      "added": "2026-09-16T08:13:10.705Z",
+      "date": "2026-09-16",
+      "memo": "",
+      "analysis": {
+        "summary": [],
+        "todos": [],
+        "method": "rule",
+        "error": "Failed to fetch",
+        "at": "2026-09-16T08:13:11.376Z"
+      }
+    }
+  ],
+  "updatedAt": "2026-09-16T08:13:11.376Z"
 }
