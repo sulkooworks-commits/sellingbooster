@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-16T15:41:29+09:00",
+  "generatedAt": "2026-09-17T15:37:14+09:00",
   "generatedBy": "github-actions/asana-sync",
   "source": {
     "workspace": "헥토데이터",
@@ -257,59 +257,13 @@
           "followers": []
         },
         {
-          "gid": "1218524329310188",
-          "name": "셀링부스터) 월수금 - K트렌드 매거진 발행",
-          "type": "task",
-          "section": "대기/요청",
-          "due_on": "2026-09-16",
-          "start_on": null,
-          "modified_at": "2026-09-16T01:25:23.723Z",
-          "created_at": "2026-09-16T01:25:08.658Z",
-          "owner": "이슬기",
-          "completed": false,
-          "completed_at": null,
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218524329310188",
-          "fields": {
-            "담당 파트*": "기획",
-            "사용환경": "PC(반응형)",
-            "분류": "콘텐츠",
-            "우선순위(차수)": "운영",
-            "구분*": "작업"
-          },
-          "subtasks": 0,
-          "followers": [
-            "안지호"
-          ]
-        },
-        {
-          "gid": "1218524249993683",
-          "name": "셀링부스터) 월수금 - 커머스 공략",
-          "type": "task",
-          "section": "대기/요청",
-          "due_on": "2026-09-16",
-          "start_on": null,
-          "modified_at": "2026-09-16T01:25:23.695Z",
-          "created_at": "2026-09-16T01:24:51.239Z",
-          "owner": "이슬기",
-          "completed": false,
-          "completed_at": null,
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218524249993683",
-          "fields": {
-            "담당 파트*": "기획"
-          },
-          "subtasks": 0,
-          "followers": [
-            "안지호"
-          ]
-        },
-        {
           "gid": "1218338337710821",
           "name": "[SB] 사업실 주간 회의 (08:30)",
           "type": "milestone",
           "section": "진행",
           "due_on": "2026-09-17",
           "start_on": null,
-          "modified_at": "2026-09-13T15:53:55.095Z",
+          "modified_at": "2026-09-16T15:52:36.721Z",
           "created_at": "2026-09-10T01:10:27.390Z",
           "owner": "이슬기",
           "completed": false,
@@ -433,6 +387,52 @@
           ]
         },
         {
+          "gid": "1218531172803912",
+          "name": "셀링부스터) 월수금 - K트렌드 매거진 발행",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": "2026-09-18",
+          "start_on": null,
+          "modified_at": "2026-09-16T08:19:28.100Z",
+          "created_at": "2026-09-16T08:19:27.247Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218531172803912",
+          "fields": {
+            "담당 파트*": "기획",
+            "사용환경": "PC(반응형)",
+            "분류": "콘텐츠",
+            "우선순위(차수)": "운영",
+            "구분*": "작업"
+          },
+          "subtasks": 0,
+          "followers": [
+            "안지호"
+          ]
+        },
+        {
+          "gid": "1218531300080956",
+          "name": "셀링부스터) 월수금 - 커머스 공략",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": "2026-09-18",
+          "start_on": null,
+          "modified_at": "2026-09-16T08:19:31.024Z",
+          "created_at": "2026-09-16T08:19:30.384Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218531300080956",
+          "fields": {
+            "담당 파트*": "기획"
+          },
+          "subtasks": 0,
+          "followers": [
+            "안지호"
+          ]
+        },
+        {
           "gid": "1218524329014984",
           "name": "[SB] 사업팀 주간 회의 (8:30)",
           "type": "milestone",
@@ -485,18 +485,18 @@
           ]
         },
         {
-          "gid": "1218524400508710",
+          "gid": "1218562307593680",
           "name": "셀링부스터) 화목 - 아이템 딥다이브",
           "type": "task",
           "section": "대기/요청",
           "due_on": "2026-09-22",
           "start_on": null,
-          "modified_at": "2026-09-16T01:25:20.920Z",
-          "created_at": "2026-09-16T01:24:55.479Z",
+          "modified_at": "2026-09-17T01:17:15.000Z",
+          "created_at": "2026-09-17T01:17:14.231Z",
           "owner": "이슬기",
           "completed": false,
           "completed_at": null,
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218524400508710",
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218562307593680",
           "fields": {
             "담당 파트*": "기획"
           },
@@ -1451,7 +1451,7 @@
           "section": "대기/요청",
           "due_on": null,
           "start_on": null,
-          "modified_at": "2026-09-16T02:02:08.946Z",
+          "modified_at": "2026-09-17T02:07:17.002Z",
           "created_at": "2026-09-02T10:55:21.779Z",
           "owner": "이슬기",
           "completed": false,
@@ -1462,7 +1462,7 @@
             "분류": "프론트",
             "우선순위(차수)": "운영"
           },
-          "subtasks": 42,
+          "subtasks": 45,
           "followers": [
             "안지호"
           ]
@@ -1508,10 +1508,10 @@
           "gid": "1218524249912029",
           "name": "주간보고서 양식 전달(T. 대수팀장님)",
           "type": "task",
-          "section": "완료",
+          "section": "대기/요청",
           "due_on": null,
           "start_on": null,
-          "modified_at": "2026-09-16T01:24:07.952Z",
+          "modified_at": "2026-09-17T01:16:21.872Z",
           "created_at": "2026-09-16T01:24:05.940Z",
           "owner": "이슬기",
           "completed": false,
@@ -4370,6 +4370,52 @@
           ]
         },
         {
+          "gid": "1218524329310188",
+          "name": "셀링부스터) 월수금 - K트렌드 매거진 발행",
+          "type": "task",
+          "section": "완료",
+          "due_on": "2026-09-16",
+          "start_on": null,
+          "modified_at": "2026-09-16T08:19:29.266Z",
+          "created_at": "2026-09-16T01:25:08.658Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-09-16T08:19:26.601Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218524329310188",
+          "fields": {
+            "담당 파트*": "기획",
+            "사용환경": "PC(반응형)",
+            "분류": "콘텐츠",
+            "우선순위(차수)": "운영",
+            "구분*": "작업"
+          },
+          "subtasks": 0,
+          "followers": [
+            "안지호"
+          ]
+        },
+        {
+          "gid": "1218524249993683",
+          "name": "셀링부스터) 월수금 - 커머스 공략",
+          "type": "task",
+          "section": "완료",
+          "due_on": "2026-09-16",
+          "start_on": null,
+          "modified_at": "2026-09-16T08:19:32.674Z",
+          "created_at": "2026-09-16T01:24:51.239Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-09-16T08:19:29.885Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218524249993683",
+          "fields": {
+            "담당 파트*": "기획"
+          },
+          "subtasks": 0,
+          "followers": [
+            "안지호"
+          ]
+        },
+        {
           "gid": "1218524250002776",
           "name": "셀링부스터) 화목 - 아이템 딥다이브",
           "type": "task",
@@ -4382,6 +4428,27 @@
           "completed": true,
           "completed_at": "2026-09-16T01:24:54.381Z",
           "permalink": "https://app.asana.com/1/1202264448618168/task/1218524250002776",
+          "fields": {
+            "담당 파트*": "기획"
+          },
+          "subtasks": 0,
+          "followers": [
+            "안지호"
+          ]
+        },
+        {
+          "gid": "1218524400508710",
+          "name": "셀링부스터) 화목 - 아이템 딥다이브",
+          "type": "task",
+          "section": "완료",
+          "due_on": "2026-09-17",
+          "start_on": null,
+          "modified_at": "2026-09-17T01:17:15.698Z",
+          "created_at": "2026-09-16T01:24:55.479Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-09-17T01:17:13.436Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218524400508710",
           "fields": {
             "담당 파트*": "기획"
           },
@@ -5307,10 +5374,10 @@
           "gid": "1218524329187867",
           "name": "광고 지표 기재",
           "type": "task",
-          "section": "완료",
+          "section": "대기/요청",
           "due_on": null,
           "start_on": null,
-          "modified_at": "2026-09-16T01:24:07.951Z",
+          "modified_at": "2026-09-17T01:16:29.925Z",
           "created_at": "2026-09-16T01:24:05.545Z",
           "owner": "안지호",
           "completed": false,
@@ -6295,59 +6362,13 @@
           ]
         },
         {
-          "gid": "1218524329310188",
-          "name": "셀링부스터) 월수금 - K트렌드 매거진 발행",
-          "type": "task",
-          "section": "대기/요청",
-          "due_on": "2026-09-16",
-          "start_on": null,
-          "modified_at": "2026-09-16T01:25:23.723Z",
-          "created_at": "2026-09-16T01:25:08.658Z",
-          "owner": "이슬기",
-          "completed": false,
-          "completed_at": null,
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218524329310188",
-          "fields": {
-            "담당 파트*": "기획",
-            "사용환경": "PC(반응형)",
-            "분류": "콘텐츠",
-            "우선순위(차수)": "운영",
-            "구분*": "작업"
-          },
-          "subtasks": 0,
-          "followers": [
-            "안지호"
-          ]
-        },
-        {
-          "gid": "1218524249993683",
-          "name": "셀링부스터) 월수금 - 커머스 공략",
-          "type": "task",
-          "section": "대기/요청",
-          "due_on": "2026-09-16",
-          "start_on": null,
-          "modified_at": "2026-09-16T01:25:23.695Z",
-          "created_at": "2026-09-16T01:24:51.239Z",
-          "owner": "이슬기",
-          "completed": false,
-          "completed_at": null,
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218524249993683",
-          "fields": {
-            "담당 파트*": "기획"
-          },
-          "subtasks": 0,
-          "followers": [
-            "안지호"
-          ]
-        },
-        {
           "gid": "1218338337710821",
           "name": "[SB] 사업실 주간 회의 (08:30)",
           "type": "milestone",
           "section": "진행",
           "due_on": "2026-09-17",
           "start_on": null,
-          "modified_at": "2026-09-13T15:53:55.095Z",
+          "modified_at": "2026-09-16T15:52:36.721Z",
           "created_at": "2026-09-10T01:10:27.390Z",
           "owner": "이슬기",
           "completed": false,
@@ -6458,6 +6479,52 @@
           ]
         },
         {
+          "gid": "1218531172803912",
+          "name": "셀링부스터) 월수금 - K트렌드 매거진 발행",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": "2026-09-18",
+          "start_on": null,
+          "modified_at": "2026-09-16T08:19:28.100Z",
+          "created_at": "2026-09-16T08:19:27.247Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218531172803912",
+          "fields": {
+            "담당 파트*": "기획",
+            "사용환경": "PC(반응형)",
+            "분류": "콘텐츠",
+            "우선순위(차수)": "운영",
+            "구분*": "작업"
+          },
+          "subtasks": 0,
+          "followers": [
+            "안지호"
+          ]
+        },
+        {
+          "gid": "1218531300080956",
+          "name": "셀링부스터) 월수금 - 커머스 공략",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": "2026-09-18",
+          "start_on": null,
+          "modified_at": "2026-09-16T08:19:31.024Z",
+          "created_at": "2026-09-16T08:19:30.384Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218531300080956",
+          "fields": {
+            "담당 파트*": "기획"
+          },
+          "subtasks": 0,
+          "followers": [
+            "안지호"
+          ]
+        },
+        {
           "gid": "1218524329014984",
           "name": "[SB] 사업팀 주간 회의 (8:30)",
           "type": "milestone",
@@ -6485,18 +6552,18 @@
           ]
         },
         {
-          "gid": "1218524400508710",
+          "gid": "1218562307593680",
           "name": "셀링부스터) 화목 - 아이템 딥다이브",
           "type": "task",
           "section": "대기/요청",
           "due_on": "2026-09-22",
           "start_on": null,
-          "modified_at": "2026-09-16T01:25:20.920Z",
-          "created_at": "2026-09-16T01:24:55.479Z",
+          "modified_at": "2026-09-17T01:17:15.000Z",
+          "created_at": "2026-09-17T01:17:14.231Z",
           "owner": "이슬기",
           "completed": false,
           "completed_at": null,
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218524400508710",
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218562307593680",
           "fields": {
             "담당 파트*": "기획"
           },
@@ -6691,10 +6758,10 @@
           "gid": "1218524329187867",
           "name": "광고 지표 기재",
           "type": "task",
-          "section": "완료",
+          "section": "대기/요청",
           "due_on": null,
           "start_on": null,
-          "modified_at": "2026-09-16T01:24:07.951Z",
+          "modified_at": "2026-09-17T01:16:29.925Z",
           "created_at": "2026-09-16T01:24:05.545Z",
           "owner": "안지호",
           "completed": false,
@@ -6717,7 +6784,7 @@
           "section": "대기/요청",
           "due_on": null,
           "start_on": null,
-          "modified_at": "2026-09-16T02:02:08.946Z",
+          "modified_at": "2026-09-17T02:07:17.002Z",
           "created_at": "2026-09-02T10:55:21.779Z",
           "owner": "이슬기",
           "completed": false,
@@ -6728,7 +6795,7 @@
             "분류": "프론트",
             "우선순위(차수)": "운영"
           },
-          "subtasks": 42,
+          "subtasks": 45,
           "followers": [
             "안지호"
           ]
@@ -8423,6 +8490,52 @@
           ]
         },
         {
+          "gid": "1218524329310188",
+          "name": "셀링부스터) 월수금 - K트렌드 매거진 발행",
+          "type": "task",
+          "section": "완료",
+          "due_on": "2026-09-16",
+          "start_on": null,
+          "modified_at": "2026-09-16T08:19:29.266Z",
+          "created_at": "2026-09-16T01:25:08.658Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-09-16T08:19:26.601Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218524329310188",
+          "fields": {
+            "담당 파트*": "기획",
+            "사용환경": "PC(반응형)",
+            "분류": "콘텐츠",
+            "우선순위(차수)": "운영",
+            "구분*": "작업"
+          },
+          "subtasks": 0,
+          "followers": [
+            "안지호"
+          ]
+        },
+        {
+          "gid": "1218524249993683",
+          "name": "셀링부스터) 월수금 - 커머스 공략",
+          "type": "task",
+          "section": "완료",
+          "due_on": "2026-09-16",
+          "start_on": null,
+          "modified_at": "2026-09-16T08:19:32.674Z",
+          "created_at": "2026-09-16T01:24:51.239Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-09-16T08:19:29.885Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218524249993683",
+          "fields": {
+            "담당 파트*": "기획"
+          },
+          "subtasks": 0,
+          "followers": [
+            "안지호"
+          ]
+        },
+        {
           "gid": "1218524250002776",
           "name": "셀링부스터) 화목 - 아이템 딥다이브",
           "type": "task",
@@ -8435,6 +8548,27 @@
           "completed": true,
           "completed_at": "2026-09-16T01:24:54.381Z",
           "permalink": "https://app.asana.com/1/1202264448618168/task/1218524250002776",
+          "fields": {
+            "담당 파트*": "기획"
+          },
+          "subtasks": 0,
+          "followers": [
+            "안지호"
+          ]
+        },
+        {
+          "gid": "1218524400508710",
+          "name": "셀링부스터) 화목 - 아이템 딥다이브",
+          "type": "task",
+          "section": "완료",
+          "due_on": "2026-09-17",
+          "start_on": null,
+          "modified_at": "2026-09-17T01:17:15.698Z",
+          "created_at": "2026-09-16T01:24:55.479Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-09-17T01:17:13.436Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218524400508710",
           "fields": {
             "담당 파트*": "기획"
           },
