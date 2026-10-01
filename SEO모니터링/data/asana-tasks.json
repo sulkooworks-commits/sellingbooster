@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-30T16:22:43+09:00",
+  "generatedAt": "2026-10-01T16:44:55+09:00",
   "generatedBy": "github-actions/asana-sync",
   "source": {
     "workspace": "헥토데이터",
@@ -528,26 +528,6 @@
           ]
         },
         {
-          "gid": "1218230785358859",
-          "name": "[SB][ALL] TTJ 연동: 개발 세팅",
-          "type": "task",
-          "section": "🚨지연",
-          "due_on": "2026-09-23",
-          "start_on": null,
-          "modified_at": "2026-09-23T15:51:30.754Z",
-          "created_at": "2026-09-07T09:53:22.464Z",
-          "owner": "이슬기",
-          "completed": false,
-          "completed_at": null,
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218230785358859",
-          "fields": {
-            "담당 파트*": "기획",
-            "우선순위(차수)": "4차"
-          },
-          "subtasks": 2,
-          "followers": []
-        },
-        {
           "gid": "1218524627666161",
           "name": "[SB] 셀링스파크 주간 점검 회의(15:00)",
           "type": "milestone",
@@ -618,7 +598,7 @@
           "section": "대기/요청",
           "due_on": "2026-09-30",
           "start_on": null,
-          "modified_at": "2026-09-29T15:01:23.759Z",
+          "modified_at": "2026-09-30T15:02:03.258Z",
           "created_at": "2026-09-02T11:17:46.329Z",
           "owner": "이슬기",
           "completed": false,
@@ -638,10 +618,10 @@
           "gid": "1218165091077152",
           "name": "[SB][All] 다국어 > (고도화 예정)",
           "type": "task",
-          "section": "진행",
+          "section": "🚨지연",
           "due_on": "2026-09-30",
           "start_on": null,
-          "modified_at": "2026-09-29T15:27:51.563Z",
+          "modified_at": "2026-09-30T15:55:41.611Z",
           "created_at": "2026-09-04T02:14:48.508Z",
           "owner": "이슬기",
           "completed": false,
@@ -663,10 +643,10 @@
           "gid": "1218130046167974",
           "name": "[SB][All] 사용자 온보딩 > 판매자 정보 > 인증 중복 체크",
           "type": "task",
-          "section": "진행",
+          "section": "🚨지연",
           "due_on": "2026-09-30",
           "start_on": null,
-          "modified_at": "2026-09-29T15:27:51.557Z",
+          "modified_at": "2026-09-30T15:55:41.568Z",
           "created_at": "2026-09-03T12:28:16.409Z",
           "owner": "이슬기",
           "completed": false,
@@ -692,10 +672,10 @@
           "gid": "1218130167683185",
           "name": "[SB][All] 사용자 온보딩 > 판매자 정보 > 전화번호 인증",
           "type": "task",
-          "section": "진행",
+          "section": "🚨지연",
           "due_on": "2026-09-30",
           "start_on": null,
-          "modified_at": "2026-09-29T15:27:51.590Z",
+          "modified_at": "2026-09-30T15:55:41.632Z",
           "created_at": "2026-09-03T12:28:16.436Z",
           "owner": "이슬기",
           "completed": false,
@@ -720,10 +700,10 @@
           "gid": "1218164993183345",
           "name": "[SB][All] 알림함 > 읽음 처리 > 추후 고도화 필요  (WEB/APP 공통)",
           "type": "task",
-          "section": "진행",
+          "section": "🚨지연",
           "due_on": "2026-09-30",
           "start_on": null,
-          "modified_at": "2026-09-29T15:27:51.561Z",
+          "modified_at": "2026-09-30T15:55:41.604Z",
           "created_at": "2026-09-04T02:11:21.082Z",
           "owner": "이슬기",
           "completed": false,
@@ -746,10 +726,10 @@
           "gid": "1218245672607589",
           "name": "로그인 / 회원가입 LP내 소구 포인트 추가",
           "type": "task",
-          "section": "진행",
+          "section": "🚨지연",
           "due_on": "2026-09-30",
           "start_on": null,
-          "modified_at": "2026-09-29T15:27:51.567Z",
+          "modified_at": "2026-09-30T15:55:41.654Z",
           "created_at": "2026-09-08T01:45:18.690Z",
           "owner": "이슬기",
           "completed": false,
@@ -796,7 +776,7 @@
           "section": "대기/요청",
           "due_on": "2026-10-01",
           "start_on": null,
-          "modified_at": "2026-09-23T15:00:46.772Z",
+          "modified_at": "2026-09-30T15:01:06.826Z",
           "created_at": "2026-09-01T23:41:54.448Z",
           "owner": "이슬기",
           "completed": false,
@@ -863,6 +843,29 @@
           "subtasks": 0,
           "followers": [
             "안지호"
+          ]
+        },
+        {
+          "gid": "1218230785358859",
+          "name": "[SB][ALL] TTJ 연동: 개발 세팅",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": "2026-10-30",
+          "start_on": null,
+          "modified_at": "2026-09-30T09:31:37.586Z",
+          "created_at": "2026-09-07T09:53:22.464Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218230785358859",
+          "fields": {
+            "우선순위(차수)": "4차"
+          },
+          "subtasks": 2,
+          "followers": [
+            "이승재",
+            "박재상",
+            "박효진"
           ]
         },
         {
@@ -1189,6 +1192,46 @@
           "followers": []
         },
         {
+          "gid": "1219010078816683",
+          "name": "[SB][통합] 알림함 개정",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-09-30T09:15:01.601Z",
+          "created_at": "2026-09-30T09:13:34.098Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1219010078816683",
+          "fields": {
+            "담당 파트*": "기획",
+            "우선순위(차수)": "4차"
+          },
+          "subtasks": 2,
+          "followers": []
+        },
+        {
+          "gid": "1219010078816668",
+          "name": "[SB][통합] 약관 개정",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-09-30T09:15:01.039Z",
+          "created_at": "2026-09-30T08:52:35.420Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1219010078816668",
+          "fields": {
+            "담당 파트*": "기획",
+            "우선순위(차수)": "4차"
+          },
+          "subtasks": 4,
+          "followers": []
+        },
+        {
           "gid": "1218348760333012",
           "name": "[SB][통합] 어드민",
           "type": "task",
@@ -1256,7 +1299,7 @@
           "section": "대기/요청",
           "due_on": null,
           "start_on": null,
-          "modified_at": "2026-09-11T01:28:05.410Z",
+          "modified_at": "2026-09-30T08:56:29.670Z",
           "created_at": "2026-09-11T01:27:31.315Z",
           "owner": "이슬기",
           "completed": false,
@@ -1266,7 +1309,26 @@
             "담당 파트*": "기획",
             "우선순위(차수)": "4차"
           },
-          "subtasks": 3,
+          "subtasks": 7,
+          "followers": []
+        },
+        {
+          "gid": "1219010078816664",
+          "name": "[SB][통합][APP] 메인페이지",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": null,
+          "start_on": null,
+          "modified_at": "2026-09-30T08:52:25.929Z",
+          "created_at": "2026-09-30T08:51:57.364Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1219010078816664",
+          "fields": {
+            "우선순위(차수)": "4차"
+          },
+          "subtasks": 0,
           "followers": []
         },
         {
@@ -5264,10 +5326,10 @@
           "gid": "1218083749653985",
           "name": "[SB] 미래아이엔씨 선지급(가품의) ",
           "type": "task",
-          "section": "진행",
+          "section": "🚨지연",
           "due_on": "2026-09-30",
           "start_on": null,
-          "modified_at": "2026-09-29T15:01:23.759Z",
+          "modified_at": "2026-09-30T15:02:03.258Z",
           "created_at": "2026-09-02T11:17:46.329Z",
           "owner": "안지호",
           "completed": false,
@@ -5310,7 +5372,7 @@
           "section": "기타",
           "due_on": "2026-10-01",
           "start_on": null,
-          "modified_at": "2026-09-23T15:00:46.772Z",
+          "modified_at": "2026-09-30T15:01:06.826Z",
           "created_at": "2026-09-01T23:41:54.448Z",
           "owner": "안지호",
           "completed": false,
@@ -5433,27 +5495,6 @@
           ]
         },
         {
-          "gid": "1217206274164547",
-          "name": "네이버 키워드 확장",
-          "type": "task",
-          "section": "기타",
-          "due_on": "2026-08-31",
-          "start_on": null,
-          "modified_at": "2026-08-31T06:59:28.897Z",
-          "created_at": "2026-08-06T06:31:58.621Z",
-          "owner": "안지호",
-          "completed": true,
-          "completed_at": "2026-08-31T06:59:28.715Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/task/1217206274164547",
-          "fields": {
-            "담당 파트*": "마케팅"
-          },
-          "subtasks": 0,
-          "followers": [
-            "이슬기"
-          ]
-        },
-        {
           "gid": "1218083413825798",
           "name": "네이버블로그) 월수금 - 본편 후속",
           "type": "task",
@@ -5487,27 +5528,6 @@
           "completed": true,
           "completed_at": "2026-09-01T23:41:55.040Z",
           "permalink": "https://app.asana.com/1/1202264448618168/task/1217206274164534",
-          "fields": {
-            "담당 파트*": "마케팅"
-          },
-          "subtasks": 0,
-          "followers": [
-            "이슬기"
-          ]
-        },
-        {
-          "gid": "1217206274164531",
-          "name": "메타 저효율 소재 OFF",
-          "type": "task",
-          "section": "기타",
-          "due_on": "2026-08-31",
-          "start_on": null,
-          "modified_at": "2026-08-31T06:59:51.905Z",
-          "created_at": "2026-08-06T06:25:11.177Z",
-          "owner": "안지호",
-          "completed": true,
-          "completed_at": "2026-08-31T06:59:51.805Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/task/1217206274164531",
           "fields": {
             "담당 파트*": "마케팅"
           },
@@ -6604,7 +6624,7 @@
           "section": "대기/요청",
           "due_on": "2026-09-30",
           "start_on": null,
-          "modified_at": "2026-09-29T15:01:23.759Z",
+          "modified_at": "2026-09-30T15:02:03.258Z",
           "created_at": "2026-09-02T11:17:46.329Z",
           "owner": "이슬기",
           "completed": false,
@@ -6624,10 +6644,10 @@
           "gid": "1218245672607589",
           "name": "로그인 / 회원가입 LP내 소구 포인트 추가",
           "type": "task",
-          "section": "진행",
+          "section": "🚨지연",
           "due_on": "2026-09-30",
           "start_on": null,
-          "modified_at": "2026-09-29T15:27:51.567Z",
+          "modified_at": "2026-09-30T15:55:41.654Z",
           "created_at": "2026-09-08T01:45:18.690Z",
           "owner": "이슬기",
           "completed": false,
@@ -6674,7 +6694,7 @@
           "section": "대기/요청",
           "due_on": "2026-10-01",
           "start_on": null,
-          "modified_at": "2026-09-23T15:00:46.772Z",
+          "modified_at": "2026-09-30T15:01:06.826Z",
           "created_at": "2026-09-01T23:41:54.448Z",
           "owner": "이슬기",
           "completed": false,
@@ -7324,27 +7344,6 @@
           ]
         },
         {
-          "gid": "1217206274164547",
-          "name": "네이버 키워드 확장",
-          "type": "task",
-          "section": "기타",
-          "due_on": "2026-08-31",
-          "start_on": null,
-          "modified_at": "2026-08-31T06:59:28.897Z",
-          "created_at": "2026-08-06T06:31:58.621Z",
-          "owner": "안지호",
-          "completed": true,
-          "completed_at": "2026-08-31T06:59:28.715Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/task/1217206274164547",
-          "fields": {
-            "담당 파트*": "마케팅"
-          },
-          "subtasks": 0,
-          "followers": [
-            "이슬기"
-          ]
-        },
-        {
           "gid": "1218083413825798",
           "name": "네이버블로그) 월수금 - 본편 후속",
           "type": "task",
@@ -7378,27 +7377,6 @@
           "completed": true,
           "completed_at": "2026-09-01T23:41:55.040Z",
           "permalink": "https://app.asana.com/1/1202264448618168/task/1217206274164534",
-          "fields": {
-            "담당 파트*": "마케팅"
-          },
-          "subtasks": 0,
-          "followers": [
-            "이슬기"
-          ]
-        },
-        {
-          "gid": "1217206274164531",
-          "name": "메타 저효율 소재 OFF",
-          "type": "task",
-          "section": "기타",
-          "due_on": "2026-08-31",
-          "start_on": null,
-          "modified_at": "2026-08-31T06:59:51.905Z",
-          "created_at": "2026-08-06T06:25:11.177Z",
-          "owner": "안지호",
-          "completed": true,
-          "completed_at": "2026-08-31T06:59:51.805Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/task/1217206274164531",
           "fields": {
             "담당 파트*": "마케팅"
           },
