@@ -1,0 +1,419 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>셀링부스터 SEO KPI 전략</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
+<style>
+/* 레이아웃: 사내 보고 양식(그라데이션 헤더 + 섹션 카드) 1단 문서, 도식은 HTML 블록으로 구성, 별첨은 하단 분리 */
+:root{
+  --bg:#FFFFFF; --soft:#F3F4F7; --ink:#0F172A; --muted:#5B6477; --line:#E1E5EE;
+  --violet:#6466FA; --teal:#00B1BD; --red:#D6232B; --mark:#FFF1A8;
+  --violet-soft:rgba(100,102,250,.10); --teal-soft:rgba(0,177,189,.12);
+  --th-bg:#0F172A; --th-fg:#FFFFFF; --bar-bg:rgba(255,255,255,.92);
+  --font:'NanumSquare','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.7;margin:0;word-break:keep-all}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bar-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 20px;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline}
+.topbar b{font-size:13px;font-weight:800}
+.topbar small{font-size:12px;color:var(--muted)}
+.topbar a{margin-left:auto;font-size:12px;font-weight:700;color:var(--violet);text-decoration:none}
+.topbar a:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px;padding-block:24px 64px;display:flex;flex-direction:column;gap:14px}
+.hero{background:linear-gradient(115deg,#6466FA,#5B7BF7 45%,#00B1BD);border-radius:16px;padding:34px 34px 30px;color:#FFFFFF}
+.hero h1{font-size:28px;font-weight:800;margin:0 0 8px;line-height:1.35;text-wrap:balance;color:#FFFFFF}
+.hero p{margin:0;font-size:13.5px;color:rgba(255,255,255,.88)}
+.card{border-radius:16px;padding:30px 34px;background:var(--bg)}
+.cap{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--violet);text-transform:uppercase;margin:0 0 4px}
+h2{font-size:21px;font-weight:800;margin:0 0 6px;text-wrap:balance}
+h3{font-size:15.5px;font-weight:800;margin:0 0 6px;color:var(--teal)}
+.lead{color:var(--muted);margin:0 0 18px;font-size:14.5px}
+.box{background:var(--soft);border-radius:14px;padding:20px 22px}
+.sum{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.sum li{padding-left:16px;position:relative;font-size:15.5px;font-weight:500}
+.sum li::before{content:"";position:absolute;left:0;top:.72em;width:6px;height:6px;border-radius:50%;background:var(--violet)}
+.ul{box-shadow:inset 0 -2px 0 var(--violet);font-weight:800}
+.mark{background:var(--mark);padding:0 3px;border-radius:3px}
+ul.tight{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+ul.tight li{font-size:14px}
+
+/* 도식 1: 4단 흐름 */
+.flow{display:flex;gap:8px;align-items:stretch}
+.step{flex:1 1 0;min-width:0;background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:14px 14px 16px;display:flex;flex-direction:column;gap:4px}
+.step .tag{font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--muted)}
+.step b{font-size:15.5px;font-weight:800}
+.step span{font-size:13px;color:var(--muted);line-height:1.55}
+.step.key{border-color:var(--violet);background:var(--violet-soft)}
+.step.key .tag{color:var(--violet)}
+.step.money{border-color:var(--teal);background:var(--teal-soft)}
+.step.money .tag{color:var(--teal)}
+.arw{align-self:center;color:var(--muted);font-weight:800;font-size:18px;flex:none}
+.note{font-size:13px;color:var(--muted);margin:12px 0 0}
+
+/* 도식 2: 환산 3방식 */
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.way{background:var(--soft);border-radius:14px;padding:18px 18px 20px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.way .when{align-self:flex-start;font-size:11.5px;font-weight:800;padding:2px 10px;border-radius:20px;background:var(--violet-soft);color:var(--violet)}
+.way .when.later{background:var(--teal-soft);color:var(--teal)}
+.way h3{margin:0;color:var(--ink);font-size:16.5px}
+.fx{background:var(--bg);border-radius:10px;padding:12px 12px;font-size:13.5px;font-weight:700;text-align:center;line-height:1.6;font-variant-numeric:tabular-nums}
+.fx i{font-style:normal;color:var(--violet);padding:0 4px}
+.way p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.6}
+
+/* 도식 3: 시기별 */
+.phase{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.ph{min-width:0;display:flex;flex-direction:column;gap:10px}
+.ph .bar{border-radius:10px;padding:10px 14px;color:#FFFFFF;font-weight:800;font-size:13.5px;line-height:1.45}
+.ph .bar small{display:block;font-weight:500;font-size:12px;color:rgba(255,255,255,.88)}
+.ph:nth-child(1) .bar{background:#6466FA}
+.ph:nth-child(2) .bar{background:#4F8BE8}
+.ph:nth-child(3) .bar{background:#00A0AB}
+.ph .body{background:var(--soft);border-radius:12px;padding:14px 16px;flex:1}
+.ph .body b{display:block;font-size:14.5px;font-weight:800;margin-bottom:6px}
+
+/* 도식 4: 에코시스템 */
+.eco{display:flex;flex-direction:column;align-items:center;gap:0}
+.hub{border:2px solid var(--violet);background:var(--violet-soft);border-radius:14px;padding:14px 22px;text-align:center;max-width:560px;width:100%}
+.hub b{display:block;font-size:16px;font-weight:800}
+.hub span{font-size:13px;color:var(--muted)}
+.stem{width:2px;height:22px;background:var(--line)}
+.rail{width:calc(100% - 25%);height:2px;background:var(--line)}
+.svc{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;width:100%;margin-top:0}
+.sv{min-width:0;display:flex;flex-direction:column;align-items:center}
+.sv .drop{width:2px;height:16px;background:var(--line)}
+.sv .in{width:100%;border:1.5px solid var(--teal);border-radius:14px;padding:12px 10px 14px;text-align:center;background:var(--bg);flex:1}
+.sv .in b{display:block;font-size:15.5px;font-weight:800;letter-spacing:.04em}
+.sv .in em{display:block;font-style:normal;font-size:12px;color:var(--muted);margin:2px 0 8px}
+.sv .in span{display:inline-block;font-size:12.5px;font-weight:700;background:var(--teal-soft);color:var(--teal);border-radius:8px;padding:3px 8px;line-height:1.5}
+
+/* 체크리스트 */
+.chk{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0;padding:0;list-style:none}
+.chk li{background:var(--soft);border-radius:12px;padding:14px 16px;min-width:0}
+.chk b{display:block;font-size:14.5px;font-weight:800;margin-bottom:2px}
+.chk span{font-size:13.5px;color:var(--muted);line-height:1.6;display:block}
+.chk .st{display:inline-block;font-size:11.5px;font-weight:800;border-radius:20px;padding:1px 9px;margin-left:6px;vertical-align:1px}
+.st.wait{background:rgba(214,35,43,.12);color:var(--red)}
+.st.ask{background:var(--violet-soft);color:var(--violet)}
+
+/* 표 */
+.tw{overflow-x:auto;background:var(--soft);border-radius:14px;padding:14px}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:13.5px;font-variant-numeric:tabular-nums}
+th{background:var(--th-bg);color:var(--th-fg);font-weight:800;text-align:center;padding:9px 10px;font-size:13px}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.55}
+tr:last-child td{border-bottom:0}
+td.c{text-align:center;white-space:nowrap}
+tr.keyrow td{border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.keyrow td:first-child{border-left:2px solid var(--red)}
+tr.keyrow td:last-child{border-right:2px solid var(--red)}
+td.grp{font-weight:800;text-align:center;white-space:nowrap}
+.g1{color:var(--violet)} .g2{color:var(--teal)} .g3{color:var(--muted)}
+.appx{border-top:2px dashed var(--line);margin-top:18px;padding-top:6px}
+.badge{display:inline-block;background:var(--ink);color:var(--bg);font-size:11.5px;font-weight:800;border-radius:6px;padding:2px 9px;margin-right:8px;vertical-align:2px}
+.calc{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:800;font-size:15px;font-variant-numeric:tabular-nums}
+.calc div{background:var(--bg);border-radius:10px;padding:10px 14px;text-align:center;min-width:0}
+.calc div small{display:block;font-size:11.5px;font-weight:500;color:var(--muted)}
+.calc div.res{background:var(--teal-soft);color:var(--teal)}
+.calc i{font-style:normal;color:var(--muted)}
+
+@media (max-width:760px){
+  .wrap{padding-inline:16px}
+  .card{padding:22px 4px}
+  .hero{padding:26px 22px}
+  .hero h1{font-size:23px}
+  .flow{flex-direction:column}
+  .arw{transform:rotate(90deg)}
+  .grid3,.phase,.chk{grid-template-columns:1fr}
+  .svc{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rail,.sv .drop{display:none}
+  .svc{margin-top:0}
+  .topbar a{margin-left:0}
+}
+
+.viz{--c1:#6466FA;--c2:#0097A1;--c3:#C97A00}
+.viz svg{display:block;width:100%;height:auto}
+.viz .c1{fill:var(--c1)}.viz .c2{fill:var(--c2)}.viz .c3{fill:var(--c3)}
+.viz .grid{stroke:var(--line);stroke-width:1}
+.viz .ax{fill:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}
+.viz .axc{fill:var(--muted);font-size:12px;font-weight:700}
+.viz .val{fill:var(--ink);font-size:11.5px;font-variant-numeric:tabular-nums}
+.viz .val.b{font-weight:800;font-size:12.5px}
+.viz .now{stroke:var(--muted);stroke-width:1;stroke-dasharray:3 3}
+.viz .ln-base{stroke:var(--c1);stroke-width:2.5}
+.viz .ln-hi{stroke:var(--muted);stroke-width:2;stroke-dasharray:7 4}
+.viz .ln-lo{stroke:var(--muted);stroke-width:2;stroke-dasharray:2 4}
+.viz .ln-act{stroke:var(--ink);stroke-width:2.5}
+.viz .dot-ln-base{fill:var(--c1);stroke:var(--soft);stroke-width:2}
+.viz .dot-ln-hi,.viz .dot-ln-lo{fill:var(--muted);stroke:var(--soft);stroke-width:2}
+.viz .hitc{fill:transparent;cursor:default}
+.viz .hit:hover{opacity:.8}
+[hidden]{display:none!important}
+.chk .st.done{background:var(--teal-soft);color:#00818A}
+h2{scroll-margin-top:64px}
+.toc{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.toc button{font-family:inherit;font-size:14px;font-weight:800;color:#FFFFFF;background:var(--violet);border:0;border-radius:999px;padding:12px 18px;cursor:pointer;box-shadow:0 6px 18px rgba(15,23,42,.22);display:flex;align-items:center;gap:8px}
+.toc button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.toc nav{background:var(--bg);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(15,23,42,.18);padding:10px;width:min(300px,calc(100vw - 32px));max-height:60vh;overflow-y:auto;display:flex;flex-direction:column}
+.toc nav a{display:block;padding:8px 10px;border-radius:8px;font-size:13.5px;font-weight:700;color:var(--ink);text-decoration:none;line-height:1.45}
+.toc nav a:hover,.toc nav a:focus-visible{background:var(--violet-soft);color:var(--violet);outline:0}
+.qc{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.qcard{min-width:0;border:1.5px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg);display:flex;flex-direction:column}
+.qcard .qh{background:var(--th-bg);color:var(--th-fg);font-size:13px;font-weight:800;text-align:center;padding:7px 6px}
+.qcard:last-child .qh{background:var(--violet)}
+.qcard .qb{padding:12px 12px 12px;display:flex;flex-direction:column;gap:2px}
+.qcard .big{font-size:28px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.qcard .big small{font-size:14px;font-weight:700;margin-left:2px}
+.qcard .bl{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:8px}
+.qcard dl{margin:0;display:flex;flex-direction:column;gap:4px;border-top:1px solid var(--line);padding-top:8px}
+.qcard dl div{display:flex;justify-content:space-between;gap:6px;flex-wrap:wrap}
+.qcard dt{font-size:12px;color:var(--muted)}
+.qcard dd{margin:0;font-size:12.5px;font-weight:800;font-variant-numeric:tabular-nums}
+@media (max-width:900px){.qc{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.figs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.fig{background:var(--soft);border-radius:14px;padding:16px 16px 10px;min-width:0}
+.fig h3{color:var(--ink);font-size:14.5px;margin:0 0 2px}
+.fig .sub2{font-size:12.5px;color:var(--muted);margin:0 0 8px}
+.fig .scroll{overflow-x:auto}
+.fig.wide .scroll svg{min-width:640px}
+.lg{display:flex;gap:14px;font-size:12.5px;color:var(--muted);font-weight:700;margin:0 0 6px;flex-wrap:wrap}
+.lg .sw{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.lg .sw.c1{background:var(--c1)}.lg .sw.c2{background:var(--c2)}.lg .sw.c3{background:var(--c3)}
+.lg .ls{display:inline-block;width:22px;height:0;border-top:2.5px solid var(--c1);margin-right:5px;vertical-align:3px}
+.lg .ls.hi{border-top:2px dashed var(--muted)}.lg .ls.lo{border-top:2px dotted var(--muted)}.lg .ls.act{border-top-color:var(--ink)}
+#tt{position:fixed;z-index:50;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12.5px;font-weight:700;padding:5px 9px;border-radius:7px;white-space:nowrap}
+table.num td{text-align:right;white-space:nowrap}
+table.num td.c{text-align:center}
+table.num{min-width:860px}
+tr.sub td{background:var(--violet-soft);font-weight:800}
+.role{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.rc{background:var(--soft);border-radius:14px;padding:18px;min-width:0;display:flex;flex-direction:column;gap:8px}
+.rc .nm{font-size:17px;font-weight:800;display:flex;align-items:center;gap:8px}
+.rc .nm i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.rc .now2{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.rc .job{background:var(--bg);border-radius:10px;padding:10px 12px;font-weight:800;font-size:14.5px}
+.rc p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.6}
+.warn{border-left:0;background:rgba(214,35,43,.08);border-radius:12px;padding:14px 16px;font-size:13.5px;margin-top:12px}
+.warn b{color:var(--red)}
+details{background:var(--soft);border-radius:14px;padding:12px 16px;margin-top:10px}
+details summary{cursor:pointer;font-weight:800;font-size:14.5px}
+details .tw{padding:10px 0 0;background:transparent}
+@media (max-width:760px){.figs,.role{grid-template-columns:1fr}}
+</style>
+
+<div class="topbar">
+  <b>[SB] HD_SEO_KPI전략_261002</b>
+  <small>커머스커넥트실 커머스기획팀</small>
+  <a href="#appendix">별첨: KPI 샘플 ↓</a>
+</div>
+<div class="wrap viz">
+
+  <header class="hero">
+    <h1>셀링부스터 SEO KPI 전략</h1>
+    <p>2026-10-02 (금) | 커머스커넥트실 커머스기획팀 이슬기 | 7~9월 채널 성과·주간 유입지표 기준</p>
+  </header>
+
+  <section class="card">
+    <p class="cap">Summary</p>
+    <h2>핵심 요약</h2>
+    <div class="box">
+      <ul class="sum">
+        <li>9월 오가닉 3채널(SEO·pSEO·GEO)은 유입 2,130명·전환 12건, <span class="ul">전체 전환 131건의 9%</span>. 현재 가입은 광고가 만드는 구조</li>
+        <li>채널별 과제 상이: SEO는 <span class="ul">전환 수 확대</span>, pSEO는 <span class="ul">전환율 개선</span>(유입 1,526명 중 전환 1건), GEO는 <span class="ul">유입 규모 확보</span></li>
+        <li>기준안 목표: 월 오가닉 전환 12건(26년 9월) → 20건(26년 12월) → <span class="ul">90건(27년 12월)</span>, 광고 환산 가치 월 21만 원 → 157만 원</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card">
+    <p class="cap">Baseline</p>
+    <h2>현황: 7~9월 오가닉 3채널 실측</h2>
+    <p class="lead">9월 기준 유입은 pSEO가 가장 크고, 전환은 SEO가 대부분이며, 전환율은 GEO가 가장 높음.</p>
+    <div class="lg"><span><i class="sw c1"></i>SEO</span><span><i class="sw c2"></i>pSEO</span><span><i class="sw c3"></i>GEO</span></div>
+    <div class="figs">
+      <div class="fig"><h3>월별 유입 수</h3><p class="sub2">단위: 명</p><svg viewBox="0 0 520 250" role="img" aria-label="월별 오가닉 유입"><line x1="44" x2="510" y1="216.0" y2="216.0" class="grid"/><text x="38" y="220.0" class="ax" text-anchor="end">0</text><line x1="44" x2="510" y1="165.5" y2="165.5" class="grid"/><text x="38" y="169.5" class="ax" text-anchor="end">400</text><line x1="44" x2="510" y1="115.0" y2="115.0" class="grid"/><text x="38" y="119.0" class="ax" text-anchor="end">800</text><line x1="44" x2="510" y1="64.5" y2="64.5" class="grid"/><text x="38" y="68.5" class="ax" text-anchor="end">1,200</text><line x1="44" x2="510" y1="14.0" y2="14.0" class="grid"/><text x="38" y="18.0" class="ax" text-anchor="end">1,600</text><rect x="68.7" y="149.2" width="34.0" height="66.8" rx="3" class="c1 hit" data-tip="7월 SEO: 529명"/><text x="85.7" y="144.2" class="val" text-anchor="middle">529</text><rect x="104.7" y="83.3" width="34.0" height="132.7" rx="3" class="c2 hit" data-tip="7월 pSEO: 1,051명"/><text x="121.7" y="78.3" class="val" text-anchor="middle">1,051</text><rect x="140.7" y="209.8" width="34.0" height="6.2" rx="3" class="c3 hit" data-tip="7월 GEO: 49명"/><text x="157.7" y="204.8" class="val" text-anchor="middle">49</text><text x="121.7" y="238" class="axc" text-anchor="middle">7월</text><rect x="224.0" y="135.3" width="34.0" height="80.7" rx="3" class="c1 hit" data-tip="8월 SEO: 639명"/><text x="241.0" y="130.3" class="val" text-anchor="middle">639</text><rect x="260.0" y="41.5" width="34.0" height="174.5" rx="3" class="c2 hit" data-tip="8월 pSEO: 1,382명"/><text x="277.0" y="36.5" class="val" text-anchor="middle">1,382</text><rect x="296.0" y="209.3" width="34.0" height="6.7" rx="3" class="c3 hit" data-tip="8월 GEO: 53명"/><text x="313.0" y="204.3" class="val" text-anchor="middle">53</text><text x="277.0" y="238" class="axc" text-anchor="middle">8월</text><rect x="379.3" y="143.8" width="34.0" height="72.2" rx="3" class="c1 hit" data-tip="9월 SEO: 572명"/><text x="396.3" y="138.8" class="val" text-anchor="middle">572</text><rect x="415.3" y="23.3" width="34.0" height="192.7" rx="3" class="c2 hit" data-tip="9월 pSEO: 1,526명"/><text x="432.3" y="18.3" class="val" text-anchor="middle">1,526</text><rect x="451.3" y="212.0" width="34.0" height="4.0" rx="3" class="c3 hit" data-tip="9월 GEO: 32명"/><text x="468.3" y="207.0" class="val" text-anchor="middle">32</text><text x="432.3" y="238" class="axc" text-anchor="middle">9월</text></svg></div>
+      <div class="fig"><h3>월별 전환 수</h3><p class="sub2">단위: 건 · 7·8월은 집계 누락 가능성이 있어 추세 판단에 쓰지 않음</p><svg viewBox="0 0 520 250" role="img" aria-label="월별 오가닉 전환"><line x1="44" x2="510" y1="216.0" y2="216.0" class="grid"/><text x="38" y="220.0" class="ax" text-anchor="end">0</text><line x1="44" x2="510" y1="165.5" y2="165.5" class="grid"/><text x="38" y="169.5" class="ax" text-anchor="end">3</text><line x1="44" x2="510" y1="115.0" y2="115.0" class="grid"/><text x="38" y="119.0" class="ax" text-anchor="end">6</text><line x1="44" x2="510" y1="64.5" y2="64.5" class="grid"/><text x="38" y="68.5" class="ax" text-anchor="end">9</text><line x1="44" x2="510" y1="14.0" y2="14.0" class="grid"/><text x="38" y="18.0" class="ax" text-anchor="end">12</text><rect x="68.7" y="182.3" width="34.0" height="33.7" rx="3" class="c1 hit" data-tip="7월 SEO: 2건"/><text x="85.7" y="177.3" class="val" text-anchor="middle">2</text><rect x="104.7" y="214.5" width="34.0" height="1.5" rx="3" class="c2 hit" data-tip="7월 pSEO: 0건"/><text x="121.7" y="209.5" class="val" text-anchor="middle">0</text><rect x="140.7" y="199.2" width="34.0" height="16.8" rx="3" class="c3 hit" data-tip="7월 GEO: 1건"/><text x="157.7" y="194.2" class="val" text-anchor="middle">1</text><text x="121.7" y="238" class="axc" text-anchor="middle">7월</text><rect x="224.0" y="81.3" width="34.0" height="134.7" rx="3" class="c1 hit" data-tip="8월 SEO: 8건"/><text x="241.0" y="76.3" class="val" text-anchor="middle">8</text><rect x="260.0" y="214.5" width="34.0" height="1.5" rx="3" class="c2 hit" data-tip="8월 pSEO: 0건"/><text x="277.0" y="209.5" class="val" text-anchor="middle">0</text><rect x="296.0" y="182.3" width="34.0" height="33.7" rx="3" class="c3 hit" data-tip="8월 GEO: 2건"/><text x="313.0" y="177.3" class="val" text-anchor="middle">2</text><text x="277.0" y="238" class="axc" text-anchor="middle">8월</text><rect x="379.3" y="47.7" width="34.0" height="168.3" rx="3" class="c1 hit" data-tip="9월 SEO: 10건"/><text x="396.3" y="42.7" class="val" text-anchor="middle">10</text><rect x="415.3" y="199.2" width="34.0" height="16.8" rx="3" class="c2 hit" data-tip="9월 pSEO: 1건"/><text x="432.3" y="194.2" class="val" text-anchor="middle">1</text><rect x="451.3" y="199.2" width="34.0" height="16.8" rx="3" class="c3 hit" data-tip="9월 GEO: 1건"/><text x="468.3" y="194.2" class="val" text-anchor="middle">1</text><text x="432.3" y="238" class="axc" text-anchor="middle">9월</text></svg></div>
+    </div>
+    <div class="tw" style="margin-top:12px"><table class="num" style="min-width:640px">
+      <thead><tr><th>9월 기준</th><th>유입</th><th>전환</th><th>전환율</th><th>광고비(원)</th><th>전환당 비용(원)</th></tr></thead>
+      <tbody>
+        <tr><td class="c"><b>SEO</b></td><td>572</td><td>10</td><td>1.75%</td><td>0</td><td>—</td></tr>
+        <tr><td class="c"><b>pSEO</b></td><td>1,526</td><td>1</td><td>0.07%</td><td>0</td><td>—</td></tr>
+        <tr><td class="c"><b>GEO</b></td><td>32</td><td>1</td><td>3.13%</td><td>0</td><td>—</td></tr>
+        <tr class="sub"><td class="c">오가닉 3채널 계</td><td>2,130</td><td>12</td><td>0.56%</td><td>0</td><td>—</td></tr>
+        <tr><td class="c">구글 검색광고</td><td>712</td><td>32</td><td>4.49%</td><td>657,860</td><td>20,558</td></tr>
+        <tr><td class="c">네이버 검색광고</td><td>454</td><td>15</td><td>3.30%</td><td>164,602</td><td>10,973</td></tr>
+        <tr><td class="c">구글 PMAX</td><td>3,609</td><td>46</td><td>1.27%</td><td>1,076,690</td><td>23,406</td></tr>
+        <tr><td class="c">메타 광고</td><td>3,953</td><td>9</td><td>0.23%</td><td>1,479,537</td><td>164,393</td></tr>
+        <tr><td class="c">전체</td><td>12,601</td><td>131</td><td>1.04%</td><td>3,378,689</td><td>25,792</td></tr>
+      </tbody></table></div>
+    <div class="warn"><b>자료 해석 시 확인 필요 4가지</b><br>
+      ① 7·8월 채널별 전환 합계(8건·29건)가 주간 회원 가입 합계(46건·36건)보다 적음. 전환 집계가 9월부터 온전한 것으로 보여 <b>기준선은 9월 값</b> 사용 (주간 합계는 주차 기준이라 월과 정확히 일치하지 않음)<br>
+      ② 성과표의 "전환"을 회원 가입으로 해석. 다른 정의라면 목표 수치 조정 필요<br>
+      ③ SEO 채널 유입에 "셀링부스터" 이름 검색이 포함되는지 미확인. 포함이라면 광고 효과가 SEO 실적에 섞임<br>
+      ④ 성과표의 SEO·pSEO·GEO 채널 분류 기준(어떤 페이지·유입 경로가 각 채널에 속하는지)은 받은 자료에 없어, 본 문서는 SEO=일반 검색 유입, pSEO=자동 생성 키워드 페이지 유입, GEO=AI 검색 유입으로 해석</div>
+  </section>
+
+  <section class="card">
+    <p class="cap">Role</p>
+    <h2>채널별 KPI 역할</h2>
+    <p class="lead">세 채널을 같은 잣대로 보지 않고, 각자 풀어야 할 문제 하나씩을 대표 KPI로 지정.</p>
+    <div class="role">
+      <div class="rc"><div class="nm"><i style="background:var(--c1)"></i>SEO · 일반 검색</div><div class="now2">9월 유입 572 · 전환 10 · 전환율 1.75%</div><div class="job">대표 KPI: 전환 수</div><p>9월 오가닉 전환 12건 중 10건 담당. 유입은 3개월간 500~600명대 정체로, 발행 콘텐츠의 유입 확대가 과제.</p></div>
+      <div class="rc"><div class="nm"><i style="background:var(--c2)"></i>pSEO · 키워드 페이지</div><div class="now2">9월 유입 1,526 · 전환 1 · 전환율 0.07% (3개월 0.03%)</div><div class="job">대표 KPI: 전환율</div><p>9월 오가닉 유입의 72%를 차지하지만 3개월 누적 유입 3,959명 중 전환 1건. 유입 확대보다 페이지 안 가입 동선 개선이 우선.</p></div>
+      <div class="rc"><div class="nm"><i style="background:var(--c3)"></i>GEO · AI 검색</div><div class="now2">9월 유입 32 · 전환 1 · 3개월 전환율 2.99%</div><div class="job">대표 KPI: 유입 수</div><p>전환율은 세 채널 중 최고이나 3개월 전환이 4건뿐이라 수치 신뢰도 낮음. 월 유입 30~50명 수준으로, 유입 규모를 목표로 관리.</p></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <p class="cap">Valuation</p>
+    <h2>오가닉 전환의 경제적 가치 산정 (9월 실측)</h2>
+    <p class="lead">오가닉 전환을 검색광고로 확보했을 때 드는 비용으로 환산. 기준 단가는 9월 검색광고(네이버+구글) CPA(전환당 비용): 광고비 822,462원 ÷ 전환 47건 = 17,499원.</p>
+    <div class="box">
+      <div class="calc">
+        <div>12건<small>9월 오가닉 3채널 전환</small></div><i>×</i>
+        <div>17,499원<small>검색광고 CPA</small></div><i>=</i>
+        <div class="res">월 약 21만 원<small>광고 환산 가치</small></div>
+      </div>
+      <p class="note">9월 광고비 338만 원과 비교하면 현재 환산 가치는 작은 수준이며, 기준안을 달성해도 27년 연간 약 1,073만 원. 방식 A는 금액 규모보다 비용 없이 확보한 전환의 증가 추이를 보는 지표이고, 실제 매출과 연결되는 지표는 방식 C(27년 1분기 이후 측정).</p>
+    </div>
+    <div class="grid3" style="margin-top:12px">
+      <div class="way"><span class="when">지금 즉시</span><h3>A. 광고 환산 가치</h3><div class="fx">오가닉 전환 수<i>×</i>검색광고 CPA</div><p>유료 광고 대비 비용 절감 효과. 본 문서 목표표의 금액 산정 기준.</p></div>
+      <div class="way"><span class="when">지금 즉시</span><h3>B. 가입 품질 (활성 전환율)</h3><div class="fx">오가닉 가입자 마켓 연동율<i>vs</i>전체 8.68%</div><p>유입 채널별 회원 품질 검증. 채널별 연동율 집계는 추가 필요.</p></div>
+      <div class="way"><span class="when later">11/30 이후</span><h3>C. 수수료 매출 기여</h3><div class="fx">오가닉 회원 스토어 거래액(GMV)<i>×</i>수수료율</div><p>스토어 편입 후 측정 시작, 27년 1분기에 기준선 확정.</p></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <p class="cap">Assumptions</p>
+    <h2>목표 설정 전제</h2>
+    <p class="lead">기준선은 9월 실측(SEO 572명, pSEO 1,526명), GEO는 변동이 커 3개월 평균 45명 사용. 성장률과 전환율은 실측이 아닌 <span class="mark">목표 가정</span>.</p>
+    <div class="phase" style="margin-bottom:12px">
+      <div class="ph"><div class="bar">26년 4분기 · 셀링부스터 단독<small>~ 11월 말</small></div><div class="body"><ul class="tight"><li>10월 기준선 확정</li><li>11/30 스토어 편입, 정식 프로모션 개시</li><li>12월 초 회원 가입 개편</li></ul></div></div>
+      <div class="ph"><div class="bar">27년 상반기 · 통합 준비<small>1/1 정식 오픈</small></div><div class="body"><ul class="tight"><li>통합 마케팅 체제 전환</li><li>4개 서비스 브랜드 통합</li><li>블로그·커뮤니티·계정을 셀링부스터 도메인으로 집결</li></ul></div></div>
+      <div class="ph"><div class="bar">27년 하반기 · 통합 운영<small>에코시스템 KPI</small></div><div class="body"><ul class="tight"><li>서비스별 전환 측정</li><li>환산 기준 단가 재산정</li></ul></div></div>
+    </div>
+    <div class="tw"><table class="num" style="min-width:700px">
+      <thead><tr><th rowspan="2">안</th><th colspan="3">월 유입 성장률</th><th colspan="3">전환율 (26년 9월 실측 → 27년 12월, 매월 균등 상승)</th></tr><tr><th>SEO</th><th>pSEO</th><th>GEO</th><th>SEO</th><th>pSEO</th><th>GEO</th></tr></thead>
+      <tbody>
+        <tr><td class="c">보수안</td><td>+5%</td><td>+4%</td><td>+5%</td><td>1.75% 유지</td><td>0.07% → 0.5%</td><td>3.0% 유지</td></tr>
+        <tr class="keyrow"><td class="c"><b>기준안</b> <span class="mark">권장</span></td><td>+8%</td><td>+7%</td><td>+10%</td><td>1.75% → 2.3%</td><td>0.07% → 1.0%</td><td>3.0% 유지</td></tr>
+        <tr><td class="c">도전안</td><td>+12%</td><td>+10%</td><td>+15%</td><td>1.75% → 3.0%</td><td>0.07% → 1.5%</td><td>3.0% 유지</td></tr>
+      </tbody></table></div>
+    <p class="note">브랜드 통합으로 타 서비스 콘텐츠가 편입되는 효과는 따로 더하지 않고 위 성장률에 포함된 것으로 가정. 통합 시점 확정 후 27년 하반기 목표 보정 필요.</p>
+    <div class="warn"><b>목표 수치의 한계 5가지</b><br>
+      ① <b>SEO 유입 성장률은 실적 근거 없음.</b> 최근 3개월 유입은 529 → 639 → 572명으로 정체. 9월부터 늘린 주 5회 발행 효과가 나타난다는 가정<br>
+      ② <b>pSEO 전환율 가정 의존도 큼.</b> 기준안 27년 12월 전환 90건 중 42건(47%)이 pSEO 전환율 1.0% 달성을 전제. 가입 동선 개선안이 정해지기 전까지는 미검증 목표<br>
+      ③ <b>GEO는 표본이 작고 9월 유입 감소</b>(53 → 32명). 기준선 45명은 3개월 평균이라 10월 목표(50명)가 9월 실적보다 높게 시작<br>
+      ④ <b>환산 기준 단가 17,499원은 9월 한 달 값 고정.</b> 네이버 검색광고 CPA만 해도 월별 10,973~32,523원으로 변동. 분기마다 재산정 권장<br>
+      ⑤ <b>계절성 미반영.</b> 명절·연말 등 월별 변동 없이 매월 같은 비율로 성장한다고 가정. 3개월 실적 후 1차 보정 필요</div>
+  </section>
+
+  <section class="card">
+    <p class="cap">Quarterly</p>
+    <h2>분기별 목표</h2>
+    <p class="lead">기준안 기준 분기 전환은 52건(26년 4분기)에서 242건(27년 4분기)으로 확대.</p>
+    <div class="figs">
+      <div class="fig"><h3>분기별 오가닉 전환 목표 (기준안)</h3><p class="sub2">단위: 건, 채널별 누적</p><div class="lg"><span><i class="sw c1"></i>SEO</span><span><i class="sw c2"></i>pSEO</span><span><i class="sw c3"></i>GEO</span></div><svg viewBox="0 0 520 260" role="img" aria-label="분기별 오가닉 전환 목표(기준안)"><line x1="44" x2="510" y1="226.0" y2="226.0" class="grid"/><text x="38" y="230.0" class="ax" text-anchor="end">0</text><line x1="44" x2="510" y1="185.2" y2="185.2" class="grid"/><text x="38" y="189.2" class="ax" text-anchor="end">50</text><line x1="44" x2="510" y1="144.4" y2="144.4" class="grid"/><text x="38" y="148.4" class="ax" text-anchor="end">100</text><line x1="44" x2="510" y1="103.6" y2="103.6" class="grid"/><text x="38" y="107.6" class="ax" text-anchor="end">150</text><line x1="44" x2="510" y1="62.8" y2="62.8" class="grid"/><text x="38" y="66.8" class="ax" text-anchor="end">200</text><line x1="44" x2="510" y1="22.0" y2="22.0" class="grid"/><text x="38" y="26.0" class="ax" text-anchor="end">250</text><rect x="67.6" y="196.6" width="46" height="27.4" rx="2" class="c1 hit" data-tip="26 Q4 SEO: 36건"/><rect x="67.6" y="189.5" width="46" height="6.2" rx="2" class="c2 hit" data-tip="26 Q4 pSEO: 10건"/><rect x="67.6" y="184.6" width="46" height="2.9" rx="2" class="c3 hit" data-tip="26 Q4 GEO: 6건"/><text x="90.6" y="176.6" class="val b" text-anchor="middle">52건</text><text x="90.6" y="248" class="axc" text-anchor="middle">26 Q4</text><rect x="160.8" y="186.0" width="46" height="38.0" rx="2" class="c1 hit" data-tip="27 Q1 SEO: 49건"/><rect x="160.8" y="167.4" width="46" height="17.6" rx="2" class="c2 hit" data-tip="27 Q1 pSEO: 24건"/><rect x="160.8" y="162.5" width="46" height="2.9" rx="2" class="c3 hit" data-tip="27 Q1 GEO: 6건"/><text x="183.8" y="154.5" class="val b" text-anchor="middle">79건</text><text x="183.8" y="248" class="axc" text-anchor="middle">27 Q1</text><rect x="254.0" y="172.1" width="46" height="51.9" rx="2" class="c1 hit" data-tip="27 Q2 SEO: 66건"/><rect x="254.0" y="136.4" width="46" height="34.7" rx="2" class="c2 hit" data-tip="27 Q2 pSEO: 45건"/><rect x="254.0" y="129.1" width="46" height="5.3" rx="2" class="c3 hit" data-tip="27 Q2 GEO: 9건"/><text x="277.0" y="121.1" class="val b" text-anchor="middle">120건</text><text x="277.0" y="248" class="axc" text-anchor="middle">27 Q2</text><rect x="347.2" y="155.0" width="46" height="69.0" rx="2" class="c1 hit" data-tip="27 Q3 SEO: 87건"/><rect x="347.2" y="96.4" width="46" height="57.6" rx="2" class="c2 hit" data-tip="27 Q3 pSEO: 73건"/><rect x="347.2" y="86.6" width="46" height="7.8" rx="2" class="c3 hit" data-tip="27 Q3 GEO: 12건"/><text x="370.2" y="78.6" class="val b" text-anchor="middle">172건</text><text x="370.2" y="248" class="axc" text-anchor="middle">27 Q3</text><rect x="440.4" y="132.2" width="46" height="91.8" rx="2" class="c1 hit" data-tip="27 Q4 SEO: 115건"/><rect x="440.4" y="42.6" width="46" height="88.6" rx="2" class="c2 hit" data-tip="27 Q4 pSEO: 111건"/><rect x="440.4" y="29.5" width="46" height="11.1" rx="2" class="c3 hit" data-tip="27 Q4 GEO: 16건"/><text x="463.4" y="21.5" class="val b" text-anchor="middle">242건</text><text x="463.4" y="248" class="axc" text-anchor="middle">27 Q4</text></svg></div>
+      <div class="fig"><h3>3안 비교</h3><p class="sub2">분기 전환 합계와 광고 환산 가치</p><div class="scroll"><table class="num" style="min-width:420px"><thead><tr><th rowspan="2">분기</th><th colspan="2">보수안</th><th colspan="2">기준안</th><th colspan="2">도전안</th></tr><tr><th>전환</th><th>환산 가치(만 원)</th><th>전환</th><th>환산 가치(만 원)</th><th>전환</th><th>환산 가치(만 원)</th></tr></thead><tbody><tr><td class="c"><b>26년 4분기</b></td><td>46</td><td>80</td><td>52</td><td>91</td><td>63</td><td>110</td></tr><tr><td class="c"><b>27년 1분기</b></td><td>56</td><td>98</td><td>79</td><td>138</td><td>114</td><td>199</td></tr><tr><td class="c"><b>27년 2분기</b></td><td>69</td><td>121</td><td>120</td><td>210</td><td>199</td><td>348</td></tr><tr><td class="c"><b>27년 3분기</b></td><td>84</td><td>147</td><td>172</td><td>301</td><td>326</td><td>570</td></tr><tr><td class="c"><b>27년 4분기</b></td><td>106</td><td>185</td><td>242</td><td>423</td><td>522</td><td>913</td></tr><tr class="sub"><td class="c">27년 12월 (월)</td><td>38</td><td>66</td><td>90</td><td>157</td><td>201</td><td>352</td></tr></tbody></table></div></div>
+    </div>
+    <div class="tw" style="margin-top:12px"><table class="num"><thead><tr><th rowspan="2">분기</th><th colspan="3">SEO</th><th colspan="3">pSEO</th><th colspan="3">GEO</th><th rowspan="2">전환 합계</th><th rowspan="2">환산 가치<br>(만 원)</th></tr><tr><th>유입</th><th>전환</th><th>전환율</th><th>유입</th><th>전환</th><th>전환율</th><th>유입</th><th>전환</th><th>전환율</th></tr></thead><tbody><tr><td class="c"><b>26년 4분기</b></td><td>2,006</td><td>36</td><td>1.79%</td><td>5,249</td><td>10</td><td>0.19%</td><td>164</td><td>6</td><td>3.66%</td><td><b>52</b></td><td>91</td></tr><tr><td class="c"><b>27년 1분기</b></td><td>2,526</td><td>49</td><td>1.94%</td><td>6,430</td><td>24</td><td>0.37%</td><td>218</td><td>6</td><td>2.75%</td><td><b>79</b></td><td>138</td></tr><tr><td class="c"><b>27년 2분기</b></td><td>3,182</td><td>66</td><td>2.07%</td><td>7,877</td><td>45</td><td>0.57%</td><td>290</td><td>9</td><td>3.10%</td><td><b>120</b></td><td>210</td></tr><tr><td class="c"><b>27년 3분기</b></td><td>4,009</td><td>87</td><td>2.17%</td><td>9,651</td><td>73</td><td>0.76%</td><td>386</td><td>12</td><td>3.11%</td><td><b>172</b></td><td>301</td></tr><tr><td class="c"><b>27년 4분기</b></td><td>5,050</td><td>115</td><td>2.28%</td><td>11,822</td><td>111</td><td>0.94%</td><td>514</td><td>16</td><td>3.11%</td><td><b>242</b></td><td>423</td></tr><tr class="sub"><td class="c">2027년 연간</td><td>14,767</td><td>317</td><td>—</td><td>35,780</td><td>253</td><td>—</td><td>1,408</td><td>43</td><td>—</td><td>613</td><td>1,073</td></tr></tbody></table></div>
+    <p class="note">전환 수는 월별로 반올림해 합산하므로, 분기 전환율이 전제 표의 가정값과 소수점 단위로 다를 수 있음.</p>
+  </section>
+
+  <section class="card">
+    <p class="cap">Monthly</p>
+    <h2>월별 목표 (26년 10월 ~ 27년 12월)</h2>
+    <p class="lead">분기 요약 카드와 표는 기준안. 보수안·도전안 월별 표는 별첨 2.</p>
+    <div class="qc"><div class="qcard"><div class="qh">26년 4분기</div><div class="qb"><div class="big">52<small>건</small></div><div class="bl">오가닉 전환</div>
+<dl><div><dt>유입</dt><dd>7,419명</dd></div><div><dt>전환율</dt><dd>0.70%</dd></div><div><dt>광고 환산 가치</dt><dd>91만 원</dd></div></dl></div></div><div class="qcard"><div class="qh">27년 1분기</div><div class="qb"><div class="big">79<small>건</small></div><div class="bl">오가닉 전환</div>
+<dl><div><dt>유입</dt><dd>9,174명</dd></div><div><dt>전환율</dt><dd>0.86%</dd></div><div><dt>광고 환산 가치</dt><dd>138만 원</dd></div></dl></div></div><div class="qcard"><div class="qh">27년 2분기</div><div class="qb"><div class="big">120<small>건</small></div><div class="bl">오가닉 전환</div>
+<dl><div><dt>유입</dt><dd>11,349명</dd></div><div><dt>전환율</dt><dd>1.06%</dd></div><div><dt>광고 환산 가치</dt><dd>210만 원</dd></div></dl></div></div><div class="qcard"><div class="qh">27년 3분기</div><div class="qb"><div class="big">172<small>건</small></div><div class="bl">오가닉 전환</div>
+<dl><div><dt>유입</dt><dd>14,046명</dd></div><div><dt>전환율</dt><dd>1.22%</dd></div><div><dt>광고 환산 가치</dt><dd>301만 원</dd></div></dl></div></div><div class="qcard"><div class="qh">27년 4분기</div><div class="qb"><div class="big">242<small>건</small></div><div class="bl">오가닉 전환</div>
+<dl><div><dt>유입</dt><dd>17,386명</dd></div><div><dt>전환율</dt><dd>1.39%</dd></div><div><dt>광고 환산 가치</dt><dd>423만 원</dd></div></dl></div></div></div>
+    <div class="fig wide"><h3>월별 오가닉 전환 수: 9월 실측에서 출발하는 3안 목표</h3><p class="sub2">단위: 건 (SEO+pSEO+GEO 합계)</p>
+      <div class="lg"><span><i class="ls"></i>기준안</span><span><i class="ls hi"></i>도전안</span><span><i class="ls lo"></i>보수안</span></div>
+      <div class="scroll"><svg viewBox="0 0 1000 300" role="img" aria-label="월별 오가닉 전환 목표 3안"><line x1="44" x2="904" y1="266.0" y2="266.0" class="grid"/><text x="38" y="270.0" class="ax" text-anchor="end">0</text><line x1="44" x2="904" y1="216.0" y2="216.0" class="grid"/><text x="38" y="220.0" class="ax" text-anchor="end">50</text><line x1="44" x2="904" y1="166.0" y2="166.0" class="grid"/><text x="38" y="170.0" class="ax" text-anchor="end">100</text><line x1="44" x2="904" y1="116.0" y2="116.0" class="grid"/><text x="38" y="120.0" class="ax" text-anchor="end">150</text><line x1="44" x2="904" y1="66.0" y2="66.0" class="grid"/><text x="38" y="70.0" class="ax" text-anchor="end">200</text><line x1="44" x2="904" y1="16.0" y2="16.0" class="grid"/><text x="38" y="20.0" class="ax" text-anchor="end">250</text><text x="44.0" y="288" class="axc" text-anchor="middle">26.09</text><text x="216.0" y="288" class="axc" text-anchor="middle">26.12</text><text x="388.0" y="288" class="axc" text-anchor="middle">27.03</text><text x="560.0" y="288" class="axc" text-anchor="middle">27.06</text><text x="732.0" y="288" class="axc" text-anchor="middle">27.09</text><text x="904.0" y="288" class="axc" text-anchor="middle">27.12</text><polyline class="ln-hi" fill="none" points="44.0,254.0 101.3,249.0 158.7,245.0 216.0,241.0 273.3,235.0 330.7,228.0 388.0,221.0 445.3,210.0 502.7,201.0 560.0,188.0 617.3,174.0 674.7,158.0 732.0,140.0 789.3,118.0 846.7,93.0 904.0,65.0"/><circle cx="101.3" cy="249.0" r="9" class="hitc" data-tip="26.10 도전안: 17건"/><circle cx="158.7" cy="245.0" r="9" class="hitc" data-tip="26.11 도전안: 21건"/><circle cx="216.0" cy="241.0" r="9" class="hitc" data-tip="26.12 도전안: 25건"/><circle cx="273.3" cy="235.0" r="9" class="hitc" data-tip="27.01 도전안: 31건"/><circle cx="330.7" cy="228.0" r="9" class="hitc" data-tip="27.02 도전안: 38건"/><circle cx="388.0" cy="221.0" r="9" class="hitc" data-tip="27.03 도전안: 45건"/><circle cx="445.3" cy="210.0" r="9" class="hitc" data-tip="27.04 도전안: 56건"/><circle cx="502.7" cy="201.0" r="9" class="hitc" data-tip="27.05 도전안: 65건"/><circle cx="560.0" cy="188.0" r="9" class="hitc" data-tip="27.06 도전안: 78건"/><circle cx="617.3" cy="174.0" r="9" class="hitc" data-tip="27.07 도전안: 92건"/><circle cx="674.7" cy="158.0" r="9" class="hitc" data-tip="27.08 도전안: 108건"/><circle cx="732.0" cy="140.0" r="9" class="hitc" data-tip="27.09 도전안: 126건"/><circle cx="789.3" cy="118.0" r="9" class="hitc" data-tip="27.10 도전안: 148건"/><circle cx="846.7" cy="93.0" r="9" class="hitc" data-tip="27.11 도전안: 173건"/><circle cx="904.0" cy="65.0" r="9" class="hitc" data-tip="27.12 도전안: 201건"/><circle cx="904.0" cy="65.0" r="4" class="dot-ln-hi"/><text x="913.0" y="69.0" class="val b">도전 201건</text><polyline class="ln-lo" fill="none" points="44.0,254.0 101.3,252.0 158.7,251.0 216.0,249.0 273.3,249.0 330.7,247.0 388.0,246.0 445.3,245.0 502.7,243.0 560.0,241.0 617.3,240.0 674.7,238.0 732.0,236.0 789.3,233.0 846.7,231.0 904.0,228.0"/><circle cx="101.3" cy="252.0" r="9" class="hitc" data-tip="26.10 보수안: 14건"/><circle cx="158.7" cy="251.0" r="9" class="hitc" data-tip="26.11 보수안: 15건"/><circle cx="216.0" cy="249.0" r="9" class="hitc" data-tip="26.12 보수안: 17건"/><circle cx="273.3" cy="249.0" r="9" class="hitc" data-tip="27.01 보수안: 17건"/><circle cx="330.7" cy="247.0" r="9" class="hitc" data-tip="27.02 보수안: 19건"/><circle cx="388.0" cy="246.0" r="9" class="hitc" data-tip="27.03 보수안: 20건"/><circle cx="445.3" cy="245.0" r="9" class="hitc" data-tip="27.04 보수안: 21건"/><circle cx="502.7" cy="243.0" r="9" class="hitc" data-tip="27.05 보수안: 23건"/><circle cx="560.0" cy="241.0" r="9" class="hitc" data-tip="27.06 보수안: 25건"/><circle cx="617.3" cy="240.0" r="9" class="hitc" data-tip="27.07 보수안: 26건"/><circle cx="674.7" cy="238.0" r="9" class="hitc" data-tip="27.08 보수안: 28건"/><circle cx="732.0" cy="236.0" r="9" class="hitc" data-tip="27.09 보수안: 30건"/><circle cx="789.3" cy="233.0" r="9" class="hitc" data-tip="27.10 보수안: 33건"/><circle cx="846.7" cy="231.0" r="9" class="hitc" data-tip="27.11 보수안: 35건"/><circle cx="904.0" cy="228.0" r="9" class="hitc" data-tip="27.12 보수안: 38건"/><circle cx="904.0" cy="228.0" r="4" class="dot-ln-lo"/><text x="913.0" y="232.0" class="val b">보수 38건</text><polyline class="ln-base" fill="none" points="44.0,254.0 101.3,251.0 158.7,249.0 216.0,246.0 273.3,243.0 330.7,240.0 388.0,236.0 445.3,231.0 502.7,226.0 560.0,221.0 617.3,215.0 674.7,209.0 732.0,202.0 789.3,194.0 846.7,186.0 904.0,176.0"/><circle cx="101.3" cy="251.0" r="9" class="hitc" data-tip="26.10 기준안: 15건"/><circle cx="158.7" cy="249.0" r="9" class="hitc" data-tip="26.11 기준안: 17건"/><circle cx="216.0" cy="246.0" r="9" class="hitc" data-tip="26.12 기준안: 20건"/><circle cx="273.3" cy="243.0" r="9" class="hitc" data-tip="27.01 기준안: 23건"/><circle cx="330.7" cy="240.0" r="9" class="hitc" data-tip="27.02 기준안: 26건"/><circle cx="388.0" cy="236.0" r="9" class="hitc" data-tip="27.03 기준안: 30건"/><circle cx="445.3" cy="231.0" r="9" class="hitc" data-tip="27.04 기준안: 35건"/><circle cx="502.7" cy="226.0" r="9" class="hitc" data-tip="27.05 기준안: 40건"/><circle cx="560.0" cy="221.0" r="9" class="hitc" data-tip="27.06 기준안: 45건"/><circle cx="617.3" cy="215.0" r="9" class="hitc" data-tip="27.07 기준안: 51건"/><circle cx="674.7" cy="209.0" r="9" class="hitc" data-tip="27.08 기준안: 57건"/><circle cx="732.0" cy="202.0" r="9" class="hitc" data-tip="27.09 기준안: 64건"/><circle cx="789.3" cy="194.0" r="9" class="hitc" data-tip="27.10 기준안: 72건"/><circle cx="846.7" cy="186.0" r="9" class="hitc" data-tip="27.11 기준안: 80건"/><circle cx="904.0" cy="176.0" r="9" class="hitc" data-tip="27.12 기준안: 90건"/><circle cx="904.0" cy="176.0" r="4" class="dot-ln-base"/><text x="913.0" y="180.0" class="val b">기준 90건</text><polyline class="ln-act" fill="none" points="44.0,254.0"/><circle cx="44.0" cy="254.0" r="3.5" class="dot-ln-base"/><circle cx="44.0" cy="254.0" r="9" class="hitc" data-tip="26.09 실측: 12건"/><text x="48.0" y="244.0" class="val">9월 실측 12건</text></svg></div></div>
+    <div class="tw" style="margin-top:12px"><table class="num"><thead><tr><th rowspan="2">월</th><th colspan="2">SEO</th><th colspan="2">pSEO</th><th colspan="2">GEO</th><th colspan="2">오가닉 합계</th><th rowspan="2">광고 환산 가치<br>(만 원)</th></tr><tr><th>유입</th><th>전환</th><th>유입</th><th>전환</th><th>유입</th><th>전환</th><th>유입</th><th>전환</th></tr></thead><tbody><tr><td class="c">26.10</td><td>618</td><td>11</td><td>1,633</td><td>2</td><td>50</td><td>2</td><td>2,301</td><td><b>15</b></td><td>26</td></tr><tr><td class="c">26.11</td><td>667</td><td>12</td><td>1,747</td><td>3</td><td>54</td><td>2</td><td>2,468</td><td><b>17</b></td><td>30</td></tr><tr><td class="c">26.12</td><td>721</td><td>13</td><td>1,869</td><td>5</td><td>60</td><td>2</td><td>2,650</td><td><b>20</b></td><td>35</td></tr><tr class="sub"><td class="c">26 Q4 계</td><td>2,006</td><td>36</td><td>5,249</td><td>10</td><td>164</td><td>6</td><td>7,419</td><td>52</td><td>91</td></tr><tr><td class="c">27.01</td><td>778</td><td>15</td><td>2,000</td><td>6</td><td>66</td><td>2</td><td>2,844</td><td><b>23</b></td><td>40</td></tr><tr><td class="c">27.02</td><td>840</td><td>16</td><td>2,140</td><td>8</td><td>72</td><td>2</td><td>3,052</td><td><b>26</b></td><td>45</td></tr><tr><td class="c">27.03</td><td>908</td><td>18</td><td>2,290</td><td>10</td><td>80</td><td>2</td><td>3,278</td><td><b>30</b></td><td>52</td></tr><tr class="sub"><td class="c">27 Q1 계</td><td>2,526</td><td>49</td><td>6,430</td><td>24</td><td>218</td><td>6</td><td>9,174</td><td>79</td><td>138</td></tr><tr><td class="c">27.04</td><td>980</td><td>20</td><td>2,450</td><td>12</td><td>88</td><td>3</td><td>3,518</td><td><b>35</b></td><td>61</td></tr><tr><td class="c">27.05</td><td>1,059</td><td>22</td><td>2,622</td><td>15</td><td>96</td><td>3</td><td>3,777</td><td><b>40</b></td><td>70</td></tr><tr><td class="c">27.06</td><td>1,143</td><td>24</td><td>2,805</td><td>18</td><td>106</td><td>3</td><td>4,054</td><td><b>45</b></td><td>79</td></tr><tr class="sub"><td class="c">27 Q2 계</td><td>3,182</td><td>66</td><td>7,877</td><td>45</td><td>290</td><td>9</td><td>11,349</td><td>120</td><td>210</td></tr><tr><td class="c">27.07</td><td>1,235</td><td>26</td><td>3,002</td><td>21</td><td>117</td><td>4</td><td>4,354</td><td><b>51</b></td><td>89</td></tr><tr><td class="c">27.08</td><td>1,334</td><td>29</td><td>3,212</td><td>24</td><td>128</td><td>4</td><td>4,674</td><td><b>57</b></td><td>100</td></tr><tr><td class="c">27.09</td><td>1,440</td><td>32</td><td>3,437</td><td>28</td><td>141</td><td>4</td><td>5,018</td><td><b>64</b></td><td>112</td></tr><tr class="sub"><td class="c">27 Q3 계</td><td>4,009</td><td>87</td><td>9,651</td><td>73</td><td>386</td><td>12</td><td>14,046</td><td>172</td><td>301</td></tr><tr><td class="c">27.10</td><td>1,556</td><td>35</td><td>3,677</td><td>32</td><td>155</td><td>5</td><td>5,388</td><td><b>72</b></td><td>126</td></tr><tr><td class="c">27.11</td><td>1,680</td><td>38</td><td>3,935</td><td>37</td><td>171</td><td>5</td><td>5,786</td><td><b>80</b></td><td>140</td></tr><tr><td class="c">27.12</td><td>1,814</td><td>42</td><td>4,210</td><td>42</td><td>188</td><td>6</td><td>6,212</td><td><b>90</b></td><td>157</td></tr><tr class="sub"><td class="c">27 Q4 계</td><td>5,050</td><td>115</td><td>11,822</td><td>111</td><td>514</td><td>16</td><td>17,386</td><td>242</td><td>423</td></tr></tbody></table></div>
+  </section>
+
+  <section class="card">
+    <p class="cap">Actions</p>
+    <h2>분기별 핵심 과제</h2>
+    <div class="tw"><table>
+      <thead><tr><th style="width:14%">분기</th><th style="width:29%">SEO</th><th style="width:29%">pSEO</th><th style="width:28%">GEO·공통</th></tr></thead>
+      <tbody>
+        <tr><td class="grp">26년 4분기</td><td>주 5회 발행 유지, 스토어 편입 콘텐츠 선발행</td><td>키워드 페이지 가입 동선 점검·개선안 확정, 전환율 0.26%</td><td>sitemap·RSS 제공 개시(완료)에 따른 색인 소요 기간 점검, AI 유입 집계 기준 확정</td></tr>
+        <tr><td class="grp">27년 1분기</td><td>정식 오픈·가입 개편 후 전환율 재측정</td><td>전환 동선 개선안 적용, 전환율 0.44%</td><td>스토어 판매 신청 기준선 확보, 목표 1차 보정</td></tr>
+        <tr><td class="grp">27년 2분기</td><td>통합 블로그 이전 준비 (기존 주소 유지·이전 처리)</td><td>전환율 0.63%, 통합 대상 서비스로 페이지 확장 검토</td><td>브랜드 통합 시 색인·유입 유지 점검</td></tr>
+        <tr><td class="grp">27년 3분기</td><td>통합 블로그 기준 서비스별 전환 측정</td><td>전환율 0.81%</td><td>서비스별(STORE·INSIGHT·MANAGER·GLOBAL) 전환 집계</td></tr>
+        <tr><td class="grp">27년 4분기</td><td>연간 정산, 28년 목표 수립</td><td>전환율 1.00%</td><td>환산 기준 단가 재산정 (방식 C 반영)</td></tr>
+      </tbody></table></div>
+  </section>
+
+  <section class="card">
+    <p class="cap">Prerequisites</p>
+    <h2>선결 조건 5가지 (1건 완료)</h2>
+    <ul class="chk">
+      <li><b>① 전환·채널 정의 확정<span class="st ask">확인 필요</span></b><span>성과표의 전환이 회원 가입인지, 7·8월 집계가 온전한지, SEO·pSEO·GEO 분류 기준이 무엇인지 확인</span></li>
+      <li><b>② 브랜드 검색 분리<span class="st ask">확인 필요</span></b><span>SEO 채널에서 "셀링부스터" 이름 검색 유입 분리 여부</span></li>
+      <li><b>③ sitemap·RSS 제공<span class="st done">완료</span></b><span>자사 블로그 /rss.xml · /sitemap.xml · robots.txt Sitemap 제공 개시. 검색엔진 색인 대기 단축, 발행 모니터링을 RSS 수집 기반으로 안정화</span></li>
+      <li><b>④ 채널별 마켓 연동율 집계</b><span>받은 자료 기준 전체 연동율만 집계. 오가닉 가입자만 따로 볼 수 있어야 방식 B 적용 가능</span></li>
+      <li><b>⑤ 도메인 간 전환 추적</b><span>27년 통합 시 블로그에서 다른 도메인 서비스 가입까지 이어서 측정하는 설계</span></li>
+    </ul>
+  </section>
+
+  <section class="card appx" id="appendix">
+    <p class="cap">Appendix</p>
+    <h2><span class="badge">별첨 1</span>KPI 샘플</h2>
+    <p class="lead">현재 값은 9월 실측, 목표는 기준안.</p>
+    <div class="tw"><table>
+      <thead><tr><th style="width:9%">채널</th><th style="width:17%">지표</th><th style="width:26%">산식·정의</th><th style="width:12%">현재 (26.09)</th><th style="width:12%">26.12 목표</th><th style="width:12%">27.12 목표</th><th style="width:12%">구분</th></tr></thead>
+      <tbody>
+        <tr class="keyrow"><td class="grp g1">SEO</td><td><b>전환 수</b></td><td>일반 검색 유입의 월 전환</td><td class="c">10건</td><td class="c">13건</td><td class="c">42건</td><td class="c">대표 KPI</td></tr>
+        <tr><td class="grp g1">SEO</td><td>유입 수</td><td>월 검색 유입</td><td class="c">572명</td><td class="c">721명</td><td class="c">1,814명</td><td class="c">선행</td></tr>
+        <tr class="keyrow"><td class="grp g2">pSEO</td><td><b>전환율</b></td><td>키워드 페이지 전환 ÷ 유입</td><td class="c">0.07%</td><td class="c">0.26%</td><td class="c">1.00%</td><td class="c">대표 KPI</td></tr>
+        <tr><td class="grp g2">pSEO</td><td>유입 수</td><td>키워드 페이지 월 검색 유입</td><td class="c">1,526명</td><td class="c">1,869명</td><td class="c">4,210명</td><td class="c">선행</td></tr>
+        <tr><td class="grp g2">pSEO</td><td>전환 수</td><td>키워드 페이지 유입의 월 전환</td><td class="c">1건</td><td class="c">5건</td><td class="c">42건</td><td class="c">결과</td></tr>
+        <tr class="keyrow"><td class="grp g3">GEO</td><td><b>유입 수</b></td><td>AI 검색·챗봇 경유 월 유입</td><td class="c">32명<br>(3개월 평균 45명)</td><td class="c">60명</td><td class="c">188명</td><td class="c">대표 KPI</td></tr>
+        <tr><td class="grp g3">GEO</td><td>전환 수</td><td>AI 유입의 월 전환</td><td class="c">1건</td><td class="c">2건</td><td class="c">6건</td><td class="c">결과</td></tr>
+        <tr><td class="grp">합계</td><td><b>오가닉 전환 수</b></td><td>3채널 전환 합계</td><td class="c">12건</td><td class="c">20건</td><td class="c">90건</td><td class="c">결과</td></tr>
+        <tr><td class="grp">합계</td><td><b>광고 환산 가치</b></td><td>오가닉 전환 × 검색광고 CPA 17,499원</td><td class="c">21만 원</td><td class="c">35만 원</td><td class="c">157만 원</td><td class="c">환산</td></tr>
+        <tr><td class="grp">합계</td><td>오가닉 전환 비중</td><td>오가닉 전환 ÷ 전체 전환</td><td class="c">9.2%</td><td class="c" colspan="2">추이 관찰 (광고 집행 규모에 따라 변동)</td><td class="c">보조</td></tr>
+        <tr><td class="grp">합계</td><td>오가닉 가입자 마켓 연동율</td><td>오가닉 가입자 중 마켓 연동 비율</td><td class="c">미집계<br>(전체 8.68%)</td><td class="c" colspan="2">전체 연동율 이상</td><td class="c">보조</td></tr>
+      </tbody></table></div>
+  </section>
+
+  <section class="card">
+    <h2><span class="badge">별첨 2</span>보수안·도전안 월별 목표</h2>
+    <details><summary>보수안 월별 표 열기</summary><div class="tw"><table class="num"><thead><tr><th rowspan="2">월</th><th colspan="2">SEO</th><th colspan="2">pSEO</th><th colspan="2">GEO</th><th colspan="2">오가닉 합계</th><th rowspan="2">광고 환산 가치<br>(만 원)</th></tr><tr><th>유입</th><th>전환</th><th>유입</th><th>전환</th><th>유입</th><th>전환</th><th>유입</th><th>전환</th></tr></thead><tbody><tr><td class="c">26.10</td><td>601</td><td>11</td><td>1,587</td><td>2</td><td>47</td><td>1</td><td>2,235</td><td><b>14</b></td><td>24</td></tr><tr><td class="c">26.11</td><td>631</td><td>11</td><td>1,651</td><td>2</td><td>50</td><td>2</td><td>2,332</td><td><b>15</b></td><td>26</td></tr><tr><td class="c">26.12</td><td>662</td><td>12</td><td>1,717</td><td>3</td><td>52</td><td>2</td><td>2,431</td><td><b>17</b></td><td>30</td></tr><tr class="sub"><td class="c">26 Q4 계</td><td>1,894</td><td>34</td><td>4,955</td><td>7</td><td>149</td><td>5</td><td>6,998</td><td>46</td><td>80</td></tr><tr><td class="c">27.01</td><td>695</td><td>12</td><td>1,785</td><td>3</td><td>55</td><td>2</td><td>2,535</td><td><b>17</b></td><td>30</td></tr><tr><td class="c">27.02</td><td>730</td><td>13</td><td>1,857</td><td>4</td><td>57</td><td>2</td><td>2,644</td><td><b>19</b></td><td>33</td></tr><tr><td class="c">27.03</td><td>767</td><td>13</td><td>1,931</td><td>5</td><td>60</td><td>2</td><td>2,758</td><td><b>20</b></td><td>35</td></tr><tr class="sub"><td class="c">27 Q1 계</td><td>2,192</td><td>38</td><td>5,573</td><td>12</td><td>172</td><td>6</td><td>7,937</td><td>56</td><td>98</td></tr><tr><td class="c">27.04</td><td>805</td><td>14</td><td>2,008</td><td>5</td><td>63</td><td>2</td><td>2,876</td><td><b>21</b></td><td>37</td></tr><tr><td class="c">27.05</td><td>845</td><td>15</td><td>2,088</td><td>6</td><td>66</td><td>2</td><td>2,999</td><td><b>23</b></td><td>40</td></tr><tr><td class="c">27.06</td><td>887</td><td>16</td><td>2,172</td><td>7</td><td>70</td><td>2</td><td>3,129</td><td><b>25</b></td><td>44</td></tr><tr class="sub"><td class="c">27 Q2 계</td><td>2,537</td><td>45</td><td>6,268</td><td>18</td><td>199</td><td>6</td><td>9,004</td><td>69</td><td>121</td></tr><tr><td class="c">27.07</td><td>932</td><td>16</td><td>2,259</td><td>8</td><td>73</td><td>2</td><td>3,264</td><td><b>26</b></td><td>45</td></tr><tr><td class="c">27.08</td><td>978</td><td>17</td><td>2,349</td><td>9</td><td>77</td><td>2</td><td>3,404</td><td><b>28</b></td><td>49</td></tr><tr><td class="c">27.09</td><td>1,027</td><td>18</td><td>2,443</td><td>10</td><td>81</td><td>2</td><td>3,551</td><td><b>30</b></td><td>52</td></tr><tr class="sub"><td class="c">27 Q3 계</td><td>2,937</td><td>51</td><td>7,051</td><td>27</td><td>231</td><td>6</td><td>10,219</td><td>84</td><td>147</td></tr><tr><td class="c">27.10</td><td>1,079</td><td>19</td><td>2,541</td><td>11</td><td>85</td><td>3</td><td>3,705</td><td><b>33</b></td><td>58</td></tr><tr><td class="c">27.11</td><td>1,133</td><td>20</td><td>2,643</td><td>12</td><td>89</td><td>3</td><td>3,865</td><td><b>35</b></td><td>61</td></tr><tr><td class="c">27.12</td><td>1,189</td><td>21</td><td>2,748</td><td>14</td><td>94</td><td>3</td><td>4,031</td><td><b>38</b></td><td>66</td></tr><tr class="sub"><td class="c">27 Q4 계</td><td>3,401</td><td>60</td><td>7,932</td><td>37</td><td>268</td><td>9</td><td>11,601</td><td>106</td><td>185</td></tr></tbody></table></div></details>
+    <details><summary>도전안 월별 표 열기</summary><div class="tw"><table class="num"><thead><tr><th rowspan="2">월</th><th colspan="2">SEO</th><th colspan="2">pSEO</th><th colspan="2">GEO</th><th colspan="2">오가닉 합계</th><th rowspan="2">광고 환산 가치<br>(만 원)</th></tr><tr><th>유입</th><th>전환</th><th>유입</th><th>전환</th><th>유입</th><th>전환</th><th>유입</th><th>전환</th></tr></thead><tbody><tr><td class="c">26.10</td><td>641</td><td>12</td><td>1,679</td><td>3</td><td>52</td><td>2</td><td>2,372</td><td><b>17</b></td><td>30</td></tr><tr><td class="c">26.11</td><td>718</td><td>14</td><td>1,846</td><td>5</td><td>60</td><td>2</td><td>2,624</td><td><b>21</b></td><td>37</td></tr><tr><td class="c">26.12</td><td>804</td><td>16</td><td>2,031</td><td>7</td><td>68</td><td>2</td><td>2,903</td><td><b>25</b></td><td>44</td></tr><tr class="sub"><td class="c">26 Q4 계</td><td>2,163</td><td>42</td><td>5,556</td><td>15</td><td>180</td><td>6</td><td>7,899</td><td>63</td><td>110</td></tr><tr><td class="c">27.01</td><td>900</td><td>19</td><td>2,234</td><td>10</td><td>79</td><td>2</td><td>3,213</td><td><b>31</b></td><td>54</td></tr><tr><td class="c">27.02</td><td>1,008</td><td>22</td><td>2,458</td><td>13</td><td>91</td><td>3</td><td>3,557</td><td><b>38</b></td><td>66</td></tr><tr><td class="c">27.03</td><td>1,129</td><td>25</td><td>2,703</td><td>17</td><td>104</td><td>3</td><td>3,936</td><td><b>45</b></td><td>79</td></tr><tr class="sub"><td class="c">27 Q1 계</td><td>3,037</td><td>66</td><td>7,395</td><td>40</td><td>274</td><td>8</td><td>10,706</td><td>114</td><td>199</td></tr><tr><td class="c">27.04</td><td>1,265</td><td>30</td><td>2,974</td><td>22</td><td>120</td><td>4</td><td>4,359</td><td><b>56</b></td><td>98</td></tr><tr><td class="c">27.05</td><td>1,416</td><td>34</td><td>3,271</td><td>27</td><td>138</td><td>4</td><td>4,825</td><td><b>65</b></td><td>114</td></tr><tr><td class="c">27.06</td><td>1,586</td><td>40</td><td>3,598</td><td>33</td><td>158</td><td>5</td><td>5,342</td><td><b>78</b></td><td>136</td></tr><tr class="sub"><td class="c">27 Q2 계</td><td>4,267</td><td>104</td><td>9,843</td><td>82</td><td>416</td><td>13</td><td>14,526</td><td>199</td><td>348</td></tr><tr><td class="c">27.07</td><td>1,777</td><td>46</td><td>3,958</td><td>41</td><td>182</td><td>5</td><td>5,917</td><td><b>92</b></td><td>161</td></tr><tr><td class="c">27.08</td><td>1,990</td><td>53</td><td>4,354</td><td>49</td><td>209</td><td>6</td><td>6,553</td><td><b>108</b></td><td>189</td></tr><tr><td class="c">27.09</td><td>2,228</td><td>61</td><td>4,789</td><td>58</td><td>241</td><td>7</td><td>7,258</td><td><b>126</b></td><td>220</td></tr><tr class="sub"><td class="c">27 Q3 계</td><td>5,995</td><td>160</td><td>13,101</td><td>148</td><td>632</td><td>18</td><td>19,728</td><td>326</td><td>570</td></tr><tr><td class="c">27.10</td><td>2,496</td><td>71</td><td>5,268</td><td>69</td><td>277</td><td>8</td><td>8,041</td><td><b>148</b></td><td>259</td></tr><tr><td class="c">27.11</td><td>2,795</td><td>82</td><td>5,795</td><td>81</td><td>318</td><td>10</td><td>8,908</td><td><b>173</b></td><td>303</td></tr><tr><td class="c">27.12</td><td>3,131</td><td>94</td><td>6,374</td><td>96</td><td>366</td><td>11</td><td>9,871</td><td><b>201</b></td><td>352</td></tr><tr class="sub"><td class="c">27 Q4 계</td><td>8,422</td><td>247</td><td>17,437</td><td>246</td><td>961</td><td>29</td><td>26,820</td><td>522</td><td>913</td></tr></tbody></table></div></details>
+  </section>
+
+  <section class="card">
+    <h2><span class="badge">별첨 3</span>월간 보고 양식</h2>
+    <p class="lead">전월 칸은 9월 실측, 목표 칸은 10월 기준안.</p>
+    <div class="tw"><table class="num" style="min-width:640px">
+      <thead><tr><th>지표</th><th>전월 (9월)</th><th>당월 (10월)</th><th>목표 (10월)</th><th>판정</th></tr></thead>
+      <tbody>
+        <tr class="keyrow"><td class="c"><b>SEO 전환 수</b></td><td>10</td><td>—</td><td>11</td><td class="c">달성 / 미달</td></tr>
+        <tr><td class="c"><b>pSEO 전환율</b></td><td>0.07%</td><td>—</td><td>0.13%</td><td class="c">달성 / 미달</td></tr>
+        <tr><td class="c"><b>GEO 유입 수</b></td><td>32</td><td>—</td><td>50</td><td class="c">달성 / 미달</td></tr>
+        <tr><td class="c">오가닉 전환 합계</td><td>12</td><td>—</td><td>15</td><td class="c">달성 / 미달</td></tr>
+        <tr><td class="c">광고 환산 가치 (만 원)</td><td>21</td><td>—</td><td>26</td><td class="c">참고</td></tr>
+      </tbody></table></div>
+  </section>
+</div>
+<div class="toc"><nav id="tocnav" aria-label="목차" hidden></nav><button type="button" id="tocbtn" aria-expanded="false" aria-controls="tocnav"><span aria-hidden="true">☰</span><span id="toclbl">목차</span></button></div>
+<div id="tt" hidden></div>
+<script>
+(function(){var t=document.getElementById('tt');
+document.addEventListener('pointermove',function(e){var el=e.target.closest&&e.target.closest('[data-tip]');
+if(!el){t.hidden=true;return}t.textContent=el.getAttribute('data-tip');t.hidden=false;
+var x=Math.min(e.clientX+12,window.innerWidth-t.offsetWidth-8);t.style.left=x+'px';t.style.top=(e.clientY-34)+'px';});
+document.addEventListener('pointerleave',function(){t.hidden=true});
+var nav=document.getElementById('tocnav'),btn=document.getElementById('tocbtn'),lbl=document.getElementById('toclbl');
+function setOpen(o){nav.hidden=!o;btn.setAttribute('aria-expanded',o?'true':'false');lbl.textContent=o?'목차 닫기':'목차';}
+document.querySelectorAll('.wrap h2').forEach(function(h,i){if(!h.id)h.id='sec'+(i+1);var a=document.createElement('a');a.href='#'+h.id;a.textContent=h.textContent.replace(/^(별첨 [0-9])/,'$1 · ');
+a.addEventListener('click',function(e){e.preventDefault();h.scrollIntoView({behavior:'smooth',block:'start'});setOpen(false);});nav.appendChild(a);});
+btn.addEventListener('click',function(){setOpen(nav.hidden);});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')setOpen(false);});})();
+</script>
+
+</body></html>
