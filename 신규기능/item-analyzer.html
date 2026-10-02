@@ -73,6 +73,12 @@ header p{font-size:13px;opacity:.85;margin-top:6px;}
 .article h3{font-size:19px;font-weight:800;margin:26px 0 10px;border-left:5px solid var(--violet);padding-left:14px;}
 .article p{font-size:14.5px;line-height:1.8;color:#334155;}
 .tipbox{margin-top:26px;background:rgba(100,102,250,.07);border-radius:14px;padding:20px 22px;}
+.faqbox{margin-top:18px;background:rgba(0,177,189,.07);border-radius:14px;padding:20px 22px;}
+.faqbox .tt{font-size:15px;font-weight:800;color:#00929c;margin-bottom:12px;}
+.faqbox .q{font-size:14.5px;font-weight:800;color:var(--ink);margin:12px 0 5px;}
+.faqbox .q:first-of-type{margin-top:0;}
+.faqbox .a{font-size:14px;line-height:1.8;color:#334155;}
+.faqbox .fn{margin-top:14px;font-size:12px;color:#94a3b8;}
 .tipbox .tt{font-size:15px;font-weight:800;color:var(--violet);margin-bottom:12px;}
 .tipbox p{margin-bottom:9px;font-size:14px;}
 .tipbox .outro{margin-top:14px;font-weight:700;color:var(--ink);}
@@ -164,25 +170,57 @@ function euckr(s){
 const DOME=it=>'https://www.domeggook.com/main/item/itemList.php?sfc=ttl&sf=ttl&sw='+euckr(it.name)+'&image_file=';
 
 // 카테고리(모드) 설정 — 새 카테고리는 여기 한 항목만 추가하면 분석·본문 프롬프트에 자동 반영
+// sell: 아이템 단락 ⑤문장(셀러 정보)에 쓸 관점 패턴 / faq: 판매팁 FAQ 패턴("주제|사실 앵커" — 앵커 범위 밖 주장 금지, 생성 후 워싱 패스로 재검증)
 const MODES={
 fashion:{target:'이미지 속 인물이 착용한 모든 의류·액세서리·신발·가방',cats:'의류/액세서리/신발/가방',price:'한국 온라인몰',attr:'주요색상(한국어)',sum:'전체 스타일 한 문장 요약',
-  role:'패션 매거진 수석 에디터',tip:'에디터의 스타일링 제안',tag:'#OOTD #패션트렌드 등 코디 관련',ex:'매치·스타일링'},
+  role:'패션 매거진 수석 에디터',tip:'에디터의 스타일링 제안',tag:'#OOTD #패션트렌드 등 코디 관련',ex:'매치·스타일링',
+  sell:'소싱·등록 타이밍(시즌 1~2개월 선행) / 색상·사이즈 옵션 구성 / 실측 사이즈표·실물 색감 안내로 반품 예방 / 핏·소재·색상 조합 검색 키워드',
+  faq:['판매 타이밍|의류는 시즌 시작 1~2개월 전 등록·재고 확보가 일반적 (간절기 수요가 먼저 움직임)',
+       '반품 줄이기|의류 반품의 주요 사유는 사이즈·색상 차이 → 실측 사이즈표, 모델 착용 정보, 실물 색감 안내를 상세페이지에 기재',
+       '표시 의무|의류·섬유제품은 혼용률·세탁방법 등 표시사항 기재가 필요하며, 안전기준 대상 품목은 KC 표시 여부 확인',
+       '키워드 전략|핏+색상+소재+아이템명을 조합한 롱테일 키워드가 경쟁 낮은 유입 확보에 유리']},
 living:{target:'이미지 속 모든 주방용품·가구·생활용품·문구·수납정리용품·인테리어소품',cats:'주방용품/가구/생활용품/문구/수납·정리/인테리어소품',price:'쿠팡·오늘의집 등 한국 온라인몰',attr:'주요색상 또는 소재(한국어)',sum:'전체 공간·구성 컨셉 한 문장 요약',
-  role:'리빙·라이프스타일 매거진 수석 에디터',tip:'에디터의 공간 연출 제안',tag:'#홈스타일링 #인테리어 등 리빙 관련',ex:'배치·활용·공간 연출'},
+  role:'리빙·라이프스타일 매거진 수석 에디터',tip:'에디터의 공간 연출 제안',tag:'#홈스타일링 #인테리어 등 리빙 관련',ex:'배치·활용·공간 연출',
+  sell:'사이즈(가로×세로×높이)·용량 수치 명기 / 부피 상품 배송비·반품비 사전 고지 / 용도+공간+아이템명 키워드 / 연관 상품 세트 구성',
+  faq:['인증 확인|전기를 사용하는 제품은 KC(전기용품) 인증 대상 여부, 식품이 닿는 주방 기구·용기는 수입 시 신고 대상 여부를 소싱 전에 확인',
+       '배송비 설계|가구 등 부피·중량 상품은 화물 배송비를 별도 책정하고 반품 배송비를 상세페이지에 사전 고지해 분쟁 예방',
+       '상세 필수 정보|가로×세로×높이 실측 사이즈, 용량, 소재 수치 기재가 구매 전환과 반품 예방의 핵심',
+       '키워드 전략|용도+설치 공간+사이즈를 조합한 키워드(예: 좁은 주방 틈새 수납장)가 구매 의도 높은 유입에 유리']},
 food:{target:'이미지 속 모든 식품·가공식품·음료·간식·건강기능식품',cats:'신선식품/가공식품/음료/간식/건강기능식품/소스·조미료',price:'쿠팡·마켓컬리 등 한국 온라인몰',attr:'맛·형태·포장 특징(한국어)',sum:'전체 상품 구성 컨셉 한 문장 요약',
-  role:'푸드 매거진 수석 에디터',tip:'에디터의 활용 제안',tag:'#푸드트렌드 #건강간식 #건기식 등 식품 관련',ex:'섭취·활용·보관'},
+  role:'푸드 매거진 수석 에디터',tip:'에디터의 활용 제안',tag:'#푸드트렌드 #건강간식 #건기식 등 식품 관련',ex:'섭취·활용·보관',
+  sell:'판매 자격(식품 영업 신고 등) 확인 / 소비기한·보관조건 명기 / 효능 단정 표현 회피 / 명절·시즌 수요 선행 준비',
+  faq:['판매 자격|식품 온라인 판매는 통신판매업 신고 외에 식품 관련 영업 신고가 필요하고, 건강기능식품은 별도로 건강기능식품판매업 신고가 필요',
+       '표현 주의|일반 식품에 질병 예방·치료 효능 표현은 식품 표시·광고 규제상 금지, 건강기능식품 광고는 사전 자율심의 대상',
+       '표시 사항|소비기한, 보관방법, 원재료·알레르기 유발물질 표시를 상세페이지에서 확인 가능하게 기재',
+       '시즌 수요|명절 선물세트·시즌 식품은 수요가 수 주 전부터 움직이므로 재고·배송 일정을 선행 준비']},
 beauty:{target:'이미지 속 모든 화장품·스킨케어·메이크업·헤어/바디 제품·향수·뷰티 도구',cats:'스킨케어/메이크업/헤어케어/바디케어/향수/뷰티도구',price:'올리브영 등 한국 온라인몰',attr:'색상·제형 특징(한국어)',sum:'전체 뷰티 컨셉 한 문장 요약',
-  role:'뷰티 매거진 수석 에디터',tip:'에디터의 사용 제안',tag:'#뷰티템 #스킨케어루틴 등 뷰티 관련',ex:'사용 순서·연출·활용'},
+  role:'뷰티 매거진 수석 에디터',tip:'에디터의 사용 제안',tag:'#뷰티템 #스킨케어루틴 등 뷰티 관련',ex:'사용 순서·연출·활용',
+  sell:'직수입 판매 시 화장품책임판매업 등록 필요 / 의학적 효능 표현 금지 / 전성분·사용기한 기재 / 피부고민+제형 키워드',
+  faq:['판매 자격|국내 정식 유통 화장품의 단순 재판매와 달리, 해외 화장품을 직접 수입해 판매하려면 화장품책임판매업 등록이 필요',
+       '표현 주의|"기능성화장품" 표현은 식약처 심사(보고)를 거친 제품만 가능하고, 치료 등 의학적 효능 표현은 금지',
+       '상세 필수 정보|전성분, 사용기한(개봉 후 사용기간), 사용법 기재가 신뢰와 전환의 기본',
+       '키워드 전략|피부고민+제형+아이템명 조합(예: 수부지 수분크림)이 구매 의도 높은 검색 유입에 유리']},
 pet:{target:'이미지 속 모든 반려동물 용품(사료·간식·장난감·하우스·외출·위생·건강관리 용품)',cats:'사료·간식/장난감/하우스·리빙/외출용품/위생·미용/건강관리',price:'쿠팡·펫 전문몰 등 한국 온라인몰',attr:'주요색상 또는 특징(한국어)',sum:'전체 구성 컨셉 한 문장 요약',
-  role:'펫 라이프 매거진 수석 에디터',tip:'에디터의 활용 제안',tag:'#펫용품추천 #반려생활 등 펫 관련',ex:'사용·급여·관리'},
+  role:'펫 라이프 매거진 수석 에디터',tip:'에디터의 활용 제안',tag:'#펫용품추천 #반려생활 등 펫 관련',ex:'사용·급여·관리',
+  sell:'사료·간식은 사료관리법상 신고 제품인지 확인 / 견종·체중별 옵션 구성 / 원료·급여량 명기 / 질병 효능 단정 회피',
+  faq:['판매 자격|사료·반려동물 간식은 사료관리법상 제조·수입 신고가 된 제품인지 소싱 단계에서 확인',
+       '표현 주의|반려동물 제품에 질병 예방·치료 효능을 단정하는 표현은 지양하고 원료·급여 정보 중심으로 소구',
+       '옵션 설계|견종·묘종, 체중·연령별 옵션 구성이 검색 매칭과 전환율에 유리',
+       '상세 필수 정보|원료 구성, 급여량 가이드, 보관법 기재가 재구매로 이어지는 신뢰 요소']},
 baby:{target:'이미지 속 모든 유아·육아 용품(수유·이유, 기저귀·위생, 의류·잡화, 장난감·교구, 외출, 안전 용품)',cats:'수유·이유/기저귀·위생/의류·잡화/장난감·교구/외출용품/안전용품',price:'쿠팡·컬리 등 한국 온라인몰',attr:'주요색상 또는 특징(한국어)',sum:'전체 구성 컨셉 한 문장 요약',
-  role:'육아·키즈 매거진 수석 에디터',tip:'에디터의 활용 제안',tag:'#육아템 #유아용품추천 등 육아 관련',ex:'사용·안전·관리'}};
+  role:'육아·키즈 매거진 수석 에디터',tip:'에디터의 활용 제안',tag:'#육아템 #유아용품추천 등 육아 관련',ex:'사용·안전·관리',
+  sell:'어린이제품 KC 인증 확인 필수 / 소재·안전 정보 상세 기재 / 연령(개월수)별 옵션 / 위생용품 개봉 반품 제한 사전 고지',
+  faq:['인증 필수|만 13세 이하가 쓰는 어린이제품(완구 등)은 어린이제품 안전관리 제도상 KC 인증·표시 대상 — 소싱 전 인증 여부 확인이 최우선',
+       '표시 주의|36개월 미만이 쓸 수 없는 완구는 연령 경고 표시가 필요하므로 상세페이지에도 사용 연령을 명확히 안내',
+       '상세 필수 정보|소재·안전 정보의 상세 기재가 유아용품 구매 결정의 가장 큰 요인',
+       '반품 유의|위생 관련 유아용품은 개봉 시 반품 제한 사유가 될 수 있어 사전 고지가 분쟁 예방의 핵심']}};
 
 function anaPrompt(){
   const M=MODES[mode];
   return `${M.target}을 식별하라.
 아이템마다 정확히 아래 한 줄 형식(파이프 9필드)으로만 출력:
 ITEM|아이템명(한국어)|카테고리(${M.cats})|추정 브랜드(모르면 "추정: 유사브랜드")|약 ₩00,000 ~ ₩00,000(${M.price} 기준)|${M.attr}|X|Y|1688검색용 중국어 키워드
+모든 ITEM 라인은 파이프(|)가 정확히 8개, 필드가 정확히 9개여야 한다. 마지막 9번째 필드(중국어 키워드)는 어떤 경우에도 생략하지 말고 반드시 채운다(예: 白色衬衫).
 X·Y는 이미지 내 아이템 중심 위치의 퍼센트(0~100 정수). 픽셀 절대 금지.
 모든 ITEM 라인 뒤 마지막에 한 줄:
 STYLE|${M.sum}(한국어)
@@ -194,24 +232,35 @@ function blogPrompt(){
   const list=items.map((it,i)=>(i+1)+'. '+it.name+' ('+it.cat+', '+it.color+')').join('\n');
   return `당신은 ${B.role}이자 SEO 전문가다. 아래 아이템 목록과 이미지를 바탕으로 트렌드 블로그 글을 작성하라.
 
-절대 규칙: 아래 목록의 아이템만 소개(가상 아이템 추가 금지). 브랜드명 언급 금지. 줄바꿈 제외 공백 포함 1000~1500자.
+독자는 이 아이템을 소싱해 판매하려는 온라인 셀러다. 소비자 소개와 셀러 실무 정보를 함께 담아라.
+절대 규칙: 아래 목록의 아이템만 소개(가상 아이템 추가 금지). 브랜드명 언급 금지. 본문(제목~에디터 팁)은 줄바꿈 제외 공백 포함 1000~1600자(판매팁 FAQ는 분량 산정 제외).
 
 형식(그대로 준수):
 # 메인 키워드가 들어간 매력적인 제목
 서브타이틀 2~3문장(일반 텍스트, "~소개할게요" 톤으로 전체 무드 요약)
 ## 01. 특징 수식어, 아이템명   ← 아이템마다 번호 01부터. 수식어 예: "포인트 컬러", "경쾌한 패턴,", "여유 핏"
-각 아이템 본문은 정확히 4문장, ~예요/~죠/~고요 문체:
-①첫 문장에 **아이템명** 굵게 넣어 소개 ②디자인·특징의 장점 ③${B.ex} 팁(문장 끝 "~고요") ④마지막 문장에 "색상+아이템명+연관어"(예: 블랙 롱 부츠 코디) 형태의 검색 키워드 구문을 자연스럽게 포함.
+각 아이템 본문은 기본 4문장, ~예요/~죠/~고요 문체:
+①첫 문장에 **아이템명** 굵게 넣어 소개 ②디자인·특징의 장점 ③${B.ex} 팁(문장 끝 "~고요") ④"색상+아이템명+연관어"(예: 블랙 롱 부츠 코디) 형태의 검색 키워드 구문을 자연스럽게 포함.
+단, 판매 정보가 가장 유의미한 아이템 2~3개만 ⑤번째 문장(셀러 정보)을 덧붙인다 — 아래 [셀러 관점 패턴] 중 그 아이템에 맞는 것 하나를 골라 자연스럽게 연결하되, 같은 도입 어구를 반복하지 말고 매번 다르게 표현("판매하신다면/셀러 입장에서는/소싱해 두신다면" 등 교차). 패턴 범위 밖의 수치·법 조문·단정 주장 금지. 나머지 아이템은 4문장 그대로 둔다(전 아이템 반복 금지).
 마지막에:
 ---EDITOR_TIP_START---
 * 팁 제목 : 팁 내용   ← 3개
 격려 마무리 문장 1개(글머리 없음)
 ---EDITOR_TIP_END---
+---SELLER_FAQ_START---
+Q: 질문
+A: 답변 2~3문장   ← 아래 [판매팁 FAQ 패턴] 중 이번 아이템 구성과 가장 관련 높은 **2개만** 골라 Q/A로 재작성. 중복 콘텐츠 방지: 패턴 문구를 그대로 옮기지 말고, 이번 글의 구체적 아이템명·구성을 Q 또는 A에 반드시 포함해 이 글에서만 성립하는 내용으로 쓴다. 각 패턴의 "사실 앵커" 범위 안에서만 서술하고, 법 조문 번호·과태료 금액·임의 수치·효능 단정은 금지. ~예요/~해요 문체.
+---SELLER_FAQ_END---
 연관 해시태그 10개 이상(${B.tag}, 공백 구분 한 줄)
 
-아이템 섹션 작성 예시(문체·4문장 구조만 참고, 내용 복사 금지):
+[셀러 관점 패턴]: ${B.sell}
+
+[판매팁 FAQ 패턴] (주제|사실 앵커):
+${B.faq.map((f,i)=>(i+1)+'. '+f).join('\n')}
+
+아이템 섹션 작성 예시(문체·5문장 구조만 참고, 내용 복사 금지):
 ## 01. 포인트 컬러 핑크 가디건
-룩의 분위기를 결정하는 건 비비드 톤의 **핑크 가디건**이에요. 채도 높은 핑크 컬러가 얼굴을 한층 밝고 생기 있게 살려주는 포인트 아이템이죠. 가볍게 걸치거나 단추를 채워 상의처럼 연출해도 좋아 간절기 활용도가 높고요. 하나쯤 두면 여러 룩에 쓰기 좋은 핑크 가디건 코디로 데일리에 생기를 더해줘요.
+룩의 분위기를 결정하는 건 비비드 톤의 **핑크 가디건**이에요. 채도 높은 핑크 컬러가 얼굴을 한층 밝고 생기 있게 살려주는 포인트 아이템이죠. 가볍게 걸치거나 단추를 채워 상의처럼 연출해도 좋아 간절기 활용도가 높고요. 하나쯤 두면 여러 룩에 쓰기 좋은 핑크 가디건 코디로 데일리에 생기를 더해줘요. 판매하신다면 간절기 수요가 먼저 움직이는 만큼 시즌 1~2개월 전에 등록해 두고, 색상 옵션을 함께 구성하면 좋아요.
 
 ## 분석된 아이템:
 ${list}
@@ -392,23 +441,25 @@ function parse(text){
     line=line.trim();
     if(line.startsWith('ITEM|')){
       const f=line.split('|');
-      if(f.length>=9) items.push({name:f[1],cat:f[2],brand:f[3],price:f[4],color:f[5],
+      // 9필드 정상 / 8필드(중국어 키워드 생략)도 수용 — cn 없으면 1688 버튼만 미노출
+      if(f.length>=8) items.push({name:f[1],cat:f[2],brand:f[3],price:f[4],color:f[5],
         x:Math.min(100,Math.max(0,parseFloat(f[6])||50)),
         y:Math.min(100,Math.max(0,parseFloat(f[7])||50)),
-        cn:f.slice(8).join('|')});
+        cn:(f.slice(8).join('|')||'').trim()});
     }else if(line.startsWith('STYLE|')) styleSum=line.slice(6);
   });
 }
 
 function searchLinks(it){
   const kw=encodeURIComponent(it.color+' '+it.name);
-  const cn=encodeURIComponent(it.cn.trim());
-  return [
-    ['1688 검색','https://s.1688.com/selloffer/offer_search.htm?charset=utf8&keywords='+cn],
+  const links=[];
+  if(it.cn) links.push(['1688 검색','https://s.1688.com/selloffer/offer_search.htm?charset=utf8&keywords='+encodeURIComponent(it.cn)]);
+  links.push(
     ['도매꾹',DOME(it)],
     ['네이버쇼핑','https://search.shopping.naver.com/search/all?query='+kw],
     ['셀링부스터','https://sellingbooster.io/trend/keyword/'+encodeURIComponent(it.name)]
-  ].map(([t,u])=>'<a href="'+u+'" target="_blank" rel="noopener noreferrer">'+t+'</a>').join('');
+  );
+  return links.map(([t,u])=>'<a href="'+u+'" target="_blank" rel="noopener noreferrer">'+t+'</a>').join('');
 }
 
 function render(raw){
@@ -496,35 +547,72 @@ async function genThumbs(){
 }
 
 // ③ 본문 생성
+// ③ 본문 생성 → 판매팁 FAQ만 분리해 2차 호출로 사실 검증(워싱) 후 교체
 async function genBlog(){
   const b=document.getElementById('btnBlog'), st=document.getElementById('status2');
   b.disabled=true; st.textContent='본문 생성 중… (10~30초)';
   try{
     const data=await callGemini(document.getElementById('model').value.trim(),
-      [{text:blogPrompt()},imgPart()],{maxOutputTokens:2048,temperature:0.7});
+      [{text:blogPrompt()},imgPart()],{maxOutputTokens:3072,temperature:0.7});
     blogRaw=(data.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('\n').trim();
     if(!blogRaw) throw new Error('빈 응답');
+    blogRaw=await washFaq(blogRaw,st);
     renderBlog(blogRaw);
-    st.textContent='본문 생성 완료';
+    st.textContent='본문 생성 완료 (판매팁 FAQ 사실 검증 포함)';
     document.getElementById('article').scrollIntoView({behavior:'smooth'});
   }catch(e){ st.textContent='본문 생성 실패: '+e.message; }
   b.disabled=false;
+}
+
+// 워싱 패스 — FAQ 블록만 재검증: 불확실 주장 삭제·일반화, 공식 명칭 유지, 단정 완화. 실패 시 원본 유지
+async function washFaq(raw,st){
+  const m=raw.match(/---SELLER_FAQ_START---([\s\S]*?)---SELLER_FAQ_END---/);
+  if(!m) return raw;
+  st.textContent='판매팁 FAQ 사실 검증(워싱) 중…';
+  const prompt=`다음은 한국 온라인 커머스 셀러 대상 판매팁 FAQ 초안이다. 사실 검증 편집자로서 같은 형식(Q:/A: 쌍 2개, 각 A는 2~3문장, ~예요/~해요 문체)으로 재작성하라.
+①일반적으로 널리 성립하는 사실만 남기고, 불확실하거나 과장된 주장은 삭제하거나 일반 수준으로 완화
+②법령·인증·신고 명칭은 공식 명칭으로 쓰되 조문 번호·과태료 금액·구체 수치는 쓰지 않는다
+③"반드시/무조건" 단정은 "일반적으로/확인이 필요해요" 수준으로 완화하고, 제도 관련 내용 뒤에는 최신 기준 확인을 권하는 어미를 붙인다
+④질병 예방·치료 효능을 암시하는 표현 제거
+⑤초안의 구체적 아이템 맥락(아이템명 등)은 유지한다
+형식 외 어떤 텍스트도 출력 금지.
+
+[초안]
+${m[1].trim()}`;
+  try{
+    const data=await callGemini(document.getElementById('model').value.trim(),
+      [{text:prompt}],{maxOutputTokens:1024,temperature:0.2});
+    const washed=(data.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('\n').trim();
+    if(washed&&/Q:/.test(washed)&&/A:/.test(washed))
+      return raw.replace(m[0],'---SELLER_FAQ_START---\n'+washed+'\n---SELLER_FAQ_END---');
+  }catch(_){ /* 워싱 실패 시 초안 유지 */ }
+  st.textContent='FAQ 워싱 실패 — 초안 그대로 사용';
+  return raw;
 }
 
 function esc(s){return s.replace(/</g,'&lt;');}
 function bold(s){return esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');}
 function renderBlog(raw){
   const A=document.getElementById('article'), B=document.getElementById('articleBody');
-  let html='', inTip=false, tipHtml='', tags='';
+  let html='', inTip=false, tipHtml='', inFaq=false, faqHtml='', tags='';
   raw.split('\n').forEach(line=>{
     const t=line.trim();
     if(!t) return;
     if(t.includes('EDITOR_TIP_START')){inTip=true;return;}
     if(t.includes('EDITOR_TIP_END')){inTip=false;
       html+='<div class="tipbox"><div class="tt">💫 '+MODES[mode].tip+'</div>'+tipHtml+'</div>';return;}
+    if(t.includes('SELLER_FAQ_START')){inFaq=true;return;}
+    if(t.includes('SELLER_FAQ_END')){inFaq=false;
+      html+='<div class="faqbox"><div class="tt">🛒 셀러를 위한 판매팁 FAQ</div>'+faqHtml+
+      '<p class="fn">※ 일반 안내이며, 인증·신고 등 제도는 판매 시점의 최신 기준 확인이 필요해요.</p></div>';return;}
     if(inTip){
       if(t.startsWith('*')) tipHtml+='<p><b>'+bold(t.replace(/^\*\s*/,''))+'</b></p>'.replace('<b><b>','<b>').replace('</b></b>','</b>');
       else tipHtml+='<p class="outro">'+bold(t)+'</p>';
+      return;}
+    if(inFaq){
+      if(/^Q\s*:/.test(t)) faqHtml+='<p class="q">Q. '+bold(t.replace(/^Q\s*:\s*/,''))+'</p>';
+      else if(/^A\s*:/.test(t)) faqHtml+='<p class="a">'+bold(t.replace(/^A\s*:\s*/,''))+'</p>';
+      else faqHtml+='<p class="a">'+bold(t)+'</p>';
       return;}
     if(t.startsWith('## ')) html+='<h3>'+esc(t.slice(3))+'</h3>';
     else if(t.startsWith('# ')) html+='<h2>'+esc(t.slice(2))+'</h2>';
