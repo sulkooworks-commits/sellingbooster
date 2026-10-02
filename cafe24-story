@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>카페24 스토어 스토리 발행 정책·계획 · 2026년 10–12월</title>
+<style>
+  :root{
+    --bg:#f7f6f1;
+    --ink:#1e2321;
+    --sub:#6b7370;
+    --teal:#00B1BD;
+    --indigo:#6466FA;
+    --c24:#1A6DFF;          /* 카페24 채널 식별색 */
+    --c24soft:#EAF2FF;
+    --card:#ffffff;
+    --line:#e6e4dc;
+    --hy:#F4E93C;
+    --hy-ink:#3a3a1e;
+    --warn-bg:#fff6ee;
+    --warn-line:#f0c9a8;
+    --warn-ink:#8a4b12;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{
+    font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+    background:var(--bg);color:var(--ink);
+    font-size:14.5px;line-height:1.62;
+    padding:0 0 80px;
+  }
+  .wrap{max-width:1060px;margin:0 auto;padding:0 28px}
+
+  header{padding:52px 0 28px;border-bottom:2px solid var(--ink)}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--c24);text-transform:uppercase;margin-bottom:14px}
+  .eyebrow::before{content:"";width:22px;height:2px;background:var(--c24)}
+  h1{font-size:clamp(26px,4vw,38px);font-weight:800;line-height:1.25;letter-spacing:-.02em}
+  h1 .period{color:var(--c24)}
+  .meta{margin-top:12px;color:var(--sub);font-size:13.5px}
+  .meta a{color:var(--teal);font-weight:700;text-decoration:none}
+
+  .toolbar-slot{margin-top:22px}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap}
+  .toolbar.is-stuck{
+    position:fixed;top:0;left:0;right:0;z-index:100;margin:0;
+    padding:8px 28px;justify-content:center;align-items:center;
+    background:rgba(247,246,241,.94);backdrop-filter:blur(8px);
+    border-bottom:1.5px solid var(--line);box-shadow:0 2px 14px rgba(0,0,0,.07);
+    animation:slideDown .18s ease
+  }
+  @keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
+  .btn{
+    appearance:none;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);
+    font:inherit;font-weight:700;font-size:14px;padding:10px 20px;border-radius:24px;cursor:pointer;
+    display:inline-flex;align-items:center;gap:8px;transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:hover{transform:translateY(-1px);box-shadow:0 3px 0 var(--ink)}
+  .btn:focus-visible{outline:3px solid var(--c24);outline-offset:2px}
+  .btn.primary{background:var(--ink);color:#fff}
+  .toolbar.is-stuck .btn{padding:6px 14px;font-size:12.5px;border-width:1.2px}
+  .toolbar.is-stuck .btn:hover{transform:none;box-shadow:none}
+
+  section{margin-top:44px}
+  h2{font-size:20px;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  h2 .badge{font-size:11.5px;font-weight:700;background:var(--ink);color:#fff;border-radius:6px;padding:3px 9px;letter-spacing:.06em}
+  h2 .badge.c24{background:var(--c24)}
+  .sec-sub{color:var(--sub);font-size:13.5px;margin-bottom:18px}
+  .sec-sub a{color:var(--teal);font-weight:700;text-decoration:none}
+
+  /* ── 공정 도식 ── */
+  .steps{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;margin-top:8px}
+  .stepbtn{flex:1 1 150px;min-width:150px;display:flex;flex-direction:column;gap:5px;
+    background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px 15px;
+    text-decoration:none;color:inherit;transition:.15s;position:relative}
+  .stepbtn:hover{border-color:var(--c24);transform:translateY(-2px);box-shadow:0 6px 18px rgba(26,109,255,.10)}
+  .stepbtn:focus-visible{outline:3px solid var(--c24);outline-offset:2px}
+  .stepbtn__no{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;
+    border-radius:7px;background:var(--c24soft);color:#1657c9;font-size:12px;font-weight:800}
+  .stepbtn__t{font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+  .stepbtn__d{font-size:11.5px;color:var(--sub);line-height:1.45}
+  .stepbtn__ext{position:absolute;top:12px;right:13px;font-size:11px;color:var(--sub)}
+  .stepbtn--hold{border-style:dashed;background:#fbfaf6}
+  .stepbtn--hold .stepbtn__no{background:#f1f0ec;color:var(--sub)}
+  .stepbtn--hold:hover{transform:none;box-shadow:none;border-color:var(--line)}
+  .arw{display:flex;align-items:center;color:var(--sub);font-weight:800;font-size:15px}
+  @media (max-width:720px){ .arw{display:none} }
+
+  /* 공정 도식 */
+  .steps{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;margin-top:8px}
+  .stepbtn{flex:1 1 150px;min-width:150px;display:flex;flex-direction:column;gap:5px;
+    background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px 15px;
+    position:relative;text-decoration:none;color:inherit;transition:.15s}
+  .stepbtn:hover{border-color:var(--c24);transform:translateY(-2px);box-shadow:0 6px 18px rgba(26,109,255,.10)}
+  .stepbtn:focus-visible{outline:3px solid var(--c24);outline-offset:2px}
+  .stepbtn--c24{border-color:#b9d3ff;background:var(--c24soft)}
+  .stepbtn--c24 .stepbtn__no{background:#fff;color:#1457CC}
+  .stepbtn__no{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;
+    border-radius:7px;background:var(--c24soft);color:#1457CC;font-size:12px;font-weight:800}
+  .stepbtn__t{font-size:13.5px;font-weight:800;letter-spacing:-.01em}
+  .stepbtn__d{font-size:11.5px;color:var(--sub);line-height:1.45}
+  .stepbtn__ext{position:absolute;top:12px;right:13px;font-size:11px;color:var(--sub)}
+  .arw{display:flex;align-items:center;color:var(--sub);font-weight:800;font-size:15px}
+  @media (max-width:720px){ .arw{display:none} }
+
+  .notice{background:var(--warn-bg);border:1.5px solid var(--warn-line);border-radius:16px;padding:20px 24px;margin-top:26px}
+  .notice h3{font-size:15px;color:var(--warn-ink);margin-bottom:8px}
+  .notice p{font-size:13.5px;color:#5c4a38;margin-bottom:6px}
+  .notice p:last-child{margin-bottom:0}
+  .notice strong{color:var(--warn-ink)}
+
+  .guide{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:22px 24px;margin-top:26px}
+  .guide.c24{border-color:#b9d3ff}
+  .guide h3{font-size:15px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .c24-logo{display:inline-block;background:var(--c24);color:#fff;font-weight:800;font-size:12px;border-radius:14px;padding:3px 11px}
+  .hy-logo{display:inline-block;background:var(--hy);color:var(--hy-ink);font-weight:800;font-size:12px;border-radius:14px;padding:3px 11px}
+  .guide ol{margin-left:20px;font-size:13.8px}
+  .guide li{margin-bottom:12px}
+  .guide li:last-child{margin-bottom:0}
+  .guide li > b{display:block;font-size:14px;color:var(--ink)}
+  .gsub{margin:5px 0 0;padding-left:17px;font-size:12.8px;color:var(--sub);list-style:disc}
+  .gsub li{margin-bottom:3px !important;line-height:1.55}
+  .gsub li:last-child{margin-bottom:0 !important}
+  .guide code{background:#f3f2ee;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12px}
+
+  .tbl-card{background:var(--card);border:1.5px solid var(--line);border-radius:16px;overflow:hidden;margin-top:8px}
+  table{width:100%;border-collapse:collapse}
+  th{
+    text-align:center;background:rgba(0,0,0,0.82);color:#fff;
+    font-size:12.5px;font-weight:700;letter-spacing:.03em;padding:11px 12px;white-space:nowrap
+  }
+  td{padding:13px 12px;font-size:13.8px;border-top:1px solid var(--line);vertical-align:top}
+  tr:hover td{background:#fbfaf6}
+  td.date{white-space:nowrap;font-weight:700;font-variant-numeric:tabular-nums}
+  td.date small{display:block;font-weight:500;color:var(--sub);font-size:11.5px}
+  td.title{min-width:220px}
+  td.title .new{color:var(--c24);font-weight:800;font-size:11px;margin-right:4px;vertical-align:1px}
+  td.cat{white-space:nowrap;text-align:center}
+  .cat-pill{display:inline-block;font-size:11.5px;font-weight:700;border-radius:14px;padding:3px 10px;border:1px solid var(--line)}
+  .cat-guide{background:#eef4ff;color:#2a5db0;border-color:#b9cdf5}
+  .cat-trend{background:#eef9f4;color:#1d7a5f;border-color:#cfe9de}
+  .cat-tip{background:#f0f0ff;color:#4a4cc9;border-color:#dcdcf8}
+  .cat-book{background:#fff3ec;color:#b45a1c;border-color:#f4d9c4}
+  td.hy{white-space:nowrap;text-align:center}
+  .hy-pill{
+    display:inline-flex;align-items:center;gap:7px;background:var(--hy);
+    border:1.5px solid #d9cf1e;border-radius:20px;padding:5px 13px;
+    font-size:12.8px;font-weight:700;color:var(--hy-ink)
+  }
+  .hy-pill::before{content:"⌕";font-size:13px;font-weight:900}
+  .hy-type{display:block;margin-top:5px;font-size:11px;font-weight:700;color:var(--sub)}
+  td.note{font-size:12.8px;color:var(--sub);min-width:180px}
+  td.note b{color:var(--warn-ink)}
+  td.sync{text-align:center;white-space:nowrap;font-size:12.3px;color:var(--sub)}
+  td.sync b{display:block;color:var(--ink);font-size:12.8px}
+  tr.skip td{background:#f3f2ec;color:var(--sub);text-align:center;font-size:12.8px}
+
+  .checks{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:22px 24px}
+  .checks ul{margin-left:20px;font-size:13.8px}
+  .checks li{margin-bottom:7px}
+  .checks li:last-child{margin-bottom:0}
+  .checks .tag{font-size:11px;font-weight:800;color:var(--c24);margin-right:6px;letter-spacing:.04em}
+
+  footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+  @media print{
+    body{background:#fff;padding:0;font-size:12px}
+    .toolbar,.no-print{display:none !important}
+    header{padding:10px 0 14px}
+    section{margin-top:22px}
+    .tbl-card,.notice,.guide,.checks{border-radius:8px;break-inside:avoid-page}
+    table{font-size:11px}
+    th{padding:7px 8px}
+    td{padding:8px 8px;font-size:11px}
+    tr{break-inside:avoid}
+    .wrap{max-width:none;padding:0 6mm}
+  }
+  @media (max-width:760px){
+    .tbl-card{overflow-x:auto}
+    table{min-width:820px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .btn{transition:none}
+    .toolbar.is-stuck{animation:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap" id="doc-root">
+
+  <header>
+    <div class="eyebrow">Cafe24 Store · Story Publishing Plan</div>
+    <h1>카페24 스토어 「스토리」 발행 정책·계획 <span class="period">2026. 10. 7 – 12. 16</span></h1>
+    <p class="meta">격주 수요일 발행 · 총 6회 · 콘텐츠 생성: 하이훅(Highook) → Claude 워싱(본편과 동일 파이프라인) · 기준일 2026. 10. 2 · 연계 문서: <a href="https://sulkooworks-commits.github.io/sellingbooster/%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0_%EB%B8%94%EB%A1%9C%EA%B7%B8_%EB%B0%9C%ED%96%89%EA%B3%84%ED%9A%8D_8-9%EC%9B%94.html" target="_blank" rel="noopener">블로그 발행 계획 ↗</a></p>
+    <div class="toolbar-slot no-print" id="toolbar-slot">
+      <div class="toolbar no-print" id="toolbar">
+        <button class="btn primary" id="btn-doc" type="button"><span>⬇</span> DOC로 저장</button>
+        <button class="btn" id="btn-pdf" type="button"><span>🖨</span> PDF로 저장</button>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="badge c24">0</span>발행 공정 · 바로가기</h2>
+    <p class="sec-sub">각 단계 버튼 클릭 시 해당 도구로 이동 · 하이훅 → Claude 워싱 파이프라인은 본편과 동일, <b>③ 워싱 기준과 ④ 등록 방식만 카페24 전용</b></p>
+    <div class="steps">
+      <a class="stepbtn" href="#plan">
+        <span class="stepbtn__no">1</span>
+        <span class="stepbtn__t">키워드 확정</span>
+        <span class="stepbtn__d">본 계획표 · 하이훅 주제 키워드 컬럼</span>
+      </a>
+      <span class="arw">→</span>
+      <a class="stepbtn" href="https://highook.com/login" target="_blank" rel="noopener">
+        <span class="stepbtn__ext">↗</span><span class="stepbtn__no">2</span>
+        <span class="stepbtn__t">하이훅 초안 생성</span>
+        <span class="stepbtn__d">카페24용 초안 · 유형 전건 '정보' 고정</span>
+      </a>
+      <span class="arw">→</span>
+      <a class="stepbtn stepbtn--c24" href="#policy">
+        <span class="stepbtn__no">3</span>
+        <span class="stepbtn__t">카페24 워싱</span>
+        <span class="stepbtn__d">Claude · 자사몰 관점 전환 · CMS 포맷·키워드 링크 미적용</span>
+      </a>
+      <span class="arw">→</span>
+      <a class="stepbtn stepbtn--c24" href="https://store.cafe24.com/kr/story" target="_blank" rel="noopener">
+        <span class="stepbtn__ext">↗</span><span class="stepbtn__no">4</span>
+        <span class="stepbtn__t">스토어 등록</span>
+        <span class="stepbtn__d">카테고리 지정 → 본문 등록 → 이미지 직접 업로드</span>
+      </a>
+      <span class="arw">→</span>
+      <a class="stepbtn stepbtn--c24" href="https://store.cafe24.com/kr/apps/46118" target="_blank" rel="noopener">
+        <span class="stepbtn__ext">↗</span><span class="stepbtn__no">5</span>
+        <span class="stepbtn__t">앱 카드 연결 확인</span>
+        <span class="stepbtn__d">「스토리 관련 상품」에 셀링부스터 노출 여부</span>
+      </a>
+      <span class="arw">→</span>
+      <a class="stepbtn" href="https://search.google.com/search-console" target="_blank" rel="noopener">
+        <span class="stepbtn__ext">↗</span><span class="stepbtn__no">6</span>
+        <span class="stepbtn__t">색인·유입 관측</span>
+        <span class="stepbtn__d">site:store.cafe24.com 색인 확인 · 조회수·앱 유입 2주 단위</span>
+      </a>
+    </div>
+  </section>
+
+  <div class="notice">
+    <h3>⚠️ 채널 전제 — 독자가 다릅니다</h3>
+    <p><strong>카페24 스토어 스토리의 독자는 자사몰(카페24) 운영 셀러</strong>입니다. 셀링부스터는 네이버·쿠팡·11번가 대상 분석 도구이므로, <strong>"자사몰 + 오픈마켓 병행 판매"를 접점으로 삼는 주제만 유효</strong>합니다. 오픈마켓 단독 주제는 독자 적합도가 낮아 조회·앱 유입 모두 떨어집니다.</p>
+    <p>본 계획의 6편은 전부 <strong>자사몰 운영자가 오픈마켓을 함께 볼 때 생기는 질문</strong>으로 설계했습니다. 이 기준이 자사 블로그·네이버와의 <strong>유사문서 분리선</strong>이기도 합니다.</p>
+  </div>
+
+  <section>
+    <h2 id="policy"><span class="badge c24">POLICY</span> 발행 정책</h2>
+    <p class="sec-sub">레퍼런스 관측(스토리 #6742 · #6700) 기준 · 카페24 스토어 운영 규정은 등록 전 재확인 필요(별첨 B)</p>
+
+    <div class="guide c24">
+      <h3><span class="c24-logo">CAFE24</span> 스토리 작성 표준</h3>
+      <ol>
+        <li><b>주제 — 자사몰 셀러의 질문에서 출발함</b>
+          <ul class="gsub">
+            <li>"자사몰만 운영하다 오픈마켓을 보게 될 때" 생기는 질문을 1차 소재로 삼음</li>
+            <li>오픈마켓 단독 노하우, 플랫폼 입점 절차 등은 제외 — 독자 적합도 미달</li>
+            <li>카페24 스토리 카테고리 8종 중 <code>가이드</code> <code>사용팁</code> <code>활용백서</code> <code>요즘 트렌드</code> 4종을 주로 사용</li>
+          </ul>
+        </li>
+        <li><b>제목 — 질문형 또는 콜론 구조, 25자 내외</b>
+          <ul class="gsub">
+            <li>관측 패턴: 「카페24 상품으로 견적서 만들기: 엑셀·PDF 전달까지」(작업+결과), 「광고비 0원으로 AI에게 내 쇼핑몰 어필하기」(혜택 선행)</li>
+            <li>목표 키워드를 앞쪽에 배치 · 자사 블로그·네이버 제목과 전면 상이하게</li>
+          </ul>
+        </li>
+        <li><b>구조 — 질문형 소제목 4~6개 + 즉답 1문장</b>
+          <ul class="gsub">
+            <li>도입: 자사몰 운영 맥락 2~3문장 → 이 글이 답하는 질문 제시</li>
+            <li>본문: 소제목마다 결론 먼저, 비교표 1개 이상 포함</li>
+            <li>마무리: 실행 순서 3~5단계 요약</li>
+          </ul>
+        </li>
+        <li><b>분량 — 공백 포함 2,000~2,500자</b>
+          <ul class="gsub">
+            <li>관측상 기존 스토리는 800~1,000자대가 다수 → <b>분량만으로도 체류시간·검색 노출 우위 확보 가능</b></li>
+            <li>자사 블로그(4,000~6,000자)보다 짧게, 네이버(2,500~3,500자)와 비슷한 수준</li>
+          </ul>
+        </li>
+        <li><b>간접 홍보 — 본문 직접 세일즈 금지, 서비스 언급 1회</b>
+          <ul class="gsub">
+            <li>상세 페이지 하단에 <b>「스토리 관련 상품」 앱 카드가 자동 노출</b>되므로 본문에서 팔 필요 없음</li>
+            <li>본문 언급은 "이런 수치는 ○○에서 확인할 수 있다" 수준 1회 · 기능 나열·가격 안내 금지</li>
+            <li>앱 카드 연결을 전제로 <b>본문은 정보 완결성에만 집중</b>함</li>
+          </ul>
+        </li>
+        <li><b>유사문서 방지 — 3채널 각도 분리</b>
+          <ul class="gsub">
+            <li>자사 블로그=오픈마켓 실무 / 네이버=1인칭 경험담 / <b>카페24=자사몰 운영자 관점</b></li>
+            <li>같은 주제군이라도 전제·예시·표 구성을 전면 다르게 · 자사 원본과 2주 이상 시차 유지</li>
+            <li>이미지는 전용 재캡처 — 자사·네이버 버전과 동일 파일 사용 금지</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+
+    <div class="guide">
+      <h3><span class="hy-logo">Highook</span> 생성·워싱 파이프라인 <span style="font-size:12px;font-weight:600;color:var(--sub)">(본편과 동일)</span></h3>
+      <ol>
+        <li><b>STEP 1 — 하이훅 초안 생성</b>
+          <ul class="gsub">
+            <li>주제 키워드는 아래 계획표의 「하이훅 주제 키워드」 컬럼 사용 · 국가 한국 고정</li>
+            <li>유형은 전건 <code>정보</code> — 카페24 스토리는 간접 홍보가 원칙이므로 <code>상업</code> 미사용</li>
+          </ul>
+        </li>
+        <li><b>STEP 2 — Claude 워싱(카페24 전용 기준)</b>
+          <ul class="gsub">
+            <li>자사 CMS 포맷(키워드 링크 20개·인라인 스타일·칩 블록) 적용 금지 — 카페24 에디터가 이식하지 않음</li>
+            <li>통계·수치는 1차 출처 검증 후 텍스트 출처 표기 · 외부 리포트 직접 인용 보류 기준 동일 적용</li>
+            <li>산출물: 붙여넣기용 본문 1파일(제목·카테고리·이미지 ALT는 주석 분리)</li>
+          </ul>
+        </li>
+        <li><b>STEP 3 — 카페24 스토어 등록</b>
+          <ul class="gsub">
+            <li>스토리 카테고리 지정 → 본문 등록 → 이미지 직접 업로드 → 관련 앱 연결 확인</li>
+            <li>등록 후 노출까지 검수 절차가 있는지 <b>1편 등록 시 확인 필요</b>(별첨 B)</li>
+          </ul>
+        </li>
+        <li><b>STEP 4 — 발행 후 관측</b>
+          <ul class="gsub">
+            <li>스토리 조회수·좋아요, 앱 상세 유입 증감을 2주 단위로 기록</li>
+            <li>구글에서 <code>site:store.cafe24.com</code> + 목표 키워드로 색인 확인</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="badge c24">SEO</span> 검색 노출 설계</h2>
+    <p class="sec-sub">자사 블로그 대비 이 채널의 구조적 이점과 제약 — 주제 선정의 근거</p>
+    <div class="tbl-card">
+      <table>
+        <colgroup><col style="width:18%"><col style="width:41%"><col style="width:41%"></colgroup>
+        <thead><tr><th>항목</th><th>구조적 이점</th><th>대응 원칙</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="date">도메인</td>
+            <td>store.cafe24.com은 신규 자사 도메인 대비 축적된 평가를 가진 상위 도메인 — 동일 키워드에서 색인·노출 속도 우위 기대</td>
+            <td>자사 블로그가 아직 밀리는 <b>경쟁 키워드를 이 채널로 선점</b> · 목표 키워드는 자사와 중복시키지 않음</td>
+          </tr>
+          <tr>
+            <td class="date">독자 유입</td>
+            <td>외부 검색 유입 + 카페24 스토어 내부 탐색(앱 설치 검토 중인 셀러) 2중 경로</td>
+            <td>제목은 외부 검색어 기준, 본문 도입은 스토어 내부 독자 기준으로 이중 설계</td>
+          </tr>
+          <tr>
+            <td class="date">전환 경로</td>
+            <td>하단 「스토리 관련 상품」 앱 카드가 자동 노출 — 본문 링크 없이 앱 상세로 연결</td>
+            <td>본문은 정보 완결에 집중, <b>전환은 앱 카드에 위임</b> · 과도한 홍보로 신뢰 훼손 방지</td>
+          </tr>
+          <tr>
+            <td class="date">경쟁 밀도</td>
+            <td>기존 스토리 다수가 800~1,000자대 단문 — 체류시간·정보량 경쟁에서 열려 있음</td>
+            <td>2,000~2,500자 + 비교표 1개 이상으로 <b>동일 주제 내 상위 확보</b></td>
+          </tr>
+          <tr>
+            <td class="date">제약</td>
+            <td>자사 CMS 포맷·외부 링크 정책이 다름, canonical 제어 불가</td>
+            <td>자사 원본과 주제·구성 전면 분리 · 2주 이상 시차 · 전용 이미지</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="plan"><span class="badge">OCT–DEC</span> 발행 계획 — 격주 수요일 6회</h2>
+    <p class="sec-sub">10월 2주차 업무일(10/6~10/8) 중 수요일 10/7 착수 · 공휴일 10/5·10/9 회피 · 시즌 편은 이벤트 2~3주 선행 · 자사 블로그와 동일 주제군은 <b>시차·각도 분리</b> 표기</p>
+    <div class="tbl-card">
+      <table>
+        <colgroup><col style="width:8%"><col style="width:26%"><col style="width:11%"><col style="width:16%"><col style="width:16%"><col style="width:23%"></colgroup>
+        <thead><tr><th>발행일</th><th>제목(안)</th><th>스토리 카테고리</th><th>하이훅 주제 키워드</th><th>자사 블로그 대비</th><th>간접 홍보 접점</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="date">10/7<small>수</small></td>
+            <td class="title"><span class="new">01</span>자사몰도 검색에 걸릴까?: 쇼핑몰 SEO 점검 5가지</td>
+            <td class="cat"><span class="cat-pill cat-guide">가이드</span></td>
+            <td class="hy"><span class="hy-pill">쇼핑몰 SEO</span><span class="hy-type">유형 · 정보</span></td>
+            <td class="sync"><b>신규 주제</b>자사 라인업 미중복</td>
+            <td class="note">검색 수요·경쟁 확인 맥락에서 1회 언급 · 상품명·태그 점검 항목으로 자연 연결</td>
+          </tr>
+          <tr>
+            <td class="date">10/21<small>수</small></td>
+            <td class="title"><span class="new">02</span>11월 쇼핑 대목, 자사몰 셀러의 준비 순서</td>
+            <td class="cat"><span class="cat-pill cat-trend">요즘 트렌드</span></td>
+            <td class="hy"><span class="hy-pill">코리아세일페스타</span><span class="hy-type">유형 · 정보</span></td>
+            <td class="sync"><b>각도 분리</b>자사 10/26은 오픈마켓<br>본 편은 자사몰 준비</td>
+            <td class="note">코세페 11월 초 — <b>2~3주 선행 ✓</b> · 시즌 키워드 수요 확인 맥락 · 개최 일정 발행 직전 확인</td>
+          </tr>
+          <tr>
+            <td class="date">11/4<small>수</small></td>
+            <td class="title"><span class="new">03</span>오픈마켓 상품명, 자사몰에 그대로 써도 될까요?</td>
+            <td class="cat"><span class="cat-pill cat-tip">사용팁</span></td>
+            <td class="hy"><span class="hy-pill">쇼핑몰 상품명</span><span class="hy-type">유형 · 정보</span></td>
+            <td class="sync"><b>시차 2주+</b>자사 10/30 · 네이버 10/26<br>→ 자사몰 적용 관점</td>
+            <td class="note">채널별 상품명 규칙 차이 비교표가 핵심 · AI 상품명 생성 맥락 1회</td>
+          </tr>
+          <tr>
+            <td class="date">11/18<small>수</small></td>
+            <td class="title"><span class="new">04</span>판매가 정할 때 보는 숫자: 자사몰과 오픈마켓의 차이</td>
+            <td class="cat"><span class="cat-pill cat-book">활용백서</span></td>
+            <td class="hy"><span class="hy-pill">판매가 책정</span><span class="hy-type">유형 · 정보</span></td>
+            <td class="sync"><b>시차 5주</b>자사 10/14 · 네이버 10/30<br>→ 수수료 구조 비교로 차별</td>
+            <td class="note">수수료·결제비 구조 차이를 표로 · 최적가 확인 맥락 1회 · 수치는 공개 기준만 인용</td>
+          </tr>
+          <tr>
+            <td class="date">12/2<small>수</small></td>
+            <td class="title"><span class="new">05</span>연말 시즌 상품, 지금 무엇이 팔리나: 수요 확인하는 법</td>
+            <td class="cat"><span class="cat-pill cat-trend">요즘 트렌드</span></td>
+            <td class="hy"><span class="hy-pill">크리스마스 선물</span><span class="hy-type">유형 · 정보</span></td>
+            <td class="sync"><b>신규 주제</b>12월 자사 라인업과<br>확정 시 재대조</td>
+            <td class="note">크리스마스 12/25 — <b>3주 선행 ✓</b> · 트렌드 키워드·카테고리 랭킹 맥락 1회</td>
+          </tr>
+          <tr>
+            <td class="date">12/16<small>수</small></td>
+            <td class="title"><span class="new">06</span>2027년 판매 계획: 월별 키워드 캘린더 만들기</td>
+            <td class="cat"><span class="cat-pill cat-book">활용백서</span></td>
+            <td class="hy"><span class="hy-pill">시즈널 키워드</span><span class="hy-type">유형 · 정보</span></td>
+            <td class="sync"><b>신규 주제</b>자사 시즈널 편(11월 이월)과<br>착수 전 각도 조율</td>
+            <td class="note">연간 캘린더 템플릿형 — 저장·재방문 유도 · 키워드 추이 확인 맥락 1회</td>
+          </tr>
+          <tr class="skip"><td class="date">12/30</td><td colspan="5">연말 휴지기 — 발행 스킵 (검색 트래픽 저조 · 1월 첫 주 재개)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="badge c24">VIDEO</span> 영상 스토리 — 계획 보류</h2>
+    <p class="sec-sub">카페24 스토리는 목록에서 텍스트/비디오 탭을 구분해 제공 — 영상 게시 가능 채널로 확인됨(별첨 A)</p>
+    <div class="guide c24">
+      <h3><span class="c24-logo">HOLD</span> 하반기 프로모션·HAI 영상 스튜디오 활용 현황에 따라 수립 예정</h3>
+      <ol>
+        <li><b>본 계획(10~12월 6회)은 텍스트 스토리 기준임</b>
+          <ul class="gsub">
+            <li>영상 스토리는 별도 트랙으로 분리 — 텍스트 격주 발행 리듬에 영향 없음</li>
+          </ul>
+        </li>
+        <li><b>수립 선행 조건 2가지</b>
+          <ul class="gsub">
+            <li><b>하반기 프로모션 일정</b> 확정 — 영상 소재·공개 시점이 프로모션에 종속</li>
+            <li><b>HAI 영상 스튜디오 활용 현황</b> 점검 — 제작 가능 분량·포맷·산출 주기 확인 후 발행 주기 역산</li>
+          </ul>
+        </li>
+        <li><b>착수 시 확정할 항목</b>
+          <ul class="gsub">
+            <li>영상 길이·포맷(기능 시연 / 셀러 인터뷰 / 트렌드 요약) 및 텍스트 스토리와의 연계 여부</li>
+            <li>업로드 사양(용량·해상도·자막)과 카페24 비디오 탭 노출 조건</li>
+            <li>네이버 블로그 자체 업로드 영상(15~30초 기능 시연)과의 소재 공용 가능성</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <h2>발행 전 확인 사항</h2>
+    <div class="checks">
+      <ul>
+        <li><span class="tag">확인</span><strong>카페24 스토리 작성 규정</strong> — 등록 권한·검수 절차·외부 링크 허용 범위·분량/이미지 사양을 1편(10/7) 등록 시 확인 후 본 정책에 반영</li>
+        <li><span class="tag">확인</span><strong>관련 앱 카드 연결 방식</strong> — 스토리에 노출되는 「스토리 관련 상품」이 자동 매칭인지 수동 지정인지 확인 (간접 홍보 설계의 전제)</li>
+        <li><span class="tag">결정</span><strong>발행 주기 확정</strong> — 기본안은 격주 수요일(월 2편). 대안으로 2주 사이클당 2편(월 4편) 가능하나, 자사 주 5회·네이버 주 3회와 병행 시 워싱 부하 과중 판단</li>
+        <li><span class="tag">검증</span><strong>시즌 일정</strong> — 코세페 개최 일정(02편)·크리스마스 수요 시점(05편)은 발행 직전 공식 공지 확인</li>
+        <li><span class="tag">분리</span><strong>유사문서 대조</strong> — 03·04편은 자사·네이버 동일 주제군 → 착수 시 원본 색인 완료 및 2주 경과 확인, 표 구성·예시 전면 재작성</li>
+        <li><span class="tag">공통</span><strong>인용 기준</strong> — 외부 리포트(오픈서베이·나스미디어·레뷰) 수치 직접 인용 보류, 1차 출처 재조달 또는 정성 서술 (블로그 발행 계획과 동일)</li>
+        <li><span class="tag">보류</span><strong>영상 스토리 계획</strong> — 하반기 프로모션 일정·HAI 영상 스튜디오 활용 현황 확정 후 별도 수립 (텍스트 6회 계획과 분리 운영)</li>
+        <li><span class="tag">이미지</span><strong>전용 캡처</strong> — 자사·네이버 버전과 동일 파일 사용 금지 · 하이훅 초안 페이지에서 이미지 추가 후 경로 교체 방식 동일 적용</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="badge">별첨 A</span> 레퍼런스 관측 결과</h2>
+    <p class="sec-sub">2026-10-02 확인 · 카페24 스토어 스토리 상세 페이지 2건 구조 분석</p>
+    <div class="tbl-card">
+      <table>
+        <colgroup><col style="width:20%"><col style="width:80%"></colgroup>
+        <thead><tr><th>항목</th><th>관측 내용</th></tr></thead>
+        <tbody>
+          <tr><td class="date">카테고리 체계</td><td>사용팁 · 업데이트 · 가이드 · 성공 사례/간증 후기 · 앱 사용 레시피 · 활용백서 · 지식창고/아이디어 맛집 · 요즘 트렌드 (8종)</td></tr>
+          <tr><td class="date">제목 패턴</td><td>「카페24 상품으로 견적서 만들기: 엑셀·PDF 전달까지」(작업+결과물 콜론 구조) · 「광고비 0원으로 AI에게 내 쇼핑몰 어필하기」(혜택 선행)</td></tr>
+          <tr><td class="date">페이지 구성</td><td>스토리 헤더(작성사·조회수·좋아요) → 본문 → <b>스토리 관련 상품(앱 카드)</b> → 이 저자의 다른 스토리(6건)</td></tr>
+          <tr><td class="date">앱 카드 표기</td><td>카테고리 &gt; 가격 &gt; 개발사 &gt; 기능 설명 구조로 카드 노출 — 본문 외부에서 전환 경로 제공</td></tr>
+          <tr><td class="date">본문 분량</td><td>관측 2건 모두 800~1,000자대 단문 · 이미지는 최소 사용, 텍스트 중심</td></tr>
+          <tr><td class="date">홍보 방식</td><td>직접 제품명 노출보다 <b>고객 이익 중심 표현</b>("광고비 0원") · 본문 내 세일즈 문구 희박</td></tr>
+          <tr><td class="date">목록 노출</td><td>텍스트/비디오 탭 구분 · 최신순·조회순·좋아요순 정렬 · 목록은 동적 로딩</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="badge">별첨 B</span> 3채널 역할 분담</h2>
+    <p class="sec-sub">동일 주제군이 겹칠 때 유사문서 판정을 피하는 분리 기준</p>
+    <div class="tbl-card">
+      <table>
+        <colgroup><col style="width:14%"><col style="width:17%"><col style="width:17%"><col style="width:17%"><col style="width:17%"><col style="width:18%"></colgroup>
+        <thead><tr><th>채널</th><th>독자</th><th>관점</th><th>문체</th><th>분량</th><th>전환 경로</th></tr></thead>
+        <tbody>
+          <tr><td class="date">자사 블로그</td><td>오픈마켓 셀러 전반</td><td>실무 노하우·데이터</td><td>격식체·정보밀도</td><td>4,000~6,000자</td><td>키워드 링크 최대 20개</td></tr>
+          <tr><td class="date">네이버 블로그</td><td>검색 유입 셀러</td><td>1인칭 경험담</td><td>경어체 구어체</td><td>2,500~3,500자</td><td>하단 CTA 1개 이하</td></tr>
+          <tr><td class="date"><b style="color:var(--c24)">카페24 스토어</b></td><td>자사몰 운영 셀러</td><td><b>자사몰 ↔ 오픈마켓 병행</b></td><td>정보형 평어·해요체 혼용</td><td>2,000~2,500자</td><td><b>앱 카드 자동 노출</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <span>셀링부스터 커머스기획팀 · 카페24 스토어 스토리 발행 정책·계획</span>
+    <span>파이프라인: Highook → Claude 워싱(카페24 전용) → 스토어 등록 → 인용·유입 관측</span>
+  </footer>
+</div>
+
+<script>
+  (function(){
+    var slot = document.getElementById('toolbar-slot');
+    var bar = document.getElementById('toolbar');
+    var stuck = false, threshold = 0;
+    function onScroll(){
+      var should = window.scrollY > threshold;
+      if (should && !stuck){ slot.style.minHeight = bar.offsetHeight + 'px'; bar.classList.add('is-stuck'); stuck = true; }
+      else if (!should && stuck){ bar.classList.remove('is-stuck'); slot.style.minHeight = ''; stuck = false; }
+    }
+    function measure(){
+      if (stuck){ bar.classList.remove('is-stuck'); slot.style.minHeight = ''; stuck = false; }
+      threshold = slot.getBoundingClientRect().top + window.scrollY;
+      onScroll();
+    }
+    window.addEventListener('scroll', onScroll, {passive:true});
+    window.addEventListener('resize', measure);
+    measure();
+  })();
+
+  document.getElementById('btn-pdf').addEventListener('click', function(){ window.print(); });
+
+  document.getElementById('btn-doc').addEventListener('click', function(){
+    var content = document.getElementById('doc-root').cloneNode(true);
+    var tb = content.querySelector('.toolbar-slot'); if (tb) tb.remove();
+    var wordHtml =
+      '<html xmlns:o="urn:schemas-microsoft-com:office:office" ' +
+      'xmlns:w="urn:schemas-microsoft-com:office:word" ' +
+      'xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8">' +
+      '<title>카페24 스토어 스토리 발행 정책·계획</title>' +
+      '<xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml>' +
+      '<style>' +
+      'body{font-family:"Malgun Gothic",sans-serif;font-size:10.5pt;line-height:1.55;color:#1e2321;}' +
+      'h1{font-size:17pt;} h2{font-size:13pt;margin-top:18pt;} h3{font-size:11pt;}' +
+      'table{border-collapse:collapse;width:100%;}' +
+      'th{background:#333;color:#fff;padding:6pt 8pt;font-size:9pt;text-align:center;border:1px solid #999;}' +
+      'td{padding:6pt 8pt;font-size:9.5pt;border:1px solid #ccc;vertical-align:top;}' +
+      '.hy-type,.meta,.sec-sub,footer{color:#666;font-size:9pt;}' +
+      '.notice{background:#fff6ee;padding:8pt;border:1px solid #f0c9a8;}' +
+      '.guide,.checks{background:#fafaf7;padding:8pt;border:1px solid #ddd;}' +
+      '.eyebrow{color:#1A6DFF;font-size:8.5pt;font-weight:bold;}' +
+      '</style></head><body>' + content.innerHTML + '</body></html>';
+    var blob = new Blob(['﻿', wordHtml], { type: 'application/msword' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = '카페24스토어_스토리_발행정책_계획_2026_10-12월.doc';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+</script>
+</body>
+</html>
