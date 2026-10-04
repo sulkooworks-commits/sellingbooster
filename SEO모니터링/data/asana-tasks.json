@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-03T16:03:52+09:00",
+  "generatedAt": "2026-10-04T16:21:46+09:00",
   "generatedBy": "github-actions/asana-sync",
   "source": {
     "workspace": "헥토데이터",
@@ -1895,31 +1895,6 @@
           "followers": []
         },
         {
-          "gid": "1218100802432179",
-          "name": "[SB] 사업실 주간 회의 (08:30)",
-          "type": "milestone",
-          "section": "완료",
-          "due_on": "2026-09-03",
-          "start_on": null,
-          "modified_at": "2026-09-03T03:48:56.200Z",
-          "created_at": "2026-09-02T10:49:29.239Z",
-          "owner": "이슬기",
-          "completed": true,
-          "completed_at": "2026-09-03T03:48:53.067Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218100802432179",
-          "fields": {
-            "담당 파트*": "공통",
-            "우선순위(차수)": "내부점검"
-          },
-          "subtasks": 0,
-          "followers": [
-            "채민우",
-            "김승래",
-            "이다솜",
-            "안지호"
-          ]
-        },
-        {
           "gid": "1218098723756015",
           "name": "네이버블로그) 월수금 - 본편 후속",
           "type": "task",
@@ -3089,27 +3064,6 @@
           ]
         },
         {
-          "gid": "1218100802834309",
-          "name": "셀링부스터) 화목 - 아이템 딥다이브",
-          "type": "task",
-          "section": "기타",
-          "due_on": "2026-09-03",
-          "start_on": null,
-          "modified_at": "2026-09-17T23:02:06.623Z",
-          "created_at": "2026-09-02T10:51:40.602Z",
-          "owner": "안지호",
-          "completed": true,
-          "completed_at": "2026-09-03T07:35:13.258Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/task/1218100802834309",
-          "fields": {
-            "담당 파트*": "기획"
-          },
-          "subtasks": 0,
-          "followers": [
-            "이슬기"
-          ]
-        },
-        {
           "gid": "1218030598382379",
           "name": "GTM 및 GA4 사이트 사용자 집계 기준 구축",
           "type": "task",
@@ -4113,52 +4067,6 @@
           "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1216807137532296",
           "fields": {
             "담당 파트*": "마케팅"
-          },
-          "subtasks": 0,
-          "followers": [
-            "이슬기"
-          ]
-        },
-        {
-          "gid": "1218100802432179",
-          "name": "[SB] 사업실 주간 회의 (08:30)",
-          "type": "milestone",
-          "section": "완료",
-          "due_on": "2026-09-03",
-          "start_on": null,
-          "modified_at": "2026-09-03T03:48:56.200Z",
-          "created_at": "2026-09-02T10:49:29.239Z",
-          "owner": "이슬기",
-          "completed": true,
-          "completed_at": "2026-09-03T03:48:53.067Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218100802432179",
-          "fields": {
-            "담당 파트*": "공통",
-            "우선순위(차수)": "내부점검"
-          },
-          "subtasks": 0,
-          "followers": [
-            "채민우",
-            "김승래",
-            "이다솜",
-            "안지호"
-          ]
-        },
-        {
-          "gid": "1218100802834309",
-          "name": "셀링부스터) 화목 - 아이템 딥다이브",
-          "type": "task",
-          "section": "기타",
-          "due_on": "2026-09-03",
-          "start_on": null,
-          "modified_at": "2026-09-17T23:02:06.623Z",
-          "created_at": "2026-09-02T10:51:40.602Z",
-          "owner": "안지호",
-          "completed": true,
-          "completed_at": "2026-09-03T07:35:13.258Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/task/1218100802834309",
-          "fields": {
-            "담당 파트*": "기획"
           },
           "subtasks": 0,
           "followers": [
