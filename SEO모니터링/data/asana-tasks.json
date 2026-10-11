@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-10T16:42:57+09:00",
+  "generatedAt": "2026-10-11T16:47:19+09:00",
   "generatedBy": "github-actions/asana-sync",
   "source": {
     "workspace": "헥토데이터",
@@ -539,7 +539,7 @@
           "section": "기타",
           "due_on": "2026-10-10",
           "start_on": null,
-          "modified_at": "2026-10-09T15:34:40.008Z",
+          "modified_at": "2026-10-10T15:15:00.561Z",
           "created_at": "2026-09-10T01:08:45.305Z",
           "owner": "이슬기",
           "completed": false,
@@ -556,7 +556,7 @@
           "section": "기타",
           "due_on": "2026-10-10",
           "start_on": null,
-          "modified_at": "2026-10-09T15:34:40.020Z",
+          "modified_at": "2026-10-10T15:15:00.534Z",
           "created_at": "2026-09-10T01:08:41.641Z",
           "owner": "이슬기",
           "completed": false,
@@ -1797,85 +1797,6 @@
           "followers": []
         },
         {
-          "gid": "1217437232950445",
-          "name": "광고 집행 계획 - 전자 결재 ",
-          "type": "task",
-          "section": "기타",
-          "due_on": "2026-09-02",
-          "start_on": null,
-          "modified_at": "2026-09-10T01:08:36.419Z",
-          "created_at": "2026-08-13T08:23:48.907Z",
-          "owner": "이슬기",
-          "completed": true,
-          "completed_at": "2026-09-10T01:08:34.945Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/task/1217437232950445",
-          "fields": {},
-          "subtasks": 0,
-          "followers": []
-        },
-        {
-          "gid": "1218104455156719",
-          "name": "정기반영 점검",
-          "type": "task",
-          "section": "완료",
-          "due_on": "2026-09-08",
-          "start_on": "2026-09-07",
-          "modified_at": "2026-09-10T01:13:16.846Z",
-          "created_at": "2026-09-02T11:54:27.265Z",
-          "owner": "이슬기",
-          "completed": true,
-          "completed_at": "2026-09-10T01:13:14.897Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218104455156719",
-          "fields": {
-            "담당 파트*": "기획"
-          },
-          "subtasks": 0,
-          "followers": []
-        },
-        {
-          "gid": "1218107644730627",
-          "name": "[SB] SEO/GEO TF 회의 (일정 미정)",
-          "type": "milestone",
-          "section": "완료",
-          "due_on": "2026-09-09",
-          "start_on": null,
-          "modified_at": "2026-09-10T01:08:02.094Z",
-          "created_at": "2026-09-02T12:19:47.626Z",
-          "owner": "이슬기",
-          "completed": true,
-          "completed_at": "2026-09-10T01:07:59.649Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218107644730627",
-          "fields": {
-            "담당 파트*": "공통",
-            "우선순위(차수)": "운영"
-          },
-          "subtasks": 0,
-          "followers": [
-            "안지호"
-          ]
-        },
-        {
-          "gid": "1218269030838934",
-          "name": "네이버블로그) 월수금 - 본편 후속",
-          "type": "task",
-          "section": "기타",
-          "due_on": "2026-09-09",
-          "start_on": null,
-          "modified_at": "2026-09-17T23:02:03.596Z",
-          "created_at": "2026-09-08T11:50:05.753Z",
-          "owner": "이슬기",
-          "completed": true,
-          "completed_at": "2026-09-10T01:12:16.801Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/task/1218269030838934",
-          "fields": {
-            "담당 파트*": "기획"
-          },
-          "subtasks": 0,
-          "followers": [
-            "안지호"
-          ]
-        },
-        {
           "gid": "1218348760332998",
           "name": "01_초안 작성",
           "type": "task",
@@ -1891,31 +1812,6 @@
           "fields": {},
           "subtasks": 0,
           "followers": []
-        },
-        {
-          "gid": "1218119844464933",
-          "name": "[SB] 사업실 주간 회의 (08:30)",
-          "type": "milestone",
-          "section": "완료",
-          "due_on": "2026-09-10",
-          "start_on": null,
-          "modified_at": "2026-09-10T01:10:27.805Z",
-          "created_at": "2026-09-03T03:48:53.917Z",
-          "owner": "이슬기",
-          "completed": true,
-          "completed_at": "2026-09-10T01:10:25.999Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218119844464933",
-          "fields": {
-            "담당 파트*": "공통",
-            "우선순위(차수)": "내부점검"
-          },
-          "subtasks": 0,
-          "followers": [
-            "채민우",
-            "김승래",
-            "이다솜",
-            "안지호"
-          ]
         },
         {
           "gid": "1218098723789046",
@@ -1941,42 +1837,6 @@
             "김승래",
             "이승재",
             "이다솜",
-            "안지호"
-          ]
-        },
-        {
-          "gid": "1217437232950447",
-          "name": "구글 소진 품의 (청구기준) - 기타증빙",
-          "type": "task",
-          "section": "기타",
-          "due_on": "2026-09-10",
-          "start_on": null,
-          "modified_at": "2026-09-10T01:08:46.321Z",
-          "created_at": "2026-08-13T08:24:07.230Z",
-          "owner": "이슬기",
-          "completed": true,
-          "completed_at": "2026-09-10T01:08:44.368Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/task/1217437232950447",
-          "fields": {},
-          "subtasks": 0,
-          "followers": []
-        },
-        {
-          "gid": "1217437232950446",
-          "name": "네이버 소진 품의 (청구기준) - 기타증빙",
-          "type": "task",
-          "section": "기타",
-          "due_on": "2026-09-10",
-          "start_on": null,
-          "modified_at": "2026-09-10T01:08:42.639Z",
-          "created_at": "2026-08-13T08:23:56.087Z",
-          "owner": "이슬기",
-          "completed": true,
-          "completed_at": "2026-09-10T01:08:41.230Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/task/1217437232950446",
-          "fields": {},
-          "subtasks": 0,
-          "followers": [
             "안지호"
           ]
         },
@@ -2924,48 +2784,6 @@
           "followers": []
         },
         {
-          "gid": "1218092951124734",
-          "name": "[선결제] 네이버 주식회사 - 키워드 검색 광고(말일)",
-          "type": "task",
-          "section": "🚨지연",
-          "due_on": null,
-          "start_on": null,
-          "modified_at": "2026-09-10T01:09:26.626Z",
-          "created_at": "2026-09-02T10:54:57.280Z",
-          "owner": "이슬기",
-          "completed": true,
-          "completed_at": "2026-09-10T01:09:26.429Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/task/1218092951124734",
-          "fields": {
-            "분류": "행정지원"
-          },
-          "subtasks": 0,
-          "followers": [],
-          "parent_name": "솔루션 결제 내역 정리 - 세금 계산서 백업"
-        },
-        {
-          "gid": "1211765421188115",
-          "name": "기획",
-          "type": "task",
-          "section": "완료",
-          "due_on": null,
-          "start_on": null,
-          "modified_at": "2026-09-10T01:14:55.282Z",
-          "created_at": "2025-10-28T07:15:28.535Z",
-          "owner": "이슬기",
-          "completed": true,
-          "completed_at": "2026-09-10T01:14:53.266Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1211765421188115",
-          "fields": {
-            "담당 파트*": "기획",
-            "분류": "프론트",
-            "우선순위(차수)": "1.5차",
-            "공수": "0.20"
-          },
-          "subtasks": 0,
-          "followers": []
-        },
-        {
           "gid": "1218098725318647",
           "name": "내부 검토(W. 실장님)",
           "type": "task",
@@ -3505,73 +3323,6 @@
             "담당 파트*": "마케팅",
             "분류": "행정지원",
             "우선순위(차수)": "운영"
-          },
-          "subtasks": 0,
-          "followers": [
-            "이슬기"
-          ]
-        },
-        {
-          "gid": "1216807137532296",
-          "name": "SEO 하이훅 개선 요청사항",
-          "type": "task",
-          "section": "완료",
-          "due_on": "2026-07-28",
-          "start_on": null,
-          "modified_at": "2026-09-10T01:16:13.340Z",
-          "created_at": "2026-07-23T23:51:00.811Z",
-          "owner": "안지호",
-          "completed": true,
-          "completed_at": "2026-09-10T01:16:11.977Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1216807137532296",
-          "fields": {
-            "담당 파트*": "마케팅"
-          },
-          "subtasks": 0,
-          "followers": [
-            "이슬기"
-          ]
-        },
-        {
-          "gid": "1218277778443520",
-          "name": "셀링부스터) 월수금 - K트렌드 매거진 발행",
-          "type": "task",
-          "section": "기타",
-          "due_on": "2026-09-09",
-          "start_on": null,
-          "modified_at": "2026-09-17T23:02:06.738Z",
-          "created_at": "2026-09-08T11:50:04.916Z",
-          "owner": "안지호",
-          "completed": true,
-          "completed_at": "2026-09-10T01:12:14.970Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1215180600005630/task/1218277778443520",
-          "fields": {
-            "담당 파트*": "기획",
-            "구분*": "작업",
-            "사용환경": "PC(반응형)",
-            "분류": "콘텐츠",
-            "우선순위(차수)": "운영"
-          },
-          "subtasks": 0,
-          "followers": [
-            "이슬기"
-          ]
-        },
-        {
-          "gid": "1218259367165856",
-          "name": "셀링부스터) 월수금 - 커머스 공략",
-          "type": "task",
-          "section": "기타",
-          "due_on": "2026-09-09",
-          "start_on": null,
-          "modified_at": "2026-09-17T23:02:03.484Z",
-          "created_at": "2026-09-08T11:49:54.258Z",
-          "owner": "안지호",
-          "completed": true,
-          "completed_at": "2026-09-10T01:12:24.343Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/task/1218259367165856",
-          "fields": {
-            "담당 파트*": "기획"
           },
           "subtasks": 0,
           "followers": [
@@ -4801,7 +4552,7 @@
           "section": "기타",
           "due_on": "2026-10-10",
           "start_on": null,
-          "modified_at": "2026-10-09T15:34:40.020Z",
+          "modified_at": "2026-10-10T15:15:00.534Z",
           "created_at": "2026-09-10T01:08:41.641Z",
           "owner": "이슬기",
           "completed": false,
@@ -5019,141 +4770,6 @@
           ]
         },
         {
-          "gid": "1216807137532296",
-          "name": "SEO 하이훅 개선 요청사항",
-          "type": "task",
-          "section": "완료",
-          "due_on": "2026-07-28",
-          "start_on": null,
-          "modified_at": "2026-09-10T01:16:13.340Z",
-          "created_at": "2026-07-23T23:51:00.811Z",
-          "owner": "안지호",
-          "completed": true,
-          "completed_at": "2026-09-10T01:16:11.977Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1216807137532296",
-          "fields": {
-            "담당 파트*": "마케팅"
-          },
-          "subtasks": 0,
-          "followers": [
-            "이슬기"
-          ]
-        },
-        {
-          "gid": "1218107644730627",
-          "name": "[SB] SEO/GEO TF 회의 (일정 미정)",
-          "type": "milestone",
-          "section": "완료",
-          "due_on": "2026-09-09",
-          "start_on": null,
-          "modified_at": "2026-09-10T01:08:02.094Z",
-          "created_at": "2026-09-02T12:19:47.626Z",
-          "owner": "이슬기",
-          "completed": true,
-          "completed_at": "2026-09-10T01:07:59.649Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218107644730627",
-          "fields": {
-            "담당 파트*": "공통",
-            "우선순위(차수)": "운영"
-          },
-          "subtasks": 0,
-          "followers": [
-            "안지호"
-          ]
-        },
-        {
-          "gid": "1218269030838934",
-          "name": "네이버블로그) 월수금 - 본편 후속",
-          "type": "task",
-          "section": "기타",
-          "due_on": "2026-09-09",
-          "start_on": null,
-          "modified_at": "2026-09-17T23:02:03.596Z",
-          "created_at": "2026-09-08T11:50:05.753Z",
-          "owner": "이슬기",
-          "completed": true,
-          "completed_at": "2026-09-10T01:12:16.801Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/task/1218269030838934",
-          "fields": {
-            "담당 파트*": "기획"
-          },
-          "subtasks": 0,
-          "followers": [
-            "안지호"
-          ]
-        },
-        {
-          "gid": "1218277778443520",
-          "name": "셀링부스터) 월수금 - K트렌드 매거진 발행",
-          "type": "task",
-          "section": "기타",
-          "due_on": "2026-09-09",
-          "start_on": null,
-          "modified_at": "2026-09-17T23:02:06.738Z",
-          "created_at": "2026-09-08T11:50:04.916Z",
-          "owner": "안지호",
-          "completed": true,
-          "completed_at": "2026-09-10T01:12:14.970Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1215180600005630/task/1218277778443520",
-          "fields": {
-            "담당 파트*": "기획",
-            "구분*": "작업",
-            "사용환경": "PC(반응형)",
-            "분류": "콘텐츠",
-            "우선순위(차수)": "운영"
-          },
-          "subtasks": 0,
-          "followers": [
-            "이슬기"
-          ]
-        },
-        {
-          "gid": "1218259367165856",
-          "name": "셀링부스터) 월수금 - 커머스 공략",
-          "type": "task",
-          "section": "기타",
-          "due_on": "2026-09-09",
-          "start_on": null,
-          "modified_at": "2026-09-17T23:02:03.484Z",
-          "created_at": "2026-09-08T11:49:54.258Z",
-          "owner": "안지호",
-          "completed": true,
-          "completed_at": "2026-09-10T01:12:24.343Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/task/1218259367165856",
-          "fields": {
-            "담당 파트*": "기획"
-          },
-          "subtasks": 0,
-          "followers": [
-            "이슬기"
-          ]
-        },
-        {
-          "gid": "1218119844464933",
-          "name": "[SB] 사업실 주간 회의 (08:30)",
-          "type": "milestone",
-          "section": "완료",
-          "due_on": "2026-09-10",
-          "start_on": null,
-          "modified_at": "2026-09-10T01:10:27.805Z",
-          "created_at": "2026-09-03T03:48:53.917Z",
-          "owner": "이슬기",
-          "completed": true,
-          "completed_at": "2026-09-10T01:10:25.999Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218119844464933",
-          "fields": {
-            "담당 파트*": "공통",
-            "우선순위(차수)": "내부점검"
-          },
-          "subtasks": 0,
-          "followers": [
-            "채민우",
-            "김승래",
-            "이다솜",
-            "안지호"
-          ]
-        },
-        {
           "gid": "1218098723789046",
           "name": "[SB] 주간업무 현황",
           "type": "task",
@@ -5177,25 +4793,6 @@
             "김승래",
             "이승재",
             "이다솜",
-            "안지호"
-          ]
-        },
-        {
-          "gid": "1217437232950446",
-          "name": "네이버 소진 품의 (청구기준) - 기타증빙",
-          "type": "task",
-          "section": "기타",
-          "due_on": "2026-09-10",
-          "start_on": null,
-          "modified_at": "2026-09-10T01:08:42.639Z",
-          "created_at": "2026-08-13T08:23:56.087Z",
-          "owner": "이슬기",
-          "completed": true,
-          "completed_at": "2026-09-10T01:08:41.230Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/task/1217437232950446",
-          "fields": {},
-          "subtasks": 0,
-          "followers": [
             "안지호"
           ]
         },
