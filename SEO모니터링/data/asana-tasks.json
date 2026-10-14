@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-13T17:23:49+09:00",
+  "generatedAt": "2026-10-14T15:39:41+09:00",
   "generatedBy": "github-actions/asana-sync",
   "source": {
     "workspace": "헥토데이터",
@@ -599,10 +599,10 @@
           "gid": "1219290720646224",
           "name": "[SB] 개발 점검 회의 (10:00 or 13:30 or 15:30)",
           "type": "milestone",
-          "section": "진행",
+          "section": "🚨지연",
           "due_on": "2026-10-13",
           "start_on": null,
-          "modified_at": "2026-10-12T15:30:53.994Z",
+          "modified_at": "2026-10-13T15:32:27.800Z",
           "created_at": "2026-10-08T08:43:12.773Z",
           "owner": "이슬기",
           "completed": false,
