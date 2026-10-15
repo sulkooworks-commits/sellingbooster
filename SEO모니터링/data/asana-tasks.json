@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-14T15:39:41+09:00",
+  "generatedAt": "2026-10-15T15:22:59+09:00",
   "generatedBy": "github-actions/asana-sync",
   "source": {
     "workspace": "헥토데이터",
@@ -627,7 +627,7 @@
           "section": "진행",
           "due_on": "2026-10-15",
           "start_on": null,
-          "modified_at": "2026-10-11T15:38:46.818Z",
+          "modified_at": "2026-10-15T04:30:00.310Z",
           "created_at": "2026-10-08T08:43:32.200Z",
           "owner": "이슬기",
           "completed": false,
@@ -4396,7 +4396,7 @@
           "section": "진행",
           "due_on": "2026-10-15",
           "start_on": null,
-          "modified_at": "2026-10-11T15:38:46.818Z",
+          "modified_at": "2026-10-15T04:30:00.310Z",
           "created_at": "2026-10-08T08:43:32.200Z",
           "owner": "이슬기",
           "completed": false,
