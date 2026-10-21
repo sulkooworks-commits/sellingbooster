@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-20T15:33:00+09:00",
+  "generatedAt": "2026-10-21T15:31:43+09:00",
   "generatedBy": "github-actions/asana-sync",
   "source": {
     "workspace": "헥토데이터",
@@ -644,6 +644,27 @@
           ]
         },
         {
+          "gid": "1219678532779942",
+          "name": "검토사항 - 기획 답변",
+          "type": "task",
+          "section": "기타",
+          "due_on": "2026-10-21",
+          "start_on": "2026-10-19",
+          "modified_at": "2026-10-21T00:41:20.132Z",
+          "created_at": "2026-10-20T10:07:44.253Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1219678532779942",
+          "fields": {},
+          "subtasks": 0,
+          "followers": [
+            "채민우",
+            "김승래",
+            "안지호"
+          ]
+        },
+        {
           "gid": "1218230785358859",
           "name": "[SB][ALL] TTJ 연동: 개발 세팅",
           "type": "task",
@@ -768,26 +789,6 @@
             "안지호"
           ],
           "parent_name": "지출 품의 필요"
-        },
-        {
-          "gid": "1219290622855289",
-          "name": "(무제)",
-          "type": "task",
-          "section": "대기/요청",
-          "due_on": null,
-          "start_on": null,
-          "modified_at": "2026-10-08T09:50:43.689Z",
-          "created_at": "2026-10-08T09:50:40.877Z",
-          "owner": "이슬기",
-          "completed": false,
-          "completed_at": null,
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1219290622855289",
-          "fields": {
-            "담당 파트*": "기획",
-            "우선순위(차수)": "4차"
-          },
-          "subtasks": 0,
-          "followers": []
         },
         {
           "gid": "1217317882825712",
@@ -3834,6 +3835,27 @@
           "subtasks": 0,
           "followers": [
             "김헌경",
+            "안지호"
+          ]
+        },
+        {
+          "gid": "1219678532779942",
+          "name": "검토사항 - 기획 답변",
+          "type": "task",
+          "section": "기타",
+          "due_on": "2026-10-21",
+          "start_on": "2026-10-19",
+          "modified_at": "2026-10-21T00:41:20.132Z",
+          "created_at": "2026-10-20T10:07:44.253Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/task/1219678532779942",
+          "fields": {},
+          "subtasks": 0,
+          "followers": [
+            "채민우",
+            "김승래",
             "안지호"
           ]
         },
