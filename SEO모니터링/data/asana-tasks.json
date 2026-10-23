@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-21T15:31:43+09:00",
+  "generatedAt": "2026-10-23T15:27:10+09:00",
   "generatedBy": "github-actions/asana-sync",
   "source": {
     "workspace": "헥토데이터",
@@ -486,26 +486,6 @@
           ]
         },
         {
-          "gid": "1219290797893080",
-          "name": "[SB] 셀링스파크 주간 점검 회의(15:00)",
-          "type": "milestone",
-          "section": "🚨지연",
-          "due_on": "2026-10-08",
-          "start_on": null,
-          "modified_at": "2026-10-08T15:37:45.323Z",
-          "created_at": "2026-10-08T08:43:49.473Z",
-          "owner": "이슬기",
-          "completed": false,
-          "completed_at": null,
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1219290797893080",
-          "fields": {
-            "담당 파트*": "공통",
-            "우선순위(차수)": "5차"
-          },
-          "subtasks": 0,
-          "followers": []
-        },
-        {
           "gid": "1219188381227608",
           "name": "[SB] 주간업무 현황",
           "type": "task",
@@ -650,7 +630,7 @@
           "section": "기타",
           "due_on": "2026-10-21",
           "start_on": "2026-10-19",
-          "modified_at": "2026-10-21T00:41:20.132Z",
+          "modified_at": "2026-10-22T00:54:01.306Z",
           "created_at": "2026-10-20T10:07:44.253Z",
           "owner": "이슬기",
           "completed": false,
@@ -665,13 +645,58 @@
           ]
         },
         {
+          "gid": "1219759536922806",
+          "name": "키워드 분석 상세페이지 - 썸네일 이미지",
+          "type": "task",
+          "section": "대기/요청",
+          "due_on": "2026-10-27",
+          "start_on": null,
+          "modified_at": "2026-10-23T04:26:43.413Z",
+          "created_at": "2026-10-22T01:53:59.290Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1219759536922806",
+          "fields": {
+            "분류": "프론트",
+            "우선순위(차수)": "운영",
+            "QA 유형(필수)": "개선"
+          },
+          "subtasks": 2,
+          "followers": [
+            "이승재",
+            "이다솜",
+            "이순우"
+          ]
+        },
+        {
+          "gid": "1219798418375192",
+          "name": "[SB] 셀링스파크 주간 점검 회의(15:00)",
+          "type": "milestone",
+          "section": "🚨지연",
+          "due_on": "2026-10-29",
+          "start_on": null,
+          "modified_at": "2026-10-23T01:26:55.491Z",
+          "created_at": "2026-10-23T01:26:54.979Z",
+          "owner": "이슬기",
+          "completed": false,
+          "completed_at": null,
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1219798418375192",
+          "fields": {
+            "담당 파트*": "공통",
+            "우선순위(차수)": "5차"
+          },
+          "subtasks": 0,
+          "followers": []
+        },
+        {
           "gid": "1218230785358859",
           "name": "[SB][ALL] TTJ 연동: 개발 세팅",
           "type": "task",
           "section": "대기/요청",
           "due_on": "2026-10-30",
           "start_on": null,
-          "modified_at": "2026-10-09T07:19:29.666Z",
+          "modified_at": "2026-10-22T15:03:58.465Z",
           "created_at": "2026-09-07T09:53:22.464Z",
           "owner": "이슬기",
           "completed": false,
@@ -2263,6 +2288,66 @@
           ]
         },
         {
+          "gid": "1219290797893080",
+          "name": "[SB] 셀링스파크 주간 점검 회의(15:00)",
+          "type": "milestone",
+          "section": "완료",
+          "due_on": "2026-10-08",
+          "start_on": null,
+          "modified_at": "2026-10-23T01:26:35.507Z",
+          "created_at": "2026-10-08T08:43:49.473Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-10-23T01:26:32.830Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1219290797893080",
+          "fields": {
+            "담당 파트*": "공통",
+            "우선순위(차수)": "5차"
+          },
+          "subtasks": 0,
+          "followers": []
+        },
+        {
+          "gid": "1219798604810094",
+          "name": "[SB] 셀링스파크 주간 점검 회의(15:00)",
+          "type": "milestone",
+          "section": "완료",
+          "due_on": "2026-10-15",
+          "start_on": null,
+          "modified_at": "2026-10-23T01:26:53.836Z",
+          "created_at": "2026-10-23T01:26:33.434Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-10-23T01:26:51.576Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1219798604810094",
+          "fields": {
+            "담당 파트*": "공통",
+            "우선순위(차수)": "5차"
+          },
+          "subtasks": 0,
+          "followers": []
+        },
+        {
+          "gid": "1219798349261986",
+          "name": "[SB] 셀링스파크 주간 점검 회의(15:00)",
+          "type": "milestone",
+          "section": "완료",
+          "due_on": "2026-10-22",
+          "start_on": null,
+          "modified_at": "2026-10-23T01:26:57.270Z",
+          "created_at": "2026-10-23T01:26:48.385Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-10-23T01:26:54.441Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1219798349261986",
+          "fields": {
+            "담당 파트*": "공통",
+            "우선순위(차수)": "5차"
+          },
+          "subtasks": 0,
+          "followers": []
+        },
+        {
           "gid": "1219188426879647",
           "name": "[SB] 미래아이엔씨 선지급(가품의) ",
           "type": "task",
@@ -3845,7 +3930,7 @@
           "section": "기타",
           "due_on": "2026-10-21",
           "start_on": "2026-10-19",
-          "modified_at": "2026-10-21T00:41:20.132Z",
+          "modified_at": "2026-10-22T00:54:01.306Z",
           "created_at": "2026-10-20T10:07:44.253Z",
           "owner": "이슬기",
           "completed": false,
