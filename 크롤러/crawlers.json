@@ -54,6 +54,51 @@
       "requests_per_run": "구분 수 (기본 2건)",
       "notes": "robots.txt는 일반 봇에 /ds/ 등 공개 페이지 허용, Crawl-delay 30초. 1회 2건 요청이라 부담 없음 — 연속 클릭은 피할 것. 급상승 점수(SUMMED_GAP)·RANKING_GAP의 정확한 산식은 사이트 비공개.",
       "added": "2026-10-26"
+    },
+    {
+      "id": "ohouse_trending_keywords",
+      "name": "오늘의집 인기 검색어",
+      "site": "오늘의집",
+      "target_url": "https://store.ohou.se/ranks",
+      "description": "쇼핑 화면 우측 상단 「인기 검색어」 플로팅 창의 10위 검색어와 순위 변동(▲/▼/NEW)을 수집.",
+      "script": "scripts/ohouse_trending_keywords.py",
+      "method": "GET store.ohou.se/api/navigation → nav.trendingKeywords (페이지 SSR의 navigation 쿼리와 같은 데이터). API 실패 시 /ranks HTML의 __NEXT_DATA__ 파싱, 차단 시 Playwright 자동 전환. 로그인·쿠키 불필요.",
+      "params": [],
+      "columns": [
+        { "key": "rank", "label": "순위", "align": "right" },
+        { "key": "keyword", "label": "검색어" },
+        { "key": "change_type", "label": "변동" },
+        { "key": "diff_rank", "label": "순위 변동폭", "align": "right" },
+        { "key": "search_url", "label": "검색 결과", "type": "link" }
+      ],
+      "requests_per_run": "1건",
+      "notes": "robots.txt는 User-agent * 에 Disallow: / (주요 검색엔진만 허용) — 내부 참고용 소량 호출. 서비스 기능으로 상업 활용 시 약관 확인 필요.",
+      "added": "2026-10-26"
+    },
+    {
+      "id": "oliveyoung_rising_keywords",
+      "name": "올리브영 급상승 검색어",
+      "site": "올리브영",
+      "target_url": "https://www.oliveyoung.co.kr/store/main/main.do?oy=0",
+      "description": "상단 중앙 검색창 클릭 시 레이어의 「급상승 검색어」(화면 10위 · API 최대 100위)와 순위 변동·검색량·검색량 증가분, 랭킹 기준시각을 수집.",
+      "script": "scripts/oliveyoung_rising_keywords.py",
+      "method": "GET www.oliveyoung.co.kr/search/api/v1/common/popular-keywords?size=100 (사이트 search.js MainSuddenKeyword() 호출부 그대로). 변동 판정은 사이트 getRankingDiff() 그대로. 로그인·쿠키 불필요, Cloudflare 차단 시 Playwright 자동 전환.",
+      "params": [
+        { "key": "size", "label": "수집 건수", "type": "select", "options": [["100", "100위 전체"], ["10", "화면과 같은 10위"]], "default": "100" }
+      ],
+      "columns": [
+        { "key": "rank", "label": "순위", "align": "right" },
+        { "key": "keyword", "label": "검색어" },
+        { "key": "change_type", "label": "변동" },
+        { "key": "rank_diff", "label": "순위 변동폭", "align": "right" },
+        { "key": "search_count", "label": "검색량", "align": "right" },
+        { "key": "count_diff", "label": "검색량 증가", "align": "right" },
+        { "key": "ranking_base_time", "label": "랭킹 기준시각" },
+        { "key": "search_url", "label": "검색 결과", "type": "link" }
+      ],
+      "requests_per_run": "1건",
+      "notes": "robots.txt는 User-agent * 에 Disallow: / (주요 검색엔진·AI봇만 경로별 허용) — 내부 참고용 소량 호출. 서비스 기능으로 상업 활용 시 약관 확인 필요. 검색량(count)의 집계 구간은 사이트 비공개.",
+      "added": "2026-10-26"
     }
   ]
 }

@@ -265,7 +265,7 @@
       if (p.type === 'multi' || p.type === 'select') {
         (p.options || []).forEach(function(o){
           var v = Array.isArray(o) ? o[0] : o, l = Array.isArray(o) ? o[1] : o;
-          var checked = (p.default || []).indexOf(v) >= 0 || p.default === v;
+          var checked = Array.isArray(p.default) ? p.default.indexOf(v) >= 0 : String(p.default) === String(v);
           ph += '<label><input type="' + (p.type === 'multi' ? 'checkbox' : 'radio') + '" name="p_' + esc(p.key) + '" value="' + esc(v) + '"' + (checked ? ' checked' : '') + '> ' + esc(l) + '</label>';
         });
       } else {
