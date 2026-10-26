@@ -1,0 +1,19 @@
+[
+ {
+  "ts": "20261026_165143",
+  "run_at": "2026-10-26 16:51:46",
+  "status": "ok",
+  "count": 26,
+  "duration_sec": 3.6,
+  "engine": "requests",
+  "params": {
+   "sections": [
+    "recommend",
+    "rising"
+   ],
+   "rank": 20
+  },
+  "snapshot": "history/20261026_165143.json",
+  "run_url": "https://github.com/sulkooworks-commits/sellingbooster/actions/runs/40288345782"
+ }
+]
