@@ -1,0 +1,55 @@
+name: 크롤러 수동 실행
+
+# 자동 실행 없음 — 크롤러 허브 페이지(크롤러/crawler-hub.html)의 「▶ 수집 실행」 버튼이
+# workflow_dispatch 로 호출할 때만 수집합니다.
+on:
+  workflow_dispatch:
+    inputs:
+      crawler:
+        description: '크롤러 ID (크롤러/crawlers.json 의 id)'
+        required: true
+        type: string
+      params:
+        description: '수집 옵션 JSON (예: {"tabs":["popular"],"gf":["A","M"]})'
+        required: false
+        type: string
+        default: ''
+
+permissions:
+  contents: write
+
+concurrency:
+  group: crawler-${{ inputs.crawler }}
+  cancel-in-progress: false
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 의존성 설치 (requests + Playwright 차단 대비)
+        run: |
+          pip install -q requests playwright
+          python -m playwright install --with-deps chromium
+
+      - name: 수집 실행
+        run: |
+          python "크롤러/scripts/_runner.py" "${{ inputs.crawler }}" \
+            --params '${{ inputs.params }}' \
+            --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+      - name: 결과 커밋
+        if: always()
+        run: |
+          git config user.name "crawler-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add "크롤러/data"
+          git diff --cached --quiet && echo "변경 없음" || git commit -m "chore(crawler): ${{ inputs.crawler }} $(TZ=Asia/Seoul date +%Y-%m-%d_%H:%M)"
+          git pull --rebase origin main || true
+          git push
