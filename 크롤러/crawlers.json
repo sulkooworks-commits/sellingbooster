@@ -28,6 +28,32 @@
       "requests_per_run": "탭 수 × 성별 수 (기본 2건)",
       "notes": "www.musinsa.com robots.txt는 미등록 봇에 Disallow: / — 내부 참고용 소량 호출. 서비스 기능으로 상업 활용 시 이용약관 자동수집 조항 법무 확인 필요.",
       "added": "2026-10-26"
+    },
+    {
+      "id": "daiso_search_keywords",
+      "name": "다이소몰 추천 · 급상승 검색어",
+      "site": "다이소몰",
+      "target_url": "https://www.daisomall.co.kr/ds/dst/SCR_DST_0015?searchTerm=%EA%B2%80%EC%83%89",
+      "description": "상단 검색창 클릭 시 열리는 플로팅 레이어의 추천 검색어(운영 큐레이션 6개 내외, 썸네일·노출기간 포함)와 급상승 검색어(최근 1시간 검색횟수 급상승 20위, ▲/N 배지)를 수집.",
+      "script": "scripts/daiso_search_keywords.py",
+      "method": "추천: POST fapi.daisomall.co.kr/ds/dsl/selRcmKeywd {mallSeCd:\"01\"} / 급상승: GET www.daisomall.co.kr/ssn/search/trendSearch?rank=20&mallId=MALL_MAIN (result[0]). 사이트 프론트 코드의 호출부·배지 판정식 그대로 사용. 로그인·쿠키 불필요, 차단 시 Playwright 자동 전환.",
+      "params": [
+        { "key": "sections", "label": "구분", "type": "multi", "options": [["recommend", "추천 검색어"], ["rising", "급상승 검색어"]], "default": ["recommend", "rising"] }
+      ],
+      "columns": [
+        { "key": "section", "label": "구분" },
+        { "key": "rank", "label": "순위", "align": "right" },
+        { "key": "image_url", "label": "이미지", "type": "image" },
+        { "key": "keyword", "label": "검색어" },
+        { "key": "change_type", "label": "변동" },
+        { "key": "prev_rank", "label": "이전 순위", "align": "right" },
+        { "key": "summed_gap", "label": "급상승 점수", "align": "right" },
+        { "key": "exhibit_period", "label": "추천 노출기간" },
+        { "key": "search_url", "label": "검색 결과", "type": "link" }
+      ],
+      "requests_per_run": "구분 수 (기본 2건)",
+      "notes": "robots.txt는 일반 봇에 /ds/ 등 공개 페이지 허용, Crawl-delay 30초. 1회 2건 요청이라 부담 없음 — 연속 클릭은 피할 것. 급상승 점수(SUMMED_GAP)·RANKING_GAP의 정확한 산식은 사이트 비공개.",
+      "added": "2026-10-26"
     }
   ]
 }

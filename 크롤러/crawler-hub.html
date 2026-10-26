@@ -305,7 +305,7 @@
     cols.forEach(function(col){
       var vals = {}; latest.rows.forEach(function(r){ vals[r[col.key]] = 1; });
       var keys = Object.keys(vals);
-      if (keys.length >= 2 && keys.length <= 12 && col.type !== 'link') fh += '<select data-col="' + esc(col.key) + '"><option value="">' + esc(col.label) + ': 전체</option>' + keys.sort().map(function(k){ return '<option value="' + esc(k) + '">' + esc(k) + '</option>'; }).join('') + '</select>';
+      if (keys.length >= 2 && keys.length <= 12 && keys.length * 2 <= latest.rows.length && col.type !== 'link' && col.type !== 'image') fh += '<select data-col="' + esc(col.key) + '"><option value="">' + esc(col.label) + ': 전체</option>' + keys.sort().map(function(k){ return '<option value="' + esc(k) + '">' + esc(k) + '</option>'; }).join('') + '</select>';
     });
     fh += '<input type="text" id="resSearch" placeholder="검색…">';
     fl.innerHTML = fh;
@@ -325,6 +325,7 @@
       h += '<tr>' + cols.map(function(c){
         var v = r[c.key]; var cell;
         if (c.type === 'link' && v) cell = '<a href="' + esc(v) + '" target="_blank" rel="noopener">열기 ↗</a>';
+        else if (c.type === 'image') cell = v ? '<a href="' + esc(v) + '" target="_blank" rel="noopener"><img src="' + esc(v) + '" alt="" loading="lazy" style="width:36px;height:36px;object-fit:cover;border-radius:6px;display:block"></a>' : '';
         else if (c.key === 'change_type') cell = v === 'UP' ? '<span class="up">▲ 상승</span>' : v === 'DOWN' ? '<span class="down">▼ 하락</span>' : v === 'NEW' ? '<span class="new">NEW</span>' : v === 'NONE' ? '–' : esc(v);
         else cell = esc(v);
         return '<td class="' + (c.align === 'right' ? 'r' : '') + '">' + cell + '</td>';
