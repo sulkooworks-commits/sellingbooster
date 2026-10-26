@@ -1,0 +1,33 @@
+{
+  "_comment": "크롤러 레지스트리. 새 크롤러 추가 = scripts/<id>.py 작성 + 이 배열에 항목 1개 추가 (README.md 참고)",
+  "repo": "sulkooworks-commits/sellingbooster",
+  "workflow": "crawler-run.yml",
+  "crawlers": [
+    {
+      "id": "musinsa_keyword_ranking",
+      "name": "무신사 검색어 랭킹 (인기 · 급상승)",
+      "site": "무신사",
+      "target_url": "https://www.musinsa.com/main/musinsa/ranking?gf=A&storeCode=musinsa&sectionId=1067&ageBand=AGE_BAND_ALL&subPan=keyword",
+      "description": "무신사 랭킹 > 검색어 탭의 인기(200위) · 급상승(약 126위) 검색어와 순위 변동을 수집. 랭킹은 약 20분 주기로 갱신됨.",
+      "script": "scripts/musinsa_keyword_ranking.py",
+      "method": "페이지가 호출하는 JSON API(client.musinsa.com/api/home/web/v5/pans/ranking)를 직접 호출. 로그인·쿠키 불필요. 차단 시 Playwright(실제 페이지 안 fetch)로 자동 전환.",
+      "params": [
+        { "key": "tabs", "label": "탭", "type": "multi", "options": [["popular", "인기"], ["rising", "급상승"]], "default": ["popular", "rising"] },
+        { "key": "gf", "label": "성별", "type": "multi", "options": [["A", "전체"], ["M", "남성"], ["F", "여성"]], "default": ["A"] }
+      ],
+      "columns": [
+        { "key": "tab", "label": "탭" },
+        { "key": "gender", "label": "성별" },
+        { "key": "rank", "label": "순위", "align": "right" },
+        { "key": "keyword", "label": "검색어" },
+        { "key": "change_type", "label": "변동" },
+        { "key": "change_amount", "label": "변동폭", "align": "right" },
+        { "key": "ranking_updated_at", "label": "랭킹 기준시각" },
+        { "key": "search_url", "label": "검색 결과", "type": "link" }
+      ],
+      "requests_per_run": "탭 수 × 성별 수 (기본 2건)",
+      "notes": "www.musinsa.com robots.txt는 미등록 봇에 Disallow: / — 내부 참고용 소량 호출. 서비스 기능으로 상업 활용 시 이용약관 자동수집 조항 법무 확인 필요.",
+      "added": "2026-10-26"
+    }
+  ]
+}

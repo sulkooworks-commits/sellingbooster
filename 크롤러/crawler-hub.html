@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>셀링부스터 크롤러 허브</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1: #fcfcfb; --page: #f9f9f7;
+    --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #898781;
+    --grid: #e1e0d9; --baseline: #c3c2b7; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-soft: rgba(42,120,214,0.10);
+    --status-good: #0ca30c; --status-warning: #fab219; --status-critical: #d03b3b;
+    --code: #f1f0ea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --surface-1: #1a1a19; --page: #0d0d0d;
+      --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #898781;
+      --grid: #2c2c2a; --baseline: #383835; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-soft: rgba(57,135,229,0.16); --code: #232321;
+    }
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background: var(--page); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--text-primary); padding: 32px 20px 56px; }
+  .wrap { max-width: 1040px; margin: 0 auto; }
+  header h1 { font-size: 22px; font-weight: 650; letter-spacing: -0.01em; }
+  header .sub { color: var(--text-secondary); font-size: 13px; margin-top: 6px; line-height: 1.5; }
+  .hdr-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .btn { appearance: none; cursor: pointer; font-family: inherit; font-size: 12.5px; font-weight: 600; color: var(--text-secondary); background: var(--surface-1); border: 1px solid var(--border); border-radius: 8px; padding: 7px 14px; white-space: nowrap; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; line-height: 1.2; }
+  .btn:hover { color: var(--text-primary); border-color: var(--baseline); }
+  .btn[disabled] { opacity: .5; cursor: default; }
+  .btn.primary { color: #fff; background: var(--accent); border-color: var(--accent); }
+  .btn.primary:hover { filter: brightness(1.08); }
+  .btn.sm { font-size: 12px; padding: 5px 10px; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .status { font-size: 12.5px; color: var(--text-secondary); margin-top: 10px; min-height: 18px; line-height: 1.5; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 22px; }
+  .tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .tile .label { font-size: 12px; color: var(--text-secondary); }
+  .tile .value { font-size: 26px; font-weight: 600; margin-top: 4px; }
+  .tile .meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; margin-top: 16px; }
+  .card h2 { font-size: 14px; font-weight: 650; }
+  .card .cap { font-size: 12px; color: var(--text-muted); margin-top: 2px; margin-bottom: 14px; line-height: 1.5; }
+  .crawler { border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-top: 10px; cursor: pointer; transition: border-color .15s; }
+  .crawler:hover { border-color: var(--baseline); }
+  .crawler.active { border-color: var(--accent); background: var(--accent-soft); }
+  .crawler .top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; flex-wrap: wrap; }
+  .crawler .name { font-size: 14.5px; font-weight: 650; }
+  .crawler .site { font-size: 11.5px; color: var(--accent); font-weight: 600; margin-right: 8px; }
+  .crawler .desc { font-size: 12.5px; color: var(--text-secondary); margin-top: 6px; line-height: 1.5; }
+  .crawler .last { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+  .chip { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); }
+  .chip.ok .dot { background: var(--status-good); }
+  .chip.error .dot { background: var(--status-critical); }
+  .chip.running .dot { background: var(--status-warning); animation: pulse 1s infinite; }
+  @keyframes pulse { 50% { opacity: .3; } }
+  .kv { display: grid; grid-template-columns: 120px 1fr; gap: 6px 14px; font-size: 12.5px; margin-top: 10px; }
+  .kv dt { color: var(--text-muted); }
+  .kv dd { color: var(--text-secondary); line-height: 1.5; word-break: break-all; }
+  .kv dd code, .mono { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 11.5px; background: var(--code); padding: 1px 5px; border-radius: 4px; }
+  .params { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 8px; }
+  .param { font-size: 12.5px; }
+  .param .pl { color: var(--text-muted); font-size: 11.5px; margin-bottom: 4px; }
+  .param label { margin-right: 10px; cursor: pointer; }
+  .param input[type="text"] { font: inherit; font-size: 12.5px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-1); color: var(--text-primary); }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 10px; }
+  th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+  th { font-size: 11.5px; color: var(--text-muted); font-weight: 600; position: sticky; top: 0; background: var(--surface-1); }
+  td.r, th.r { text-align: right; }
+  td a { color: var(--accent); text-decoration: none; }
+  .tbl-wrap { max-height: 520px; overflow: auto; border: 1px solid var(--grid); border-radius: 8px; margin-top: 10px; }
+  .filters { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
+  .filters select, .filters input { font: inherit; font-size: 12.5px; padding: 5px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-1); color: var(--text-primary); }
+  .up { color: var(--status-good); } .down { color: var(--status-critical); } .new { color: var(--accent); }
+  .empty { font-size: 12.5px; color: var(--text-muted); padding: 18px 0; text-align: center; }
+  details summary { cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+  pre { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 11.5px; background: var(--code); padding: 12px 14px; border-radius: 8px; overflow: auto; margin-top: 10px; line-height: 1.55; }
+  ol.guide { font-size: 12.5px; color: var(--text-secondary); margin: 10px 0 0 18px; line-height: 1.7; }
+  footer { font-size: 11.5px; color: var(--text-muted); margin-top: 28px; line-height: 1.6; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="hdr-row">
+      <div>
+        <h1>셀링부스터 크롤러 허브</h1>
+        <div class="sub">등록된 크롤러를 <b>버튼을 눌렀을 때만</b> GitHub Actions에서 실행하고, 결과를 이 페이지에서 확인·다운로드합니다. 자동 스케줄 없음.</div>
+      </div>
+      <div class="row">
+        <button class="btn" id="reloadBtn" title="data/ 폴더의 최신 결과를 다시 읽습니다">↻ 데이터 새로고침</button>
+        <button class="btn" id="tokenBtn" title="GitHub Fine-grained 토큰 (Actions: Read and write). SEO 모니터링 페이지와 같은 토큰을 공유합니다">🔑 토큰</button>
+      </div>
+    </div>
+    <div class="status" id="globalStatus"></div>
+  </header>
+
+  <div class="tiles">
+    <div class="tile"><div class="label">등록 크롤러</div><div class="value" id="tCount">–</div><div class="meta">crawlers.json</div></div>
+    <div class="tile"><div class="label">마지막 실행</div><div class="value" id="tLast" style="font-size:16px;margin-top:8px">–</div><div class="meta" id="tLastMeta"></div></div>
+    <div class="tile"><div class="label">이번 달 실행 횟수</div><div class="value" id="tMonth">–</div><div class="meta">전체 크롤러 합계</div></div>
+  </div>
+
+  <div class="card">
+    <h2>크롤러 목록</h2>
+    <div class="cap">카드를 누르면 아래에 옵션·결과·이력이 표시됩니다. 「▶ 수집 실행」은 선택한 옵션으로 GitHub Actions를 1회 실행합니다 (2~4분, 완료 시 자동 반영).</div>
+    <div id="crawlerList"></div>
+  </div>
+
+  <div id="detail" class="hidden">
+    <div class="card">
+      <div class="hdr-row">
+        <div><h2 id="dName"></h2><div class="cap" id="dDesc" style="margin-bottom:0"></div></div>
+        <div class="row">
+          <button class="btn primary" id="runBtn">▶ 수집 실행</button>
+          <a class="btn" id="dlScript" download>⬇ 스크립트 (.py)</a>
+          <a class="btn" id="ghScript" target="_blank" rel="noopener">GitHub에서 보기</a>
+        </div>
+      </div>
+      <div class="status" id="runStatus"></div>
+      <div class="params" id="dParams"></div>
+      <dl class="kv" id="dInfo"></dl>
+    </div>
+
+    <div class="card">
+      <div class="hdr-row">
+        <div><h2>최신 수집 결과</h2><div class="cap" id="resCap" style="margin-bottom:0"></div></div>
+        <div class="row">
+          <a class="btn sm" id="dlCsv" download>⬇ CSV</a>
+          <a class="btn sm" id="dlJson" target="_blank" rel="noopener">JSON</a>
+        </div>
+      </div>
+      <div class="filters" id="resFilters"></div>
+      <div class="tbl-wrap"><table id="resTable"></table></div>
+      <div class="status" id="resMore"></div>
+    </div>
+
+    <div class="card">
+      <h2>실행 이력</h2>
+      <div class="cap">최근 300건. 스냅샷 링크는 해당 회차의 결과 JSON입니다.</div>
+      <div class="tbl-wrap" style="max-height:320px"><table id="runsTable"></table></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <details>
+      <summary>➕ 새 크롤러 추가 방법 (개발자·기획 공용)</summary>
+      <ol class="guide">
+        <li><span class="mono">크롤러/scripts/&lt;id&gt;.py</span> 작성 — <span class="mono">collect(params: dict) -&gt; dict</span> 함수 필수. 반환: <span class="mono">{"columns": [...], "rows": [...], "meta": {...}}</span>. 단독 실행용 <span class="mono">main()</span>도 함께 두면 개발자가 다운로드해 바로 검증 가능 (무신사 스크립트 참고).</li>
+        <li><span class="mono">크롤러/crawlers.json</span>의 <span class="mono">crawlers</span> 배열에 항목 추가 — <span class="mono">id</span>(파일명과 동일) · <span class="mono">name</span> · <span class="mono">script</span> · <span class="mono">params</span>(옵션 UI 자동 생성) · <span class="mono">columns</span>(표 컬럼).</li>
+        <li>커밋 → 이 페이지에 카드가 자동으로 나타남. 워크플로(<span class="mono">crawler-run.yml</span>)·러너(<span class="mono">_runner.py</span>)는 수정 불필요.</li>
+        <li>수집 데이터는 <span class="mono">크롤러/data/&lt;id&gt;/</span>에 <span class="mono">latest.json · latest.csv · runs.json · history/</span>로 쌓임.</li>
+      </ol>
+      <pre>{
+  "id": "example_site_ranking",
+  "name": "예시 사이트 랭킹",
+  "site": "예시",
+  "target_url": "https://example.com/ranking",
+  "description": "무엇을 어디서 가져오는지 한 줄",
+  "script": "scripts/example_site_ranking.py",
+  "method": "API 직접 호출 / HTML 파싱 / Playwright 중 무엇인지",
+  "params": [
+    { "key": "category", "label": "카테고리", "type": "multi", "options": [["a","상의"],["b","하의"]], "default": ["a"] },
+    { "key": "limit", "label": "건수", "type": "text", "default": "100" }
+  ],
+  "columns": [ { "key": "rank", "label": "순위", "align": "right" }, { "key": "name", "label": "이름" } ],
+  "notes": "robots.txt · 약관 주의점"
+}</pre>
+    </details>
+  </div>
+
+  <footer>실행 방식: 페이지 버튼 → GitHub API workflow_dispatch → Actions가 <span class="mono">_runner.py &lt;id&gt;</span> 실행 → 결과를 <span class="mono">크롤러/data/</span>에 커밋 → Pages 반영. 토큰은 이 브라우저 localStorage에만 저장(SEO 모니터링 페이지와 공유).</footer>
+</div>
+
+<script>
+(function(){
+  var REG = null, DATA = {}, SEL = null, running = false;
+  var TOKEN_KEY = 'seoMonitorDispatchToken';   // SEO 모니터링 페이지와 동일 키 → 토큰 1회만 입력
+  var $ = function(id){ return document.getElementById(id); };
+  var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+  var nocache = function(p){ return p + (p.indexOf('?') >= 0 ? '&' : '?') + '_=' + Date.now(); };
+  function fetchJson(p){ return fetch(nocache(p)).then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }); }
+
+  // ---------- 토큰 ----------
+  function getToken(force){
+    var t = null;
+    try { t = localStorage.getItem(TOKEN_KEY); } catch(e) {}
+    if (!t || force) {
+      t = window.prompt('GitHub 토큰을 입력하세요 (최초 1회, 이 브라우저에만 저장됩니다).\n\n발급: GitHub → Settings → Developer settings → Fine-grained tokens\n- Repository access: sellingbooster 저장소만\n- Permissions: Actions → Read and write\n\nSEO 모니터링 페이지에서 이미 입력했다면 그 토큰이 그대로 사용됩니다.');
+      if (t) { t = t.trim(); try { localStorage.setItem(TOKEN_KEY, t); } catch(e) {} }
+    }
+    return t;
+  }
+  function gh(path, opts, token){
+    opts = opts || {};
+    opts.headers = Object.assign({ 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' }, opts.headers || {});
+    return fetch('https://api.github.com/repos/' + REG.repo + path, opts);
+  }
+  $('tokenBtn').addEventListener('click', function(){ getToken(true); $('globalStatus').textContent = '토큰이 갱신되었습니다.'; });
+
+  // ---------- 로드 ----------
+  async function loadAll(){
+    REG = await fetchJson('crawlers.json');
+    DATA = {};
+    await Promise.all(REG.crawlers.map(async function(c){
+      var d = { runs: [], latest: null };
+      try { d.runs = await fetchJson('data/' + c.id + '/runs.json'); } catch(e) {}
+      try { d.latest = await fetchJson('data/' + c.id + '/latest.json'); } catch(e) {}
+      DATA[c.id] = d;
+    }));
+    renderTiles(); renderList();
+    if (SEL) renderDetail(SEL);
+  }
+  $('reloadBtn').addEventListener('click', function(){ loadAll().then(function(){ $('globalStatus').textContent = '데이터를 다시 읽었습니다 (' + new Date().toLocaleTimeString('ko-KR') + ').'; }); });
+
+  function lastRun(id){ var r = DATA[id] && DATA[id].runs; return r && r.length ? r[0] : null; }
+  function renderTiles(){
+    $('tCount').textContent = REG.crawlers.length;
+    var all = [];
+    REG.crawlers.forEach(function(c){ (DATA[c.id].runs||[]).forEach(function(r){ all.push(Object.assign({cid:c.id, cname:c.name}, r)); }); });
+    all.sort(function(a,b){ return a.ts < b.ts ? 1 : -1; });
+    if (all.length) { $('tLast').textContent = all[0].run_at; $('tLastMeta').textContent = all[0].cname + ' · ' + (all[0].status === 'ok' ? all[0].count + '건' : '실패'); }
+    else { $('tLast').textContent = '없음'; $('tLastMeta').textContent = '아직 실행된 수집이 없습니다'; }
+    var ym = new Date().toISOString().slice(0,7).replace('-','');
+    $('tMonth').textContent = all.filter(function(r){ return (r.ts||'').slice(0,6) === ym; }).length;
+  }
+  function chip(run){
+    if (!run) return '<span class="chip"><span class="dot"></span>미실행</span>';
+    if (run.status === 'ok') return '<span class="chip ok"><span class="dot"></span>' + esc(run.run_at) + ' · ' + run.count + '건</span>';
+    return '<span class="chip error"><span class="dot"></span>' + esc(run.run_at) + ' · 실패</span>';
+  }
+  function renderList(){
+    var el = $('crawlerList'); el.innerHTML = '';
+    REG.crawlers.forEach(function(c){
+      var div = document.createElement('div');
+      div.className = 'crawler' + (SEL === c.id ? ' active' : '');
+      div.innerHTML = '<div class="top"><div><span class="site">' + esc(c.site) + '</span><span class="name">' + esc(c.name) + '</span></div>' + chip(lastRun(c.id)) + '</div>'
+        + '<div class="desc">' + esc(c.description) + '</div>'
+        + '<div class="last">스크립트: <span class="mono">' + esc(c.script) + '</span> · 1회 요청 ' + esc(c.requests_per_run || '-') + ' · 등록 ' + esc(c.added || '') + '</div>';
+      div.addEventListener('click', function(){ SEL = c.id; renderList(); renderDetail(c.id); $('detail').scrollIntoView({behavior:'smooth', block:'start'}); });
+      el.appendChild(div);
+    });
+  }
+
+  // ---------- 상세 ----------
+  function crawler(id){ return REG.crawlers.filter(function(c){ return c.id === id; })[0]; }
+  function renderDetail(id){
+    var c = crawler(id), d = DATA[id];
+    $('detail').classList.remove('hidden');
+    $('dName').textContent = c.name; $('dDesc').textContent = c.description;
+    $('dlScript').href = c.script; $('dlScript').setAttribute('download', c.script.split('/').pop());
+    $('ghScript').href = 'https://github.com/' + REG.repo + '/blob/main/' + encodeURI('크롤러/' + c.script);
+    $('dlCsv').href = 'data/' + id + '/latest.csv'; $('dlCsv').setAttribute('download', id + '_latest.csv');
+    $('dlJson').href = 'data/' + id + '/latest.json';
+    // 옵션 UI
+    var ph = '';
+    (c.params || []).forEach(function(p){
+      ph += '<div class="param" data-key="' + esc(p.key) + '" data-type="' + esc(p.type) + '"><div class="pl">' + esc(p.label) + '</div>';
+      if (p.type === 'multi' || p.type === 'select') {
+        (p.options || []).forEach(function(o){
+          var v = Array.isArray(o) ? o[0] : o, l = Array.isArray(o) ? o[1] : o;
+          var checked = (p.default || []).indexOf(v) >= 0 || p.default === v;
+          ph += '<label><input type="' + (p.type === 'multi' ? 'checkbox' : 'radio') + '" name="p_' + esc(p.key) + '" value="' + esc(v) + '"' + (checked ? ' checked' : '') + '> ' + esc(l) + '</label>';
+        });
+      } else {
+        ph += '<input type="text" name="p_' + esc(p.key) + '" value="' + esc(p.default || '') + '">';
+      }
+      ph += '</div>';
+    });
+    $('dParams').innerHTML = ph;
+    // 정보
+    var info = [['대상 URL', '<a href="' + esc(c.target_url) + '" target="_blank" rel="noopener">' + esc(c.target_url) + '</a>'], ['수집 방식', esc(c.method || '')], ['주의', esc(c.notes || '')]];
+    $('dInfo').innerHTML = info.map(function(kv){ return '<dt>' + kv[0] + '</dt><dd>' + kv[1] + '</dd>'; }).join('');
+    $('runStatus').textContent = '';
+    renderResult(c, d.latest); renderRuns(c, d.runs);
+  }
+  function readParams(){
+    var out = {};
+    Array.prototype.forEach.call($('dParams').querySelectorAll('.param'), function(el){
+      var key = el.dataset.key, type = el.dataset.type;
+      if (type === 'multi') out[key] = Array.prototype.map.call(el.querySelectorAll('input:checked'), function(i){ return i.value; });
+      else if (type === 'select') { var r = el.querySelector('input:checked'); if (r) out[key] = r.value; }
+      else out[key] = el.querySelector('input').value;
+    });
+    return out;
+  }
+
+  // ---------- 결과 표 ----------
+  var RES = { rows: [], shown: 300 };
+  function renderResult(c, latest){
+    var fl = $('resFilters'), tb = $('resTable');
+    if (!latest || !latest.rows || !latest.rows.length) { fl.innerHTML = ''; tb.innerHTML = ''; $('resCap').textContent = '아직 수집 결과가 없습니다.'; $('resMore').textContent = ''; return; }
+    var m = latest.meta || {};
+    $('resCap').textContent = '수집 ' + (m.finished_at || m.collected_at || '') + ' · ' + latest.rows.length + '건 · 엔진 ' + (m.engine || '-') + (m.duration_sec != null ? ' · ' + m.duration_sec + '초' : '');
+    RES.rows = latest.rows; RES.shown = 300;
+    var cols = c.columns && c.columns.length ? c.columns : latest.columns.map(function(k){ return {key:k, label:k}; });
+    // 값 종류가 적은 컬럼 → 셀렉트 필터
+    var fh = '';
+    cols.forEach(function(col){
+      var vals = {}; latest.rows.forEach(function(r){ vals[r[col.key]] = 1; });
+      var keys = Object.keys(vals);
+      if (keys.length >= 2 && keys.length <= 12 && col.type !== 'link') fh += '<select data-col="' + esc(col.key) + '"><option value="">' + esc(col.label) + ': 전체</option>' + keys.sort().map(function(k){ return '<option value="' + esc(k) + '">' + esc(k) + '</option>'; }).join('') + '</select>';
+    });
+    fh += '<input type="text" id="resSearch" placeholder="검색…">';
+    fl.innerHTML = fh;
+    fl.querySelectorAll('select,input').forEach(function(el){ el.addEventListener('input', function(){ drawRows(cols); }); });
+    drawRows(cols);
+  }
+  function drawRows(cols){
+    var fl = $('resFilters'), q = ($('resSearch') ? $('resSearch').value : '').toLowerCase();
+    var filters = Array.prototype.map.call(fl.querySelectorAll('select'), function(s){ return [s.dataset.col, s.value]; }).filter(function(f){ return f[1]; });
+    var rows = RES.rows.filter(function(r){
+      if (!filters.every(function(f){ return String(r[f[0]]) === f[1]; })) return false;
+      if (q && JSON.stringify(r).toLowerCase().indexOf(q) < 0) return false;
+      return true;
+    });
+    var h = '<thead><tr>' + cols.map(function(c){ return '<th class="' + (c.align === 'right' ? 'r' : '') + '">' + esc(c.label) + '</th>'; }).join('') + '</tr></thead><tbody>';
+    rows.slice(0, RES.shown).forEach(function(r){
+      h += '<tr>' + cols.map(function(c){
+        var v = r[c.key]; var cell;
+        if (c.type === 'link' && v) cell = '<a href="' + esc(v) + '" target="_blank" rel="noopener">열기 ↗</a>';
+        else if (c.key === 'change_type') cell = v === 'UP' ? '<span class="up">▲ 상승</span>' : v === 'DOWN' ? '<span class="down">▼ 하락</span>' : v === 'NEW' ? '<span class="new">NEW</span>' : v === 'NONE' ? '–' : esc(v);
+        else cell = esc(v);
+        return '<td class="' + (c.align === 'right' ? 'r' : '') + '">' + cell + '</td>';
+      }).join('') + '</tr>';
+    });
+    h += '</tbody>';
+    $('resTable').innerHTML = h;
+    $('resMore').innerHTML = rows.length > RES.shown ? rows.length + '건 중 ' + RES.shown + '건 표시 — <a href="#" id="moreLink">더 보기</a>' : rows.length + '건 표시';
+    var ml = $('moreLink'); if (ml) ml.addEventListener('click', function(e){ e.preventDefault(); RES.shown += 300; drawRows(cols); });
+  }
+  function renderRuns(c, runs){
+    var tb = $('runsTable');
+    if (!runs || !runs.length) { tb.innerHTML = '<tr><td class="empty">실행 이력이 없습니다.</td></tr>'; return; }
+    var h = '<thead><tr><th>실행 시각</th><th>상태</th><th class="r">건수</th><th class="r">소요</th><th>엔진</th><th>옵션</th><th>스냅샷</th><th>Actions</th></tr></thead><tbody>';
+    runs.forEach(function(r){
+      h += '<tr><td>' + esc(r.run_at) + '</td><td>' + (r.status === 'ok' ? '<span class="chip ok"><span class="dot"></span>완료</span>' : '<span class="chip error" title="' + esc(r.error || '') + '"><span class="dot"></span>실패</span>') + '</td>'
+        + '<td class="r">' + (r.count || 0) + '</td><td class="r">' + (r.duration_sec != null ? r.duration_sec + 's' : '') + '</td><td>' + esc(r.engine || '') + '</td>'
+        + '<td class="mono">' + esc(JSON.stringify(r.params || {})) + '</td>'
+        + '<td>' + (r.snapshot ? '<a href="data/' + c.id + '/' + esc(r.snapshot) + '" target="_blank" rel="noopener">JSON</a>' : '') + '</td>'
+        + '<td>' + (r.run_url ? '<a href="' + esc(r.run_url) + '" target="_blank" rel="noopener">로그 ↗</a>' : '') + '</td></tr>';
+      if (r.status !== 'ok' && r.error) h += '<tr><td colspan="8" style="color:var(--status-critical);font-size:11.5px">' + esc(r.error) + '</td></tr>';
+    });
+    $('runsTable').innerHTML = h + '</tbody>';
+  }
+
+  // ---------- 수집 실행 (workflow_dispatch) ----------
+  function sleep(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+  $('runBtn').addEventListener('click', async function(){
+    if (running || !SEL) return;
+    var c = crawler(SEL), btn = $('runBtn'), st = $('runStatus');
+    var token = getToken(false); if (!token) return;
+    var params = readParams();
+    running = true; btn.disabled = true; btn.textContent = '요청 중…';
+    try {
+      var beforeTs = (lastRun(c.id) || {}).ts || '';
+      var res = await gh('/actions/workflows/' + REG.workflow + '/dispatches', { method: 'POST', body: JSON.stringify({ ref: 'main', inputs: { crawler: c.id, params: JSON.stringify(params) } }) }, token);
+      if (res.status === 401 || res.status === 403) { try { localStorage.removeItem(TOKEN_KEY); } catch(e) {} st.textContent = '⚠ 토큰 인증 실패 — 버튼을 다시 눌러 새 토큰을 입력하세요 (Actions: Read and write 권한 필요).'; return; }
+      if (res.status === 404) { st.textContent = '⚠ 워크플로 파일(.github/workflows/' + REG.workflow + ')을 찾을 수 없습니다. 저장소에 커밋됐는지 확인하세요.'; return; }
+      if (res.status !== 204) { st.textContent = '⚠ 실행 요청 실패 (HTTP ' + res.status + ')'; return; }
+      btn.textContent = '수집 중… (2~4분)';
+      st.innerHTML = '수집이 시작됐습니다 (옵션 <span class="mono">' + esc(JSON.stringify(params)) + '</span>). 완료되면 자동으로 반영됩니다. <a href="https://github.com/' + REG.repo + '/actions/workflows/' + REG.workflow + '" target="_blank" rel="noopener">Actions에서 진행 보기 ↗</a>';
+      var deadline = Date.now() + 10 * 60 * 1000, t0 = Date.now();
+      while (Date.now() < deadline) {
+        await sleep(15000);
+        var sec = Math.round((Date.now() - t0) / 1000);
+        st.textContent = '수집 진행 중… ' + sec + '초 경과 (Actions 실행 1~3분 + Pages 반영 ~1분)';
+        var runs = []; try { runs = await fetchJson('data/' + c.id + '/runs.json'); } catch(e) {}
+        if (runs.length && runs[0].ts !== beforeTs) {
+          await loadAll();
+          var r = runs[0];
+          st.textContent = r.status === 'ok' ? '✅ 수집 완료 — ' + r.count + '건 (' + r.run_at + ', 엔진 ' + (r.engine || '-') + ')' : '❌ 수집 실패 — ' + (r.error || '') + ' (Actions 로그 확인)';
+          return;
+        }
+      }
+      st.textContent = '⚠ 10분 내 완료를 확인하지 못했습니다. Actions 탭에서 상태를 확인한 뒤 「↻ 데이터 새로고침」을 눌러주세요.';
+    } catch (e) { st.textContent = '⚠ 오류: ' + e.message; }
+    finally { running = false; btn.disabled = false; btn.textContent = '▶ 수집 실행'; }
+  });
+
+  loadAll().then(function(){ if (REG.crawlers.length === 1) { SEL = REG.crawlers[0].id; renderList(); renderDetail(SEL); } })
+    .catch(function(e){ $('globalStatus').textContent = '⚠ crawlers.json 로드 실패: ' + e.message; });
+})();
+</script>
+</body>
+</html>
