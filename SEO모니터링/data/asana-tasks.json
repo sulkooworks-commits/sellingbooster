@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-27T15:47:39+09:00",
+  "generatedAt": "2026-10-28T16:21:12+09:00",
   "generatedBy": "github-actions/asana-sync",
   "source": {
     "workspace": "헥토데이터",
@@ -645,31 +645,6 @@
           ]
         },
         {
-          "gid": "1219759536922806",
-          "name": "키워드 분석 상세페이지 - 썸네일 이미지",
-          "type": "task",
-          "section": "진행",
-          "due_on": "2026-10-27",
-          "start_on": null,
-          "modified_at": "2026-10-27T05:14:25.688Z",
-          "created_at": "2026-10-22T01:53:59.290Z",
-          "owner": "이슬기",
-          "completed": false,
-          "completed_at": null,
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1219759536922806",
-          "fields": {
-            "분류": "프론트",
-            "우선순위(차수)": "운영",
-            "QA 유형(필수)": "개선"
-          },
-          "subtasks": 2,
-          "followers": [
-            "이승재",
-            "이다솜",
-            "이순우"
-          ]
-        },
-        {
           "gid": "1219798418375192",
           "name": "[SB] 셀링스파크 주간 점검 회의(15:00)",
           "type": "milestone",
@@ -720,7 +695,7 @@
           "section": "기타",
           "due_on": "2026-10-31",
           "start_on": null,
-          "modified_at": "2026-09-02T10:53:53.510Z",
+          "modified_at": "2026-10-27T15:35:05.366Z",
           "created_at": "2026-09-02T10:53:52.603Z",
           "owner": "이슬기",
           "completed": false,
@@ -734,10 +709,10 @@
           "gid": "1218281269328108",
           "name": "앱서비스 1차 유입지표 설계 및 반영",
           "type": "task",
-          "section": "대기/요청",
+          "section": "진행",
           "due_on": "2026-10-31",
           "start_on": "2026-09-08",
-          "modified_at": "2026-10-23T15:54:51.567Z",
+          "modified_at": "2026-10-27T15:01:02.865Z",
           "created_at": "2026-09-08T12:47:14.916Z",
           "owner": "이슬기",
           "completed": false,
@@ -2368,6 +2343,31 @@
           },
           "subtasks": 0,
           "followers": []
+        },
+        {
+          "gid": "1219759536922806",
+          "name": "키워드 분석 상세페이지 - 썸네일 이미지",
+          "type": "task",
+          "section": "완료",
+          "due_on": "2026-10-27",
+          "start_on": null,
+          "modified_at": "2026-10-28T01:13:34.049Z",
+          "created_at": "2026-10-22T01:53:59.290Z",
+          "owner": "이슬기",
+          "completed": true,
+          "completed_at": "2026-10-28T01:12:34.187Z",
+          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1219759536922806",
+          "fields": {
+            "분류": "프론트",
+            "우선순위(차수)": "운영",
+            "QA 유형(필수)": "개선"
+          },
+          "subtasks": 2,
+          "followers": [
+            "이승재",
+            "이다솜",
+            "이순우"
+          ]
         },
         {
           "gid": "1219188426879647",
