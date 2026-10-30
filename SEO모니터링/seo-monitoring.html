@@ -10,7 +10,7 @@
     --surface-1: #fcfcfb; --page: #f9f9f7;
     --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #898781;
     --grid: #e1e0d9; --baseline: #c3c2b7; --border: rgba(11,11,11,0.10);
-    --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a;
+    --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a; --series-4: #8a63d2;
     --status-good: #0ca30c; --status-warning: #fab219; --status-serious: #ec835a; --status-critical: #d03b3b;
     --delta-good: #006300;
   }
@@ -20,7 +20,7 @@
       --surface-1: #1a1a19; --page: #0d0d0d;
       --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #898781;
       --grid: #2c2c2a; --baseline: #383835; --border: rgba(255,255,255,0.10);
-      --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --delta-good: #0ca30c;
+      --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-4: #9b7be0; --delta-good: #0ca30c;
     }
   }
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -94,7 +94,11 @@
 <div class="wrap">
   <header>
     <h1>셀링부스터 SEO 콘텐츠 발행 모니터링</h1>
-    <div class="sub">대상: <a href="https://sellingbooster.io/community/blog">sellingbooster.io/community/blog</a> · GitHub Actions가 매일 오전 자동 수집</div>
+    <div class="sub">바로가기:
+      <a href="https://sellingbooster.io/community/blog" target="_blank" rel="noopener"><strong>셀링부스터 블로그·K트렌드</strong></a> ·
+      <a href="https://blog.naver.com/sellingbooster" target="_blank" rel="noopener"><strong>네이버 블로그</strong></a> ·
+      <a href="https://store.cafe24.com/kr/story?mt=IMAGE&s=%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0&no=ALL&order=NEWEST_DESC&page=1" target="_blank" rel="noopener"><strong>카페24 스토리</strong></a>
+      <span style="color:var(--text-muted)">· GitHub Actions가 매일 오전 자동 수집</span></div>
     <div class="hdr-row">
       <div class="asof" id="asof">데이터 로딩 중…</div>
       <div style="display:flex; gap:8px; align-items:center;">
@@ -108,7 +112,8 @@
 
   <div class="tabs" role="tablist">
     <button class="tab" role="tab" aria-selected="true" data-panel="panel-dash">현황 대시보드</button>
-    <button class="tab" role="tab" aria-selected="false" data-panel="panel-plan">계획 대비</button>
+    <!-- 계획 대비 탭: 2026-10-30 요청으로 히든 처리 (패널·데이터는 유지, 탭 버튼만 숨김) -->
+    <button class="tab" role="tab" aria-selected="false" data-panel="panel-plan" hidden>계획 대비</button>
     <button class="tab" role="tab" aria-selected="false" data-panel="panel-policy">발행 정책</button>
     <button class="tab" role="tab" aria-selected="false" data-panel="panel-log">발행 로그</button>
   </div>
@@ -117,7 +122,7 @@
     <div class="tiles" id="tiles"></div>
     <div class="card">
       <h2 id="weekTitle">이번 주 발행 캘린더</h2>
-      <div class="cap">채워진 점: 발행 완료 · 빈 점: 계획된 발행(미발행) — 파랑: K트렌드, 주황: 블로그, 초록: 네이버</div>
+      <div class="cap">채워진 점: 발행 완료 · 빈 점: 계획된 발행(미발행) — 파랑: K트렌드, 주황: 블로그, 초록: 네이버, 보라: 카페24</div>
       <div class="week" id="weekCal"></div>
     </div>
     <div class="card">
@@ -166,6 +171,11 @@
       <table><thead><tr><th>주 (일~토)</th><th>K트렌드 (목표)</th><th>블로그 (목표)</th><th>네이버 (목표)</th><th>판정</th></tr></thead><tbody id="weeklyRows"></tbody></table>
     </div>
     <div class="card">
+      <h2>카페24 스토리 — 월간 달성 이력</h2>
+      <div class="cap">카페24는 월 2회 발행 채널이라 월 단위로 집계합니다</div>
+      <table><thead><tr><th>월</th><th>발행 (목표)</th><th>발행 콘텐츠</th><th>판정</th></tr></thead><tbody id="cafe24Rows"></tbody></table>
+    </div>
+    <div class="card">
       <h2>전체 건수 추이</h2>
       <div class="cap">블로그 페이지 "전체(N)" 표시 이력</div>
       <table><thead><tr><th>날짜</th><th>전체 누적</th><th>증감</th></tr></thead><tbody id="totalRows"></tbody></table>
@@ -199,12 +209,28 @@ async function loadAndRender(){
       fetch('data/meta.json?_=' + Date.now()).then(r=>r.json())
     ]);
   } catch(e) {
-    document.getElementById('asof').textContent = '데이터 로드 실패: ' + e.message;
+    document.getElementById('asof').textContent = '데이터 로드 실패: ' + e.message + ' — 잠시 후 「↻ 데이터 새로고침」을 눌러주세요.';
     return;
   }
 
+  // ---------- 데이터 방어: 형식이 깨져도 화면이 죽지 않게 정규화 ----------
+  try {
+    if (!policy || typeof policy !== 'object') policy = {};
+    policy.channels = Array.isArray(policy.channels) ? policy.channels.filter(function(c){ return c && c.id && c.name; }) : [];
+    policy.plannedPosts = Array.isArray(policy.plannedPosts) ? policy.plannedPosts.filter(function(p){ return p && p.date && p.title; }) : [];
+    policy.skipDates = Array.isArray(policy.skipDates) ? policy.skipDates : [];
+    posts = (Array.isArray(posts) ? posts : []).filter(function(p){
+      return p && typeof p.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(p.date) && p.title && String(p.title).length <= 300;
+    });
+    if (!meta || typeof meta !== 'object') meta = {};
+    meta.totals = (Array.isArray(meta.totals) ? meta.totals : []).filter(function(t){ return t && t.date && typeof t.total === 'number'; });
+    meta.lastStatus = meta.lastStatus || '알 수 없음';
+  } catch(e) { /* 정규화 실패 시에도 계속 진행 */ }
+
+  try { // ---------- 렌더 전체를 보호: 일부 오류가 나도 메시지로 안내 ----------
+
   // ---------- 재렌더 대비 컨테이너 초기화 ----------
-  ['alerts','tiles','weekCal','chartLegend','chart','policyRows','recentRows','planRows','policyDoc','weeklyRows','totalRows','allRows','topViewRows'].forEach(function(id){
+  ['alerts','tiles','weekCal','chartLegend','chart','policyRows','recentRows','planRows','policyDoc','weeklyRows','totalRows','allRows','topViewRows','cafe24Rows'].forEach(function(id){
     var el = document.getElementById(id); if (el) el.innerHTML = '';
   });
 
@@ -224,8 +250,8 @@ async function loadAndRender(){
   // 외부 채널(네이버)도 URL이 등록되면 정식 채널로 포함 (초록 시리즈)
   var channels = policy.channels.filter(function(c){ return !c.external || (c.url && (c.categories||[]).length); });
   channels.forEach(function(c){ (c.categories||[]).forEach(function(cat){ chMap[cat]=c; }); });
-  var naver = policy.channels.find(function(c){ return c.external; });
-  var chShort = { ktrend: 'K트렌드', blog: '블로그', naver: '네이버' };
+  var naver = policy.channels.find(function(c){ return c.external && c.id === 'naver'; });
+  var chShort = { ktrend: 'K트렌드', blog: '블로그', naver: '네이버', cafe24: '카페24' };
   var chById = {}; policy.channels.forEach(function(c){ chById[c.id]=c; });
   function channelOf(p){ return chMap[p.category] || null; }
   function slotColor(c){ return cssv('--series-' + (c.colorSlot||1)); }
@@ -238,8 +264,16 @@ async function loadAndRender(){
     return (policy.plannedPosts||[]).filter(function(pp){ return pp.channel===cid && pp.date>=weekMon && pp.date<=end; });
   }
   function goalFor(c, weekMon){
+    if (c.monthlyTargets) return 0; // 월간 채널은 주간 집계 제외
     var pl = plannedInWeek(c.id, weekMon).length;
     return pl > 0 ? pl : targetFor(c, weekMon);
+  }
+  // ---------- 월간 채널 (카페24 등) ----------
+  function monthlyTarget(c, ym){ // ym = 'YYYY-MM'
+    var t = 0; (c.monthlyTargets||[]).forEach(function(m){ if (m.from.slice(0,7) <= ym) t = m.perMonth; }); return t;
+  }
+  function postsInMonth(cid, ym){
+    return posts.filter(function(p){ var c = channelOf(p); return c && c.id===cid && p.date.slice(0,7)===ym; });
   }
   function postsInWeek(cid, weekMon){
     var end = addDays(weekMon, 6);
@@ -264,6 +298,19 @@ async function loadAndRender(){
 
   // ---------- pace judgement ----------
   function paceStatus(c){
+    if (c.monthlyTargets) { // 월간 채널: 이달 실적 vs 월 목표
+      var ym = today.slice(0,7);
+      var mCount = postsInMonth(c.id, ym).length;
+      var mTarget = monthlyTarget(c, ym);
+      var dim = new Date(parseInt(ym.slice(0,4),10), parseInt(ym.slice(5,7),10), 0).getDate();
+      var mExpected = Math.min(mTarget, Math.ceil(mTarget * parseInt(today.slice(8),10) / dim));
+      var mst, mcls, mico;
+      if (mTarget === 0) { mst='목표 산정 전'; mcls='wait'; mico='◌'; }
+      else if (mCount >= mTarget) { mst='월간 목표 달성'; mcls='good'; mico='●'; }
+      else if (mCount >= mExpected) { mst='정상 페이스'; mcls='good'; mico='●'; }
+      else { mst='주의 (' + (mExpected-mCount) + '건 부족)'; mcls='warn'; mico='▲'; }
+      return { count: mCount, target: mTarget, label: mst, cls: mcls, ico: mico, monthly: true };
+    }
     var count = postsInWeek(c.id, monday).length;
     var plannedThisWeek = plannedInWeek(c.id, monday);
     var target = goalFor(c, monday);
@@ -288,7 +335,7 @@ async function loadAndRender(){
     '</div><div class="meta">' + (lastTotal? lastTotal.date + ' 기준 "전체(N)" 표시' : '수집 전') + '</div></div>';
   channels.forEach(function(c){
     var s = paceStatus(c);
-    tiles += '<div class="tile"><div class="label">이번 주 · ' + c.name + '</div><div class="value">' + s.count +
+    tiles += '<div class="tile"><div class="label">이번 ' + (s.monthly ? '달' : '주') + ' · ' + c.name + '</div><div class="value">' + s.count +
       '<span class="of"> / ' + s.target + '</span></div><div class="meta"><span class="chip ' + s.cls + '"><span class="ico">' + s.ico + '</span>' + s.label + '</span></div></div>';
   });
   if (naver && !naver.url) {
@@ -389,7 +436,9 @@ async function loadAndRender(){
   var pr = '';
   channels.forEach(function(c){
     var s = paceStatus(c);
-    var tgt = (c.weeklyTargets||[]).map(function(w,i){ return (i? ' → <strong>' + w.from.slice(5).replace('-','/') + '부터 주 ' + w.perWeek + '회</strong>' : '주 ' + w.perWeek + '회'); }).join('');
+    var tgt = c.monthlyTargets
+      ? (c.monthlyTargets||[]).map(function(m,i){ return (i? ' → <strong>' + m.from.slice(5).replace('-','/') + '부터 월 ' + m.perMonth + '회</strong>' : '월 ' + m.perMonth + '회'); }).join('')
+      : (c.weeklyTargets||[]).map(function(w,i){ return (i? ' → <strong>' + w.from.slice(5).replace('-','/') + '부터 주 ' + w.perWeek + '회</strong>' : '주 ' + w.perWeek + '회'); }).join('');
     pr += '<tr><td><span class="swatch" style="background:'+slotColor(c)+'"></span>'+c.name+'<br><span style="color:var(--text-muted);font-size:11.5px;">'+(c.categories||[]).join(' · ')+'</span></td>' +
       '<td>'+tgt+'</td><td class="num">'+s.count+' / '+s.target+'</td><td><span class="chip '+s.cls+'"><span class="ico">'+s.ico+'</span>'+s.label+'</span></td></tr>';
   });
@@ -438,7 +487,10 @@ async function loadAndRender(){
   document.getElementById('policySource').textContent = '원본: ' + (policy.source||'') + ' · 갱신일 ' + (policy.updatedAt||'');
   var pd = '<h3>채널별 발행 목표</h3><ul>';
   channels.forEach(function(c){
-    pd += '<li><strong style="color:var(--text-primary)">'+c.name+'</strong> — ' + (c.weeklyTargets||[]).map(function(w){return w.from.slice(5).replace('-','/')+'~ 주 '+w.perWeek+'회'+(w.note?' ('+w.note+')':'');}).join(' → ') + ' · 집계: ' + (c.categories||[]).join('·') + '</li>';
+    var tgtDoc = c.monthlyTargets
+      ? (c.monthlyTargets||[]).map(function(m){return m.from.slice(5).replace('-','/')+'~ 월 '+m.perMonth+'회'+(m.note?' ('+m.note+')':'');}).join(' → ')
+      : (c.weeklyTargets||[]).map(function(w){return w.from.slice(5).replace('-','/')+'~ 주 '+w.perWeek+'회'+(w.note?' ('+w.note+')':'');}).join(' → ');
+    pd += '<li><strong style="color:var(--text-primary)">'+c.name+'</strong> — ' + tgtDoc + ' · 집계: ' + (c.categories||[]).join('·') + '</li>';
   });
   if (naver) pd += '<li><strong style="color:var(--text-primary)">'+naver.name+'</strong> — ' + fmtMD(naver.startDate) + ' 착수 예정' + (naver.note? ' · '+naver.note : '') + '</li>';
   pd += '</ul><h3>발행 스킵</h3><ul><li>' + (policy.skipDates||[]).join(', ') + ' — ' + (policy.skipNote||'') + '</li></ul>';
@@ -467,6 +519,32 @@ async function loadAndRender(){
   }
   document.getElementById('weeklyRows').innerHTML = wr;
 
+  // ---------- cafe24 monthly history ----------
+  (function(){
+    var el = document.getElementById('cafe24Rows'); if (!el) return;
+    var cafe = policy.channels.find(function(c){ return c.id === 'cafe24'; });
+    if (!cafe || !cafe.monthlyTargets || !cafe.monthlyTargets.length) {
+      el.innerHTML = '<tr><td colspan="4" style="color:var(--text-muted)">카페24 채널이 policy.json에 아직 등록되지 않았습니다.</td></tr>'; return;
+    }
+    var startYm = cafe.monthlyTargets[0].from.slice(0,7);
+    var curYm = today.slice(0,7);
+    var rows = '';
+    var ym = curYm;
+    while (ym >= startYm) {
+      var list = postsInMonth('cafe24', ym);
+      var tgt = monthlyTarget(cafe, ym);
+      var titles = list.map(function(p){ return p.url ? '<a href="'+p.url+'" style="color:inherit;">'+p.title+'</a>' : p.title; }).join('<br>') || '<span style="color:var(--text-muted)">–</span>';
+      var vd;
+      if (ym === curYm) vd = '<span class="chip wait"><span class="ico">◌</span>진행 중</span>';
+      else vd = (list.length >= tgt) ? '<span class="chip good"><span class="ico">●</span>달성</span>' : '<span class="chip bad"><span class="ico">■</span>미달</span>';
+      rows += '<tr><td class="num">'+ym+'</td><td class="num">'+list.length+' ('+tgt+')</td><td>'+titles+'</td><td>'+vd+'</td></tr>';
+      var y = parseInt(ym.slice(0,4),10), m = parseInt(ym.slice(5,7),10);
+      m--; if (m === 0) { m = 12; y--; }
+      ym = y + '-' + String(m).padStart(2,'0');
+    }
+    el.innerHTML = rows;
+  })();
+
   // ---------- totals history ----------
   var tr = '';
   meta.totals.slice().reverse().forEach(function(t,i,arr){
@@ -475,6 +553,14 @@ async function loadAndRender(){
     tr += '<tr><td class="num">'+t.date+'</td><td class="num">'+t.total+'</td><td class="num">'+(diff===null?'–':(diff>0?'<span style="color:var(--delta-good);font-weight:600;">+'+diff+'</span>':diff))+'</td></tr>';
   });
   document.getElementById('totalRows').innerHTML = tr;
+
+  } catch(renderErr) { // ---------- 렌더 보호 종료 ----------
+    try {
+      document.getElementById('alerts').innerHTML +=
+        '<div class="alert">⚠ 화면 일부를 그리는 중 오류가 발생했습니다 (' + renderErr.message + '). 데이터 파일 형식이 바뀌었을 수 있습니다 — 표시된 범위까지는 정상 데이터입니다.</div>';
+    } catch(e2) {}
+    if (window.console && console.error) console.error(renderErr);
+  }
 }
 
 (function(){
