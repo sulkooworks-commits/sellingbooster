@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3채널 블로그 발행 주제 리스트 · 셀링부스터</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+  :root{--bg:#f7f6f1;--card:#fff;--line:#e6e4dc;--ink:#1e2321;--sub:#6b7370;
+        --teal:#00B1BD;--indigo:#6466FA;--nv:#03C75A;--c24:#1A6DFF;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+    font-size:14.5px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1180px;margin:0 auto;padding:44px 26px 90px;}
+  .eyebrow{font-size:11.5px;font-weight:800;letter-spacing:.14em;color:var(--indigo);margin-bottom:9px;}
+  h1{font-size:28px;font-weight:800;margin:0 0 10px;letter-spacing:-.02em;line-height:1.28;}
+  .meta{color:var(--sub);font-size:13px;margin:0;}
+  .kpis{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 0;}
+  .kpi{background:var(--card);border:1.5px solid var(--line);border-radius:13px;padding:13px 19px;min-width:132px;}
+  .kpi .n{font-size:23px;font-weight:800;letter-spacing:-.02em;line-height:1.1;font-variant-numeric:tabular-nums;}
+  .kpi .l{font-size:11.5px;font-weight:700;color:var(--sub);margin-top:4px;}
+  .kpi.t1 .n{color:var(--teal)} .kpi.t2 .n{color:var(--nv)} .kpi.t3 .n{color:var(--c24)}
+  .bar{position:sticky;top:0;z-index:40;background:rgba(247,246,241,.93);backdrop-filter:blur(9px);
+    border-bottom:1.5px solid var(--line);padding:11px 0;margin:22px 0 30px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  .btn{appearance:none;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);font:inherit;
+    font-weight:700;font-size:13px;padding:8px 16px;border-radius:21px;cursor:pointer;text-decoration:none;display:inline-block;}
+  .btn:hover{opacity:.82} .btn.p{background:var(--ink);color:#fff}
+  .btn.done{background:var(--teal);border-color:var(--teal);color:#fff}
+  .btn:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+  .navsep{flex:1}
+  .jump{border-color:var(--line);font-size:12.5px;padding:7px 14px;}
+  section{margin-bottom:44px;}
+  .chead{border-radius:15px;padding:19px 23px;margin-bottom:16px;color:#fff;}
+  .ch-sb{background:linear-gradient(115deg,#6466FA 0%,#5B7BF7 52%,#00B1BD 100%);}
+  .ch-nv{background:linear-gradient(115deg,#03A94E 0%,#03C75A 100%);}
+  .ch-c24{background:linear-gradient(115deg,#0F4FC4 0%,#1A6DFF 100%);}
+  .cno{font-size:10.5px;font-weight:800;letter-spacing:.16em;opacity:.84;}
+  .chead h2{font-size:21px;font-weight:800;margin:5px 0 6px;letter-spacing:-.015em;}
+  .curl{margin:0;font-size:12.6px;opacity:.93;} .curl b{font-weight:800}
+
+  /* ── 월별 토글 ── */
+  .mblk{background:var(--card);border:1.5px solid var(--line);border-radius:13px;margin-bottom:10px;overflow:hidden;}
+  .mblk>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:11px;
+    padding:13px 18px;font-weight:800;font-size:16px;letter-spacing:-.01em;user-select:none;}
+  .mblk>summary::-webkit-details-marker{display:none}
+  .mblk>summary:hover{background:#fbfaf7}
+  .mblk>summary:focus-visible{outline:3px solid var(--teal);outline-offset:-3px}
+  .chev{width:9px;height:9px;border-right:2.3px solid var(--indigo);border-bottom:2.3px solid var(--indigo);
+    transform:rotate(45deg);transition:transform .18s ease;flex:none;margin-left:2px;margin-top:-4px;}
+  .mblk[open]>summary .chev{transform:rotate(-135deg);margin-top:2px}
+  .mcount{font-size:12px;font-weight:700;color:var(--sub);background:#f1f0ec;border-radius:12px;padding:2px 10px;}
+  .mtag{font-size:11px;font-weight:800;letter-spacing:.04em;border-radius:11px;padding:2.5px 9px;}
+  .mtag.now{background:#e6fbfc;color:#00808a;border:1px solid #a9e9ee}
+  .mtag.next{background:#eeeefe;color:#4446d6;border:1px solid #c6c7fb}
+  .mtag.past{background:#f1f0ec;color:#7b827e;border:1px solid #ddd9cf}
+  .mblk.past{opacity:.9}
+  .mblk.past>summary .mname{color:var(--sub)}
+  .mblk.past>summary .chev{border-color:#9aa0aa}
+  .mbody{padding:2px 18px 16px;}
+  .pastline{display:flex;align-items:center;gap:11px;margin:22px 0 11px;color:var(--sub);
+    font-size:11.5px;font-weight:800;letter-spacing:.12em;}
+  .pastline::after{content:"";flex:1;height:1.5px;background:var(--line)}
+
+  .sub{font-size:12.2px;font-weight:700;color:var(--sub);margin:12px 0 8px;}
+  table{width:100%;border-collapse:collapse;border:1.5px solid var(--line);border-radius:11px;overflow:hidden;margin-bottom:4px;}
+  th{background:#1E2532;color:#fff;font-size:11.8px;font-weight:700;text-align:left;padding:9px 12px;}
+  td{padding:9px 12px;border-top:1px solid var(--line);font-size:13.4px;vertical-align:top;}
+  tbody tr:nth-child(even){background:#fbfaf7}
+  td.d{font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;}
+  td.d small{font-weight:600;color:var(--sub);font-size:11px;}
+  td.w{color:var(--sub);font-size:12px;font-weight:700;}
+  td.t{line-height:1.5}
+  td.o{color:var(--sub);font-size:12px}
+  .pill{display:inline-block;background:#f1f0ec;border:1px solid #ddd9cf;border-radius:14px;
+    padding:2.5px 10px;font-size:11.4px;font-weight:700;color:#4a514e;white-space:nowrap;}
+  .pill.nv{background:#eafaf0;border-color:#b9e8ca;color:#0a7a3c;}
+  .pill.c24{background:#eaf1ff;border-color:#bfd4ff;color:#1047b8;}
+  footer{margin-top:40px;padding-top:18px;border-top:1.5px solid var(--line);color:var(--sub);font-size:12px;}
+  @media print{
+    .bar{display:none}body{background:#fff}.wrap{padding:0}
+    .mbody{display:block !important}.mblk{break-inside:avoid}
+  }
+  @media (max-width:760px){
+    .wrap{padding:28px 15px 70px}h1{font-size:22px}
+    .mbody{padding:2px 12px 14px}
+    .mblk>summary{padding:12px 14px;font-size:15px}
+    table,thead,tbody,th,td,tr{display:block}
+    thead{display:none}
+    tr{border-top:1px solid var(--line);padding:9px 2px}
+    td{border:0;padding:2px 8px}
+    td.d{display:inline-block}td.w{display:inline-block;margin-left:6px}
+    td.t{font-weight:600;margin-top:3px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">SELLINGBOOSTER · CONTENT OPERATIONS</div>
+  <h1>3채널 블로그 발행 주제 리스트</h1>
+  <p class="meta">2026. 8. 7 – 12. 23 · 셀링부스터 자사 블로그 · 네이버 블로그 · 카페24 스토어 스토리 · 총 115편</p>
+  <div class="kpis">
+    <div class="kpi t1"><div class="n">71</div><div class="l">자사 블로그</div></div>
+    <div class="kpi t2"><div class="n">38</div><div class="l">네이버 블로그</div></div>
+    <div class="kpi t3"><div class="n">6</div><div class="l">카페24 스토리</div></div>
+    <div class="kpi"><div class="n">115</div><div class="l">전체 합계</div></div>
+  </div>
+</header>
+
+<div class="bar">
+  <a class="btn jump" href="#sb">자사 블로그</a>
+  <a class="btn jump" href="#nv">네이버</a>
+  <a class="btn jump" href="#c24">카페24</a>
+  <button class="btn jump" id="toggleAll" type="button">모두 펼치기</button>
+  <span class="navsep"></span>
+  <button class="btn" id="copy" type="button">표 복사</button>
+  <button class="btn p" id="doc" type="button">DOC로 저장</button>
+  <button class="btn" id="pdf" type="button">PDF로 저장</button>
+</div>
+
+<div id="content">
+<section id="sb"><div class="chead ch-sb"><span class="cno">CHANNEL 1</span><h2>셀링부스터 자사 블로그</h2><p class="curl">sellingbooster.io/community/blog · 총 <b>71편</b> · 월·수·금 본편 + 화·목 아이템 딥다이브</p></div><div class="months"><details class="mblk" data-ym="2026-08" open><summary><span class="chev" aria-hidden="true"></span><span class="mname">8월</span><span class="mcount">11편</span><span class="mtag"></span></summary><div class="mbody"><div class="sub">본편 (월·수·금) — 11편</div><table><colgroup><col style="width:9%"><col style="width:7%"><col style="width:61%"><col style="width:23%"></colgroup>
+<thead><tr><th>발행일</th><th>요일</th><th>콘텐츠 제목(안)</th><th>카테고리</th></tr></thead><tbody>
+<tr><td class="d">8/7</td><td class="w">금</td><td class="t">셀링부스터로 시작하는 키워드 분석 5분 가이드</td><td class="c"><span class="pill">셀러 지식</span></td></tr>
+<tr><td class="d">8/10</td><td class="w">월</td><td class="t">2026 하반기 소비 트렌드: 이너뷰티와 공간 가전</td><td class="c"><span class="pill">소비자 트렌드</span></td></tr>
+<tr><td class="d">8/12</td><td class="w">수</td><td class="t">초보 셀러를 위한 이커머스 상품 소싱 전략 3가지</td><td class="c"><span class="pill">셀러 지식</span></td></tr>
+<tr><td class="d">8/14</td><td class="w">금</td><td class="t">네이버 스마트스토어 상품명 최적화 & 키워드 난이도 분석법</td><td class="c"><span class="pill">커머스 · 네이버</span></td></tr>
+<tr><td class="d">8/17</td><td class="w">월</td><td class="t">식음료 트렌드 ①: 간편식·프리미엄 HMR, 식음료 셀러가 잡아야 할 카테고리</td><td class="c"><span class="pill">트렌드 · 식음료</span></td></tr>
+<tr><td class="d">8/19</td><td class="w">수</td><td class="t">스마트스토어 태그 추출 및 키워드 세팅 가이드</td><td class="c"><span class="pill">셀러 지식</span></td></tr>
+<tr><td class="d">8/21</td><td class="w">금</td><td class="t">개편쿠팡 vs 네이버 vs 11번가: 3대 채널 입점·노출 비교</td><td class="c"><span class="pill">커머스 · 3채널</span></td></tr>
+<tr><td class="d">8/24</td><td class="w">월</td><td class="t">크리에이터 콘텐츠가 바꾸는 쇼핑 패턴</td><td class="c"><span class="pill">소비자 트렌드</span></td></tr>
+<tr><td class="d">8/26</td><td class="w">수</td><td class="t">데이터 기반 실무: 마진율 계산과 키워드 경쟁 분석</td><td class="c"><span class="pill">셀러 지식</span></td></tr>
+<tr><td class="d">8/28</td><td class="w">금</td><td class="t">쿠팡 셀러 실전: 아이템위너·로켓그로스 대응 전략</td><td class="c"><span class="pill">커머스 · 쿠팡</span></td></tr>
+<tr><td class="d">8/31</td><td class="w">월</td><td class="t">식음료 트렌드 ②: K푸드 수출 역대 최대, 역직구 셀러의 기회</td><td class="c"><span class="pill">트렌드 · 식음료</span></td></tr></tbody></table></div></details><details class="mblk" data-ym="2026-09" open><summary><span class="chev" aria-hidden="true"></span><span class="mname">9월</span><span class="mcount">19편</span><span class="mtag"></span></summary><div class="mbody"><div class="sub">본편 (월·수·금) — 11편</div><table><colgroup><col style="width:9%"><col style="width:7%"><col style="width:61%"><col style="width:23%"></colgroup>
+<thead><tr><th>발행일</th><th>요일</th><th>콘텐츠 제목(안)</th><th>카테고리</th></tr></thead><tbody>
+<tr><td class="d">9/2</td><td class="w">수</td><td class="t">추석 선물세트 키워드 공략법: 대목 3주 전 준비 체크리스트</td><td class="c"><span class="pill">셀러 지식 · 시즌</span></td></tr>
+<tr><td class="d">9/4</td><td class="w">금</td><td class="t">코리아 이커머스 페어 2026 참관 가이드: 일정·사전등록·꼭 볼 부스</td><td class="c"><span class="pill">커머스 · 행사</span></td></tr>
+<tr><td class="d">9/7</td><td class="w">월</td><td class="t">2026 추석 소비 트렌드 & 셀러 준비 체크리스트</td><td class="c"><span class="pill">트렌드 · 시즌</span></td></tr>
+<tr><td class="d">9/9</td><td class="w">수</td><td class="t">추석 이후가 진짜: 4분기 가을·겨울 키워드 미리 세팅</td><td class="c"><span class="pill">셀러 지식 · 시즌</span></td></tr>
+<tr><td class="d">9/11</td><td class="w">금</td><td class="t">11번가 입점·노출 최적화 노하우</td><td class="c"><span class="pill">커머스 · 11번가</span></td></tr>
+<tr><td class="d">9/14</td><td class="w">월</td><td class="t">블로그 마켓, 다시 뜨는 이유: 네이버 블로그 커머스의 부활</td><td class="c"><span class="pill">트렌드 · 흥미</span></td></tr>
+<tr><td class="d">9/16</td><td class="w">수</td><td class="t">상품 리뷰 분석으로 팔리는 상세페이지 만들기</td><td class="c"><span class="pill">셀러 지식</span></td></tr>
+<tr><td class="d">9/18</td><td class="w">금</td><td class="t">틱톡샵 한국 상륙, 셀러에게 기회일까 위협일까</td><td class="c"><span class="pill">커머스 · 흥미</span></td></tr>
+<tr><td class="d">9/21</td><td class="w">월</td><td class="t">코리아 이커머스 페어 방문기: 현장에서 본 2026 이커머스 트렌드</td><td class="c"><span class="pill">트렌드 · 행사</span></td></tr>
+<tr><td class="d">9/23</td><td class="w">수</td><td class="t">식음료 셀러를 위한 데이터: 연령대별 구매 채널·품목이 다르다</td><td class="c"><span class="pill">셀러 지식 · 식음료</span></td></tr>
+<tr><td class="d">9/30</td><td class="w">수</td><td class="t">4분기 이커머스 캘린더 & 새로운 판매 채널 준비하기</td><td class="c"><span class="pill">커머스</span></td></tr></tbody></table><div class="sub">아이템 딥다이브 (화·목) — 8편</div><table><colgroup><col style="width:9%"><col style="width:7%"><col style="width:61%"><col style="width:23%"></colgroup>
+<thead><tr><th>발행일</th><th>요일</th><th>콘텐츠 제목(안)</th><th>카테고리</th></tr></thead><tbody>
+<tr><td class="d">9/1</td><td class="w">화</td><td class="t">추석 선물 아이템 ①: 홍삼·건강기능식품 시장 분석</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">9/3</td><td class="w">목</td><td class="t">추석 선물 아이템 ②: 한우·프리미엄 과일 세트</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">9/8</td><td class="w">화</td><td class="t">환절기 침구·이불, 지금 소싱해야 하는 이유</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">9/10</td><td class="w">목</td><td class="t">1인가구 소형가전: 미니 건조기·의류관리기 비교</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">9/15</td><td class="w">화</td><td class="t">가을 캠핑 용품 인기 아이템 총정리</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">9/17</td><td class="w">목</td><td class="t">등산·아웃도어 용품, 가을 성수기 준비</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">9/22</td><td class="w">화</td><td class="t">핼러윈 파티용품·코스튬 소싱 가이드</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">9/29</td><td class="w">화</td><td class="t">전기요·히터, 초기 난방가전 선점 아이템</td><td class="c"><span class="pill">아이템</span></td></tr></tbody></table></div></details><details class="mblk" data-ym="2026-10" open><summary><span class="chev" aria-hidden="true"></span><span class="mname">10월</span><span class="mcount">20편</span><span class="mtag"></span></summary><div class="mbody"><div class="sub">본편 (월·수·금) — 11편</div><table><colgroup><col style="width:9%"><col style="width:7%"><col style="width:61%"><col style="width:23%"></colgroup>
+<thead><tr><th>발행일</th><th>요일</th><th>콘텐츠 제목(안)</th><th>카테고리</th></tr></thead><tbody>
+<tr><td class="d">10/2</td><td class="w">금</td><td class="t">쇼핑플랫폼 셀러가이드 ①: 쿠팡·네이버·11번가, 채널마다 잘 팔리는 게 다른 이유</td><td class="c"><span class="pill">커머스 · 채널</span></td></tr>
+<tr><td class="d">10/7</td><td class="w">수</td><td class="t">셀링부스터 이용가이드 ①: 키워드 난이도·경쟁강도, 이렇게 읽으세요</td><td class="c"><span class="pill">기능 가이드</span></td></tr>
+<tr><td class="d">10/12</td><td class="w">월</td><td class="t">2026 온라인 쇼핑 채널 지형 변화와 셀러의 선택</td><td class="c"><span class="pill">소비자 트렌드</span></td></tr>
+<tr><td class="d">10/14</td><td class="w">수</td><td class="t">셀링부스터 이용가이드 ②: 최적가 추천으로 판매가 결정하기</td><td class="c"><span class="pill">기능 가이드</span></td></tr>
+<tr><td class="d">10/16</td><td class="w">금</td><td class="t">호스팅 판매 채널 ①: 자사몰과 오픈마켓, 무엇이 다른가</td><td class="c"><span class="pill">커머스 · 자사몰</span></td></tr>
+<tr><td class="d">10/19</td><td class="w">월</td><td class="t">숏폼이 바꾸는 구매 결정 구조와 셀러의 대응</td><td class="c"><span class="pill">소비자 트렌드</span></td></tr>
+<tr><td class="d">10/21</td><td class="w">수</td><td class="t">채널이 늘수록 복잡해지는 주문·재고, 어떻게 관리하나</td><td class="c"><span class="pill">셀러 지식</span></td></tr>
+<tr><td class="d">10/23</td><td class="w">금</td><td class="t">틱톡 커머스 구조 이해하기: 국내 셀러의 접점은 어디인가</td><td class="c"><span class="pill">커머스 · 신채널</span></td></tr>
+<tr><td class="d">10/26</td><td class="w">월</td><td class="t">코세페·빼빼로데이·수능, 11월 소비 캘린더 총정리</td><td class="c"><span class="pill">트렌드 · 시즌</span></td></tr>
+<tr><td class="d">10/28</td><td class="w">수</td><td class="t">호스팅 판매 채널 ②: 자사몰 시작 전 준비해야 할 5가지</td><td class="c"><span class="pill">셀러 지식 · 자사몰</span></td></tr>
+<tr><td class="d">10/30</td><td class="w">금</td><td class="t">쇼핑플랫폼 셀러가이드 ②: 스마트스토어 운영 기본 체크리스트</td><td class="c"><span class="pill">커머스 · 네이버</span></td></tr></tbody></table><div class="sub">아이템 딥다이브 (화·목) — 9편</div><table><colgroup><col style="width:9%"><col style="width:7%"><col style="width:61%"><col style="width:23%"></colgroup>
+<thead><tr><th>발행일</th><th>요일</th><th>콘텐츠 제목(안)</th><th>카테고리</th></tr></thead><tbody>
+<tr><td class="d">10/1</td><td class="w">목</td><td class="t">가습기·에어워셔, 건조한 계절 준비 아이템</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">10/6</td><td class="w">화</td><td class="t">수능 응원 선물 아이템: 초콜릿·홍삼·수험생 굿즈</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">10/8</td><td class="w">목</td><td class="t">빼빼로데이 초콜릿·디저트 소싱 가이드</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">10/13</td><td class="w">화</td><td class="t">김장 용품 총정리: 김장매트·절임배추·김치통</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">10/15</td><td class="w">목</td><td class="t">전기매트 vs 온수매트, 난방 아이템 비교</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">10/20</td><td class="w">화</td><td class="t">블랙프라이데이 직구 인기 아이템 미리보기</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">10/22</td><td class="w">목</td><td class="t">홈파티·연말 파티 용품 아이템 발굴</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">10/27</td><td class="w">화</td><td class="t">겨울 의류 아이템: 패딩·니트 소싱 포인트</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">10/29</td><td class="w">목</td><td class="t">크리스마스 선물·데코 아이템, 12월 대목 선점</td><td class="c"><span class="pill">아이템</span></td></tr></tbody></table></div></details><details class="mblk" data-ym="2026-11" open><summary><span class="chev" aria-hidden="true"></span><span class="mname">11월</span><span class="mcount">21편</span><span class="mtag"></span></summary><div class="mbody"><div class="sub">본편 (월·수·금) — 13편</div><table><colgroup><col style="width:9%"><col style="width:7%"><col style="width:61%"><col style="width:23%"></colgroup>
+<thead><tr><th>발행일</th><th>요일</th><th>콘텐츠 제목(안)</th><th>카테고리</th></tr></thead><tbody>
+<tr><td class="d">11/2</td><td class="w">월</td><td class="t">블랙프라이데이·연말 대목, 주문 폭증에 대비하는 운영 점검</td><td class="c"><span class="pill">트렌드 · 시즌</span></td></tr>
+<tr><td class="d">11/4</td><td class="w">수</td><td class="t">셀러 정산과 결제 수수료: 돈이 들어오고 나가는 구조</td><td class="c"><span class="pill">셀러 지식 · 정산</span></td></tr>
+<tr><td class="d">11/6</td><td class="w">금</td><td class="t">선정산 서비스 비교: 자금 회전을 앞당기는 선택지</td><td class="c"><span class="pill">커머스 · 정산</span></td></tr>
+<tr><td class="d">11/9</td><td class="w">월</td><td class="t">2026 연말 소비 트렌드: 오르는 카테고리와 소싱처 찾기</td><td class="c"><span class="pill">소비자 트렌드</span></td></tr>
+<tr><td class="d">11/11</td><td class="w">수</td><td class="t">쇼핑몰 상세페이지, 어떻게 만들고 무엇을 넣나</td><td class="c"><span class="pill">셀러 지식 · 자사몰</span></td></tr>
+<tr><td class="d">11/13</td><td class="w">금</td><td class="t">일본 역직구 시작하기: 채널 비교와 준비 순서</td><td class="c"><span class="pill">커머스 · 해외</span></td></tr>
+<tr><td class="d">11/16</td><td class="w">월</td><td class="t">AI가 추천하는 상품은 어떻게 정해지나: 검색 데이터로 읽는 노출 구조</td><td class="c"><span class="pill">소비자 트렌드</span></td></tr>
+<tr><td class="d">11/18</td><td class="w">수</td><td class="t">재고·발주 일정 관리: 셀링플래너로 시즌 대목 놓치지 않기</td><td class="c"><span class="pill">기능 가이드</span></td></tr>
+<tr><td class="d">11/20</td><td class="w">금</td><td class="t">해외 판매 채널 총정리: 아마존·쇼피·라자다·테무</td><td class="c"><span class="pill">커머스 · 해외</span></td></tr>
+<tr><td class="d">11/23</td><td class="w">월</td><td class="t">구독·렌탈 시대의 납품 구조: 벤더사로 들어가는 법</td><td class="c"><span class="pill">셀러 지식 · 유통</span></td></tr>
+<tr><td class="d">11/25</td><td class="w">수</td><td class="t">자사몰 구축: 솔루션 선택과 상품 등록 준비</td><td class="c"><span class="pill">셀러 지식 · 자사몰</span></td></tr>
+<tr><td class="d">11/27</td><td class="w">금</td><td class="t">라이브쇼핑·구매 전환형 광고 실전 노하우</td><td class="c"><span class="pill">커머스 · 광고</span></td></tr>
+<tr><td class="d">11/30</td><td class="w">월</td><td class="t">2027 판매 계획: 채널을 늘릴까, 깊게 팔까</td><td class="c"><span class="pill">트렌드 · 연말</span></td></tr></tbody></table><div class="sub">아이템 딥다이브 (화·목) — 8편</div><table><colgroup><col style="width:9%"><col style="width:7%"><col style="width:61%"><col style="width:23%"></colgroup>
+<thead><tr><th>발행일</th><th>요일</th><th>콘텐츠 제목(안)</th><th>카테고리</th></tr></thead><tbody>
+<tr><td class="d">11/3</td><td class="w">화</td><td class="t">수능 끝 보상소비: 수험생 패션 아이템과 동대문 소싱</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">11/5</td><td class="w">목</td><td class="t">방한·단열 소품: 중국 소싱으로 떼올 때 확인할 것</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">11/10</td><td class="w">화</td><td class="t">연말 기프트세트: 식품·건강식품 선물 구성</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">11/12</td><td class="w">목</td><td class="t">겨울 아웃도어: 광저우·이우 현장 소싱 가이드</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">11/17</td><td class="w">화</td><td class="t">새해 문구·다이어리: 도매 소싱과 OEM 제작 비교</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">11/19</td><td class="w">목</td><td class="t">연말 모임 의류: 파티룩·니트·코트</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">11/24</td><td class="w">화</td><td class="t">신년 가전 판매 준비: 부피 큰 상품의 보관·배송 설계</td><td class="c"><span class="pill">아이템</span></td></tr>
+<tr><td class="d">11/26</td><td class="w">목</td><td class="t">겨울 반려동물 용품: 방한·실내 놀이템</td><td class="c"><span class="pill">아이템</span></td></tr></tbody></table></div></details></div></section><section id="nv"><div class="chead ch-nv"><span class="cno">CHANNEL 2</span><h2>네이버 블로그</h2><p class="curl">blog.naver.com/sellingbooster · 총 <b>38편</b> · 자사 원본의 +2주 이상 시차 파생 · 전면 재집필</p></div><div class="months"><details class="mblk" data-ym="2026-09" open><summary><span class="chev" aria-hidden="true"></span><span class="mname">8월 말–9월</span><span class="mcount">14편</span><span class="mtag"></span></summary><div class="mbody"><table><colgroup><col style="width:9%"><col style="width:7%"><col style="width:46%"><col style="width:17%"><col style="width:21%"></colgroup>
+<thead><tr><th>발행일</th><th>요일</th><th>콘텐츠 제목(안)</th><th>네이버 카테고리</th><th>자사 원본</th></tr></thead><tbody>
+<tr><td class="d">8/26</td><td class="w">수</td><td class="t">스마트스토어 키워드 분석, 석 달 주문 0건에서 벗어난 방법</td><td class="c"><span class="pill nv">키워드·시장 분석</span></td><td class="o">8/7 키워드 분석 가이드</td></tr>
+<tr><td class="d">8/28</td><td class="w">금</td><td class="t">요즘 이너뷰티가 뜨는 이유, 셀러 눈으로 봤어요</td><td class="c"><span class="pill nv">분야별 트렌드</span></td><td class="o">8/10 이너뷰티·공간 가전</td></tr>
+<tr><td class="d">8/31</td><td class="w">월</td><td class="t">상품 소싱 시행착오 끝에 정리한 3가지 방법</td><td class="c"><span class="pill nv">판매 전략 세우기</span></td><td class="o">8/12 소싱 전략</td></tr>
+<tr><td class="d">9/2</td><td class="w">수</td><td class="t">상품명 하나 바꾸고 노출이 달라진 경험담</td><td class="c"><span class="pill nv">키워드·시장 분석</span></td><td class="o">8/14 상품명 최적화</td></tr>
+<tr><td class="d">9/4</td><td class="w">금</td><td class="t">간편식 카테고리, 지금 들어가도 될까요?</td><td class="c"><span class="pill nv">분야별 트렌드</span></td><td class="o">8/17 식음료 트렌드 ①</td></tr>
+<tr><td class="d">9/7</td><td class="w">월</td><td class="t">스마트스토어 태그, 뭘 넣을지 막막하다면</td><td class="c"><span class="pill nv">키워드·시장 분석</span></td><td class="o">8/19 태그 세팅 가이드</td></tr>
+<tr><td class="d">9/9</td><td class="w">수</td><td class="t">쿠팡·네이버·11번가 첫 입점, 어디부터 할까요?</td><td class="c"><span class="pill nv">셀러 시작하기</span></td><td class="o">8/21 3채널 비교</td></tr>
+<tr><td class="d">9/11</td><td class="w">금</td><td class="t">숏폼 보고 바로 사는 시대, 셀러의 준비물</td><td class="c"><span class="pill nv">분야별 트렌드</span></td><td class="o">8/24 크리에이터 커머스</td></tr>
+<tr><td class="d">9/14</td><td class="w">월</td><td class="t">마진 계산 대충 했다가 남는 게 없던 이야기</td><td class="c"><span class="pill nv">판매 전략 세우기</span></td><td class="o">8/26 마진율·경쟁 분석</td></tr>
+<tr><td class="d">9/16</td><td class="w">수</td><td class="t">쿠팡 아이템위너 뺏겼을 때 해본 것들</td><td class="c"><span class="pill nv">셀러 노하우</span></td><td class="o">8/28 쿠팡 실전</td></tr>
+<tr><td class="d">9/18</td><td class="w">금</td><td class="t">K푸드 역직구, 소규모 셀러도 될까요?</td><td class="c"><span class="pill nv">분야별 트렌드</span></td><td class="o">8/31 식음료 트렌드 ②</td></tr>
+<tr><td class="d">9/21</td><td class="w">월</td><td class="t">추석 D-4, 막판 선물세트 수요 잡는 법</td><td class="c"><span class="pill nv">판매 전략 세우기</span></td><td class="o">9/2 추석 선물세트</td></tr>
+<tr><td class="d">9/23</td><td class="w">수</td><td class="t">추석 연휴 직전, 셀러 최종 점검 5가지</td><td class="c"><span class="pill nv">셀러 노하우</span></td><td class="o">9/7 추석 소비 트렌드</td></tr>
+<tr><td class="d">9/30</td><td class="w">수</td><td class="t">추석 끝, 4분기 키워드 지금 세팅해요</td><td class="c"><span class="pill nv">키워드·시장 분석</span></td><td class="o">9/9 4분기 키워드</td></tr></tbody></table></div></details><details class="mblk" data-ym="2026-10" open><summary><span class="chev" aria-hidden="true"></span><span class="mname">10월</span><span class="mcount">11편</span><span class="mtag"></span></summary><div class="mbody"><table><colgroup><col style="width:9%"><col style="width:7%"><col style="width:46%"><col style="width:17%"><col style="width:21%"></colgroup>
+<thead><tr><th>발행일</th><th>요일</th><th>콘텐츠 제목(안)</th><th>네이버 카테고리</th><th>자사 원본</th></tr></thead><tbody>
+<tr><td class="d">10/2</td><td class="w">금</td><td class="t">11번가 입점 한 달, 솔직하게 정리해요</td><td class="c"><span class="pill nv">셀러 시작하기</span></td><td class="o">9/11 11번가 노하우</td></tr>
+<tr><td class="d">10/7</td><td class="w">수</td><td class="t">블로그 마켓이 다시 뜨는 이유, 아세요?</td><td class="c"><span class="pill nv">분야별 트렌드</span></td><td class="o">9/14 블로그 마켓</td></tr>
+<tr><td class="d">10/12</td><td class="w">월</td><td class="t">리뷰 1,000개 읽고 상세페이지 고친 후기</td><td class="c"><span class="pill nv">판매 전략 세우기</span></td><td class="o">9/16 리뷰 분석</td></tr>
+<tr><td class="d">10/14</td><td class="w">수</td><td class="t">틱톡샵 한국 상황, 셀러 입장에서 봤어요</td><td class="c"><span class="pill nv">분야별 트렌드</span></td><td class="o">9/18 틱톡샵</td></tr>
+<tr><td class="d">10/16</td><td class="w">금</td><td class="t">코이페 2026 다녀왔어요, 셀러 눈에 띈 것들</td><td class="c"><span class="pill nv">분야별 트렌드</span></td><td class="o">9/21 코이페 방문기</td></tr>
+<tr><td class="d">10/19</td><td class="w">월</td><td class="t">연령대별로 장보는 곳이 다르다는 사실</td><td class="c"><span class="pill nv">키워드·시장 분석</span></td><td class="o">9/23 식음료 데이터</td></tr>
+<tr><td class="d">10/21</td><td class="w">수</td><td class="t">4분기 이커머스 캘린더, 미리 준비해요</td><td class="c"><span class="pill nv">판매 전략 세우기</span></td><td class="o">9/30 4분기 캘린더</td></tr>
+<tr><td class="d">10/23</td><td class="w">금</td><td class="t">채널마다 잘 팔리는 게 왜 다를까요?</td><td class="c"><span class="pill nv">셀러 시작하기</span></td><td class="o">10/2 셀러가이드 ①</td></tr>
+<tr><td class="d">10/26</td><td class="w">월</td><td class="t">경쟁강도 숫자, 저는 이렇게 읽어요</td><td class="c"><span class="pill nv">키워드·시장 분석</span></td><td class="o">10/7 이용가이드 ①</td></tr>
+<tr><td class="d">10/28</td><td class="w">수</td><td class="t">요즘 쇼핑 채널 판도, 셀러가 체감한 변화</td><td class="c"><span class="pill nv">분야별 트렌드</span></td><td class="o">10/12 채널 지형 변화</td></tr>
+<tr><td class="d">10/30</td><td class="w">금</td><td class="t">판매가 정할 때 제가 보는 기준</td><td class="c"><span class="pill nv">판매 전략 세우기</span></td><td class="o">10/14 이용가이드 ②</td></tr></tbody></table></div></details><details class="mblk" data-ym="2026-11" open><summary><span class="chev" aria-hidden="true"></span><span class="mname">11월</span><span class="mcount">13편</span><span class="mtag"></span></summary><div class="mbody"><table><colgroup><col style="width:9%"><col style="width:7%"><col style="width:46%"><col style="width:17%"><col style="width:21%"></colgroup>
+<thead><tr><th>발행일</th><th>요일</th><th>콘텐츠 제목(안)</th><th>네이버 카테고리</th><th>자사 원본</th></tr></thead><tbody>
+<tr><td class="d">11/2</td><td class="w">월</td><td class="t">자사몰이랑 오픈마켓, 뭐가 다른지 정리했어요</td><td class="c"><span class="pill nv">셀러 시작하기</span></td><td class="o">10/16 호스팅 ①</td></tr>
+<tr><td class="d">11/4</td><td class="w">수</td><td class="t">숏폼 보고 바로 사는 손님, 셀러는 뭘 준비할까요</td><td class="c"><span class="pill nv">분야별 트렌드</span></td><td class="o">10/19 숏폼 커머스</td></tr>
+<tr><td class="d">11/6</td><td class="w">금</td><td class="t">채널 늘리니 재고가 꼬이던 이야기</td><td class="c"><span class="pill nv">셀러 노하우</span></td><td class="o">10/21 셀픽 재고관리</td></tr>
+<tr><td class="d">11/9</td><td class="w">월</td><td class="t">틱톡 커머스, 셀러 입장에서 뭐가 달라지나요</td><td class="c"><span class="pill nv">분야별 트렌드</span></td><td class="o">10/23 틱톡 커머스</td></tr>
+<tr><td class="d">11/11</td><td class="w">수</td><td class="t">11월 대목 중간 점검, 지금 뭘 봐야 할까요</td><td class="c"><span class="pill nv">판매 전략 세우기</span></td><td class="o">10/26 11월 캘린더</td></tr>
+<tr><td class="d">11/13</td><td class="w">금</td><td class="t">자사몰 열기 전에 제가 확인한 5가지</td><td class="c"><span class="pill nv">셀러 시작하기</span></td><td class="o">10/28 호스팅 ②</td></tr>
+<tr><td class="d">11/16</td><td class="w">월</td><td class="t">스마트스토어 운영, 매주 확인하는 것들</td><td class="c"><span class="pill nv">셀러 노하우</span></td><td class="o">10/30 셀러가이드 ②</td></tr>
+<tr><td class="d">11/18</td><td class="w">수</td><td class="t">블프 하루 장사로 끝내지 않으려면</td><td class="c"><span class="pill nv">판매 전략 세우기</span></td><td class="o">11/2 블프·연말</td></tr>
+<tr><td class="d">11/20</td><td class="w">금</td><td class="t">정산일 계산하다 현금이 막혔던 경험</td><td class="c"><span class="pill nv">판매 전략 세우기</span></td><td class="o">11/4 정산 수수료</td></tr>
+<tr><td class="d">11/23</td><td class="w">월</td><td class="t">선정산 써볼까 고민될 때 보는 기준</td><td class="c"><span class="pill nv">셀러 노하우</span></td><td class="o">11/6 선정산 비교</td></tr>
+<tr><td class="d">11/25</td><td class="w">수</td><td class="t">연말엔 뭐가 팔릴까, 카테고리별로 갈려요</td><td class="c"><span class="pill nv">분야별 트렌드</span></td><td class="o">11/9 연말 소비 트렌드</td></tr>
+<tr><td class="d">11/27</td><td class="w">금</td><td class="t">상세페이지 만들 때 제가 넣는 것들</td><td class="c"><span class="pill nv">판매 전략 세우기</span></td><td class="o">11/11 상세페이지</td></tr>
+<tr><td class="d">11/30</td><td class="w">월</td><td class="t">일본 역직구, 어디부터 보면 될까요</td><td class="c"><span class="pill nv">분야별 트렌드</span></td><td class="o">11/13 일본 역직구</td></tr></tbody></table></div></details></div></section><section id="c24"><div class="chead ch-c24"><span class="cno">CHANNEL 3</span><h2>카페24 스토어 스토리</h2><p class="curl">store.cafe24.com/kr/story · 총 <b>6편</b> · 월 2회 수요일 · 2026년 내 완료</p></div><div class="months"><details class="mblk" data-ym="2026-10" open><summary><span class="chev" aria-hidden="true"></span><span class="mname">10월</span><span class="mcount">2편</span><span class="mtag"></span></summary><div class="mbody"><table><colgroup><col style="width:7%"><col style="width:13%"><col style="width:55%"><col style="width:25%"></colgroup>
+<thead><tr><th>#</th><th>발행일</th><th>콘텐츠 제목(안)</th><th>카테고리</th></tr></thead><tbody>
+<tr><td class="d">01</td><td class="d">10/21 <small>수</small></td><td class="t">11월 쇼핑 대목, 자사몰 셀러의 준비 순서</td><td class="c"><span class="pill c24">요즘 트렌드</span></td></tr>
+<tr><td class="d">02</td><td class="d">10/28 <small>수</small></td><td class="t">자사몰도 검색에 걸릴까?: 쇼핑몰 SEO 점검 5가지</td><td class="c"><span class="pill c24">사용팁</span></td></tr></tbody></table></div></details><details class="mblk" data-ym="2026-11" open><summary><span class="chev" aria-hidden="true"></span><span class="mname">11월</span><span class="mcount">2편</span><span class="mtag"></span></summary><div class="mbody"><table><colgroup><col style="width:7%"><col style="width:13%"><col style="width:55%"><col style="width:25%"></colgroup>
+<thead><tr><th>#</th><th>발행일</th><th>콘텐츠 제목(안)</th><th>카테고리</th></tr></thead><tbody>
+<tr><td class="d">03</td><td class="d">11/11 <small>수</small></td><td class="t">오픈마켓 상품명, 자사몰에 그대로 써도 될까요?</td><td class="c"><span class="pill c24">사용팁</span></td></tr>
+<tr><td class="d">04</td><td class="d">11/25 <small>수</small></td><td class="t">판매가 정할 때 보는 숫자: 자사몰과 오픈마켓의 차이</td><td class="c"><span class="pill c24">사용팁</span></td></tr></tbody></table></div></details><details class="mblk" data-ym="2026-12" open><summary><span class="chev" aria-hidden="true"></span><span class="mname">12월</span><span class="mcount">2편</span><span class="mtag"></span></summary><div class="mbody"><table><colgroup><col style="width:7%"><col style="width:13%"><col style="width:55%"><col style="width:25%"></colgroup>
+<thead><tr><th>#</th><th>발행일</th><th>콘텐츠 제목(안)</th><th>카테고리</th></tr></thead><tbody>
+<tr><td class="d">05</td><td class="d">12/9 <small>수</small></td><td class="t">연말 시즌 상품, 지금 무엇이 팔리나: 수요 확인하는 법</td><td class="c"><span class="pill c24">요즘 트렌드</span></td></tr>
+<tr><td class="d">06</td><td class="d">12/23 <small>수</small></td><td class="t">2027년 판매 계획: 월별 키워드 캘린더 만들기</td><td class="c"><span class="pill c24">사용팁</span></td></tr></tbody></table></div></details></div></section>
+</div>
+
+<footer>
+  셀링부스터 콘텐츠 운영 · 제목은 발행 전 변경될 수 있음(안) · <b>지난 월은 자동으로 뒤로 이동·접힘</b>(월이 바뀌면 재정렬) · 발행 공정·채널별 규칙은 <b>블로그 발행 가이드</b>와 <b>[SB] 3채널 블로그 발행규칙</b> 참조 · 헥토데이터 커머스솔루션사업실 커머스기획팀
+</footer>
+
+</div>
+
+<script>
+(function(){
+  /* ── 지난 월 후순위 정렬 + 접기 (현재 월 기준, 매 로드 시 재계산) ── */
+  var now = new Date();
+  var cur = now.getFullYear() * 12 + now.getMonth();      // 현재 월 인덱스
+  function idx(ym){ var p = ym.split('-'); return (+p[0]) * 12 + (+p[1]) - 1; }
+
+  document.querySelectorAll('.months').forEach(function(host){
+    var blks = Array.prototype.slice.call(host.querySelectorAll(':scope > .mblk'));
+    var up = [], past = [];
+    blks.forEach(function(b){
+      var i = idx(b.dataset.ym), tag = b.querySelector('.mtag');
+      if (i < cur){
+        b.classList.add('past'); b.open = false;
+        tag.className = 'mtag past'; tag.textContent = '지난 발행';
+        past.push([i, b]);
+      } else {
+        b.classList.remove('past'); b.open = true;
+        tag.className = 'mtag ' + (i === cur ? 'now' : 'next');
+        tag.textContent = (i === cur ? '이번 달' : (i === cur + 1 ? '다음 달' : '예정'));
+        up.push([i, b]);
+      }
+    });
+    up.sort(function(a,b){ return a[0] - b[0]; });      // 예정·현재: 가까운 순
+    past.sort(function(a,b){ return b[0] - a[0]; });    // 지난 월: 최신 순
+
+    var old = host.querySelector('.pastline'); if (old) old.remove();
+    up.forEach(function(p){ host.appendChild(p[1]); });
+    if (past.length){
+      var line = document.createElement('div');
+      line.className = 'pastline'; line.textContent = '지난 발행';
+      host.appendChild(line);
+      past.forEach(function(p){ host.appendChild(p[1]); });
+    }
+  });
+
+  /* ── 모두 펼치기 / 접기 ── */
+  var tAll = document.getElementById('toggleAll');
+  tAll.addEventListener('click', function(){
+    var expand = this.textContent.indexOf('펼치기') > -1;
+    document.querySelectorAll('.mblk').forEach(function(d){
+      /* 펼치기: 전부 열기 · 접기: 기본 상태 복귀(지난 월만 닫힘) */
+      d.open = expand ? true : !d.classList.contains('past');
+    });
+    this.textContent = expand ? '지난 월 접기' : '모두 펼치기';
+  });
+
+  function flash(b,m){var o=b.dataset.o||b.textContent;b.dataset.o=o;b.textContent=m;b.classList.add('done');
+    setTimeout(function(){b.textContent=o;b.classList.remove('done');},1700);}
+
+  /* ── DOC: 접힌 월도 모두 펼친 사본으로 내보내기 ── */
+  document.getElementById('doc').addEventListener('click', function(){
+    var clone = document.getElementById('content').cloneNode(true);
+    clone.querySelectorAll('details').forEach(function(d){ d.setAttribute('open',''); });
+    clone.querySelectorAll('.chev').forEach(function(e){ e.remove(); });
+    var wordHtml = '<html xmlns:o="urn:schemas-microsoft-com:office:office" ' +
+      'xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">' +
+      '<head><meta charset="utf-8"><title>3채널 발행 주제 리스트</title>' +
+      '<style>@page{size:A4;margin:1.5cm;} body{font-family:"Malgun Gothic",sans-serif;font-size:10pt;color:#000;} ' +
+      'h2{font-size:14pt;margin:14pt 0 6pt;} summary{font-size:12pt;font-weight:bold;margin:12pt 0 4pt;display:block;} ' +
+      'table{border-collapse:collapse;width:100%;margin-bottom:10pt;} ' +
+      'th{background:#1E2532;color:#fff;border:1px solid #1E2532;padding:5pt;font-size:9pt;text-align:left;} ' +
+      'td{border:1px solid #ccc;padding:5pt;font-size:9.5pt;vertical-align:top;} ' +
+      '.chead{background:#f0f0f0;padding:8pt;} .cno{font-size:8pt;color:#666;} ' +
+      '.sub,.curl,.mcount,.mtag,.pastline{color:#666;font-size:9pt;} .pill{border:1px solid #ccc;padding:1pt 4pt;font-size:8.5pt;}' +
+      '</style></head><body><h1 style="font-size:17pt">3채널 블로그 발행 주제 리스트</h1>' +
+      clone.innerHTML + '</body></html>';
+    var blob = new Blob(['﻿', wordHtml], {type:'application/msword'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = '[SB] 3채널_발행주제_리스트.doc';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    flash(this, '✓ 저장됨');
+  });
+
+  /* ── PDF: 인쇄 중에는 전부 펼침 ── */
+  var reopen = [];
+  window.addEventListener('beforeprint', function(){
+    reopen = [];
+    document.querySelectorAll('.mblk').forEach(function(d){ if(!d.open){ reopen.push(d); d.open = true; } });
+  });
+  window.addEventListener('afterprint', function(){ reopen.forEach(function(d){ d.open = false; }); reopen = []; });
+  document.getElementById('pdf').addEventListener('click', function(){ window.print(); });
+
+  /* ── 표 복사 (접힘 여부와 무관하게 전체) ── */
+  document.getElementById('copy').addEventListener('click', async function(){
+    var btn = this;
+    var clone = document.getElementById('content').cloneNode(true);
+    clone.querySelectorAll('details').forEach(function(d){ d.setAttribute('open',''); });
+    clone.querySelectorAll('.chev').forEach(function(e){ e.remove(); });
+    var lines = [];
+    clone.querySelectorAll('h2, summary, table').forEach(function(el){
+      if (el.tagName === 'TABLE'){
+        el.querySelectorAll('tbody tr').forEach(function(tr){
+          lines.push(Array.prototype.map.call(tr.children, function(td){
+            return td.innerText.replace(/\s+/g,' ').trim(); }).join('\t'));
+        });
+      } else { lines.push('\n[' + el.innerText.replace(/\s+/g,' ').trim() + ']'); }
+    });
+    var tsv = lines.join('\n');
+    try{
+      if (navigator.clipboard && window.ClipboardItem){
+        await navigator.clipboard.write([ new ClipboardItem({
+          'text/html': new Blob([clone.innerHTML], {type:'text/html'}),
+          'text/plain': new Blob([tsv], {type:'text/plain'})
+        })]);
+      } else { await navigator.clipboard.writeText(tsv); }
+      flash(btn, '✓ 복사됨');
+    }catch(e){
+      var r = document.createRange(); r.selectNode(document.getElementById('content'));
+      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      flash(btn, '선택됨 — Ctrl+C');
+    }
+  });
+})();
+</script>
+</body>
+</html>
