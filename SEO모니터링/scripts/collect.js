@@ -159,6 +159,8 @@ async function collectCafe24(policy) {
       const out = [];
       const seen = new Set();
       const NAV = ['/kr/story', '/kr/story/', '/kr/story/app', '/kr/story/diy'];
+      // 카드 상단의 카테고리 라벨은 제목이 아니므로 제외
+      const CAFE_CATS = ['사용팁', '업데이트', '가이드', '성공 사례 / 간증 후기', '앱 사용 레시피', '활용백서', '지식창고 / 아이디어 맛집', '요즘 트렌드'];
       document.querySelectorAll('a[href*="/kr/story/"]').forEach((a) => {
         let href = a.href || '';
         const path = href.replace(/^https?:\/\/[^/]+/, '').replace(/[?#].*$/, '').replace(/\/$/, '');
@@ -167,9 +169,14 @@ async function collectCafe24(policy) {
         const lines = (a.innerText || '').split('\n').map((s) => s.trim()).filter(Boolean);
         if (!lines.length) return;
         const dateLine = lines.find((l) => /\d{4}[.\-\/]\d{1,2}[.\-\/]\d{1,2}/.test(l)) || null;
-        const title = lines.find((l) => l !== dateLine && l.length >= 8 && l.length <= 150
-          && !/^\d{4}[.\-\/]\d{1,2}[.\-\/]\d{1,2}/.test(l) && !/^[\d,.\s]+$/.test(l)) || null;
-        if (title && !seen.has(href)) { seen.add(href); out.push({ href, dateLine, title }); }
+        // 제목: 카드의 <strong class="title"> 요소를 최우선으로 사용
+        const titleEl = a.querySelector('strong.title, .title');
+        let title = titleEl ? (titleEl.innerText || '').replace(/\s+/g, ' ').trim() : '';
+        if (!title) { // 폴백: 카테고리 라벨·날짜·숫자 줄을 제외한 첫 번째 줄
+          title = lines.find((l) => l !== dateLine && CAFE_CATS.indexOf(l) < 0 && l.length >= 8 && l.length <= 150
+            && !/^\d{4}[.\-\/]\d{1,2}[.\-\/]\d{1,2}/.test(l) && !/^[\d,.\s]+$/.test(l)) || null;
+        }
+        if (title && title.length <= 200 && !seen.has(href)) { seen.add(href); out.push({ href, dateLine, title }); }
       });
       return out;
     });
@@ -235,6 +242,33 @@ async function main() {
     console.error('cafe24 collect failed:', e.message);
     cafeStatus = '|cafe24_failed';
   }
+  // 카페24 보정 (매 실행 시 자동, 멱등):
+  //  1) 같은 url의 기존 글 제목이 최신 파싱 결과와 다르면 갱신 (과거 파서가 카테고리 라벨을 제목으로 저장한 경우 복구)
+  //  2) 발견일 기준(dateApprox)으로 기록된 글 중 가장 오래된 1건의 발행일을 firstPostDate(예: 2026-10-22)로 고정
+  try {
+    const cafeCh = (policy.channels || []).find((c) => c.id === 'cafe24');
+    if (cafeCh) {
+      const byUrl = new Map(cafePosts.filter((x) => x.url).map((x) => [x.url, x]));
+      for (const p of posts) {
+        if (p.category === '카페24 스토리' && p.url && byUrl.has(p.url)) {
+          const nt = byUrl.get(p.url).title;
+          if (nt && nt !== p.title) { console.log('cafe24 title fixed:', p.title, '->', nt); p.title = nt; }
+        }
+      }
+      if (cafeCh.firstPostDate) {
+        const existingUrls = new Set(posts.filter((p) => p.url).map((p) => p.url));
+        const all = posts.filter((p) => p.category === '카페24 스토리')
+          .concat(cafePosts.filter((x) => !(x.url && existingUrls.has(x.url))));
+        const approx = all.filter((p) => p.dateApprox).sort((a, b) => a.date.localeCompare(b.date));
+        const hasFixed = all.some((p) => p.date === cafeCh.firstPostDate && !p.dateApprox);
+        if (approx.length && !hasFixed) {
+          approx[0].date = cafeCh.firstPostDate;
+          delete approx[0].dateApprox;
+          console.log('cafe24 first post date set to', cafeCh.firstPostDate, '-', approx[0].title);
+        }
+      }
+    }
+  } catch (e) { console.error('cafe24 backfill failed:', e.message); }
 
   const collected = (result ? result.posts : []).concat(naverPosts, cafePosts);
   if (collected.length === 0) {
