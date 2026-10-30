@@ -1,5 +1,6 @@
 // 셀링부스터 블로그 일일 수집 스크립트 (GitHub Actions에서 실행)
-// v2: Playwright 브라우저 렌더링 기반 — 이 사이트는 클라이언트 렌더링(Nuxt)이라
+// v6: 카페24 스토리 수집 추가 + 채널별 실패 격리 (한 채널이 실패해도 나머지는 수집)
+//     Playwright 브라우저 렌더링 기반 — 사이트가 클라이언트 렌더링(Nuxt)이라
 //     단순 fetch로는 빈 셸만 내려오므로 실제 브라우저로 렌더 후 DOM에서 추출한다.
 // - data/posts.json 에 신규 글 누적, data/meta.json 에 전체 건수 이력 기록
 // - 실패 시 데이터는 건드리지 않고 lastStatus 로 기록
@@ -136,6 +137,56 @@ async function collectNaver(policy) {
   return items;
 }
 
+// 카페24 스토리 수집 (policy.json의 cafe24 채널 url 사용) — 월 2회 발행 채널
+// 목록이 클라이언트 렌더링이라 브라우저로 렌더 후 /kr/story/ 상세 링크를 파싱한다.
+// 카드에 날짜가 없으면 "처음 발견된 날"을 발행일로 기록한다 (매일 수집하므로 ±1일 오차).
+async function collectCafe24(policy) {
+  const ch = (policy.channels || []).find((c) => c.id === 'cafe24');
+  if (!ch || !ch.url) return null; // 미등록
+  const { chromium } = require('playwright');
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage({ viewport: { width: 1400, height: 2200 } });
+    await page.goto(ch.url, { waitUntil: 'networkidle', timeout: 60000 });
+    await page.waitForTimeout(4000);
+    for (let i = 0; i < 4; i++) { await page.mouse.wheel(0, 2500); await page.waitForTimeout(600); }
+
+    const bodyText = await page.evaluate(() => document.body.innerText);
+    fs.mkdirSync(p('debug'), { recursive: true });
+    fs.writeFileSync(p('debug', 'cafe24-last.txt'), bodyText.slice(0, 200000));
+
+    const items = await page.evaluate(() => {
+      const out = [];
+      const seen = new Set();
+      const NAV = ['/kr/story', '/kr/story/', '/kr/story/app', '/kr/story/diy'];
+      document.querySelectorAll('a[href*="/kr/story/"]').forEach((a) => {
+        let href = a.href || '';
+        const path = href.replace(/^https?:\/\/[^/]+/, '').replace(/[?#].*$/, '').replace(/\/$/, '');
+        if (NAV.indexOf(path) >= 0 || NAV.indexOf(path + '/') >= 0) return; // 목록·탭 자신
+        if (!/\/kr\/story\/.+/.test(path)) return;
+        const lines = (a.innerText || '').split('\n').map((s) => s.trim()).filter(Boolean);
+        if (!lines.length) return;
+        const dateLine = lines.find((l) => /\d{4}[.\-\/]\d{1,2}[.\-\/]\d{1,2}/.test(l)) || null;
+        const title = lines.find((l) => l !== dateLine && l.length >= 8 && l.length <= 150
+          && !/^\d{4}[.\-\/]\d{1,2}[.\-\/]\d{1,2}/.test(l) && !/^[\d,.\s]+$/.test(l)) || null;
+        if (title && !seen.has(href)) { seen.add(href); out.push({ href, dateLine, title }); }
+      });
+      return out;
+    });
+
+    const today = todayKST();
+    return items.map((it) => ({
+      date: it.dateLine ? (normDate(it.dateLine) || today) : today,
+      category: '카페24 스토리',
+      title: it.title,
+      url: it.href,
+      dateApprox: !it.dateLine || undefined, // 날짜 미표기 카드는 발견일 기준
+    })).filter((x) => x.date && x.title);
+  } finally {
+    await browser.close();
+  }
+}
+
 async function main() {
   const meta = JSON.parse(fs.readFileSync(p('data', 'meta.json'), 'utf8'));
   const posts = JSON.parse(fs.readFileSync(p('data', 'posts.json'), 'utf8'));
@@ -144,24 +195,22 @@ async function main() {
   const today = todayKST();
   meta.lastRun = new Date().toISOString();
 
-  let result;
+  // 본 수집 실패가 네이버·카페24 수집까지 막지 않도록 격리 (v6)
+  let result = null;
   try {
     result = await collectWithBrowser();
   } catch (e) {
     console.error('browser collect failed:', e.message);
-    meta.lastStatus = 'fetch_failed';
-    fs.writeFileSync(p('data', 'meta.json'), JSON.stringify(meta, null, 2));
-    process.exit(0); // 실패해도 워크플로는 성공 처리(메타 커밋)
   }
 
-  if (result.total) {
+  if (result && result.total) {
     const totals = meta.totals.filter((t) => t.date !== today);
     totals.push({ date: today, total: result.total });
     totals.sort((a, b) => a.date.localeCompare(b.date));
     meta.totals = totals.slice(-180);
   }
 
-  console.log('parsed posts:', result.posts.length, result.total !== null ? `(total ${result.total})` : '(total not found)');
+  if (result) console.log('parsed posts:', result.posts.length, result.total !== null ? `(total ${result.total})` : '(total not found)');
 
   // 네이버 블로그 RSS 수집 (실패해도 본 수집에는 영향 없음)
   let naverPosts = [];
@@ -175,12 +224,26 @@ async function main() {
     naverStatus = '|naver_failed';
   }
 
-  const collected = result.posts.concat(naverPosts);
+  // 카페24 스토리 수집 (실패해도 다른 수집에는 영향 없음)
+  let cafePosts = [];
+  let cafeStatus = '';
+  try {
+    const cf = await collectCafe24(policy);
+    if (cf === null) cafeStatus = ''; // URL 미등록
+    else { cafePosts = cf; cafeStatus = '+cf'; console.log('cafe24 posts parsed:', cf.length); }
+  } catch (e) {
+    console.error('cafe24 collect failed:', e.message);
+    cafeStatus = '|cafe24_failed';
+  }
+
+  const collected = (result ? result.posts : []).concat(naverPosts, cafePosts);
   if (collected.length === 0) {
-    meta.lastStatus = (result.total !== null ? 'parse_failed_total_ok' : 'parse_failed') + naverStatus;
+    meta.lastStatus = (result ? (result.total !== null ? 'parse_failed_total_ok' : 'parse_failed') : 'fetch_failed') + naverStatus + cafeStatus;
   } else {
     const known = new Set(posts.map(key));
-    const fresh = collected.filter((x) => !known.has(key(x)));
+    const knownUrls = new Set(posts.filter((x) => x.url).map((x) => x.url));
+    const base = result ? '' : '|site_fetch_failed';
+    const fresh = collected.filter((x) => !known.has(key(x)) && !(x.url && knownUrls.has(x.url)));
     for (const f of fresh) posts.push(f);
     // 기존 글의 조회수 최신화 (효과 검증용)
     const byKey = new Map(posts.map((x) => [key(x), x]));
@@ -201,7 +264,7 @@ async function main() {
         fs.writeFileSync(p('data', 'views.json'), JSON.stringify(vh.slice(-120), null, 1));
       }
     } catch (e) { console.error('views history failed:', e.message); }
-    meta.lastStatus = 'ok:' + fresh.length + naverStatus;
+    meta.lastStatus = 'ok:' + fresh.length + naverStatus + cafeStatus + base;
     if (fresh.length) console.log('new posts:\n' + fresh.map((f) => `${f.date} [${f.category}] ${f.title}`).join('\n'));
   }
   // 병합 후 정리(오염·중복 제거) — 수집 결과가 없어도 기존 데이터 정리는 수행
