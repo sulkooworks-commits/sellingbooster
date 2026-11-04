@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-03T17:31:48+09:00",
+  "generatedAt": "2026-11-04T16:58:04+09:00",
   "generatedBy": "github-actions/asana-sync",
   "source": {
     "workspace": "헥토데이터",
@@ -671,7 +671,7 @@
           "section": "🚨지연",
           "due_on": "2026-10-30",
           "start_on": null,
-          "modified_at": "2026-10-30T15:37:34.214Z",
+          "modified_at": "2026-11-04T06:35:05.653Z",
           "created_at": "2026-09-07T09:53:22.464Z",
           "owner": "이슬기",
           "completed": false,
@@ -685,7 +685,8 @@
             "박효진",
             "박운형",
             "박재상",
-            "이승재"
+            "이승재",
+            "이다솜"
           ]
         },
         {
