@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-04T16:58:04+09:00",
+  "generatedAt": "2026-11-05T17:28:08+09:00",
   "generatedBy": "github-actions/asana-sync",
   "source": {
     "workspace": "헥토데이터",
@@ -671,7 +671,7 @@
           "section": "🚨지연",
           "due_on": "2026-10-30",
           "start_on": null,
-          "modified_at": "2026-11-04T06:35:05.653Z",
+          "modified_at": "2026-11-05T04:27:38.808Z",
           "created_at": "2026-09-07T09:53:22.464Z",
           "owner": "이슬기",
           "completed": false,
@@ -685,6 +685,7 @@
             "박효진",
             "박운형",
             "박재상",
+            "배범진",
             "이승재",
             "이다솜"
           ]
@@ -2100,29 +2101,6 @@
           ]
         },
         {
-          "gid": "1218083749653985",
-          "name": "[SB] 미래아이엔씨 선지급(가품의) ",
-          "type": "task",
-          "section": "대기/요청",
-          "due_on": "2026-09-30",
-          "start_on": null,
-          "modified_at": "2026-10-05T23:47:17.039Z",
-          "created_at": "2026-09-02T11:17:46.329Z",
-          "owner": "이슬기",
-          "completed": true,
-          "completed_at": "2026-10-05T23:47:15.042Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218083749653985",
-          "fields": {
-            "담당 파트*": "공통",
-            "분류": "행정지원"
-          },
-          "subtasks": 0,
-          "followers": [
-            "안지호"
-          ],
-          "parent_name": "지출 품의 필요"
-        },
-        {
           "gid": "1219188699929049",
           "name": "[SB] 사업실 주간 회의 (08:30)",
           "type": "milestone",
@@ -2193,29 +2171,6 @@
             "이다솜",
             "안지호"
           ]
-        },
-        {
-          "gid": "1218071391389620",
-          "name": "광고 예산 월별 업데이트",
-          "type": "task",
-          "section": "대기/요청",
-          "due_on": "2026-10-01",
-          "start_on": null,
-          "modified_at": "2026-10-05T23:47:23.131Z",
-          "created_at": "2026-09-01T23:41:54.448Z",
-          "owner": "이슬기",
-          "completed": true,
-          "completed_at": "2026-10-05T23:47:22.964Z",
-          "permalink": "https://app.asana.com/1/1202264448618168/task/1218071391389620",
-          "fields": {
-            "담당 파트*": "마케팅",
-            "분류": "마케팅/광고"
-          },
-          "subtasks": 0,
-          "followers": [
-            "안지호"
-          ],
-          "parent_name": "지출 품의 필요"
         },
         {
           "gid": "1219188242377205",
@@ -4999,24 +4954,22 @@
           "gid": "1218083749653985",
           "name": "[SB] 미래아이엔씨 선지급(가품의) ",
           "type": "task",
-          "section": "대기/요청",
+          "section": "완료",
           "due_on": "2026-09-30",
           "start_on": null,
           "modified_at": "2026-10-05T23:47:17.039Z",
           "created_at": "2026-09-02T11:17:46.329Z",
-          "owner": "이슬기",
+          "owner": "안지호",
           "completed": true,
           "completed_at": "2026-10-05T23:47:15.042Z",
           "permalink": "https://app.asana.com/1/1202264448618168/project/1211763974053621/task/1218083749653985",
           "fields": {
-            "담당 파트*": "공통",
-            "분류": "행정지원"
+            "담당 파트*": "공통"
           },
           "subtasks": 0,
           "followers": [
-            "안지호"
-          ],
-          "parent_name": "지출 품의 필요"
+            "이슬기"
+          ]
         },
         {
           "gid": "1219188241909057",
@@ -5141,12 +5094,12 @@
           "gid": "1218071391389620",
           "name": "광고 예산 월별 업데이트",
           "type": "task",
-          "section": "대기/요청",
+          "section": "기타",
           "due_on": "2026-10-01",
           "start_on": null,
           "modified_at": "2026-10-05T23:47:23.131Z",
           "created_at": "2026-09-01T23:41:54.448Z",
-          "owner": "이슬기",
+          "owner": "안지호",
           "completed": true,
           "completed_at": "2026-10-05T23:47:22.964Z",
           "permalink": "https://app.asana.com/1/1202264448618168/task/1218071391389620",
@@ -5156,9 +5109,8 @@
           },
           "subtasks": 0,
           "followers": [
-            "안지호"
-          ],
-          "parent_name": "지출 품의 필요"
+            "이슬기"
+          ]
         },
         {
           "gid": "1219187975776092",
