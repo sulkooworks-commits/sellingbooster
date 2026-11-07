@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-06T17:27:59+09:00",
+  "generatedAt": "2026-11-07T16:44:36+09:00",
   "generatedBy": "github-actions/asana-sync",
   "source": {
     "workspace": "헥토데이터",
@@ -671,7 +671,7 @@
           "section": "🚨지연",
           "due_on": "2026-10-30",
           "start_on": null,
-          "modified_at": "2026-11-06T04:20:44.439Z",
+          "modified_at": "2026-11-06T08:50:46.849Z",
           "created_at": "2026-09-07T09:53:22.464Z",
           "owner": "이슬기",
           "completed": false,
