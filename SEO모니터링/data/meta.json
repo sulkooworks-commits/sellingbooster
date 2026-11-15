@@ -299,9 +299,13 @@
     {
       "date": "2026-11-14",
       "total": 171
+    },
+    {
+      "date": "2026-11-15",
+      "total": 171
     }
   ],
-  "lastRun": "2026-11-14T07:57:42.604Z",
+  "lastRun": "2026-11-15T08:23:37.366Z",
   "lastStatus": "ok:0+nv+cf",
   "notes": "totals: 블로그 페이지 '전체(N)' 표시 이력 / lastStatus: ok:N | parse_failed | fetch_failed | seed. 2026-08-27 정리: 구버전 파서의 비정상 제목 8건 제거, 수집기를 Playwright 렌더링 방식(v2)으로 교체."
 }
