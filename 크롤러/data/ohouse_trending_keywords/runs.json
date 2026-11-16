@@ -1,5 +1,14 @@
 [
  {
+  "ts": "20261116_104058",
+  "run_at": "2026-11-16 10:40:59",
+  "status": "error",
+  "count": 0,
+  "error": "Error: Page.evaluate: Error: HTTP 403\n    at eval (eval at evaluate (:370:30), <anonymous>:1:113)\n    at async <anonymous>:381:23",
+  "params": {},
+  "run_url": "https://github.com/sulkooworks-commits/sellingbooster/actions/runs/43787636291"
+ },
+ {
   "ts": "20261027_095355",
   "run_at": "2026-10-27 09:53:57",
   "status": "error",
