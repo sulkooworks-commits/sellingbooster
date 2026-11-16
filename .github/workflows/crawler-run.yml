@@ -1,7 +1,8 @@
 name: 크롤러 수동 실행
 
-# 자동 실행 없음 — 크롤러 허브 페이지(크롤러/crawler-hub.html)의 「▶ 수집 실행」 버튼이
-# workflow_dispatch 로 호출할 때만 수집합니다.
+# 자동 실행 없음 — 크롤러 허브 페이지(크롤러/crawler-hub.html)의 버튼이 workflow_dispatch 로 호출할 때만 실행합니다.
+#  - 서버 수집:       「▶ 수집 실행」   → payload 없음 → 이 러너가 사이트에 직접 접속해 수집
+#  - 내 브라우저 수집: 「🌐 내 브라우저로 수집」 → 사용자 브라우저가 받은 원본 JSON 을 payload 로 전달 → 러너는 파싱·저장만
 on:
   workflow_dispatch:
     inputs:
@@ -11,6 +12,11 @@ on:
         type: string
       params:
         description: '수집 옵션 JSON (예: {"tabs":["popular"],"gf":["A","M"]})'
+        required: false
+        type: string
+        default: ''
+      payload:
+        description: '내 브라우저 수집 모드에서 사용자 브라우저가 받은 원본 JSON (서버 수집이면 비움)'
         required: false
         type: string
         default: ''
@@ -33,23 +39,31 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: 의존성 설치 (requests + Playwright 차단 대비)
+      - name: 의존성 설치
+        run: pip install -q requests
+
+      - name: Playwright 설치 (서버 수집 모드에서 차단 대비)
+        if: ${{ inputs.payload == '' }}
         run: |
-          pip install -q requests playwright
+          pip install -q playwright
           python -m playwright install --with-deps chromium
 
       - name: 수집 실행
-        run: |
-          python "크롤러/scripts/_runner.py" "${{ inputs.crawler }}" \
-            --params '${{ inputs.params }}' \
-            --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        env:
+          CRAWLER_ID: ${{ inputs.crawler }}
+          CRAWLER_PARAMS: ${{ inputs.params }}
+          CRAWLER_PAYLOAD: ${{ inputs.payload }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: python "크롤러/scripts/_runner.py" --run-url "$RUN_URL"
 
       - name: 결과 커밋
         if: always()
+        env:
+          CRAWLER_ID: ${{ inputs.crawler }}
         run: |
           git config user.name "crawler-bot"
           git config user.email "actions@users.noreply.github.com"
           git add "크롤러/data"
-          git diff --cached --quiet && echo "변경 없음" || git commit -m "chore(crawler): ${{ inputs.crawler }} $(TZ=Asia/Seoul date +%Y-%m-%d_%H:%M)"
+          git diff --cached --quiet && echo "변경 없음" || git commit -m "chore(crawler): ${CRAWLER_ID} $(TZ=Asia/Seoul date +%Y-%m-%d_%H:%M)"
           git pull --rebase origin main || true
           git push
