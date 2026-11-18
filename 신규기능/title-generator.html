@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 상품명 생성·진단 v2 (Gemini)</title>
+<link href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css" rel="stylesheet">
+<style>
+:root{--violet:#6466FA;--teal:#00B1BD;--ink:#0F172A;--bg:#F3F4F7;--ok:#15803d;--warn:#b45309;--bad:#b91c1c;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'NanumSquare',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+.wrap{max-width:1160px;margin:0 auto;padding:28px 20px 60px;}
+header{background:linear-gradient(115deg,var(--violet),var(--teal));border-radius:16px;padding:26px 30px;color:#fff;margin-bottom:18px;}
+header h1{font-size:22px;font-weight:800;}
+header p{font-size:13px;opacity:.85;margin-top:6px;}
+.keyrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.keyrow input{border:1.5px solid #d8dbea;border-radius:12px;padding:10px 14px;font-family:inherit;font-size:13.5px;background:#fff;}
+.keyrow input:focus{outline:2px solid rgba(100,102,250,.4);}
+#vaultpw.ok{border-color:#15803d;background:rgba(22,163,74,.06);}
+#apikey{flex:1;min-width:200px;}
+.model{flex:0 0 205px;}
+.note{font-size:12px;color:#94a3b8;margin:-6px 0 14px;line-height:1.6;}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px;}
+.mode{display:flex;background:#fff;border-radius:12px;padding:4px;box-shadow:0 1px 3px rgba(15,23,42,.06);}
+.mode button{border:0;background:transparent;padding:9px 18px;border-radius:9px;font-family:inherit;font-size:14px;font-weight:700;color:#64748b;cursor:pointer;position:relative;}
+.mode button.on{background:var(--violet);color:#fff;}
+.mode.feat button.on{background:var(--ink);}
+.btn{border:0;border-radius:12px;padding:11px 20px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;}
+.btn:disabled{opacity:.35;cursor:default;}
+.btn-run{background:var(--ink);color:#fff;}
+.btn-file{background:#fff;color:var(--ink);border:1.5px dashed #c7cbe0;}
+.btn-v{background:var(--violet);color:#fff;}
+.btn-t{background:var(--teal);color:#fff;}
+.btn-copy{background:rgba(100,102,250,.1);color:var(--violet);padding:8px 16px;font-size:13px;}
+.btn.sm{padding:8px 14px;font-size:12.5px;}
+.status{font-size:13px;color:#64748b;}
+.grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:18px;align-items:start;margin-top:8px;}
+@media(max-width:800px){.grid{grid-template-columns:1fr;}}
+.panel{background:#fff;border-radius:16px;padding:18px;}
+.panel h2{font-size:15px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.panel h2 .req{font-size:11px;color:#94a3b8;font-weight:700;}
+.panel h3{font-size:14px;font-weight:800;margin:16px 0 8px;display:flex;align-items:center;gap:8px;}
+.panel h3 .src{font-size:11.5px;color:#94a3b8;font-weight:600;}
+.field{margin-bottom:11px;}
+.field label{display:block;font-size:12.5px;font-weight:800;color:#475569;margin-bottom:5px;}
+.field label i{font-style:normal;color:var(--bad);}
+.field input,.field select,.field textarea{width:100%;border:1.5px solid #d8dbea;border-radius:10px;padding:9px 12px;font-family:inherit;font-size:13.5px;background:#fff;}
+.field textarea{min-height:92px;resize:vertical;line-height:1.5;}
+.field input:focus,.field textarea:focus{outline:2px solid rgba(100,102,250,.4);}
+.field input:disabled{background:#f1f2f8;color:#94a3b8;}
+.field .hint{font-size:11.5px;color:#94a3b8;margin-top:4px;line-height:1.5;}
+.kwrow{display:grid;grid-template-columns:minmax(0,1fr) 92px;gap:6px;margin-bottom:6px;align-items:center;}
+.kwrow input.vol{text-align:right;}
+.inline{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.inline label.chk,label.chk{display:flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;color:#475569;cursor:pointer;white-space:nowrap;}
+.radio{display:flex;gap:6px;flex-wrap:wrap;}
+.radio button{border:1.5px solid #d8dbea;background:#fff;border-radius:20px;padding:6px 13px;font-family:inherit;font-size:12.5px;font-weight:700;color:#64748b;cursor:pointer;}
+.radio button.on{border-color:var(--violet);background:rgba(100,102,250,.1);color:var(--violet);}
+.radio button:disabled{opacity:.4;cursor:default;}
+.new{font-size:10px;font-weight:800;color:#fff;background:var(--teal);border-radius:6px;padding:2px 6px;margin-left:5px;vertical-align:middle;}
+/* 플랫폼 툴팁 */
+.tip{display:none;position:absolute;top:44px;left:0;z-index:20;min-width:300px;background:var(--ink);color:#fff;border-radius:12px;padding:12px 14px;font-size:12px;line-height:1.75;font-weight:400;text-align:left;box-shadow:0 8px 24px rgba(15,23,42,.25);}
+.tip::before{content:'';position:absolute;top:-6px;left:22px;border:6px solid transparent;border-top:0;border-bottom-color:var(--ink);}
+.tip b{display:block;color:#8FE3EA;margin-bottom:3px;font-weight:800;}
+.tip span{display:block;white-space:nowrap;}
+.mode button:hover .tip{display:block;}
+/* 결과 카드 */
+.card{background:#fff;border-radius:16px;padding:16px 18px;margin-bottom:12px;border:1.5px solid transparent;transition:border-color .15s;}
+.card.hl{border-color:var(--teal);}
+.card .top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+.num{width:26px;height:26px;border-radius:8px;background:rgba(100,102,250,.12);color:var(--violet);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;}
+.chip{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:20px;background:rgba(0,177,189,.1);color:#00929c;}
+.chip.type{background:rgba(100,102,250,.12);color:var(--violet);}
+.chip.gray{background:#f1f2f8;color:#64748b;}
+.grade{margin-left:auto;font-size:12px;font-weight:800;padding:4px 11px;border-radius:20px;}
+.g5{background:rgba(21,128,61,.12);color:var(--ok);} .g4{background:rgba(0,177,189,.14);color:#00929c;} .g3{background:rgba(180,83,9,.12);color:var(--warn);} .g2,.g1{background:#fee2e2;color:var(--bad);}
+.title{font-size:17px;font-weight:800;line-height:1.5;word-break:keep-all;}
+.preview{font-size:12.5px;color:#64748b;margin-top:4px;}
+.preview b{color:#475569;}
+.meta{margin-top:8px;font-size:12.5px;color:#475569;line-height:1.7;}
+.checks{margin-top:9px;display:flex;gap:6px;flex-wrap:wrap;}
+.ck{font-size:11.5px;font-weight:700;border-radius:8px;padding:4px 9px;background:#f1f2f8;color:#64748b;}
+.ck.ok{background:rgba(21,128,61,.1);color:var(--ok);} .ck.warn{background:rgba(180,83,9,.12);color:var(--warn);} .ck.bad{background:#fee2e2;color:var(--bad);}
+.actions{margin-left:auto;display:flex;gap:6px;}
+.mini{border:0;height:27px;padding:0 10px;border-radius:8px;background:#f1f2f8;color:#64748b;font-size:12px;font-weight:700;cursor:pointer;line-height:1;}
+.mini:hover{background:rgba(100,102,250,.14);color:var(--violet);}
+.summary{background:#fff;border-radius:16px;padding:14px 18px;margin-bottom:12px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.summary .big{font-size:26px;font-weight:800;}
+.summary .lbl{font-size:12.5px;color:#64748b;line-height:1.6;}
+.bar{flex:1;min-width:160px;height:10px;border-radius:6px;background:#eef0f6;overflow:hidden;}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--violet),var(--teal));}
+.err{background:#fff;border-radius:16px;padding:16px 18px;font-size:13.5px;color:#b91c1c;line-height:1.7;}
+.raw{white-space:pre-wrap;font-size:12px;color:#94a3b8;margin-top:10px;}
+.empty{background:#fff;border-radius:16px;padding:44px 18px;font-size:13.5px;color:#94a3b8;text-align:center;line-height:1.7;}
+.empty b{color:#475569;}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:#8B93A1;}
+.ctabox{margin-top:14px;background:rgba(0,177,189,.08);border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;font-size:13px;line-height:1.6;color:#334155;}
+.ctabox b{color:#00929c;}
+/* 진단 리스트 */
+.plist{display:flex;flex-direction:column;gap:10px;}
+.prod{background:#fff;border-radius:14px;padding:14px 16px;border:1.5px solid transparent;cursor:pointer;}
+.prod.on{border-color:var(--teal);background:#F3FBFC;}
+.prod .nm{font-size:14px;font-weight:800;line-height:1.5;word-break:keep-all;}
+.prod .no{font-size:11.5px;color:#94a3b8;margin-bottom:4px;}
+.prod .last{font-size:11.5px;color:#94a3b8;margin-top:6px;}
+.prod .last b{color:#64748b;}
+.prod .ft{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap;font-size:12px;color:#64748b;}
+.badge{font-size:11px;font-weight:800;border-radius:6px;padding:3px 8px;background:rgba(21,128,61,.1);color:var(--ok);}
+.badge.gr{background:#f1f2f8;color:#94a3b8;}
+.toggle{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#f8f9fc;border-radius:12px;padding:10px 14px;cursor:pointer;}
+.toggle .tsum{display:flex;gap:5px;margin-left:auto;}
+.toggle .tbtn{font-size:12.5px;font-weight:800;color:var(--teal);white-space:nowrap;}
+.pgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 20px;margin-top:8px;}
+.pit{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;line-height:1.55;padding:7px 0;border-bottom:1px solid #f1f3f5;}
+.pit .st{flex:none;width:19px;height:19px;border-radius:50%;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.pit .st.ok{background:rgba(21,128,61,.1);color:var(--ok);}.pit .st.warn{background:rgba(180,83,9,.12);color:var(--warn);}.pit .st.bad{background:#fee2e2;color:var(--bad);}
+.pit .fx{color:#64748b;}
+.kwl .pit .k{flex:0 0 110px;font-weight:800;color:var(--ok);}
+.kwl .pit .k.mid{color:#00929c;}.kwl .pit .k.low{color:#94a3b8;}
+.kwl .pit .v{margin-left:auto;flex:none;color:#64748b;font-size:12px;}
+/* 벌크 */
+.steps{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap;font-size:13px;font-weight:800;color:#94a3b8;}
+.steps .n{width:22px;height:22px;border-radius:50%;background:#e5e7eb;color:#64748b;font-size:11px;display:inline-flex;align-items:center;justify-content:center;margin-right:6px;}
+.steps .on{color:var(--ink);}.steps .on .n{background:var(--teal);color:#fff;}
+.tbox{overflow-x:auto;background:#fff;border-radius:16px;padding:6px 10px;}
+table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:900px;}
+th{font-size:11.5px;color:#64748b;font-weight:800;text-align:left;padding:10px 8px;border-bottom:1px solid #e5e7eb;white-space:nowrap;background:#fafbfc;}
+td{padding:10px 8px;border-bottom:1px solid #f1f3f5;vertical-align:top;line-height:1.5;}
+td .cur{color:#64748b;}
+td .ed{border:1px solid #d1d5db;border-radius:10px;padding:7px 10px;background:#fff;font-weight:800;display:block;min-height:36px;outline:none;}
+td .ed:focus{border-color:var(--violet);}
+td .ed.warn{border-color:#F59E0B;background:#FFFBEB;}
+.st2{font-size:11px;font-weight:800;border-radius:6px;padding:3px 8px;white-space:nowrap;}
+.st2.ok{background:rgba(21,128,61,.1);color:var(--ok);}.st2.warn{background:rgba(180,83,9,.12);color:var(--warn);}.st2.gr{background:#f1f2f8;color:#64748b;}.st2.bad{background:#fee2e2;color:var(--bad);}
+.quota{display:flex;justify-content:space-between;align-items:center;background:#f8f9fc;border-radius:12px;padding:12px 16px;font-size:13px;color:#374151;margin-top:12px;flex-wrap:wrap;gap:10px;}
+.quota b{color:var(--teal);}
+/* 프롬프트·로그 뷰 */
+.article{display:none;background:#fff;border-radius:16px;padding:22px 26px;margin-top:18px;}
+.article .abar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
+pre.code{white-space:pre-wrap;word-break:break-all;font-family:Consolas,'D2Coding',monospace;font-size:12px;line-height:1.65;color:#334155;background:#f8f9fc;border-radius:12px;padding:14px 16px;max-height:520px;overflow:auto;}
+.tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
+.tabs button{border:1.5px solid #d8dbea;background:#fff;border-radius:20px;padding:5px 12px;font-family:inherit;font-size:12px;font-weight:700;color:#64748b;cursor:pointer;}
+.tabs button.on{border-color:var(--violet);color:var(--violet);background:rgba(100,102,250,.08);}
+.hist{margin-top:14px;font-size:12.5px;color:#64748b;line-height:1.8;}
+.hist span{display:inline-block;background:#f1f2f8;border-radius:8px;padding:2px 8px;margin:2px 4px 2px 0;}
+.sec{display:none;}
+.sec.on{display:block;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>AI 상품명 생성·진단 <span style="font-size:13px;font-weight:400;opacity:.8">Gemini v2 · 개별 생성 / 대량 생성 / 상품명 진단</span></h1>
+    <p>네이버·쿠팡·지마켓/옥션·11번가 상품명 정책 프로토타입 — 구조화 입력 · 3가지 후보 · 금칙어/길이/중복 자동 검증 · 진단(정책 점검→제안) · 대량 생성(엑셀 입출력) · 프롬프트 미리보기</p>
+  </header>
+
+  <div class="keyrow">
+    <input type="password" id="vaultpw" style="flex:1;min-width:200px" placeholder="🔒 볼트 암호 입력 후 Enter — 저장된 API 키·설정으로 바로 시작">
+    <button class="btn btn-file" style="border-style:solid;padding:11px 14px" title="암호 표시/숨김" onclick="const p=document.getElementById('vaultpw');p.type=p.type==='password'?'text':'password'">👁</button>
+    <button class="btn btn-v" onclick="vaultLoad()">잠금 해제</button>
+    <button class="btn btn-file" style="border-style:solid" onclick="toggleVault()">⚙ 키 설정</button>
+  </div>
+  <div class="keyrow" id="vaultRow" style="display:none">
+    <input type="password" id="apikey" placeholder="Google AI Studio API 키 (AIza…)">
+    <input type="text" id="model" class="model" value="gemini-3.1-flash-lite" placeholder="생성 모델">
+    <input type="password" id="ghtoken" class="model" placeholder="GitHub 토큰 — 최초 저장 1회만">
+    <button class="btn btn-t" onclick="vaultSave()">☁ 저장</button>
+  </div>
+  <p class="note">평소에는 <b>볼트 암호만 입력</b>하면 됩니다 — 이미지 아이템 분석기·벌크 번역기와 <b>동일한 볼트</b>(신규기능/data/gemini-vault.json)를 공유합니다. 운영 서비스 모델 <b>gemini-3.1-flash-lite</b> 기본. 정책 근거: 「[SB] 셀링부스터_AI상품명_플랫폼별_최적화정책」 엑셀 · 프롬프트 v2 문서.</p>
+
+  <div class="toolbar">
+    <div class="mode feat" id="featBar">
+      <button class="on" data-f="gen" onclick="setFeat('gen')">개별 생성</button>
+      <button data-f="bulk" onclick="setFeat('bulk')">대량 생성<span class="new">NEW</span></button>
+      <button data-f="diag" onclick="setFeat('diag')">상품명 진단<span class="new">NEW</span></button>
+    </div>
+    <div class="mode" id="modeBar">
+      <button class="on" data-m="naver" onclick="setMode('naver')">네이버<span class="tip" id="tip-naver"></span></button>
+      <button data-m="coupang" onclick="setMode('coupang')">쿠팡<span class="tip" id="tip-coupang"></span></button>
+      <button data-m="gmarket" onclick="setMode('gmarket')">지마켓·옥션<span class="tip" id="tip-gmarket"></span></button>
+      <button data-m="st11" onclick="setMode('st11')">11번가<span class="tip" id="tip-st11"></span></button>
+    </div>
+    <span class="status" id="status">플랫폼 버튼에 마우스를 올리면 정책이 툴팁으로 보여요</span>
+  </div>
+
+  <!-- ───────── 개별 생성 ───────── -->
+  <div class="sec on" id="sec-gen">
+  <div class="toolbar">
+    <button class="btn btn-run" id="run" onclick="generate(false)">① 상품명 생성</button>
+    <button class="btn btn-v" id="rerun" disabled onclick="generate(true)">↻ 다시 생성 (이전 결과 제외)</button>
+    <button class="btn btn-file" onclick="loadSample()">예시 입력</button>
+    <div class="mode" id="fmtBar" title="출력 포맷 — JSON(v2, 개발 수정 필요) / 4줄 텍스트(현행 파서 호환, 프롬프트만 교체)">
+      <button class="on" data-f="json" onclick="setFmt('json')">JSON 출력 (v2)</button>
+      <button data-f="text" onclick="setFmt('text')">4줄 텍스트 (현행 호환)</button>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="panel">
+      <h2>입력 슬롯 <span class="req">* 필수</span></h2>
+      <div class="field">
+        <label>브랜드 <i>*</i></label>
+        <div class="inline">
+          <input type="text" id="brand" placeholder="공식 브랜드명 (스토어명·판매자명 금지)" style="flex:1" maxlength="20">
+          <label class="chk"><input type="checkbox" id="nobrand" onchange="syncBrand()"> 브랜드 없음</label>
+        </div>
+        <div class="hint" id="brandHint"></div>
+      </div>
+      <div class="field">
+        <label>모델명 / 시리즈 <span class="new">NEW</span></label>
+        <input type="text" id="modelname" placeholder="예: V11, 에어맥스 97 (없으면 비움 — 원문 그대로 1회만 사용)">
+      </div>
+      <div class="field">
+        <label>핵심 키워드 <i>*</i> <span style="font-weight:400;color:#94a3b8">(최대 3개 · 월 검색량은 선택)</span></label>
+        <div class="kwrow"><input type="text" id="kw1" placeholder="메인 키워드 (상품유형) 예: 넥워머"><input type="number" class="vol" id="v1" placeholder="검색량"></div>
+        <div class="kwrow"><input type="text" id="kw2" placeholder="보조 키워드 2 예: 니트"><input type="number" class="vol" id="v2" placeholder="검색량"></div>
+        <div class="kwrow"><input type="text" id="kw3" placeholder="보조 키워드 3 예: 목토시"><input type="number" class="vol" id="v3" placeholder="검색량"></div>
+        <div class="hint">검색량이 높은 키워드가 상품유형 자리에 배치돼요. 비우면 입력 순서를 따릅니다.</div>
+      </div>
+      <div class="field">
+        <label>속성 (소재 · 기능 · 대상 · 시즌) <span class="new">NEW</span></label>
+        <input type="text" id="attrs" placeholder="콤마 구분 예: 기모안감, 방한, 남녀공용, 겨울">
+        <div class="hint">여기에 없는 속성·수식어는 AI가 만들어 넣지 않아요(환각 차단).</div>
+      </div>
+      <div class="field">
+        <label>원 상품명 (선택)</label>
+        <input type="text" id="orig" placeholder="기존 등록 상품명 — 속성 추출 참고용">
+      </div>
+      <div class="field" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div><label>사이즈</label><input type="text" id="size" placeholder="FREE, 270mm"><div class="hint" id="sizeHint"></div></div>
+        <div><label>용량 · 중량</label><input type="text" id="capacity" placeholder="500ml, 100g"><div class="hint">숫자와 단위를 붙여서</div></div>
+      </div>
+      <div class="field">
+        <label>언어</label>
+        <div class="radio" id="langBar">
+          <button class="on" data-l="ko" onclick="setLang('ko')">한국어</button>
+          <button data-l="en" onclick="setLang('en')">영어</button>
+          <button data-l="zh" onclick="setLang('zh')">중국어</button>
+          <button data-l="ja" onclick="setLang('ja')">일본어</button>
+        </div>
+        <div class="hint" id="langHint"></div>
+      </div>
+    </div>
+    <div id="results"><div class="empty">생성 결과 3개(<b>인기 키워드형</b> · <b>특징 강조형</b> · <b>브랜드 검색형</b>/짧은 기본형)가 여기에 표시됩니다.<br>후보마다 글자수·byte, RULE 검증 결과, 등급이 함께 표시됩니다.</div></div>
+  </div>
+  </div>
+
+  <!-- ───────── 대량 생성 ───────── -->
+  <div class="sec" id="sec-bulk">
+  <div class="steps"><span class="on"><span class="n">1</span>대상 입력</span>›<span class="on"><span class="n">2</span>생성 옵션</span>›<span class="on"><span class="n">3</span>결과 확인 · 다운로드</span></div>
+  <div class="grid">
+    <div class="panel">
+      <h2>① 대상 입력 <span class="req">CSV 붙여넣기 또는 파일 업로드</span></h2>
+      <div class="field">
+        <textarea id="bulkText" placeholder="상품번호,브랜드,모델명,키워드1,키워드2,키워드3,속성,사이즈,용량,현재상품명
+P001,무신사,,넥워머,니트,목토시,기모안감;방한;남녀공용,FREE,,넥워머 목토시 니트 기모안감 남녀공용 겨울 방한 목도리"></textarea>
+        <div class="hint">첫 줄은 헤더. 키워드 검색량은 '넥워머:53000' 형식으로 키워드 뒤에 붙일 수 있어요. 속성은 세미콜론(;) 구분. 최대 100행.</div>
+      </div>
+      <div class="inline" style="margin-bottom:12px">
+        <button class="btn btn-file sm" onclick="document.getElementById('bulkFile').click()">파일 업로드 (.csv/.tsv)</button>
+        <input type="file" id="bulkFile" accept=".csv,.tsv,.txt" hidden onchange="loadBulkFile(this.files[0])">
+        <button class="btn btn-file sm" style="border-style:solid" onclick="dlTemplate()">⬇ 양식 다운로드</button>
+        <button class="btn btn-file sm" style="border-style:solid" onclick="dlBackup()">⬇ 현재 상품명 백업</button>
+        <button class="btn btn-file sm" onclick="loadBulkSample()">예시 3행</button>
+      </div>
+      <h2>② 생성 옵션 <span class="req">모든 행에 동일 적용</span></h2>
+      <div class="field"><label>생성 유형 (행당 1개)</label>
+        <div class="radio" id="btypeBar">
+          <button class="on" data-t="purchase" onclick="setBType('purchase')">인기 키워드형</button>
+          <button data-t="attribute" onclick="setBType('attribute')">특징 강조형</button>
+          <button data-t="brand" onclick="setBType('brand')">브랜드 검색형 / 짧은 기본형</button>
+        </div></div>
+      <div class="field">
+        <label class="chk"><input type="checkbox" id="optRetry" checked> 자동 점검 통과 후보만 채택 (실패 시 1회 재생성)</label>
+        <label class="chk" style="margin-top:6px"><input type="checkbox" id="optGuard" checked> 기존 상품명과 상품이 달라지는 변경은 '검토 필요'로 분류 (브랜드·상품유형 유지 확인)</label>
+        <label class="chk" style="margin-top:6px"><input type="checkbox" id="optDup" checked> 행 간 동일 상품명 생성 금지</label>
+      </div>
+      <div class="quota"><span id="bulkQuota">대상 0행 · 행당 Gemini 호출 1회(동시 3) · 현행 정책 기준 행당 일일 횟수 1회 차감</span><button class="btn btn-run" id="bulkRun" onclick="runBulk()">③ 대량 생성 실행</button></div>
+    </div>
+    <div id="bulkResults"><div class="empty">결과 표가 여기에 표시됩니다.<br>생성 상품명은 표에서 바로 수정할 수 있고, <b>결과 전체 CSV</b> · <b>셀러센터 업로드용 CSV</b>로 내려받을 수 있어요.<br>스토어 자동 반영은 운영 서비스(커머스 API 연동)에서만 가능 — 프로토타입은 다운로드까지.</div></div>
+  </div>
+  </div>
+
+  <!-- ───────── 상품명 진단 ───────── -->
+  <div class="sec" id="sec-diag">
+  <div class="grid">
+    <div class="panel">
+      <h2>점검 대상 <span class="req">상품명 1줄 1개</span></h2>
+      <div class="field">
+        <textarea id="diagText" placeholder="상품번호|상품명|브랜드 (상품번호·브랜드는 선택)
+P003|[25/26 햇올리브] 로스텐토 엑스트라버진 올리브오일 500ml 항공|로스텐토"></textarea>
+        <div class="hint">브랜드를 주면 '브랜드 반복' 점검과 제안 상품명의 brand 슬롯에 사용돼요.</div>
+      </div>
+      <div class="field">
+        <label>키워드 검색량 (선택)</label>
+        <input type="text" id="diagVols" placeholder="올리브오일:86900, 엑스트라버진:1420, 햇올리브:30">
+        <div class="hint">운영 서비스는 키워드 분석과 자동 연동 — 프로토타입은 수동 입력. 없으면 '—'로 표시.</div>
+      </div>
+      <div class="inline" style="margin-bottom:12px">
+        <button class="btn btn-run" onclick="loadDiagList()">목록 불러오기</button>
+        <button class="btn btn-v" id="diagAll" disabled onclick="diagAll()">현재 리스트 전체 점검</button>
+        <button class="btn btn-file sm" onclick="loadDiagSample()">예시 3개</button>
+      </div>
+      <div class="plist" id="plist"></div>
+    </div>
+    <div id="diagPanel"><div class="empty"><b>아직 점검 결과가 없어요</b><br>왼쪽에서 상품을 불러와 선택하거나 '현재 리스트 전체 점검'을 눌러 주세요.<br>점검이 끝나면 제안 상품명 → 주요 키워드 → 정책 점검 순으로 표시돼요.</div></div>
+  </div>
+  </div>
+
+  <div class="article" id="article">
+    <div class="abar">
+      <div class="tabs">
+        <button class="on" data-t="prompt" onclick="setTab('prompt')">전송 프롬프트</button>
+        <button data-t="req" onclick="setTab('req')">요청 JSON</button>
+        <button data-t="res" onclick="setTab('res')">응답 JSON</button>
+        <button data-t="rules" onclick="setTab('rules')">RULE 검증 상세</button>
+      </div>
+      <button class="btn btn-copy" onclick="copyLog()">현재 탭 복사</button>
+    </div>
+    <pre class="code" id="logBody"></pre>
+    <div class="hist" id="hist"></div>
+  </div>
+</div>
+
+<script>
+let feat='gen', mode='naver', lang='ko', fmt='json', btype='purchase', last=null, history=[], logs={prompt:'',req:'',res:'',rules:''}, tab='prompt';
+
+// ───────────────────────── 플랫폼 정책 사전 (엑셀 ②~⑥ 시트 · 네이버 SEO 가이드 PDF · 쿠팡 WING 원문) ─────────────────────────
+const COMMON_BAN=['최저가','할인','세일','특가','특별가','초특가','대박특가','막판특가','균일가','파격가','반값','땡처리','원가','실속','무료배송','당일출고','당일배송','당일발송','국내발송','빠른배송','묶음배송','총알배송','스마일배송','로켓배송','공동포장','이벤트','행사','기획전','1+1','2+1','사은품','증정','쿠폰','적립','한정수량','한정판매','오늘만','타임세일','득템찬스','마감','지금 구매','홈쇼핑 히트','매장운영','예랑','최고','최상','1위','No.1','NO.1','베스트','인기','인기상품','신상','신규','최신','고급','고품질','프리미엄','명품','대박','강추','완판','품절대란','본사정품','모음전','모음','외 다수','랜덤','택1','null','없음','속성없음','대상없음','undefined','N/A','무료설치','설치비','AS보장','평생보증','추천','핫딜','득템','카드할인'];
+const PLAT={
+naver:{name:'네이버 스마트스토어',short:'네이버',unit:'char',max:100,rec:[20,45],brandIn:true,sizeIn:true,langs:['ko','en'],
+  strictSpecial:/[^0-9A-Za-z가-힣ㄱ-ㅎ\s\-]/g,
+  ban:COMMON_BAN.concat(['스타일','st','렌탈','해외직구','중고','~의','추천해요']),
+  typeDesc:'브랜드 검색형 — brand(+model)과 main_keyword만으로 구성한 최단 상품명',
+  tip:['브랜드·카테고리 필수 기재','50자 이내 (불필요하게 길면 감점)','특수문자 사용 금지 (?, !, 괄호 포함)','수식어·할인·배송 문구 금지','옵션이 여러 개면 상품명에 옵션명 제외','브랜드명 3회·사용자 그룹 2회·날짜 2회 이상 금지'],
+  brandHint:'상품명 맨 앞에 1회 사용 · 스토어명·판매자명 불가', sizeHint:'단일 상품만 입력 · 옵션이 여러 개면 비워 두세요',
+  rules:`- 길이: 공백 포함 25~45자. 50자를 넘기지 않습니다(불필요하게 길면 적합도 감점).
+- 슬롯 순서(공식 예시 "JAJU 극세사 무지 이불커버 Q 겨울용"): [brand] [model] [핵심 속성 1~2개] [main_keyword=카테고리/상품유형] [size] [시즌성/대상]
+- 브랜드·카테고리는 필수, 그 외는 주요 정보만. 검색 키워드는 main_keyword 1개 + 보조 최대 2개까지만 쓰고 나열하지 않습니다.
+- 브랜드: brand를 맨 앞에 1회만 씁니다. 스토어명·판매자명·지점명 금지. 타 브랜드명·'~스타일'·'~st' 금지(이미테이션 제재).
+- 특수문자: 사용하지 않습니다(공식 검색품질 체크가 ?, !, (, )를 비권장으로 명시). 모델코드 안의 하이픈만 예외.
+- 반복: 동일 단어 1회. 연령·성별 그룹(20대/30대) 2개 이상 병기 금지, 월·날짜(4월/5월) 2개 이상 병기 금지, 카테고리 동의어 병기 금지.
+- 혜택·수식: 할인·무료배송·당일발송·카드할인·인기·1위 등 금지(별도 혜택 필드 대상).
+- 렌탈·해외직구·중고 표현 금지(상품 상태 체크로 자동 노출).
+- 옵션: 색상·사이즈 옵션이 여러 개면 상품명에 특정 옵션값을 넣지 않습니다. 단일 상품만 size 포함.
+- 언어: 한글 기본. 영문은 brand·model·사이즈 코드·단위에 한정. 한자·일본어·중국어 금지.
+- 예시 구조: 무신사 니트 넥워머 FREE 겨울 남녀공용`},
+coupang:{name:'쿠팡',short:'쿠팡',unit:'char',max:100,rec:[20,60],brandIn:true,sizeIn:true,langs:['ko'],
+  strictSpecial:/[!$?_{}\^¬¦%@#~<>|=\[\]\(\)*]|[^\x20-\x7E가-힣ㄱ-ㅎㅏ-ㅣ]/g,
+  ban:COMMON_BAN.concat(['어린이날','어버이날','크리스마스','설날','추석','발렌타인','수능','기념일','로켓','와우','스타일','st','에디션']),
+  typeDesc:'브랜드 검색형 — brand(+model)과 main_keyword만으로 구성한 최단 상품명',
+  tip:['브랜드 + 상품 설명(상품유형·특징·사이즈/색상/수량) 순','80자 이하 권장 (최대 120자 · API 100자)','꾸밈 특수문자 금지 (! ? # ~ < > 등)','같은 단어 2회 초과 금지','홍보·배송·시즌 문구 금지','한국어 필수 · 숫자와 단위 붙여 쓰기(50ml)','공식 브랜드 없는 생활용품은 \'비브랜드\''],
+  brandHint:'공식 브랜드만 · 공식 브랜드가 없는 생활용품은 \'비브랜드\'로 시작', sizeHint:'단일 옵션 상품만 입력 — 옵션으로 등록할 값은 비워 두세요(자동 부착) · 용량·중량은 꼭 입력',
+  rules:`- 길이: 공백 포함 20~60자. 80자를 넘기지 않습니다(정책 최대 120자, API 100자).
+- 표준 구조: [brand] [model] [main_keyword=상품유형] [필수 특징 1~2개] [대상] [capacity/중량] [size/색상/수량]. 호환품은 [판매자 브랜드] [상품 설명] [공식 브랜드명] [모델명] 호환용 순.
+- 브랜드: 공식적이고 확인 가능한 brand만 맨 앞에 1회. 판매자명·상점명 금지. brand가 "없음"이고 생활용품류이면 '비브랜드'로 시작하고, 그 외 카테고리는 브랜드 슬롯을 비웁니다. 타 브랜드명·'OO스타일'·'OOst' 금지.
+- 호환: attributes에 '호환'이 있을 때만 공식 브랜드명·모델명 뒤에 '호환용'을 붙입니다. 정품에는 '호환'을 쓰지 않고, 입력에 없는 '호환'·'정품'을 임의로 붙이지 않습니다.
+- 옵션: 상품 설명에 사이즈·색상·수량을 명확히 명시합니다(공식 예시: 나이키 남성 에어맥스 런닝 운동화 블랙 사이즈 265). size가 "없음"이면 생략합니다('10가지 색상' 같은 범위 표현 금지). capacity(용량·중량)는 입력값이 있으면 반드시 포함합니다.
+- 특수문자: ! $ ? _ { } ^ ¬ ¦ % @ # ~ < > | = 와 이모지·기타 기호를 꾸밈·강조 용도로 쓰지 않습니다(브랜드명·모델명에 실제 포함된 경우만 예외). 대괄호·괄호도 쓰지 않습니다. 구분은 쉼표(,)와 공백만.
+- 반복: 동일 단어는 1회(정책 상한 2회). 어순 변형어 금지.
+- 금지 문구: 무료배송·할인·세일·최저가·특별가·한정수량·신규·최신·인기상품·홈쇼핑 히트·1+1·지금 구매·고급·고품질·공동포장·균일가·대박특가·득템찬스·마감·막판특가·매장운영·모음전·본사정품·신상·실속·에디션·예랑·한정판매, 당일출고·국내발송·묶음배송·어린이날·크리스마스·어버이날, null·없음·속성없음·대상없음·의미 없는 '1개', 증정품 표기.
+- 서식: 연속 공백·연속 구두점·장식 기호(!!!, ---, << >>) 금지.
+- 숫자·단위: 아라비아 숫자 + 영문 표준 단위(cm, m, ml, l, g, kg)를 공백 없이 붙여 씁니다(100g, 6개, 265mm). '여섯개'·'100 g' 금지.
+- 언어: 반드시 한국어. 영문은 brand·model·단위·국제 통용 특징어에 한정. 중국어·일본어·아랍어 금지.
+- 예시 구조: 무신사 넥워머 니트 기모안감 방한 남녀공용 FREE`},
+gmarket:{name:'지마켓·옥션 (ESM PLUS)',short:'지마켓·옥션',unit:'byte',max:100,rec:[30,90],brandIn:false,sizeIn:false,langs:['ko','en','zh','ja'],
+  strictSpecial:/[^0-9A-Za-z가-힣ㄱ-ㅎ\s,\.\-\/\(\)]/g,
+  ban:COMMON_BAN.concat(['올킬','슈퍼딜','오늘만특가','빅스마일데이','스마일']),
+  typeDesc:'짧은 기본형 — model(없으면 main_keyword)과 차별 속성 1~2개로 구성한 최단 상품명',
+  tip:['최대 100byte (한글 50자)','브랜드는 상품명이 아닌 브랜드 입력란에 등록 ([브랜드] 자동 표기)','대괄호·프로모션명(올킬·슈퍼딜)·배송 키워드 금지','가격 표기 금지','모델명은 1개만','사이즈·색상은 주문옵션에'],
+  brandHint:'상품명에 미포함 — ESM+ 브랜드 입력란 등록 시 [브랜드] 자동 표기(미리보기에만 표시)', sizeHint:'지마켓·옥션은 사이즈·색상을 주문옵션에 등록 — 상품명 미반영',
+  rules:`- 길이: 한글 기준 20~45자(90byte 이내, 한글 1자=2byte·영숫자/공백 1byte). 50자(100byte)를 넘기지 않습니다.
+- 슬롯 순서: [model] [main_keyword] [핵심속성(소재·기능)] [대상] [capacity/규격]
+- 브랜드: 상품명에 brand를 쓰지 않습니다(브랜드 입력란 등록 시 상품명 앞에 [브랜드]가 자동 표기됨).
+- 특수문자: ( ) - / , . 만 허용. 대괄호 [ ]와 한자·일본어 문자 금지(저장 시 삭제·노출 제약).
+- 금칙어: 오늘만특가·올킬·슈퍼딜 등 프로모션명, 스마일배송·빠른배송·무료배송 등 배송 키워드, 가격·원·% 금지.
+- 카테고리: 서로 배타적인 속성(반팔/긴팔, 남성/여성 동시 기재 등)과 입력에 없는 상품군 키워드 금지.
+- 모델명: model은 1개만 원문 그대로.
+- 옵션: 사이즈·색상은 상품명에 넣지 않습니다.
+- 예시 구조: 넥워머 니트 기모안감 남녀공용 방한   (노출 시: [무신사] 넥워머 니트 기모안감 남녀공용 방한)`},
+st11:{name:'11번가',short:'11번가',unit:'byte',max:100,rec:[30,90],brandIn:false,sizeIn:false,langs:['ko','en'],
+  strictSpecial:/[^0-9A-Za-z가-힣ㄱ-ㅎ\s,\.\-\/\(\)]/g,
+  ban:COMMON_BAN.concat(['십일절','슈팅배송','설치']),
+  typeDesc:'짧은 기본형 — model(없으면 main_keyword)과 차별 속성 1~2개로 구성한 최단 상품명',
+  tip:['최대 100byte (한글 50자)','핵심 키워드는 앞 25자 안에 배치 (모바일 노출 한계)','브랜드는 브랜드 입력란에 등록 ([브랜드] 자동 조합)','가격·할인·사은품·배송·행사 문구 금지 (홍보문구 필드로 분리)','동의어 포함 3회 이상 반복 금지 · 대표 모델명 1개'],
+  brandHint:'상품명에 미포함 — 브랜드 입력란 등록 시 [브랜드] 자동 조합(미리보기에만 표시)', sizeHint:'11번가는 옵션 추가설명이 상품명 옆에 자동 노출 — 상품명 미반영',
+  rules:`- 길이: 한글 기준 20~45자(90byte 이내). 50자(100byte)를 넘기지 않습니다. 모바일에서는 앞 25자(50byte)까지만 노출되므로 main_keyword와 핵심 속성은 앞 25자 안에 모두 배치합니다.
+- 슬롯 순서: [model] [구성(수량)] [main_keyword(상품군)] [핵심속성] [대상] [capacity/규격]
+- 브랜드: 상품명에 brand를 쓰지 않습니다(브랜드 입력란 등록 시 [브랜드]가 자동 조합 노출).
+- 금칙어: 가격·할인율·사은품·증정·설치·행사·배송(무료배송 등) 정보 금지. 판촉 문구는 홍보문구 필드 대상이므로 생성하지 않습니다.
+- 반복: 동의어 포함 동일 단어 1회.
+- 특수문자: ( ) - / , . 만 허용. 대괄호 [ ] 금지.
+- 모델명: 대표 model 1개만.
+- 옵션: 사이즈·색상은 상품명에 넣지 않습니다.
+- 예시 구조: 니트 넥워머 기모안감 남녀공용 방한   (노출 시: [무신사] 니트 넥워머 기모안감 남녀공용 방한)`}
+};
+const LANG_NAME={ko:'한국어',en:'영어',zh:'중국어',ja:'일본어'};
+const TYPE_LABEL={purchase:'인기 키워드형',attribute:'특징 강조형',brand:'브랜드 검색형'};
+const TYPE_LABEL_NOBRAND={purchase:'인기 키워드형',attribute:'특징 강조형',brand:'짧은 기본형'};
+const TYPE_DESC='인기 키워드형 = 가장 많이 찾는 키워드 중심 · 특징 강조형 = 소재·기능 등 세부 검색어 공략 · 브랜드 검색형 = 브랜드로 검색하는 고객용 짧은 상품명 (지마켓·11번가는 짧은 기본형)';
+const typeLabel=t=>(PLAT[mode].brandIn?TYPE_LABEL:TYPE_LABEL_NOBRAND)[t]||t;
+
+// ───────────────────────── UI 상태 ─────────────────────────
+Object.keys(PLAT).forEach(k=>{ document.getElementById('tip-'+k).innerHTML='<b>'+PLAT[k].name+' 상품명 정책</b>'+PLAT[k].tip.map(l=>'<span>· '+l+'</span>').join(''); });
+function setFeat(f){
+  feat=f;
+  document.querySelectorAll('#featBar button').forEach(b=>b.classList.toggle('on',b.dataset.f===f));
+  ['gen','bulk','diag'].forEach(x=>document.getElementById('sec-'+x).classList.toggle('on',x===f));
+  updateBulkQuota();
+}
+function setMode(m){
+  mode=m;
+  document.querySelectorAll('#modeBar button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+  const P=PLAT[m];
+  const sz=document.getElementById('size');
+  sz.disabled=!P.sizeIn;
+  document.getElementById('sizeHint').textContent=P.sizeHint;
+  document.getElementById('brandHint').textContent=P.brandHint;
+  document.querySelectorAll('#langBar button').forEach(b=>{ b.disabled=!P.langs.includes(b.dataset.l); });
+  if(!P.langs.includes(lang)) setLang('ko'); else setLang(lang);
+  if(diag.items.length) renderDiag();
+}
+function setLang(l){
+  lang=l;
+  document.querySelectorAll('#langBar button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
+  const h=document.getElementById('langHint');
+  if(l==='ko') h.textContent=mode==='coupang'?'쿠팡은 상품명을 반드시 한국어로 작성해야 해요':'';
+  else if(mode==='gmarket') h.textContent='G마켓 영/중/일문 상품명 필드용으로 생성(국내 검색용 상품명 아님)';
+  else if(mode==='st11') h.textContent='11번가 영문 사이트용 영문 상품명 필드에 사용';
+  else h.textContent='네이버는 한글 기본·영문 보조 — 영문 상품명은 역직구/브랜드 공식명 표기 용도로만 권장';
+}
+function setFmt(f){ fmt=f; document.querySelectorAll('#fmtBar button').forEach(b=>b.classList.toggle('on',b.dataset.f===f)); }
+function setBType(t){ btype=t; document.querySelectorAll('#btypeBar button').forEach(b=>b.classList.toggle('on',b.dataset.t===t)); }
+function syncBrand(){ const nb=document.getElementById('nobrand').checked, b=document.getElementById('brand'); b.disabled=nb; if(nb) b.value=''; }
+function loadSample(){
+  document.getElementById('nobrand').checked=false; syncBrand();
+  const v={brand:'무신사',modelname:'',kw1:'넥워머',v1:53000,kw2:'니트',v2:52540,kw3:'목토시',v3:7450,attrs:'기모안감, 방한, 남녀공용, 겨울',orig:'넥워머 목토시 니트 기모안감 남녀공용 겨울 방한 목도리',size:'FREE',capacity:''};
+  Object.entries(v).forEach(([k,val])=>document.getElementById(k).value=val);
+  document.getElementById('status').textContent='예시 입력 완료 — ① 상품명 생성을 누르세요';
+}
+function setTab(t){ tab=t; document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t)); document.getElementById('logBody').textContent=logs[t]||'(없음)'; }
+function copyLog(){ navigator.clipboard.writeText(logs[tab]||'').then(()=>{document.getElementById('status').textContent='현재 탭 내용을 복사했습니다';}); }
+function esc(s){return String(s??'').replace(/</g,'&lt;');}
+
+// ───────────────────────── 입력 수집 (개별) ─────────────────────────
+function readInput(){
+  const P=PLAT[mode];
+  const g=id=>document.getElementById(id).value.trim();
+  const nobrand=document.getElementById('nobrand').checked;
+  const kws=[['kw1','v1'],['kw2','v2'],['kw3','v3']].map(([k,v])=>({kw:g(k),vol:parseInt(g(v))||0})).filter(x=>x.kw);
+  if(!kws.length) return {error:'핵심 키워드(메인)를 입력하세요'};
+  if(!nobrand&&!g('brand')) return {error:'브랜드를 입력하거나 "브랜드 없음"을 체크하세요'};
+  return normalizeInput({brand:nobrand?'':g('brand'),model:g('modelname'),kws,attrs:g('attrs').split(/[,，]/).map(s=>s.trim()).filter(Boolean),orig:g('orig'),size:g('size'),capacity:g('capacity'),lang});
+}
+function normalizeInput(o){
+  const P=PLAT[mode];
+  const kws=o.kws.slice();
+  const main=kws[0]; let subs=kws.slice(1);
+  if(subs.some(s=>s.vol)) subs=subs.slice().sort((a,b)=>b.vol-a.vol);
+  return {brand:o.brand||'',model:o.model||'',main,subs,attrs:o.attrs||[],orig:o.orig||'',size:P.sizeIn?(o.size||''):'',sizeRaw:o.size||'',capacity:o.capacity||'',lang:o.lang||'ko'};
+}
+
+// ───────────────────────── 프롬프트 조립 (v2 · 2절 / 벌크 3-6절 single type) ─────────────────────────
+function buildPrompt(I, exclude, opt){
+  opt=opt||{};
+  const P=PLAT[mode];
+  const nv=x=>x||'없음';
+  const sub=I.subs.length?I.subs.map(s=>s.kw+(s.vol?` (월 검색량 ${s.vol.toLocaleString()})`:'')).join(', '):'없음';
+  const langLine = I.lang==='ko' ? '' : `\n- language: ${LANG_NAME[I.lang]} — 플랫폼의 해당 언어 상품명 필드용으로 ${LANG_NAME[I.lang]}로 작성하되 슬롯 순서·금지 규칙은 동일하게 적용`;
+  const typeBlock = opt.single ? `## 후보 유형 (1개만 생성)
+- candidates[0] type="${opt.single}" : ${opt.single==='purchase'?'인기 키워드형 — main_keyword를 중심으로 대상·용도를 결합':opt.single==='attribute'?'특징 강조형 — 소재·기능 속성을 main_keyword 앞뒤에 배치해 세부 검색어를 겨냥':P.typeDesc}
+- 후보는 정확히 1개만 생성합니다. rationale은 30자 이내.` : `## 후보 유형 (번호 고정)
+- candidates[0] type="purchase"  : 인기 키워드형 — main_keyword를 중심으로 대상·용도를 결합
+- candidates[1] type="attribute" : 특징 강조형 — 소재·기능 속성을 main_keyword 앞뒤에 배치해 세부 검색어를 겨냥
+- candidates[2] type="brand"     : ${P.typeDesc}
+- 세 후보는 서로 토큰이 2개 이상 달라야 하며, 단순 어순 교체는 다른 후보로 인정하지 않습니다.
+- rationale은 30자 이내로 "어떤 검색어 조합을 노렸는지"만 씁니다.`;
+  const outBlock = fmt==='json' || opt.single ? `JSON 스키마에 맞춰 candidates ${opt.single?1:3}개만 출력합니다. 그 외 텍스트를 출력하지 않습니다.` : `종합평가는 다음 감점 기준으로 3개 전체를 판단해 1개만 부여합니다: 길이 초과 −2등급, 금칙어 포함 −2등급, 동일 단어 반복 −1등급, 허용 외 특수문자 −1등급, 입력에 없는 속성 포함 −1등급. 감점이 없을 때만 '매우좋음'.
+아래 4줄 형식으로만 출력하세요. 위 4줄 외 다른 텍스트는 절대 출력하지 마세요.
+
+1. [상품명]
+2. [상품명]
+3. [상품명]
+종합평가: [매우좋음|좋음|보통|나쁨|매우나쁨]`;
+  return `당신은 ${P.name} 상품 등록 정책을 준수하는 상품명 최적화 전문가입니다.
+정책 위반 상품명은 등록 반려·노출 제한·판매 중지 대상이므로, 아래 규칙을 한 가지도 어기지 않고 상품명을 생성하세요.
+
+## 입력 슬롯 (값이 "없음"인 슬롯은 상품명에 사용하지 않음)
+- brand: ${nv(I.brand)}${P.brandIn?'':'  ※ 이 플랫폼은 상품명에 브랜드를 쓰지 않음'}
+- model: ${nv(I.model)}
+- main_keyword: ${I.main.kw}${I.main.vol?` (월 검색량 ${I.main.vol.toLocaleString()})`:''}
+- sub_keywords: ${sub}
+- attributes: ${I.attrs.length?I.attrs.join(', '):'없음'}
+- original_title: ${nv(I.orig)}  ※ attributes 보완용 참고. 여기에 없는 속성도 생성 금지
+- size: ${nv(I.size)}${P.sizeIn?(mode==='coupang'?'  ※ 단일 옵션 상품만 사용':''):'  ※ 옵션 등록 항목 — 상품명 생성에 사용 금지'}
+- capacity: ${nv(I.capacity)}
+- exclude_titles: ${exclude&&exclude.length?exclude.map(t=>'"'+t+'"').join(', '):'없음'}${langLine}
+
+## 플랫폼 가이드
+${P.rules}
+
+## 공통 규칙
+1. 슬롯 순서는 플랫폼 가이드의 순서를 따르고, 같은 슬롯 안에서는 검색량이 높은 키워드를 앞에 둡니다.
+2. 입력 슬롯에 없는 속성·수식어·시즌·용도·구성(예: 세트, 데일리, 따뜻한, 겨울용, 프리미엄)을 만들어 넣지 않습니다.
+3. 동일 단어는 띄어쓰기 토큰 기준 1회만 사용합니다. 붙여쓰기 변형(넥 워머/넥워머), 어순 변형(이온음료/음료이온), 동의어 반복을 금지합니다.
+4. 다음 금칙어와 그 변형을 사용하지 않습니다: ${P.ban.join(', ')}
+5. 조사(은/는/이/가/의/를)·서술어·문장형 표현을 쓰지 않고 명사 나열형으로 작성합니다.
+6. brand·model은 입력 원문 그대로 1회만 사용하며 번역·축약·변형하지 않습니다.
+7. 수량·규격은 아라비아 숫자 + 표준 단위(개, g, kg, ml, mm, cm)를 공백 없이 붙여 씁니다.
+8. exclude_titles에 있는 상품명과 동일하거나 토큰 2개 이하만 다른 상품명은 생성하지 않습니다.
+
+${typeBlock}
+
+## 출력
+${outBlock}`;
+}
+const SCHEMA=n=>({type:'OBJECT',properties:{candidates:{type:'ARRAY',minItems:n,maxItems:n,items:{type:'OBJECT',properties:{type:{type:'STRING',enum:['purchase','attribute','brand']},title:{type:'STRING'},rationale:{type:'STRING'}},required:['type','title','rationale']}}},required:['candidates']});
+
+// ───────────────────────── RULE 검증기 (엑셀 ⑨ 배점 · 진단 모드는 ⑦ 항목) ─────────────────────────
+const bytes=s=>[...s].reduce((n,c)=>n+(/[가-힣ㄱ-ㅎㅏ-ㅣ]/.test(c)?2:1),0);
+const norm=s=>String(s).toLowerCase().replace(/\s+/g,'');
+const toks=s=>s.trim().split(/\s+/).filter(Boolean);
+function validate(title, I, diagMode){
+  const P=PLAT[mode], out={score:0, items:[]};
+  const t=title.trim();
+  const len = P.unit==='byte'?bytes(t):t.length;
+  const unitLbl=P.unit==='byte'?'byte':'자';
+  const W = diagMode ? {len:35,ban:30,dup:20,sp:15,extra:0} : {len:30,ban:25,dup:20,sp:10,extra:15};
+  // 1) 길이
+  let s1, l1;
+  if(len>P.max){ s1=0; l1=['bad',`길이 ${len}${unitLbl} — 하드 리밋 ${P.max}${unitLbl} 초과`]; }
+  else if(len>=P.rec[0]&&len<=P.rec[1]){ s1=W.len; l1=['ok',`길이 ${len}${unitLbl} (권장 ${P.rec[0]}~${P.rec[1]})`]; }
+  else if(len<P.rec[0]/2){ s1=Math.round(W.len*0.27); l1=['bad',`길이 ${len}${unitLbl} — 지나치게 짧음(권장 ${P.rec[0]}~${P.rec[1]})`]; }
+  else { s1=Math.round(W.len*0.6); l1=['warn',`길이 ${len}${unitLbl} — 권장 범위(${P.rec[0]}~${P.rec[1]}) 밖`]; }
+  out.items.push(l1); out.score+=s1;
+  // 2) 금칙어(혜택·배송·수식어)
+  const hits=P.ban.filter(w=>w.length>1&&norm(t).includes(norm(w)));
+  out.items.push([hits.length?'bad':'ok', hits.length?`수식어·혜택·배송 문구 ${hits.length}건: ${hits.join(', ')}`:'수식어·할인·배송 문구 없음']); out.score+=Math.max(0,W.ban-hits.length*10);
+  // 3) 토큰 중복
+  const tk=toks(t), seen={}, dup=[];
+  tk.forEach(k=>{const n=norm(k); if(seen[n]) dup.push(k); seen[n]=1;});
+  for(let i=0;i<tk.length-1;i++){ const j=norm(tk[i]+tk[i+1]); if(tk.some((k,x)=>x!==i&&x!==i+1&&norm(k)===j)) dup.push(tk[i]+' '+tk[i+1]); }
+  out.items.push([dup.length?'bad':'ok', dup.length?`중복 토큰: ${dup.join(', ')}`:'동일 단어 반복 없음']); out.score+=Math.max(0,W.dup-dup.length*10);
+  // 4) 특수문자
+  const sp=t.match(P.strictSpecial)||[];
+  const dbl=/\s{2,}|[,\.]{2,}/.test(t);
+  out.items.push([(sp.length||dbl)?'bad':'ok', sp.length?`허용 외 특수문자: ${[...new Set(sp)].join(' ')}`:(dbl?'연속 공백/구두점':'특수문자 적합')]); out.score+=(sp.length||dbl)?0:W.sp;
+  // 5) 입력 외 토큰 (생성 모드만)
+  if(!diagMode){
+    const known=[I.brand,I.model,I.main.kw,...I.subs.map(s=>s.kw),...I.attrs,I.size,I.capacity,I.orig].filter(Boolean).map(norm);
+    const blob=known.join(' ');
+    const extra=tk.filter(k=>{const n=norm(k); if(/\d/.test(n)) return false; return !known.some(x=>x.includes(n)||n.includes(x)) && !blob.includes(n);});
+    const ratio=tk.length?extra.length/tk.length:0;
+    const s5=ratio<=0.10?W.extra:(ratio<=0.25?Math.round(W.extra*0.53):0);
+    out.items.push([s5===W.extra?'ok':(s5?'warn':'bad'), extra.length?`입력 외 토큰 ${extra.length}/${tk.length}: ${extra.join(', ')}`:'입력 외 토큰 없음']); out.score+=s5;
+  }
+  // 플랫폼 특수
+  if(I.brand){ const bc=tk.filter(k=>norm(k)===norm(I.brand)).length; if(bc>=2){ out.items.push(['bad',`브랜드명 ${bc}회 반복`]); out.score-=10; } else if(!P.brandIn&&bc===1){ out.items.push(['warn','브랜드 포함 — 이 플랫폼은 브랜드 입력란 사용(중복 노출)']); out.score-=5; } else out.items.push(['ok','브랜드명 1회 · 반복 없음']); }
+  if(!P.sizeIn&&I.sizeRaw&&norm(t).includes(norm(I.sizeRaw))) { out.items.push(['warn','사이즈 포함 — 옵션 자동 부착으로 중복']); out.score-=5; }
+  if(/배송|직송|항공(?!점퍼|잠바|샵|사)/.test(t)&&!hits.length){ out.items.push(['warn','배송 관련 표현 — 상품명 대신 배송 정보에']); out.score-=5; }
+  if(/스타일|st\b|정품 디자인/i.test(t.replace(/스타일러/g,''))) { out.items.push(['bad',"이미테이션 표현('~스타일'·'~st')"]); out.score-=15; } else out.items.push(['ok','타 브랜드·이미테이션 표현 없음']);
+  if(mode==='coupang'){ if(/\d\s+(g|kg|ml|l|cm|mm|m)(?![a-z가-힣])/i.test(t)) { out.items.push(['bad','숫자와 단위 사이 공백 (100 g → 100g)']); out.score-=5; } if(tk.some(k=>k==='1개')) { out.items.push(['bad',"플레이스홀더 '1개' 단독 사용"]); out.score-=10; } if(/비브랜드/.test(t)&&I.brand) { out.items.push(['warn',"브랜드가 있는데 '비브랜드' 사용"]); out.score-=10; } }
+  if(mode==='naver'){ const grp=(t.match(/\d0대/g)||[]).length, dt=(t.match(/(\d{1,2}월|\d{2}\/\d{2}|20\d{2})/g)||[]).length; if(grp>=2) { out.items.push(['bad','사용자 그룹 2회 이상 (검색품질 체크)']); out.score-=10; } else out.items.push(['ok','사용자 그룹 2회 이상 없음']); if(dt>=2) { out.items.push(['bad','날짜 2회 이상 (검색품질 체크)']); out.score-=10; } else if(dt===1) { out.items.push(['warn','날짜·연도 표기 1건 — 검색에 쓰이지 않음']); out.score-=3; } if(/렌탈|해외직구|중고/.test(t)) { out.items.push(['warn','렌탈/해외/중고 표기 — 상품 상태 체크로 대체']); out.score-=5; } }
+  if(mode==='st11'){ const head=[...t].reduce((a,c)=>{a.n+=(/[가-힣]/.test(c)?2:1); if(a.n<=50) a.s+=c; return a;},{n:0,s:''}).s; if(I.main&&!norm(head).includes(norm(I.main.kw))) { out.items.push(['warn','메인 키워드가 모바일 노출 구간(앞 50byte) 밖']); out.score-=5; } }
+  out.score=Math.max(0,Math.min(100,out.score));
+  out.len=len; out.unit=unitLbl;
+  out.grade=gradeOf(out.score);
+  return out;
+}
+const gradeOf=s=>s>=90?[5,'매우좋음']:s>=75?[4,'좋음']:s>=60?[3,'보통']:s>=40?[2,'나쁨']:[1,'매우나쁨'];
+
+// ───────────────────────── Gemini 호출 ─────────────────────────
+function key(){return document.getElementById('apikey').value.trim();}
+async function callGemini(model,parts,cfg){
+  const body={contents:[{role:'user',parts}],generationConfig:cfg||{}};
+  logs.req=JSON.stringify({model:'models/'+model,...body},null,2);
+  const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent?key='+encodeURIComponent(key()),{
+    method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const data=await res.json();
+  logs.res=JSON.stringify(data,null,2);
+  if(data.error) throw new Error('['+(data.error.code||'')+'] '+(data.error.message||'API 오류'));
+  return data;
+}
+function parseCandidates(text,n){
+  let o=null;
+  try{ o=JSON.parse(text); }catch(_){ const m=text.match(/\{[\s\S]*\}/); if(m){ try{o=JSON.parse(m[0]);}catch(__){} } }
+  if(o&&Array.isArray(o.candidates)) return o.candidates.slice(0,n||3);
+  const types=['purchase','attribute','brand'];
+  const lines=text.split('\n').map(l=>l.trim()).filter(l=>/^\d\./.test(l)).slice(0,n||3);
+  return lines.map((l,i)=>({type:types[i],title:l.replace(/^\d\.\s*/,''),rationale:'(텍스트 폴백 파싱)'}));
+}
+async function genOnce(I, exclude, opt){
+  const prompt=buildPrompt(I,exclude,opt);
+  logs.prompt=prompt;
+  const n=opt&&opt.single?1:3;
+  const useJson = fmt==='json' || (opt&&opt.single);
+  const cfg=useJson?{temperature:0.4,maxOutputTokens:512,responseMimeType:'application/json',responseSchema:SCHEMA(n)}:{temperature:0.4,maxOutputTokens:512};
+  const data=await callGemini(document.getElementById('model').value.trim(),[{text:prompt}],cfg);
+  const text=(data.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('\n');
+  if(!text.trim()) throw new Error('빈 응답 (finishReason: '+(data.candidates?.[0]?.finishReason||'?')+')');
+  const cands=parseCandidates(text,n);
+  if(!cands.length) throw new Error('후보를 파싱하지 못했습니다');
+  return {cands, usage:data.usageMetadata||{}, llmGrade:(text.match(/종합평가\s*[:：]\s*(매우좋음|좋음|보통|나쁨|매우나쁨)/)||[])[1]||''};
+}
+
+// ───────────────────────── 개별 생성 ─────────────────────────
+async function generate(again){
+  const st=document.getElementById('status'), run=document.getElementById('run'), rr=document.getElementById('rerun');
+  if(!key()){ st.textContent='API 키를 먼저 입력하세요 (볼트 잠금 해제)'; return; }
+  const I=readInput();
+  if(I.error){ st.textContent=I.error; return; }
+  const exclude=again&&last?last.cands.map(c=>c.title):[];
+  run.disabled=true; rr.disabled=true; st.textContent='생성 중… (3~8초)';
+  try{
+    const r=await genOnce(I,exclude);
+    last={I,cands:r.cands,usage:r.usage,mode,llmGrade:r.llmGrade,fmt};
+    history.unshift({mode:PLAT[mode].short,titles:r.cands.map(c=>c.title)}); history=history.slice(0,8);
+    render();
+    st.textContent=`생성 완료 — 토큰 입력 ${r.usage.promptTokenCount||'?'} / 출력 ${r.usage.candidatesTokenCount||'?'}`;
+    rr.disabled=false;
+  }catch(e){
+    document.getElementById('results').innerHTML='<div class="err"><b>생성에 실패했습니다.</b><br>'+esc(e.message)+'</div>';
+    st.textContent='오류 발생'; document.getElementById('article').style.display='block'; setTab('res');
+  }
+  run.disabled=false;
+}
+function candCard(i,c,v,I,P){
+  const preview=(!P.brandIn&&I.brand)?`<div class="preview">노출 미리보기 <b>[${esc(I.brand)}] ${esc(c.title)}</b></div>`:'';
+  return `<div class="card" id="card${i}">
+    <div class="top"><span class="num">${String(i+1).padStart(2,'0')}</span><span class="chip type">${typeLabel(c.type)}</span>
+      <span class="chip">${v.len}${v.unit}</span>
+      <span class="grade g${v.grade[0]}">${v.score}점 · ${v.grade[1]}</span>
+      <span class="actions"><button class="mini" onclick="copyText(${JSON.stringify(c.title).replace(/"/g,'&quot;')})">복사</button></span></div>
+    <div class="title">${esc(c.title)}</div>${preview}
+    <div class="meta">${esc(c.rationale||'')}</div>
+    <div class="checks">${v.items.map(([k,l])=>`<span class="ck ${k}">${esc(l)}</span>`).join('')}</div>
+  </div>`;
+}
+function render(){
+  const P=PLAT[mode], R=document.getElementById('results');
+  const vals=last.cands.map(c=>({c,v:validate(c.title,last.I)}));
+  const avg=Math.round(vals.reduce((a,x)=>a+x.v.score,0)/vals.length), g=gradeOf(avg);
+  let html=`<div class="summary"><div class="big g${g[0]}" style="background:none;padding:0">${avg}점</div>
+    <div class="lbl"><b>종합평가(RULE) ${g[1]}</b> · 점수 평균(길이 30 · 금칙어 25 · 중복 20 · 특수문자 10 · 입력 외 토큰 15)${last.llmGrade?` · <b>LLM 자가평가 ${esc(last.llmGrade)}</b>`:''}<br>${esc(P.name)} · ${LANG_NAME[last.I.lang]} · 모델 ${esc(document.getElementById('model').value)} · 출력 ${last.fmt==='json'?'JSON(v2)':'4줄 텍스트(현행 호환)'}</div>
+    <div class="bar"><i style="width:${avg}%"></i></div></div>
+    <div class="status" style="margin:-4px 0 10px 4px">${TYPE_DESC}</div>`;
+  html+=vals.map((x,i)=>candCard(i,x.c,x.v,last.I,P)).join('');
+  if(P.brandIn===false) html+=`<div class="foot"><span>복사한 상품명은 '상품명' 필드에, 브랜드는 '브랜드 입력란'에 각각 입력하세요</span></div>`;
+  if(mode==='coupang') html+=`<div class="foot"><span>쿠팡은 등록 후 노출상품명이 쿠팡 기준(브랜드+제품명+상품군)으로 조정될 수 있어요</span></div>`;
+  R.innerHTML=html;
+  logs.rules=vals.map((x,i)=>`[${i+1}] ${x.c.title}\n  score=${x.v.score} grade=${x.v.grade[1]} len=${x.v.len}${x.v.unit}\n`+x.v.items.map(([k,l])=>`  - ${k.toUpperCase().padEnd(4)} ${l}`).join('\n')).join('\n\n');
+  document.getElementById('article').style.display='block'; setTab(tab);
+  document.getElementById('hist').innerHTML=history.length?'<b>최근 생성</b> '+history.map(h=>`<span>${esc(h.mode)} · ${h.titles.map(esc).join(' / ')}</span>`).join(''):'';
+}
+function copyText(t){ navigator.clipboard.writeText(t).then(()=>{document.getElementById('status').textContent='복사했습니다 — '+t;}); }
+
+// ───────────────────────── 대량 생성 (3-6절) ─────────────────────────
+const bulk={rows:[],results:[]};
+const HEADERS=['상품번호','브랜드','모델명','키워드1','키워드2','키워드3','속성','사이즈','용량','현재상품명'];
+function parseKw(s){ s=(s||'').trim(); if(!s) return null; const m=s.match(/^(.*?)[:：]\s*(\d+)\s*$/); return m?{kw:m[1].trim(),vol:parseInt(m[2])}:{kw:s,vol:0}; }
+function parseCsv(text){
+  const sep=text.includes('\t')?'\t':',';
+  const lines=text.replace(/\r/g,'').split('\n').map(l=>l.trim()).filter(Boolean);
+  if(!lines.length) return [];
+  let start=0; if(/상품번호|브랜드|현재상품명/.test(lines[0])) start=1;
+  return lines.slice(start,start+100).map((l,i)=>{
+    const c=l.split(sep).map(x=>x.trim().replace(/^"|"$/g,''));
+    const kws=[c[3],c[4],c[5]].map(parseKw).filter(Boolean);
+    return {no:c[0]||('R'+(i+1)),brand:c[1]||'',model:c[2]||'',kws,attrs:(c[6]||'').split(/[;；]/).map(s=>s.trim()).filter(Boolean),size:c[7]||'',capacity:c[8]||'',orig:c[9]||''};
+  });
+}
+function loadBulkFile(f){ if(!f) return; const r=new FileReader(); r.onload=()=>{document.getElementById('bulkText').value=r.result; updateBulkQuota();}; r.readAsText(f,'utf-8'); }
+function loadBulkSample(){
+  document.getElementById('bulkText').value=HEADERS.join(',')+'\n'+
+  'P003,로스텐토,,올리브오일:86900,엑스트라버진:1420,햇올리브:30,스페인산,,500ml,[25/26 햇올리브] 로스텐토 엑스트라버진 올리브오일 500ml 항공\n'+
+  'P002,라보니시마,,발사믹:12000,모데나:900,,10년숙성;골드라벨,,250ml,라보니시마 모데나 발사믹 오로 10년숙성 골드라벨\n'+
+  'P001,라보니시마,,발사믹:12000,모데나:900,,7년숙성;보르도,,250ml,라보니시마 모데나 발사믹 보르도 7년숙성';
+  updateBulkQuota();
+}
+function updateBulkQuota(){ bulk.rows=parseCsv(document.getElementById('bulkText').value); document.getElementById('bulkQuota').textContent=`대상 ${bulk.rows.length}행 · 행당 Gemini 호출 1회(동시 3) · 현행 정책 기준 행당 일일 횟수 1회 차감 → ${bulk.rows.length}회`; }
+document.getElementById('bulkText').addEventListener('input',updateBulkQuota);
+function csvDownload(name, rows){
+  const csv='﻿'+rows.map(r=>r.map(v=>{v=String(v??''); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}).join(',')).join('\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})); a.download=name; a.click(); URL.revokeObjectURL(a.href);
+}
+function dlTemplate(){ csvDownload('상품명_대량생성_양식.csv',[HEADERS,['P001','무신사','','넥워머:53000','니트:52540','목토시:7450','기모안감;방한;남녀공용','FREE','','넥워머 목토시 니트 기모안감 남녀공용 겨울 방한 목도리']]); }
+function dlBackup(){ updateBulkQuota(); if(!bulk.rows.length){ document.getElementById('status').textContent='백업할 행이 없습니다'; return; } csvDownload('현재상품명_백업_'+stamp()+'.csv',[['상품번호','현재상품명','브랜드'],...bulk.rows.map(r=>[r.no,r.orig,r.brand])]); }
+function dlResults(){ if(!bulk.results.length) return; csvDownload('상품명_대량생성_결과_'+stamp()+'.csv',[['상품번호','플랫폼','현재상품명','현재 점수','생성상품명','글자수/byte','점수','등급','상태','체크 결과'],...bulk.results.map(r=>[r.no,PLAT[mode].short,r.orig,r.curScore??'',r.title,r.v?r.v.len+r.v.unit:'',r.v?r.v.score:'',r.v?r.v.grade[1]:'',r.status,r.v?r.v.items.map(x=>x[1]).join(' | '):(r.err||'')])]); }
+function dlUpload(){ const sel=bulk.results.filter(r=>r.sel&&r.title); if(!sel.length){ document.getElementById('status').textContent='선택된 행이 없습니다'; return; } csvDownload('셀러센터_일괄수정_'+PLAT[mode].short+'_'+stamp()+'.csv',[['상품번호','상품명'],...sel.map(r=>[r.no,r.title])]); }
+const stamp=()=>new Date().toISOString().slice(0,16).replace(/[-:T]/g,'');
+function changeGuard(r,title){
+  // 브랜드(해당 플랫폼)·메인 키워드 유지 확인 + 변경 폭
+  const P=PLAT[mode], nt=norm(title);
+  const reasons=[];
+  if(P.brandIn&&r.brand&&!nt.includes(norm(r.brand))) reasons.push('브랜드 누락');
+  if(r.kws[0]&&!nt.includes(norm(r.kws[0].kw))) reasons.push('상품유형(메인 키워드) 변경');
+  const a=new Set(toks(r.orig).map(norm)), b=new Set(toks(title).map(norm));
+  const inter=[...a].filter(x=>b.has(x)).length, uni=new Set([...a,...b]).size||1;
+  const sim=inter/uni;
+  const width=sim>=0.6?'변경 폭 작음':sim>=0.3?'변경 폭 보통':'변경 폭 큼';
+  if(sim<0.3&&r.orig) reasons.push(width);
+  return {reasons,width,sim};
+}
+async function runBulk(){
+  const st=document.getElementById('status'), btn=document.getElementById('bulkRun');
+  if(!key()){ st.textContent='API 키를 먼저 입력하세요 (볼트 잠금 해제)'; return; }
+  updateBulkQuota(); if(!bulk.rows.length){ st.textContent='대상 행이 없습니다 — CSV를 붙여넣거나 업로드하세요'; return; }
+  const retry=document.getElementById('optRetry').checked, guard=document.getElementById('optGuard').checked, nodup=document.getElementById('optDup').checked;
+  btn.disabled=true;
+  bulk.results=bulk.rows.map(r=>({...r,title:'',v:null,status:'대기',sel:false,curScore:null}));
+  renderBulk();
+  let idx=0, done=0;
+  async function worker(){
+    while(idx<bulk.results.length){
+      const i=idx++; const r=bulk.results[i];
+      st.textContent=`대량 생성 중 ${done+1}/${bulk.results.length} — ${r.no}`;
+      try{
+        if(!r.kws.length) throw new Error('키워드1(메인) 없음');
+        const I=normalizeInput({brand:r.brand,model:r.model,kws:r.kws,attrs:r.attrs,orig:r.orig,size:r.size,capacity:r.capacity,lang:'ko'});
+        if(r.orig){ r.curScore=validate(r.orig,I,true).score; }
+        let out=await genOnce(I,[], {single:btype}); let title=out.cands[0].title; let v=validate(title,I);
+        if(retry&&v.score<75){ out=await genOnce(I,[title],{single:btype}); const t2=out.cands[0].title, v2=validate(t2,I); if(v2.score>v.score){title=t2;v=v2;} }
+        r.title=title; r.v=v; r.rationale=out.cands[0].rationale||'';
+        const g=changeGuard(r,title); r.guard=g;
+        if(guard&&g.reasons.length) { r.status='검토 필요'; r.why=g.reasons.join(' · '); }
+        else if(v.score<60) { r.status='검토 필요'; r.why='점검 점수 낮음'; }
+        else { r.status=v.score>=90?'반영 가능':'반영 가능(확인)'; r.why=g.width; r.sel=true; }
+      }catch(e){ r.status='실패'; r.err=e.message; }
+      done++; renderBulk();
+    }
+  }
+  await Promise.all([worker(),worker(),worker()]);
+  if(nodup){ const seen={}; bulk.results.forEach(r=>{ const n=norm(r.title); if(!n) return; if(seen[n]){ r.status='검토 필요'; r.why='다른 행과 동일 상품명'; r.sel=false; } seen[n]=1; }); renderBulk(); }
+  st.textContent=`대량 생성 완료 — ${bulk.results.filter(r=>r.sel).length}건 반영 가능 / ${bulk.results.filter(r=>r.status==='검토 필요').length}건 검토 필요 / ${bulk.results.filter(r=>r.status==='실패').length}건 실패`;
+  btn.disabled=false;
+}
+function renderBulk(){
+  const R=document.getElementById('bulkResults'), P=PLAT[mode];
+  const rs=bulk.results; if(!rs.length){ return; }
+  const ok=rs.filter(r=>r.sel).length, rv=rs.filter(r=>r.status==='검토 필요').length, avg=Math.round(rs.filter(r=>r.v).reduce((a,r)=>a+r.v.score,0)/Math.max(1,rs.filter(r=>r.v).length));
+  const stc=s=>s.startsWith('반영')?'ok':s==='검토 필요'?'warn':s==='실패'?'bad':'gr';
+  R.innerHTML=`<div class="summary" style="margin-bottom:10px"><div class="lbl"><b>생성 ${rs.filter(r=>r.v).length}/${rs.length}건</b> · 반영 가능 <b>${ok}</b> · <span style="color:var(--warn)">검토 필요 <b>${rv}</b></span> · 평균 ${avg}점 · ${esc(P.name)} · 유형 ${typeLabel(btype)}</div>
+    <span class="actions"><button class="btn btn-file sm" style="border-style:solid" onclick="dlResults()">⬇ 결과 전체 CSV</button><button class="btn btn-t sm" onclick="dlUpload()">⬇ 셀러센터 업로드용 CSV (선택 ${ok})</button><button class="btn btn-run sm" disabled title="운영 서비스에서 커머스 API 연동 시 제공 · 반영 전 확인 모달">선택 ${ok}건 스토어 반영</button></span></div>
+  <div class="tbox"><table><thead><tr><th style="width:30px"></th><th>상품번호</th><th style="width:26%">현재 상품명 · 진단</th><th style="width:34%">생성 상품명 (수정 가능)</th><th>글자수</th><th>상태</th><th></th></tr></thead><tbody>
+  ${rs.map((r,i)=>`<tr>
+    <td><input type="checkbox" ${r.sel?'checked':''} ${r.title?'':'disabled'} onchange="bulk.results[${i}].sel=this.checked;renderBulk()"></td>
+    <td style="white-space:nowrap;color:#64748b">${esc(r.no)}</td>
+    <td><div class="cur">${esc(r.orig||'—')}</div>${r.curScore!==null?`<span class="st2 ${r.curScore>=75?'ok':'warn'}" style="margin-top:4px;display:inline-block">${r.curScore}점 ${gradeOf(r.curScore)[1]}</span>`:''}</td>
+    <td>${r.title?`<span class="ed${r.status==='검토 필요'?' warn':''}" contenteditable="true" onblur="editBulk(${i},this.textContent)">${esc(r.title)}</span><div class="checks" style="margin-top:5px">${r.v.items.slice(0,5).map(([k,l])=>`<span class="ck ${k}">${esc(l)}</span>`).join('')}</div>`:(r.err?`<span class="ck bad">${esc(r.err)}</span>`:'<span class="ck">…</span>')}</td>
+    <td style="white-space:nowrap">${r.v?r.v.len+r.v.unit:''}</td>
+    <td><span class="st2 ${stc(r.status)}">${esc(r.status)}</span>${r.why?`<div class="status" style="font-size:11px;margin-top:3px">${esc(r.why)}</div>`:''}</td>
+    <td style="white-space:nowrap"><button class="mini" onclick="regenRow(${i})">↻ 재생성</button></td>
+  </tr>`).join('')}
+  </tbody></table></div>
+  <div class="foot"><span>네이버는 기존 상품을 <b>다른 상품으로 바꾸는</b> 상품명 변경(상품 ID 재사용)을 제재 — 브랜드·상품유형이 달라지는 행은 '검토 필요'로 분류되고 업로드 CSV에서 제외돼요 · 쿠팡·지마켓·11번가는 셀러센터 일괄수정에 CSV 업로드</span></div>`;
+}
+function editBulk(i,t){ const r=bulk.results[i]; r.title=t.trim(); const I=normalizeInput({brand:r.brand,model:r.model,kws:r.kws,attrs:r.attrs,orig:r.orig,size:r.size,capacity:r.capacity}); r.v=validate(r.title,I); const g=changeGuard(r,r.title); r.status=(g.reasons.length||r.v.score<60)?'검토 필요':'반영 가능(수정)'; r.why=g.reasons.join(' · ')||g.width; r.sel=r.status!=='검토 필요'; renderBulk(); }
+async function regenRow(i){ const r=bulk.results[i]; if(!key()) return; const I=normalizeInput({brand:r.brand,model:r.model,kws:r.kws,attrs:r.attrs,orig:r.orig,size:r.size,capacity:r.capacity}); r.status='재생성 중'; renderBulk(); try{ const out=await genOnce(I,[r.title],{single:btype}); editBulk(i,out.cands[0].title); }catch(e){ r.status='실패'; r.err=e.message; renderBulk(); } }
+
+// ───────────────────────── 상품명 진단 (3-7절 · 결과 순서: 제안 › 주요 키워드 › 정책 점검(토글) › CTA) ─────────────────────────
+const diag={items:[],cur:-1,open:false};
+function loadDiagSample(){
+  document.getElementById('diagText').value='P003|[25/26 햇올리브] 로스텐토 엑스트라버진 올리브오일 500ml 항공|로스텐토\nP002|라보니시마 모데나 발사믹 오로 10년숙성 골드라벨|라보니시마\nP001|라보니시마 모데나 발사믹 보르도 7년숙성|라보니시마';
+  document.getElementById('diagVols').value='올리브오일:86900, 엑스트라버진:1420, 햇올리브:30, 발사믹:12000, 모데나:900';
+  loadDiagList();
+}
+function loadDiagList(){
+  const lines=document.getElementById('diagText').value.replace(/\r/g,'').split('\n').map(l=>l.trim()).filter(Boolean);
+  diag.items=lines.map((l,i)=>{ const c=l.split('|').map(x=>x.trim()); let no,title,brand; if(c.length>=2){no=c[0];title=c[1];brand=c[2]||'';} else {no='P'+(i+1);title=c[0];brand='';} return {no,title,brand,checked:false,last:null,v:null,cands:null,score:null}; });
+  diag.cur=-1; document.getElementById('diagAll').disabled=!diag.items.length; renderDiag();
+}
+function volMap(){ const m={}; document.getElementById('diagVols').value.split(/[,，]/).forEach(p=>{const x=p.match(/^\s*(.+?)\s*[:：]\s*(\d+)\s*$/); if(x) m[norm(x[1])]=parseInt(x[2]);}); return m; }
+function diagInput(it){
+  const vm=volMap();
+  const tk=toks(it.title.replace(/[\[\]\(\)]/g,' ')).filter(k=>!/\d/.test(k)&&norm(k)!==norm(it.brand)&&k.length>1);
+  const kws=tk.map(k=>({kw:k,vol:vm[norm(k)]||0})).sort((a,b)=>b.vol-a.vol);
+  const main=kws[0]||{kw:tk[0]||it.title,vol:0}; const subs=kws.slice(1,3);
+  const attrs=tk.filter(k=>k!==main.kw&&!subs.some(s=>s.kw===k));
+  const cap=(it.title.match(/\d+(\.\d+)?\s?(ml|l|g|kg|mm|cm)\b/i)||[])[0]||'';
+  return {brand:it.brand,model:'',main,subs,attrs,orig:it.title,size:'',sizeRaw:'',capacity:cap.replace(/\s/g,''),lang:'ko',kwsAll:kws};
+}
+async function diagOne(i, withSuggest){
+  const it=diag.items[i]; const I=diagInput(it);
+  it.v=validate(it.title,I,true); it.score=it.v.score; it.checked=true; it.last=new Date(); it.I=I;
+  if(withSuggest&&key()){
+    try{ const out=await genOnce(I,[]); it.cands=out.cands.map(c=>({c,v:validate(c.title,I)})); }catch(e){ it.cands=null; it.candErr=e.message; }
+  }
+}
+async function diagAll(){
+  const st=document.getElementById('status'); document.getElementById('diagAll').disabled=true;
+  for(let i=0;i<diag.items.length;i++){ st.textContent=`점검 중 ${i+1}/${diag.items.length}`; await diagOne(i,true); diag.cur=i; renderDiag(); }
+  st.textContent=`점검 완료 ${diag.items.length}건${key()?'':' (API 키 없음 — 정책 점검만, 제안 상품명 생략)'}`; document.getElementById('diagAll').disabled=false;
+}
+async function pickDiag(i){ diag.cur=i; if(!diag.items[i].checked){ document.getElementById('status').textContent='점검 중…'; await diagOne(i,true); document.getElementById('status').textContent='점검 완료'; } renderDiag(); }
+async function resuggest(){ const i=diag.cur; if(i<0||!key()) return; const it=diag.items[i]; document.getElementById('status').textContent='제안 다시 받는 중…'; try{ const out=await genOnce(it.I,it.cands?it.cands.map(x=>x.c.title):[]); it.cands=out.cands.map(c=>({c,v:validate(c.title,it.I)})); }catch(e){ it.candErr=e.message; } document.getElementById('status').textContent='완료'; renderDiag(); }
+function toGen(){
+  const i=diag.cur; if(i<0) return; const it=diag.items[i], I=it.I||diagInput(it);
+  document.getElementById('nobrand').checked=!I.brand; syncBrand();
+  document.getElementById('brand').value=I.brand||''; document.getElementById('modelname').value='';
+  const ks=[I.main,...I.subs]; ['kw1','kw2','kw3'].forEach((id,k)=>{document.getElementById(id).value=ks[k]?ks[k].kw:''; document.getElementById('v'+(k+1)).value=ks[k]&&ks[k].vol?ks[k].vol:'';});
+  document.getElementById('attrs').value=I.attrs.join(', '); document.getElementById('orig').value=I.orig; document.getElementById('capacity').value=I.capacity; document.getElementById('size').value='';
+  setFeat('gen'); document.getElementById('status').textContent='진단 상품 정보를 입력 슬롯에 채웠어요 — 모델명·속성을 다듬고 생성하세요'; window.scrollTo({top:0,behavior:'smooth'});
+}
+const fmtDate=d=>d?`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`:'—';
+function renderDiag(){
+  const L=document.getElementById('plist'), R=document.getElementById('diagPanel'), P=PLAT[mode];
+  L.innerHTML=diag.items.map((it,i)=>`<div class="prod${diag.cur===i?' on':''}" onclick="pickDiag(${i})">
+    <div class="no">${esc(it.no)}</div><div class="nm">${esc(it.title)}</div>
+    <div class="last">마지막 점검 <b>${fmtDate(it.last)}</b>${it.last?'':' · 아직 점검한 적이 없어요'}</div>
+    <div class="ft"><span>점검 상태</span>${it.checked?`<span class="badge">점검완료</span><span class="ck ${it.score>=75?'ok':it.score>=60?'warn':'bad'}">${it.score}점 ${gradeOf(it.score)[1]}</span>`:'<span class="badge gr">점검 전</span>'}<span style="margin-left:auto;color:${diag.cur===i?'var(--teal);font-weight:800':'#94a3b8'}">${diag.cur===i?'점검 결과 보는 중':'점검 결과 보기 ›'}</span></div></div>`).join('');
+  const it=diag.items[diag.cur];
+  if(!it||!it.checked){
+    R.innerHTML=`<div class="empty"><b>아직 점검 결과가 없어요</b><br>${diag.items.length?'왼쪽에서 상품을 선택하거나 \'현재 리스트 전체 점검\'을 눌러 주세요.':'왼쪽에서 상품 목록을 불러오세요.'}<br>점검이 끝나면 제안 상품명 → 주요 키워드 → 정책 점검 순으로 표시돼요.<div style="margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">${diag.items.length?'<button class="btn btn-t" onclick="diagAll()">현재 리스트 전체 점검</button>':''}<button class="btn btn-file" style="border-style:solid" onclick="setFeat(\'gen\')">✦ AI 상품명 생성하기</button></div>
+      <div class="status" style="margin-top:18px;text-align:left;display:inline-block;background:#f8f9fc;border-radius:12px;padding:12px 16px;line-height:1.8"><b>점검은 이렇게 진행돼요</b><br>① ${esc(P.short)} 정책 기준으로 길이·특수문자·수식어·반복 등 항목 점검<br>② 상품명 속 키워드의 월간 검색량 확인(입력값)<br>③ 정책을 통과하는 제안 상품명 3개 생성</div></div>`;
+    return;
+  }
+  const g=gradeOf(it.score), bad=it.v.items.filter(x=>x[0]==='bad').length, warn=it.v.items.filter(x=>x[0]==='warn').length, ok=it.v.items.filter(x=>x[0]==='ok').length;
+  const cands=it.cands?it.cands.map((x,i)=>candCard(i,x.c,x.v,it.I,P)).join(''):`<div class="empty" style="padding:22px">${it.candErr?'제안 생성 실패: '+esc(it.candErr):'API 키를 입력하면 정책을 통과하는 제안 상품명 3개를 생성해요'}</div>`;
+  const kws=`<div class="kwl">${(it.I.kwsAll||[]).slice(0,6).map(k=>{const lv=k.vol>=10000?['','높음']:k.vol>=1000?['mid','보통']:['low',k.vol?'낮음':'—']; return `<div class="pit"><span class="k ${lv[0]}">${esc(k.kw)}</span><div>${k.vol?`${lv[1]} / 검색량 ${k.vol.toLocaleString()}회 — ${k.vol>=10000?'상품명 앞단에 필수 배치':k.vol>=1000?'보조 키워드로 유지':'니치 타겟이 아니면 활용 가치 낮음'}`:'검색량 미입력 — 운영 서비스는 키워드 분석과 자동 연동'}</div><span class="v">${k.vol?k.vol.toLocaleString()+'회':'—'}</span></div>`;}).join('')}</div>`;
+  R.innerHTML=`<div class="summary"><div class="big g${g[0]}" style="background:none;padding:0">${it.score}점</div><div class="lbl"><b>점검 결과 ${g[1]}</b> · 개선 ${bad}건 · 주의 ${warn}건 · 마지막 점검 ${fmtDate(it.last)}<br>${esc(it.title)}</div></div>
+  <div class="panel">
+    <h3><span style="color:var(--teal)">✦</span> 제안 상품명 <span class="src">${esc(P.short)} · 정책 점검 통과 후보</span></h3>
+    <div class="status" style="margin:-2px 0 10px">${TYPE_DESC}</div>
+    ${cands}
+    <div class="foot"><span>복사 후 셀러센터 상품명에 붙여넣고 최종 확인하세요</span><span style="display:flex;gap:8px"><button class="btn btn-file sm" style="border-style:solid" onclick="resuggest()">↻ 제안 다시 받기</button><button class="btn btn-t sm" onclick="toGen()">✦ AI 상품명 생성하기</button></span></div>
+    <h3>주요 키워드 <span class="src">상품명 속 키워드 · 월간 검색량</span></h3>
+    ${kws}
+    <div class="toggle" style="margin-top:16px" onclick="diag.open=!diag.open;renderDiag()"><b>정책 점검</b><span class="status">${esc(P.short)} 기준 ${it.v.items.length}개 항목</span><span class="tsum"><span class="ck ok">통과 ${ok}</span><span class="ck warn">주의 ${warn}</span><span class="ck bad">개선 ${bad}</span></span><span class="tbtn">${diag.open?'접기 ⌃':'펼치기 ⌄'}</span></div>
+    ${diag.open?`<div class="pgrid">${it.v.items.map(([k,l])=>`<div class="pit"><span class="st ${k}">${k==='ok'?'✓':k==='warn'?'!':'✕'}</span><div>${esc(l)}</div></div>`).join('')}</div>`:`<div class="status" style="margin:8px 2px 0">접힌 상태 · ${bad+warn?it.v.items.filter(x=>x[0]!=='ok').map(x=>x[1]).join(' · '):'모든 항목 통과'}</div>`}
+    <div class="ctabox"><div><b>더 많은 조합이 필요하세요?</b><br>브랜드·주요 키워드·현재 상품명을 그대로 가져가 모델명·속성을 추가해 다시 만들 수 있어요. 여러 상품을 한 번에 바꾸려면 대량 생성을 이용하세요.</div><span style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-t sm" onclick="toGen()">✦ AI 상품명 생성하기</button><button class="btn btn-file sm" style="border-style:solid" onclick="setFeat('bulk')">대량 생성 →</button></span></div>
+  </div>`;
+  logs.rules=`[진단] ${it.title}\n  score=${it.score} grade=${g[1]}\n`+it.v.items.map(([k,l])=>`  - ${k.toUpperCase().padEnd(4)} ${l}`).join('\n');
+  document.getElementById('article').style.display='block'; setTab(tab);
+}
+
+// ── ☁ 키 볼트: AES-GCM 암호문을 GitHub 저장소에 커밋 — 이미지 아이템 분석기·벌크 번역기와 동일 볼트 공유
+const VAULT_REPO='sulkooworks-commits/sellingbooster';
+const VAULT_PATH='신규기능/data/gemini-vault.json';
+const VAULT_BRANCH='main';
+const VAULT_API='https://api.github.com/repos/'+VAULT_REPO+'/contents/'+encodeURI(VAULT_PATH);
+async function fetchVaultDocs(){
+  const tries=[
+    {u:VAULT_API+'?ref='+VAULT_BRANCH,h:{Accept:'application/vnd.github.raw+json',...(window._ghtoken?{Authorization:'Bearer '+window._ghtoken}:{})}},
+    {u:'https://raw.githubusercontent.com/'+VAULT_REPO+'/'+VAULT_BRANCH+'/'+encodeURI(VAULT_PATH)+'?t='+Date.now()},
+    {u:'https://sulkooworks-commits.github.io/sellingbooster/'+encodeURI(VAULT_PATH)+'?t='+Date.now()}
+  ];
+  const docs=[], errs=[];
+  for(const t of tries){
+    try{ const res=await fetch(t.u,{headers:t.h||{},cache:'no-store'}); if(res.ok){ const d=JSON.parse(await res.text()); if(d&&d.ct&&!docs.some(x=>x.ct===d.ct)) docs.push(d); } else errs.push(res.status); }catch(e){ errs.push(e.message); }
+  }
+  if(window._vaultDoc&&!docs.some(x=>x.ct===window._vaultDoc.ct)) docs.push(window._vaultDoc);
+  if(docs.length){ window._vaultDoc=docs[0]; return docs; }
+  if(errs.length&&errs.every(x=>x===404)) throw new Error('저장된 볼트가 없습니다');
+  throw new Error('조회 실패 ('+errs.join(' / ')+')');
+}
+function toggleVault(){ const r=document.getElementById('vaultRow'); r.style.display=r.style.display==='none'?'flex':'none'; }
+const b2a=b=>btoa(String.fromCharCode(...new Uint8Array(b)));
+const a2b=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function deriveKey(pw,salt){
+  const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+  return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:150000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+}
+async function vaultSave(){
+  const st=document.getElementById('status');
+  const pw=document.getElementById('vaultpw').value||window._vaultpw||'';
+  const gt=document.getElementById('ghtoken').value.trim()||window._ghtoken||'';
+  if(!key()){ st.textContent='저장할 API 키를 먼저 입력하세요'; return; }
+  if(pw.length<8){ st.textContent='볼트 암호는 8자 이상으로 설정하세요'; return; }
+  if(!gt){ st.textContent='최초 저장 1회는 GitHub 토큰(contents:write)이 필요합니다 — 이후엔 자동 사용'; return; }
+  st.textContent='암호화·커밋 중…';
+  try{
+    const salt=crypto.getRandomValues(new Uint8Array(16)), iv=crypto.getRandomValues(new Uint8Array(12));
+    const k=await deriveKey(pw,salt);
+    const payload=new TextEncoder().encode(JSON.stringify({apikey:key(), ghtoken:gt, model:document.getElementById('model').value.trim(), imodel:window._imodel||'gemini-3.1-flash-image-preview', saved:new Date().toISOString()}));
+    const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},k,payload);
+    const doc=JSON.stringify({v:1,alg:'AES-256-GCM + PBKDF2-SHA256(150k)',updated:new Date().toISOString(),salt:b2a(salt),iv:b2a(iv),ct:b2a(ct)},null,1);
+    let sha=null;
+    const head=await fetch(VAULT_API+'?ref='+VAULT_BRANCH,{headers:{Authorization:'Bearer '+gt},cache:'no-store'});
+    if(head.ok) sha=(await head.json()).sha;
+    const res=await fetch(VAULT_API,{method:'PUT',headers:{Authorization:'Bearer '+gt,'Content-Type':'application/json'},body:JSON.stringify({message:'chore: gemini vault update',branch:VAULT_BRANCH,content:btoa(unescape(encodeURIComponent(doc))),...(sha?{sha}:{})})});
+    if(!res.ok){ const e=await res.json().catch(()=>({})); throw new Error(res.status+' '+(e.message||'커밋 실패')); }
+    window._ghtoken=gt; window._vaultpw=pw; window._vaultDoc=JSON.parse(doc);
+    document.getElementById('ghtoken').value=''; document.getElementById('ghtoken').placeholder='GitHub 토큰 — 볼트에 저장됨 (재입력 불필요)';
+    st.textContent='☁ 키 저장 완료 — 다음부터는 볼트 암호만 입력하면 됩니다';
+  }catch(e){ st.textContent='키 저장 실패: '+e.message; }
+}
+async function vaultLoad(){
+  const st=document.getElementById('status');
+  const pw=document.getElementById('vaultpw').value;
+  if(!pw){ st.textContent='볼트 암호를 입력하세요'; return; }
+  st.textContent='볼트 불러오는 중…';
+  try{
+    const docs=await fetchVaultDocs(); let o=null;
+    for(const d of docs){ try{ const k=await deriveKey(pw,a2b(d.salt)); const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:a2b(d.iv)},k,a2b(d.ct)); o=JSON.parse(new TextDecoder().decode(pt)); break; }catch(_){} }
+    if(!o){ const when=docs.map(d=>d.updated?d.updated.slice(0,16).replace('T',' '):'시각 미기록').join(' · '); throw new Error('암호가 일치하지 않습니다 — 시도한 볼트 '+docs.length+'판 (저장: '+when+'). 👁로 입력값 확인 후 재시도하거나, ⚙ 키 설정에서 새 암호로 재저장하세요'); }
+    document.getElementById('apikey').value=o.apikey||'';
+    if(o.model) document.getElementById('model').value=o.model;
+    if(o.imodel) window._imodel=o.imodel;
+    if(o.ghtoken){ window._ghtoken=o.ghtoken; document.getElementById('ghtoken').placeholder='GitHub 토큰 — 볼트에서 복원됨 (재입력 불필요)'; }
+    window._vaultpw=pw;
+    const pwEl=document.getElementById('vaultpw'); pwEl.classList.add('ok'); pwEl.placeholder='🔓 잠금 해제됨 — 바로 사용 가능'; pwEl.value='';
+    st.textContent='🔓 잠금 해제 — API 키·모델·토큰 복원 완료'+(o.saved?' (저장: '+o.saved.slice(0,16).replace('T',' ')+')':'');
+  }catch(e){ st.textContent='불러오기 실패: '+e.message; }
+}
+document.getElementById('vaultpw').addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.isComposing&&e.keyCode!==229) vaultLoad(); });
+(async()=>{
+  setMode('naver'); updateBulkQuota();
+  try{ await fetchVaultDocs(); document.getElementById('status').textContent='🔒 볼트 암호 입력 후 Enter로 시작하세요'; document.getElementById('vaultpw').focus(); }
+  catch(_){ document.getElementById('vaultRow').style.display='flex'; document.getElementById('status').textContent='최초 설정 — ⚙ 키 설정에 API 키 입력 후 볼트 암호와 함께 ☁ 저장'; }
+})();
+</script>
+</body>
+</html>
