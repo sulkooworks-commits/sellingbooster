@@ -236,11 +236,51 @@ async function collectYoutube(policy, posts) {
   return items.filter((x) => x.date >= startDate);
 }
 
-// 인스타그램 수집 (베스트에포트 — 로그인 월에 막히면 빈 결과로 격리 처리)
-// 그리드에는 날짜가 없어 "처음 발견된 날"을 발행일로 기록한다 (매일 수집 기준 ±1일 오차).
+// 인스타그램 수집 전략 A: 공개 프로필 JSON API — 실제 발행일(taken_at_timestamp)과 캡션 제공
+// (인스타 웹앱이 쓰는 공개 엔드포인트. 차단되면 null을 돌려 전략 B(브라우저)로 폴백)
+async function collectInstaApi(ch) {
+  const m = String(ch.url).match(/instagram\.com\/([A-Za-z0-9_.]+)/);
+  if (!m) return null;
+  const res = await fetch('https://i.instagram.com/api/v1/users/web_profile_info/?username=' + m[1], {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36',
+      'x-ig-app-id': '936619743392459',
+      'Accept': 'application/json',
+    },
+  });
+  if (!res.ok) { console.log('insta api HTTP', res.status); return null; }
+  let j;
+  try { j = await res.json(); } catch (e) { return null; }
+  const edges = (((j || {}).data || {}).user || {}).edge_owner_to_timeline_media;
+  if (!edges || !Array.isArray(edges.edges) || !edges.edges.length) return null;
+  const out = [];
+  for (const e of edges.edges) {
+    const n = e.node || {};
+    const ts = n.taken_at_timestamp ? new Date(n.taken_at_timestamp * 1000) : null;
+    const date = ts && !isNaN(ts) ? new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(ts) : null;
+    const capEdges = ((n.edge_media_to_caption || {}).edges || []);
+    const cap = capEdges.length && capEdges[0].node ? String(capEdges[0].node.text || '') : '';
+    let title = cap.split('\n')[0].replace(/\s+/g, ' ').trim();
+    if (title.length > 150) title = title.slice(0, 147) + '…';
+    if (title.length < 4) title = '(캡션 없음) ' + (n.shortcode || '');
+    if (date && n.shortcode) {
+      out.push({ date, category: '인스타그램', title, url: 'https://www.instagram.com/p/' + n.shortcode + '/' });
+    }
+  }
+  console.log('insta api parsed:', out.length);
+  return out.length ? out : null;
+}
+
+// 인스타그램 수집 (전략 A: 공개 JSON API → 전략 B: 브라우저 그리드 베스트에포트)
+// 그리드 경로에는 날짜가 없어 "처음 발견된 날"을 발행일로 기록한다 (dateApprox).
 async function collectInsta(policy) {
   const ch = (policy.channels || []).find((c) => c.id === 'insta');
   if (!ch || !ch.url) return null; // 미등록
+  // 전략 A 먼저 — 성공하면 실제 발행일 포함
+  try {
+    const api = await collectInstaApi(ch);
+    if (api) return api;
+  } catch (e) { console.error('insta api failed:', e.message); }
   const { chromium } = require('playwright');
   const browser = await chromium.launch({ headless: true });
   try {
@@ -375,13 +415,14 @@ async function main() {
     else if (ig.length === 0) { igStatus = '|ig_empty'; console.log('instagram: 0 items (로그인 월 가능성)'); }
     else {
       igPosts = ig; igStatus = '+ig'; console.log('instagram posts parsed:', ig.length);
-      // 첫 수집 보정: 기존 인스타 글이 전혀 없으면 이번 배치는 "과거 게시물"로 간주해
-      // startDate(기본 2026-11-21)로 기록 — 현재 주 실적에 오산입되는 것을 방지. 이후 신규 글부터 발견일 집계.
+      // 첫 수집 보정: 기존 인스타 글이 전혀 없으면 "발견일 기준(dateApprox)" 항목만 과거 게시물로 간주해
+      // startDate(기본 2026-11-21)로 기록 — 현재 주 실적 오산입 방지. API 경로로 실제 날짜가 있는 항목은 그대로 둔다.
       const igCh = (policy.channels || []).find((c) => c.id === 'insta');
       if (igCh && !posts.some((pp) => pp.category === '인스타그램')) {
         const backDate = igCh.startDate || todayKST();
-        igPosts.forEach((x) => { x.date = backDate; });
-        console.log('instagram initial batch backdated to', backDate, '(' + igPosts.length + ' items)');
+        let nBack = 0;
+        igPosts.forEach((x) => { if (x.dateApprox) { x.date = backDate; nBack++; } });
+        if (nBack) console.log('instagram initial batch backdated to', backDate, '(' + nBack + ' items)');
       }
     }
   } catch (e) {
