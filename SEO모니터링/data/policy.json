@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-30",
+  "updatedAt": "2026-11-27",
   "source": "셀링부스터_블로그_발행계획_8-9월.html (8~10월 본편·네이버 파생 계획) + K트렌드_매거진_발행계획_9월.html (기준일 2026-08-24) + 모니터링 대화 합의",
   "channels": [
     {
@@ -75,6 +75,45 @@
       ],
       "note": "월 2회 발행 · 첫 발행 2026-10-22 (사용자 지정) · 2026-10-30 모니터링 착수",
       "firstPostDate": "2026-10-22"
+    },
+    {
+      "id": "youtube",
+      "name": "유튜브 쇼츠",
+      "external": true,
+      "url": "https://www.youtube.com/@sellingbooster_official/shorts",
+      "channelId": "UCtznLO0wtqYCCfat7QSLWIA",
+      "categories": [
+        "유튜브 쇼츠"
+      ],
+      "colorSlot": 5,
+      "weeklyTargets": [
+        {
+          "from": "2026-11-22",
+          "perWeek": 2,
+          "note": "주 2회 필수"
+        }
+      ],
+      "baselineTitle": "상품 소싱 전, 키워드부터",
+      "note": "시작점: 「상품 소싱 전, 키워드부터!」(조회수 46) — 이 영상부터 집계, 이전 영상 제외"
+    },
+    {
+      "id": "insta",
+      "name": "인스타그램",
+      "external": true,
+      "url": "https://www.instagram.com/sellingbooster/",
+      "categories": [
+        "인스타그램"
+      ],
+      "colorSlot": 6,
+      "weeklyTargets": [
+        {
+          "from": "2026-11-22",
+          "perWeek": 2,
+          "note": "주 2회 필수"
+        }
+      ],
+      "startDate": "2026-11-21",
+      "note": "그리드 수집(날짜 미표기 → 발견일 기준). 첫 수집분은 과거 게시물로 간주해 11/21로 기록"
     }
   ],
   "skipDates": [
