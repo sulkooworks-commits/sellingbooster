@@ -1,4 +1,5 @@
 // 셀링부스터 블로그 일일 수집 스크립트 (GitHub Actions에서 실행)
+// v7: 유튜브 쇼츠(RSS) + 인스타그램(베스트에포트) 수집 추가 — 각각 주 2회 발행 채널
 // v6: 카페24 스토리 수집 추가 + 채널별 실패 격리 (한 채널이 실패해도 나머지는 수집)
 //     Playwright 브라우저 렌더링 기반 — 사이트가 클라이언트 렌더링(Nuxt)이라
 //     단순 fetch로는 빈 셸만 내려오므로 실제 브라우저로 렌더 후 DOM에서 추출한다.
@@ -194,6 +195,89 @@ async function collectCafe24(policy) {
   }
 }
 
+// 유튜브 쇼츠 수집 (채널 RSS — 발행일·조회수 포함)
+// 시작점: policy의 baselineTitle 영상(「상품 소싱 전, 키워드부터!」)부터. 그보다 오래된 영상은 제외.
+async function collectYoutube(policy, posts) {
+  const ch = (policy.channels || []).find((c) => c.id === 'youtube');
+  if (!ch || !ch.channelId) return null; // 미등록
+  const rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + ch.channelId;
+  const res = await fetch(rssUrl, { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; seo-monitor/1.0)' } });
+  if (!res.ok) throw new Error('youtube rss HTTP ' + res.status);
+  const xml = await res.text();
+  const items = [];
+  const re = /<entry>([\s\S]*?)<\/entry>/g;
+  let mm;
+  while ((mm = re.exec(xml)) !== null) {
+    const block = mm[1];
+    const pick = (tag) => {
+      const r = block.match(new RegExp('<' + tag + '>([\\s\\S]*?)<\\/' + tag + '>'));
+      return r ? r[1].trim() : '';
+    };
+    const title = pick('title').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+    const vid = pick('yt:videoId');
+    const pub = pick('published');
+    const vm = block.match(/<media:statistics[^>]*views="(\d+)"/);
+    const d = pub ? new Date(pub) : null;
+    const date = d && !isNaN(d) ? new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(d) : null;
+    if (title && date && vid) {
+      items.push({ date, category: '유튜브 쇼츠', title, url: 'https://www.youtube.com/shorts/' + vid, views: vm ? parseInt(vm[1], 10) : null });
+    }
+  }
+  // 시작점 필터: baselineTitle 영상의 발행일 이후만 수집
+  let startDate = null;
+  if (ch.baselineTitle) {
+    const base = items.find((x) => x.title.indexOf(ch.baselineTitle) >= 0);
+    if (base) startDate = base.date;
+  }
+  if (!startDate) {
+    const existing = posts.filter((p) => p.category === '유튜브 쇼츠').map((p) => p.date).sort();
+    startDate = existing.length ? existing[0] : (ch.startDate || todayKST());
+  }
+  return items.filter((x) => x.date >= startDate);
+}
+
+// 인스타그램 수집 (베스트에포트 — 로그인 월에 막히면 빈 결과로 격리 처리)
+// 그리드에는 날짜가 없어 "처음 발견된 날"을 발행일로 기록한다 (매일 수집 기준 ±1일 오차).
+async function collectInsta(policy) {
+  const ch = (policy.channels || []).find((c) => c.id === 'insta');
+  if (!ch || !ch.url) return null; // 미등록
+  const { chromium } = require('playwright');
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage({ viewport: { width: 1400, height: 2200 } });
+    await page.goto(ch.url, { waitUntil: 'networkidle', timeout: 60000 });
+    await page.waitForTimeout(5000);
+    for (let i = 0; i < 3; i++) { await page.mouse.wheel(0, 2000); await page.waitForTimeout(800); }
+
+    const bodyText = await page.evaluate(() => document.body.innerText);
+    fs.mkdirSync(p('debug'), { recursive: true });
+    fs.writeFileSync(p('debug', 'insta-last.txt'), bodyText.slice(0, 150000));
+
+    const items = await page.evaluate(() => {
+      const out = [];
+      const seen = new Set();
+      document.querySelectorAll('a[href*="/p/"], a[href*="/reel/"]').forEach((a) => {
+        const href = (a.href || '').replace(/[?#].*$/, '');
+        if (!/\/(p|reel)\/[^/]+/.test(href) || seen.has(href)) return;
+        const img = a.querySelector('img');
+        let title = img && img.alt ? img.alt.replace(/\s+/g, ' ').trim() : '';
+        if (title.length > 150) title = title.slice(0, 147) + '…';
+        if (title.length < 4) title = '(캡션 없음) ' + href.split('/').filter(Boolean).pop();
+        seen.add(href);
+        out.push({ href, title });
+      });
+      return out;
+    });
+
+    const today = todayKST();
+    return items.map((it) => ({
+      date: today, category: '인스타그램', title: it.title, url: it.href, dateApprox: true,
+    }));
+  } finally {
+    await browser.close();
+  }
+}
+
 async function main() {
   const meta = JSON.parse(fs.readFileSync(p('data', 'meta.json'), 'utf8'));
   const posts = JSON.parse(fs.readFileSync(p('data', 'posts.json'), 'utf8'));
@@ -270,9 +354,44 @@ async function main() {
     }
   } catch (e) { console.error('cafe24 backfill failed:', e.message); }
 
-  const collected = (result ? result.posts : []).concat(naverPosts, cafePosts);
+  // 유튜브 쇼츠 수집 (RSS — 실패해도 다른 수집에는 영향 없음)
+  let ytPosts = [];
+  let ytStatus = '';
+  try {
+    const yt = await collectYoutube(policy, posts);
+    if (yt === null) ytStatus = ''; // 미등록
+    else { ytPosts = yt; ytStatus = '+yt'; console.log('youtube posts parsed:', yt.length); }
+  } catch (e) {
+    console.error('youtube collect failed:', e.message);
+    ytStatus = '|yt_failed';
+  }
+
+  // 인스타그램 수집 (실패해도 다른 수집에는 영향 없음)
+  let igPosts = [];
+  let igStatus = '';
+  try {
+    const ig = await collectInsta(policy);
+    if (ig === null) igStatus = ''; // 미등록
+    else if (ig.length === 0) { igStatus = '|ig_empty'; console.log('instagram: 0 items (로그인 월 가능성)'); }
+    else {
+      igPosts = ig; igStatus = '+ig'; console.log('instagram posts parsed:', ig.length);
+      // 첫 수집 보정: 기존 인스타 글이 전혀 없으면 이번 배치는 "과거 게시물"로 간주해
+      // startDate(기본 2026-11-21)로 기록 — 현재 주 실적에 오산입되는 것을 방지. 이후 신규 글부터 발견일 집계.
+      const igCh = (policy.channels || []).find((c) => c.id === 'insta');
+      if (igCh && !posts.some((pp) => pp.category === '인스타그램')) {
+        const backDate = igCh.startDate || todayKST();
+        igPosts.forEach((x) => { x.date = backDate; });
+        console.log('instagram initial batch backdated to', backDate, '(' + igPosts.length + ' items)');
+      }
+    }
+  } catch (e) {
+    console.error('instagram collect failed:', e.message);
+    igStatus = '|ig_failed';
+  }
+
+  const collected = (result ? result.posts : []).concat(naverPosts, cafePosts, ytPosts, igPosts);
   if (collected.length === 0) {
-    meta.lastStatus = (result ? (result.total !== null ? 'parse_failed_total_ok' : 'parse_failed') : 'fetch_failed') + naverStatus + cafeStatus;
+    meta.lastStatus = (result ? (result.total !== null ? 'parse_failed_total_ok' : 'parse_failed') : 'fetch_failed') + naverStatus + cafeStatus + ytStatus + igStatus;
   } else {
     const known = new Set(posts.map(key));
     const knownUrls = new Set(posts.filter((x) => x.url).map((x) => x.url));
@@ -298,7 +417,7 @@ async function main() {
         fs.writeFileSync(p('data', 'views.json'), JSON.stringify(vh.slice(-120), null, 1));
       }
     } catch (e) { console.error('views history failed:', e.message); }
-    meta.lastStatus = 'ok:' + fresh.length + naverStatus + cafeStatus + base;
+    meta.lastStatus = 'ok:' + fresh.length + naverStatus + cafeStatus + ytStatus + igStatus + base;
     if (fresh.length) console.log('new posts:\n' + fresh.map((f) => `${f.date} [${f.category}] ${f.title}`).join('\n'));
   }
   // 병합 후 정리(오염·중복 제거) — 수집 결과가 없어도 기존 데이터 정리는 수행
