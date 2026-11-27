@@ -10,7 +10,7 @@
     --surface-1: #fcfcfb; --page: #f9f9f7;
     --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #898781;
     --grid: #e1e0d9; --baseline: #c3c2b7; --border: rgba(11,11,11,0.10);
-    --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a; --series-4: #8a63d2;
+    --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a; --series-4: #8a63d2; --series-5: #cc3d3d; --series-6: #c2458f;
     --status-good: #0ca30c; --status-warning: #fab219; --status-serious: #ec835a; --status-critical: #d03b3b;
     --delta-good: #006300;
   }
@@ -20,7 +20,7 @@
       --surface-1: #1a1a19; --page: #0d0d0d;
       --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #898781;
       --grid: #2c2c2a; --baseline: #383835; --border: rgba(255,255,255,0.10);
-      --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-4: #9b7be0; --delta-good: #0ca30c;
+      --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-4: #9b7be0; --series-5: #e05252; --series-6: #d668ab; --delta-good: #0ca30c;
     }
   }
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -97,7 +97,9 @@
     <div class="sub">바로가기:
       <a href="https://sellingbooster.io/community/blog" target="_blank" rel="noopener"><strong>셀링부스터 블로그·K트렌드</strong></a> ·
       <a href="https://blog.naver.com/sellingbooster" target="_blank" rel="noopener"><strong>네이버 블로그</strong></a> ·
-      <a href="https://store.cafe24.com/kr/story?mt=IMAGE&s=%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0&no=ALL&order=NEWEST_DESC&page=1" target="_blank" rel="noopener"><strong>카페24 스토리</strong></a>
+      <a href="https://store.cafe24.com/kr/story?mt=IMAGE&s=%EC%85%80%EB%A7%81%EB%B6%80%EC%8A%A4%ED%84%B0&no=ALL&order=NEWEST_DESC&page=1" target="_blank" rel="noopener"><strong>카페24 스토리</strong></a> ·
+      <a href="https://www.youtube.com/@sellingbooster_official/shorts" target="_blank" rel="noopener"><strong>유튜브 쇼츠</strong></a> ·
+      <a href="https://www.instagram.com/sellingbooster/" target="_blank" rel="noopener"><strong>인스타그램</strong></a>
       <span style="color:var(--text-muted)">· GitHub Actions가 매일 오전 자동 수집</span></div>
     <div class="hdr-row">
       <div class="asof" id="asof">데이터 로딩 중…</div>
@@ -123,7 +125,7 @@
     <div class="tiles" id="tiles"></div>
     <div class="card">
       <h2 id="weekTitle">이번 주 발행 캘린더</h2>
-      <div class="cap">채워진 점: 발행 완료 · 빈 점: 계획된 발행(미발행) — 파랑: K트렌드, 주황: 블로그, 초록: 네이버, 보라: 카페24</div>
+      <div class="cap">채워진 점: 발행 완료 · 빈 점: 계획된 발행(미발행) — 파랑: K트렌드, 주황: 블로그, 초록: 네이버, 보라: 카페24, 빨강: 유튜브, 핑크: 인스타</div>
       <div class="week" id="weekCal"></div>
     </div>
     <div class="card">
@@ -139,12 +141,12 @@
     </div>
     <div class="card">
       <h2>최근 발행 콘텐츠</h2>
-      <div class="cap">최근 수집 기준 상위 10건 · 조회수는 사이트 블로그 글만 수집됨</div>
+      <div class="cap">최근 수집 기준 상위 10건 · 조회수는 사이트 블로그 글과 유튜브 쇼츠에서 수집됨</div>
       <table><thead><tr><th>발행일</th><th>채널</th><th>카테고리</th><th>제목</th><th style="text-align:right;">조회수</th></tr></thead><tbody id="recentRows"></tbody></table>
     </div>
     <div class="card">
       <h2>콘텐츠 효과 — 조회수 상위</h2>
-      <div class="cap" id="viewsCap">사이트 블로그 글의 누적 조회수 기준 상위 8건</div>
+      <div class="cap" id="viewsCap">사이트 블로그 글 + 유튜브 쇼츠의 누적 조회수 기준 상위 8건</div>
       <table><thead><tr><th>발행일</th><th>채널</th><th>제목</th><th style="text-align:right;">조회수</th></tr></thead><tbody id="topViewRows"></tbody></table>
     </div>
   </div>
@@ -169,7 +171,7 @@
     <div class="card">
       <h2>주간 달성 이력</h2>
       <div class="cap">주별(월~일) 채널 발행 횟수 vs 목표</div>
-      <table><thead><tr><th>주 (일~토)</th><th>K트렌드 (목표)</th><th>블로그 (목표)</th><th>네이버 (목표)</th><th>판정</th></tr></thead><tbody id="weeklyRows"></tbody></table>
+      <table><thead><tr><th>주 (일~토)</th><th>K트렌드 (목표)</th><th>블로그 (목표)</th><th>네이버 (목표)</th><th>유튜브 (목표)</th><th>인스타 (목표)</th><th>판정</th></tr></thead><tbody id="weeklyRows"></tbody></table>
     </div>
     <div class="card">
       <h2>카페24 스토리 — 월간 달성 이력</h2>
@@ -252,7 +254,7 @@ async function loadAndRender(){
   var channels = policy.channels.filter(function(c){ return !c.external || (c.url && (c.categories||[]).length); });
   channels.forEach(function(c){ (c.categories||[]).forEach(function(cat){ chMap[cat]=c; }); });
   var naver = policy.channels.find(function(c){ return c.external && c.id === 'naver'; });
-  var chShort = { ktrend: 'K트렌드', blog: '블로그', naver: '네이버', cafe24: '카페24' };
+  var chShort = { ktrend: 'K트렌드', blog: '블로그', naver: '네이버', cafe24: '카페24', youtube: '유튜브', insta: '인스타' };
   var chById = {}; policy.channels.forEach(function(c){ chById[c.id]=c; });
   function channelOf(p){ return chMap[p.category] || null; }
   function slotColor(c){ return cssv('--series-' + (c.colorSlot||1)); }
@@ -505,7 +507,7 @@ async function loadAndRender(){
   for (var wm = monday; wm >= firstMon; wm = addDays(wm,-7)) {
     var wmm = wm;
     var byId = {};
-    ['ktrend','blog','naver'].forEach(function(cid){
+    ['ktrend','blog','naver','youtube','insta'].forEach(function(cid){
       var ch = chById[cid];
       if (!ch || (ch.external && !ch.url)) { byId[cid] = '-'; return; }
       var g = goalFor(ch, wmm);
@@ -517,7 +519,7 @@ async function loadAndRender(){
       var ok = channels.every(function(c){ return goalFor(c, wmm) === 0 || postsInWeek(c.id, wmm).length >= goalFor(c, wmm); });
       verdict = ok ? '<span class="chip good"><span class="ico">●</span>달성</span>' : '<span class="chip bad"><span class="ico">■</span>미달</span>';
     }
-    wr += '<tr><td class="num">'+wm+' ~ '+addDays(wm,6)+'</td><td class="num">'+byId.ktrend+'</td><td class="num">'+byId.blog+'</td><td class="num">'+byId.naver+'</td><td>'+verdict+'</td></tr>';
+    wr += '<tr><td class="num">'+wm+' ~ '+addDays(wm,6)+'</td><td class="num">'+byId.ktrend+'</td><td class="num">'+byId.blog+'</td><td class="num">'+byId.naver+'</td><td class="num">'+byId.youtube+'</td><td class="num">'+byId.insta+'</td><td>'+verdict+'</td></tr>';
   }
   document.getElementById('weeklyRows').innerHTML = wr;
 
